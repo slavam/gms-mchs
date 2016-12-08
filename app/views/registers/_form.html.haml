@@ -1,0 +1,33 @@
+= form_for(@register) do |r| 
+  - if @register.errors.any?
+    %div (id="error_explanation")
+    %h2= pluralize(@flat.errors.count, "error") + "prohibited this register from being saved:"
+
+    %ul
+      - @register.errors.full_messages.each do |message| 
+        %li= message 
+
+  %div(class="field")
+  = r.label "Наименнование" 
+  %br
+  = r.text_field "Наименнование", :size => 100
+  %br
+  = r.label "Формуляр" 
+  %br
+  = r.text_field "Формуляр"
+  %br
+  = r.label "Инвентарный" 
+  %br
+  = r.text_field "Инвентарный"
+  %br
+  = r.label "Кабинет" 
+  %br
+  = r.text_field "Кабинет"
+  %br
+  = r.label "Ответственный" 
+  %br
+  = r.text_field "Ответственный"
+  %br
+
+  %div(class="actions")
+  = r.submit("Сохранить")

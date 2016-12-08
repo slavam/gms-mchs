@@ -1,0 +1,23 @@
+%h1= @register["Наименнование"]
+.container
+  %table.card
+    %tr
+      %th Формуляр:
+      %td= @register["Формуляр"]
+    %tr
+      %th Инвентарный:
+      %td= @register["Инвентарный"]
+    %tr
+      %th Кабинет:
+      %td= @register["Кабинет"]
+    %tr
+      %th Ответственный:
+      %td= @register["Ответственный"]
+  %br
+
+  .actions
+    = link_to 'Изменить', edit_register_path(@register)
+    %br
+    = link_to 'Удалить', register_path(@register), method: :delete, data: {confirm: "Удалить запись?"}
+    %br
+    = link_to 'Реестр', registers_path 

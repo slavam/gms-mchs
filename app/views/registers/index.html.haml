@@ -1,0 +1,19 @@
+%h1= "Реестр"
+.container
+  %table
+    %thead
+      %tr
+        %th= "Название"
+        %th= "Инвентарный номер"
+        %th(colspan="3")
+  
+    %tbody
+      - @registers.each do |r| 
+        %tr
+          %td= link_to r["Наименнование"], register_path(r)
+          %td= r["Инвентарный"]
+          %td= r["Кабинет"]
+          %td= r["Ответственный"]
+
+  %br
+= link_to "Создать", new_register_path  
