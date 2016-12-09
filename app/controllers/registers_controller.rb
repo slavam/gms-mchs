@@ -1,7 +1,11 @@
 class RegistersController < ApplicationController
   before_filter :find_register, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_registers, :only => [:index, :search]
+  
+  def search
+  end
+  
   def index
-    @registers = Register.all.order(:id)
   end
   
   def show
@@ -40,6 +44,10 @@ class RegistersController < ApplicationController
 
   def find_register
     @register = Register.find(params[:id])
+  end
+  
+  def find_registers
+    @registers = Register.all.order(:id)
   end
   
   def register_params

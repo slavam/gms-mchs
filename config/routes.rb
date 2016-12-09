@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'registers/search', to: 'registers#search'
   resources :registers
   root to: 'registers#index'
   # The priority is based upon order of creation: first created -> highest priority.
