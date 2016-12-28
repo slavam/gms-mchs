@@ -1,3 +1,288 @@
 class Synoptic < ActiveRecord::Base
   self.table_name = 'sinop'
+  
+  def temp_to_s
+    if self["Телеграмма"].split(' ').size > 4
+      s = self["Телеграмма"].split(' ')[4]
+      if s.length > 4
+        sign = s[1] == '0' ? '' : '-'
+        sign+s[2,2]+'.'+s[4]
+      else
+        s
+      end
+    else
+      self["Телеграмма"]
+    end
+  end
+  
+  def station_name
+    case self["Телеграмма"].split(' ')[1]
+      when "34622"
+        "Амвросиевка"
+      when "34524"
+        "Дебальцево"
+      when "34519"
+        "Донецк"
+      when "34615"
+        "Волноваха"
+      when "34712"
+        "Мариуполь"
+      when "34523"
+        "Луганск"
+      when "34510"
+        "Артемовск"
+      when "34514"
+        "Красноармейск"        
+      else
+        self["Телеграмма"].split(' ')[1]
+    end
+  end
+  
+  def wind_direct
+    direct = self["Телеграмма"].split(' ')[3][1,2].to_i
+    case direct
+      when 0
+        "Штиль"
+      when 1..2
+        "Ветер северо-северо-восточный"
+      when 3..5
+        "Ветер северо-восточный"
+      when 6..7
+        "Ветер восточно-северо-восточный"
+      when 8..9
+        "Ветер восточный"
+      when 10..11
+        "Ветер восточно-юго-восточный"
+      when 12..14
+        "Ветер юго-восточный"
+      when 15..16
+        "Ветер юго-юго-восточный"
+      when 17..18
+        "Ветер южный"
+      when 19..20
+        "Ветер юго-юго-западный"
+      when 21..23
+        "Ветер юго-западный"
+      when 24..25
+        "Ветер западно-юго-западный"
+      when 26..27
+        "Ветер западный"
+      when 28..29
+        "Ветер западно-северо-западный"
+      when 30..32
+        "Ветер северо-западный"
+      when 33..34
+        "Ветер северо-северо-западный"
+      when 35..36
+        "Ветер северный"
+      when 99
+        "Ветер переменный"
+      else
+        direct
+    end
+  end
+  
+  def wind_speed
+    self["Телеграмма"].split(' ')[3][3,2].to_i
+  end
+  
+  def visibility
+    vis = self["Телеграмма"].split(' ')[2][3,2].to_i
+    case vis
+      when 90
+        " менее 50 метров"
+      when 91
+        " 50 метров"
+      when 92
+        " 200 метров"
+      when 93
+        " 500 метров"
+      when 94 
+        " 1 километр"
+      when 95 
+        " 2 километра"
+      when 96
+        " 4 километра"
+      when 97
+        " 10 километров"
+      when 98
+        " 20 километров"
+      when 99
+        " более 50 километров"
+      else
+        vis
+    end
+  end
+  
+  def cloudiness
+    c = self["Телеграмма"].split(' ')[3][0]
+    case c
+      when '0'
+        "Облаков нет"
+      when '1'
+        '<=1 (но не 0)'
+      when '2'
+        '2-3'
+      when '3'
+        '4'
+      when '4'
+        '5'
+      when '5'
+        '6'
+      when '6'
+        '7-8'
+      when '7'
+        '>= 9 (но не 10, есть просветы)'
+      when '8'
+        '10 (без просветов)'
+      when '9'
+        'Определить невозможно (затруднена видимость)'
+      when '/'
+        'Определить невозможно (наблюдения не проводились)'
+    end
+  end
+  
+  def cloud_base
+    c_b = self["Телеграмма"].split(' ')[2][2]
+    case c_b
+      when '0'
+        "<50"
+      when '1'
+        "50-100"
+      when '2'
+        "100-200"
+      when '3'
+        "200-300"
+      when '4'
+        "300-600"
+      when '5'
+        "600-1000"
+      when '6'
+        "1000-1500"
+      when '7'
+        "1500-2000"
+      when '8'
+        "2000-2500"
+      when '9'
+        ">2500"
+      when  '/'
+        " нижняя граница не определенна"
+    end
+  end
+  
+  def air_temperature
+    a_t = get_group(1, '1').to_s.strip
+    sign = (a_t[1] == '0')? '' : '-'
+    return sign + a_t[2,2] + ',' + a_t[4] + '°'
+  end
+  
+  def dew_point
+    d_p = get_group(1, '2').to_s.strip
+    sign = (d_p[1] == '0')? '' : '-'
+    return sign + d_p[2,2] + ',' + d_p[4] + '°'
+  end
+  
+  def air_pressure
+    a_p = get_group(1, '3').to_s.strip
+    if a_p.present?
+      first = (a_p[1] == '0')? '1' : ''
+      first + a_p[1,3] + ',' + a_p[4] + " мм.рт.ст."
+    else
+      return nil
+    end
+  end
+  
+  def air_pressure_sea_level
+    a_p_s_l = get_group(1, '4').to_s.strip
+    if a_p_s_l.present?
+      first = (a_p_s_l[1] == '0')? '1' : ''
+      first + a_p_s_l[1,3] + ',' + a_p_s_l[4] + " мм.рт.ст."
+    else
+      return nil
+    end
+  end
+  
+  def barometric_tendency
+    bt_group = get_group(1, '5').to_s.strip
+    
+    if bt_group.present?
+      flag = bt_group[1]
+      value = bt_group[2,2] + "," + bt_group[4] + " мм.рт.ст."
+      str = case flag
+        when '0'
+          " рост или без изменений "
+        when '1'
+          " рост "
+        when '2'
+          " рост "
+        when '3'
+          " рост "
+        when '4'
+          " без изменений "
+        when '5'
+          " падение или без изменений "
+        when '6'
+          " падение "
+        when '7'
+          " падение "
+        when '8'
+          " падение "
+      end
+      return str + value
+    else
+      return ''
+    end
+  end
+  
+  def precip_accum
+    group6 = self["Телеграмма"][23,99].match(/ 6.... /)
+    if group6.nil?
+      "Осадков не было"
+    else
+      p_a = group6.to_s.strip[1,3].to_i
+      case p_a
+        when 0..988
+          p_a.to_s + " мм."
+        when 989
+          p_a.to_s + " мм. и больше"
+        when 990
+          " следы осадков"
+        when 991..999
+          ((p_a - 990)*0.1).to_s + " мм."
+      end
+    end
+  end
+  
+  private
+    def get_first_section
+    end
+    
+    def get_group(num_section, flag)
+      pos_group = self["Телеграмма"][23,99] =~ / #{flag}.... /
+      if pos_group.present?
+        s = self["Телеграмма"][23,99]
+        if num_section == 1
+          pos_333 = s =~ / 333 /
+          if pos_333.present? 
+            if (pos_group < pos_333)
+              return s.match(/ #{flag}.... /)
+            else
+              return nil
+            end
+          end
+          
+          pos_555 = s =~ / 555 /
+          if pos_555.present? 
+            if (pos_group < pos_555)
+              return s.match(/ #{flag}.... /)
+            else
+              return nil
+            end
+          end
+          return s.match(/ #{flag}.... /)
+        end
+      else
+        return nil
+      end
+    end
 end

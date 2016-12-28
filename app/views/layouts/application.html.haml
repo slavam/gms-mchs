@@ -1,0 +1,53 @@
+# coding: utf-8
+!!! strict
+%html
+  %head
+    %title ГМС МЧС ДНР
+    %meta{ 'http-equiv' => 'Content-Type', :content => 'text/html; charset=UTF-8' }
+    = stylesheet_link_tag 'application'
+    = javascript_include_tag 'https://code.jquery.com/jquery-1.5.js', 'application'
+    = csrf_meta_tag
+
+
+  %body
+  #header
+    %h2 Гидрометеорологическая служба МЧС ДНР
+  #search
+    
+    #navigation
+      %br
+      #tabs
+        %ul
+          - if not true
+            = render :partial => 'layouts/menuItem', :collection => [ |
+              ['Login', new_user_session_url]                        |
+            ] |
+            -
+          - else
+            %div{'style' => "float: left;"}
+              = render :partial => 'layouts/menuItem', :collection => [ | 
+                ['Реестр', registers_url], |
+                ['Search',  registers_search_path], |
+                ['Телеграммы (синоптические)',  synoptics_path], |
+                ['ТСХ-1',  synoptics_tcx1_path], |
+                ['Тепло Донбасса',  synoptics_td_show_path] |
+              ] |
+            - 
+            -##div{'style' => "float: left;margin-left: 30px"}
+              -#= render :partial => 'layouts/menuItem', :collection => [ |
+              -#['Услуги', new_user_session_url],            |
+                -#['УТиСЗН', (current_user and (current_user.login == 'admin') ? {:controller => "cities", :action => "index_active_cities"} : new_user_session_url)]            |
+                -#['Domains', '#'], |
+                -#['Google apps', '#'], |
+                -#['Other', '#'] |
+              -#] |
+            -#-
+            -
+    #main
+      - flash.each do |key, msg|
+        = content_tag :div, msg, :class => "flash_#{key}"
+      %div{'style' => "clear: both;"}
+      &nbsp;
+      = yield
+      %div{'style' => "clear: both;"}
+    #footer

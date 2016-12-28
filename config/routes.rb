@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
   get 'registers/search', to: 'registers#search'
   resources :registers
+  get 'synoptics/heat_show', to: 'synoptics#heat_show'
+  get 'synoptics/td_show', to: 'synoptics#td_show'
+  get 'synoptics/get_temps', to: 'synoptics#get_temps'
+  get 'synoptics/show_by_date', to: 'synoptics#show_by_date'
+  get 'synoptics/tcx1', to: 'synoptics#tcx1'
+  get 'synoptics/get_tcx1_data', to: 'synoptics#get_tcx1_data'
+  
+  resources :synoptics
   root to: 'registers#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

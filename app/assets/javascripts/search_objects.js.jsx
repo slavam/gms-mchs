@@ -63,12 +63,19 @@ class SearchObjects extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
+      startDate: '2016-12-15',
       filterName: '',
       filterRoom: ''
     };
     this.handleUserInput = this.handleUserInput.bind(this);
   }
 
+  handleChange(date) {
+    this.setState({
+      startDate: date
+    });
+  }
+  
   handleUserInput(filterName, filterRoom) {
     this.setState({
       filterName: filterName,
