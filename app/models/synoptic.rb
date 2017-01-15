@@ -172,8 +172,12 @@ class Synoptic < ActiveRecord::Base
   
   def air_temperature
     a_t = get_group(1, '1').to_s.strip
-    sign = (a_t[1] == '0')? '' : '-'
-    return sign + a_t[2,2] + ',' + a_t[4] + '°'
+    if a_t.present?
+      sign = (a_t[1] == '0')? '' : '-'
+      return sign + a_t[2,2] + ',' + a_t[4] + '°'
+    else
+      return nil
+    end
   end
   
   def dew_point

@@ -50,8 +50,11 @@ class Tcx1TempRow extends React.Component{
     var stations = {34622: "Амвросиевка", 34524: "Дебальцево", 34519: "Донецк", 34615: "Волноваха", 34712: "Мариуполь", 34510: "Артемовск", 34514: "Красноармейск"};
     var v = [];
     var nd = nd = this.props.numDays;
+    var style = {
+      backgroundColor: '#ddd'
+    };
     for(var i=0;i<=nd;i++){
-      v.push(<td key={i.toString()}>{this.props.vector[i]}</td>);
+      v.push(<td style={(i % 2 == 0) ? style : {}} key={i.toString()}>{this.props.vector[i]}</td>);
       
     };
     return (
@@ -106,7 +109,12 @@ class Tcx1Show extends React.Component{
       year: this.props.year,
       numDays: this.props.numDays,
       avgTemps: this.props.avgTemps,
-      maxTemps: this.props.maxTemps
+      maxTemps: this.props.maxTemps,
+      minTemps: this.props.minTemps,
+      maxWindSpeed: this.props.maxWindSpeed,
+      minSoilTemps: this.props.minSoilTemps,
+      minHumidity: this.props.minHumidity,
+      rainfall: this.props.rainfall
     };
     this.handleParamsSubmit = this.handleParamsSubmit.bind(this);
   }
@@ -121,7 +129,12 @@ class Tcx1Show extends React.Component{
           monthName: data.monthName,
           numDays: data.numDays,
           year: data.year,
-          maxTemps: data.maxTemps
+          maxTemps: data.maxTemps,
+          minTemps: data.minTemps,
+          maxWindSpeed: data.maxWindSpeed,
+          minSoilTemps: data.minSoilTemps,
+          minHumidity: data.minHumidity,
+          rainfall: data.rainfall
         });
       }.bind(this))
       .fail(function(jqXhr) {
@@ -137,6 +150,16 @@ class Tcx1Show extends React.Component{
         <AvgTempsTable avgTemps={this.state.avgTemps} numDays={this.state.numDays} />
         <h3> Максимальная температура воздуха, °С </h3>
         <AvgTempsTable avgTemps={this.state.maxTemps} numDays={this.state.numDays} />
+        <h3> Минимальная температура воздуха, °С </h3>
+        <AvgTempsTable avgTemps={this.state.minTemps} numDays={this.state.numDays} />
+        <h3> Максимальная скорость ветра, м/с </h3>
+        <AvgTempsTable avgTemps={this.state.maxWindSpeed} numDays={this.state.numDays} />
+        <h3> Количество осадков, мм </h3>
+        <AvgTempsTable avgTemps={this.state.rainfall} numDays={this.state.numDays} />
+        <h3> Минимальная температура почвы, °С </h3>
+        <AvgTempsTable avgTemps={this.state.minSoilTemps} numDays={this.state.numDays} />
+        <h3> Минимальная относительная влажность воздуха, % </h3>
+        <AvgTempsTable avgTemps={this.state.minHumidity} numDays={this.state.numDays} />
       </div>
     );
   }

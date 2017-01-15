@@ -98,7 +98,7 @@ class TemperaturesShow extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      calcDate: this.props.calc_date,
+      calcDate: this.props.calcDate,
       temperatures: this.props.temperatures
     };
     this.handleParamsSubmit = this.handleParamsSubmit.bind(this);
@@ -119,6 +119,7 @@ class TemperaturesShow extends React.Component{
       }).done(function(data) {
         // alert(data)
         this.setState({
+          calcDate: params.calcDate,
           temperatures: data
         });
       }.bind(this))
@@ -130,6 +131,7 @@ class TemperaturesShow extends React.Component{
     return(
       <div>
         <ParamsForm onParamsSubmit={this.handleParamsSubmit} />
+        <h4>Данные за {this.state.calcDate}</h4>
         <TemperaturesTable temperatures={this.state.temperatures} />
       </div>
     );
