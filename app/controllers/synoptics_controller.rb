@@ -1,7 +1,14 @@
 class SynopticsController < ApplicationController
   before_filter :find_synoptic, :only => [:show_by_date]
+  before_filter :calc_date, :only => [:heat_show]
   Time::DATE_FORMATS[:custom_date_time] = "%Y.%m.%d %H:%M:%S"
   Time::DATE_FORMATS[:custom_datetime] = "%Y.%m.%d"
+  Time::DATE_FORMATS[:custom_printdate] = "%d.%m.%Y"
+  
+  def avtodor
+    @print_date = Time.now.to_s(:custom_printdate)
+  end
+  
   def index
     @synoptics = Synoptic.all.limit(50).order("Дата").reverse_order
   end
@@ -42,17 +49,17 @@ class SynopticsController < ApplicationController
   def heat_show
     curr_date = Time.now
     @hour = ((curr_date.hour / 3) * 3).to_s.rjust(2, '0')
-    @calc_date = Time.now.to_s(:custom_datetime)
+    # @calc_date = Time.now.to_s(:custom_datetime)
     @a = get_temperatures
   end
   
   def td_show
-    @calc_date = params[:calc_date].present? ? params[:calc_date] : Time.now.to_s(:custom_datetime)
+    @calc_date = params[:calc_date].present? ? params[:calc_date] : calc_date     #Time.now.to_s(:custom_datetime)
     @a = get_temperatures
   end
   
   def get_temps
-    @calc_date = params[:calc_date].present? ? params[:calc_date] : Time.now.to_s(:custom_datetime)
+    @calc_date = params[:calc_date].present? ? params[:calc_date] : calc_date     #Time.now.to_s(:custom_datetime)
     a = get_temperatures
     render json: a.to_json
   end
@@ -134,18 +141,71 @@ class SynopticsController < ApplicationController
       end
       c_d
     end
-    
-    def get_tcx1_avg_temps(month, year)
-      agro_data = Agro.where("Дата like '#{year}.#{month}%' and Телеграмма like 'ЩЭАГЯ%34% 333 90%'").order("Дата")
-      avg_temps = Hash.new(nil)
+
+    def get_tcx1_max_wind_speed(month, year)
+      # agro_data = Agro.where("Дата like '#{year}.#{month}%' and Телеграмма like 'ЩЭАГЯ 34% 7%'").order("Дата")
+      start_date = "#{year}-#{month}-02 00:00:00".to_datetime
+      stop_date = (start_date + 1.month ).to_s(:custom_date_time)
+      agro_data = Agro.where("Дата between '#{year}.#{month}.02 00:00:00' and '#{stop_date}' and Телеграмма like 'ЩЭАГЯ 34% 7%'").order("Дата")
+      max_wind = Hash.new(nil)
+      last_day = Time.days_in_month(month.to_i, year.to_i).to_s
       agro_data.each { |ad|
         station = ad["Телеграмма"].match(/ 34... /).to_s.strip
         day = ad["Дата"][8,2].to_s.strip
+        if day == '01'
+          day = last_day
+        else
+          day = (day.to_i - 1)
+          day = (day < 10 ? '0'+day.to_s : day.to_s)
+        end
+        val = ad["Телеграмма"].match(/ 7..../).to_s.strip[1,2]
+        if val.present?
+          max_wind[station+'-'+day] = val.to_i
+        end
+      }
+      max_wind
+    end
+
+    def get_tcx1_avg_temps(month, year)
+      # agro_data = Agro.where("Дата like '#{year}.#{month}%' and Телеграмма like 'ЩЭАГЯ%34% 333 90%'").order("Дата")
+      start_date = "#{year}-#{month}-02 00:00:00".to_datetime
+      stop_date = (start_date + 1.month ).to_s(:custom_date_time)
+      agro_data = Agro.where("Дата between '#{year}.#{month}.02 00:00:00' and '#{stop_date}' and Телеграмма like 'ЩЭАГЯ%34% 333 90%'").order("Дата")
+      avg_temps = Hash.new(nil)
+      last_day = Time.days_in_month(month.to_i, year.to_i).to_s
+      agro_data.each { |ad|
+        station = ad["Телеграмма"].match(/ 34... /).to_s.strip
+        day = ad["Дата"][8,2].to_s.strip
+        
+        if day == '01'
+          day = last_day
+        else
+          day = (day.to_i - 1)
+          day = (day < 10 ? '0'+day.to_s : day.to_s)
+        end
         val = ad["Телеграмма"].match(/ 333 90... 1..../).to_s.strip[11,4]
         if val.present?
           sign = val[0] == '0' ? '' : '-'
           avg_temps[station+'-'+day] = sign+val[1,2].to_s+'.'+val[3].to_s
         end
+      }
+      ('01'..last_day).each {|d|
+        s = 0
+        i = 0
+        if avg_temps['34519-'+d].present?
+          s += avg_temps['34519-'+d].to_f
+          i += 1
+        end
+        if avg_temps['34524-'+d].present?
+          s += avg_temps['34524-'+d].to_f
+          i += 1
+        end
+        if avg_temps['34622-'+d].present?
+          s += avg_temps['34622-'+d].to_f
+          i += 1
+        end
+        # refactoring
+        avg_temps['99999-'+d] = (i > 0 ? (s / i.to_f).round(1) : nil)
       }
       avg_temps
     end
@@ -213,20 +273,6 @@ class SynopticsController < ApplicationController
       min_temps
     end
 
-    def get_tcx1_max_wind_speed(month, year)
-      agro_data = Agro.where("Дата like '#{year}.#{month}%' and Телеграмма like 'ЩЭАГЯ 34% 7%'").order("Дата")
-      max_wind = Hash.new(nil)
-      agro_data.each { |ad|
-        station = ad["Телеграмма"].match(/ 34... /).to_s.strip
-        day = ad["Дата"][8,2].to_s.strip
-        val = ad["Телеграмма"].match(/ 7..../).to_s.strip[1,2]
-        if val.present?
-          max_wind[station+'-'+day] = val.to_s
-        end
-      }
-      max_wind
-    end
-
     def get_tcx1_rainfall(month, year)
       syn_data = Synoptic.where("Дата like '#{year}.#{month}%' and (Срок = '06' or Срок = '18') and Телеграмма like 'ЩЭ___ 34___ _____ _____% 6____ %'")
       rainfall = Hash.new(0.0)
@@ -262,5 +308,9 @@ class SynopticsController < ApplicationController
         a[station_code+'-'+hd["Срок"]] = hd.temp_to_s
       }
       a
+    end
+    
+    def calc_date
+      @calc_date = Time.now.to_s(:custom_datetime)
     end
 end

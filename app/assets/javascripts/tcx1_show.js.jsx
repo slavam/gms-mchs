@@ -47,14 +47,16 @@ class MonthYearForm extends React.Component{
 
 class Tcx1TempRow extends React.Component{
   render() {
-    var stations = {34622: "Амвросиевка", 34524: "Дебальцево", 34519: "Донецк", 34615: "Волноваха", 34712: "Мариуполь", 34510: "Артемовск", 34514: "Красноармейск"};
+    var stations = {34622: "Амвросиевка", 34524: "Дебальцево", 34519: "Донецк", 34615: "Волноваха", 34712: "Мариуполь", 34510: "Артемовск", 34514: "Красноармейск", 99999: "Средняя по республике"};
     var v = [];
     var nd = nd = this.props.numDays;
     var style = {
-      backgroundColor: '#ddd'
+      backgroundColor: '#ddd',
+      textAlign: "center",
+      width: '70px'
     };
-    for(var i=0;i<=nd;i++){
-      v.push(<td style={(i % 2 == 0) ? style : {}} key={i.toString()}>{this.props.vector[i]}</td>);
+    for(var i=0;i<nd;i++){
+      v.push(<td style={(i % 2 == 0) ? style : {textAlign: "center", width: '70px'}} key={i.toString()}>{this.props.vector[i]}</td>);
       
     };
     return (
@@ -71,25 +73,31 @@ class AvgTempsTable extends React.Component{
     var rows = [];
     var temps, nd;
     var th = [];
+    var codes = ['34519', '34524', '34622', '34514', '34615', '34510', '34712'];
     temps = this.props.avgTemps;
     nd = this.props.numDays;
     
-    ['34519', '34524', '34622', '34514', '34615', '34510', '34712'].forEach(function(s) {
+    if(typeof temps['99999-01'] === 'undefined') {
+    }
+    else {
+      codes.push('99999');
+    }
+    codes.forEach(function(s) {
       for(var i=1;i<=nd;i++){
-        th.push(temps[s+(i<10 ? '-0'+i.toString() : '-'+i.toString())]);
+        th.push(temps[s+(i<10 ? '-0' : '-')+i.toString()]);
       }
       rows.push(<Tcx1TempRow station={s} vector={th} numDays={nd} key={s}/>);
       th = [];
     });
     for(var i=1;i<=this.props.numDays;i++){
-      th.push(<th key={i.toString()}>{i}</th>);
+      th.push(<th key={i.toString()} >{i}</th>);
     };
   
     return (
       <table>
         <thead>
           <tr>
-            <th>Метеостанция</th>
+            <th >Метеостанция</th>
             {th}
           </tr>
         </thead>

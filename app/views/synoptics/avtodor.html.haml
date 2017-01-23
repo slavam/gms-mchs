@@ -1,0 +1,72 @@
+%div{:style => "text-align: center;"}
+  %h2= 'МЧС ДНР'
+  %h3= "ГИДРОМЕТЕОРОЛОГИЧЕСКАЯ СЛУЖБА"
+  %h3= "МИНИСТЕРСТВА ПО ДЕЛАМ ГРАЖДАНСКОЙ ОБОРОНЫ, ЧРЕЗВЫЧАЙНЫМ СИТУАЦИЯМ И ЛИКВИДАЦИИ ПОСЛЕДСТВИЙ СТИХИЙНЫХ БЕДСТВИЙ"
+  %h3= "ДОНЕЦКОЙ НАРОДНОЙ РЕСПУБЛИКИ"
+  %h3= "(ГМС МЧС ДНР)"
+%div
+  %p= "ул. Любавина, 2, г. Донецк, 83015 тел. (062) 311-40-10   тел./ факс (062)304-99-25"
+  %p= "Web: www.dnmchs.ru     Идентификационный код 51001468                 E-mail: gidromet@mail.dnmchs.ru"
+.container
+  %table
+    %tbody
+      %tr
+        %td= "#{@print_date} г.	          №	15	"
+        %td= "	И.о. директора "
+      %tr
+        %td= "На №	4/17/03	          от	08.07.2016 г."
+        %td= "ГП «Автодор»"
+      %tr
+        %td
+        %td= "Министерства транспорта ДНР"
+      %tr
+        %td
+        %td= "Р.Н. Говжееву"
+%div
+  %div{:style => "text-align: center;"}
+    %p= "Штормовое предупреждение"
+  = text_area(:application, :notes, cols: 80, rows: 10, class: 'myclass')
+%div
+  %div{:style => "text-align: center;"}
+    %p= "ПРОГНОЗ ПОГОДЫ"
+    %p= "На сутки с 21 часа 15 января до 21 часа 16 января 2017 г."
+    %p= "в Донецкой Народной Республике"
+  = text_area(:application, :notes, cols: 80, rows: 10, class: 'myclass')
+
+%div
+  %div{:style => "text-align: center;"}
+    %p= "Метеорологические данные за 14 января 2017 г."
+.container
+  %table
+    %thead{:style => "height: 50px; width: 400px; background: lightgray; text-align: center;"}
+      %tr
+        %th{:style => "line-height: 50px;"}= "Станция"
+        %th{size: 10}= "Средняя за сутки температура воздуха, ˚С"
+        %th= "Количество осадков, мм"
+        %th= "Вид осадков"
+        %th= "Скорость ветра, м/с"
+    %tbody
+      %tr
+        %td= "Донецк"
+        %td= text_field(:application, :name, size: 10)
+        %td= text_field(:application, :name, size: 10)
+        %td= text_field(:application, :name, size: 10)
+        %td= text_field(:application, :name, size: 10)
+      %tr
+        %td= "Дебальцево"
+        %td= text_field(:application, :name, size: 10)
+        %td= text_field(:application, :name, size: 10)
+        %td= text_field(:application, :name, size: 10)
+        %td= text_field(:application, :name, size: 10)
+      %tr
+        %td= "Амвросиевка"
+        %td= text_field(:application, :name, size: 10)
+        %td= text_field(:application, :name, size: 10)
+        %td= text_field(:application, :name, size: 10)
+        %td= text_field(:application, :name, size: 10)
+%div
+  %p= "Начальник  М.Б. Лукьяненко"
+  %p= "Бойко Любовь Николаевна (062) 337-26-95"
+
+
+    

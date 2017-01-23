@@ -117,7 +117,7 @@ class OneTelegram extends React.Component{
       <tr>
         <td>{this.props.telegram["Дата"]}</td>
         <td>{this.props.telegram["Срок"]}</td>
-        {this.state.mode == 'Изменить' ? <td><a href={desiredLink}>{this.state.tlgText}</a></td> : <td><TelegramEditForm tlgText={this.props.telegram["Телеграмма"]} onTelegramEditSubmit={this.handleEditFormSubmit}/></td>}
+        {this.state.mode == 'Изменить' ? <td><a href={desiredLink}>{this.state.tlgText}</a></td> : <td><TelegramEditForm tlgText={this.state.tlgText} onTelegramEditSubmit={this.handleEditFormSubmit}/></td>}
         {(now - Date.parse(this.props.telegram["Дата"].replace(/\./g , "-"))) > 1000 * 60 * 60 * 24 * 7 ? <td></td> : <td><input id={this.props.telegram["Дата"]} type="submit" value={this.state.mode} onClick={this.handleEditClick}/></td>}
       </tr>
     );
