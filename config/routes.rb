@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'synoptics/show_by_date', to: 'synoptics#show_by_date'
   get 'synoptics/tcx1', to: 'synoptics#tcx1'
   get 'synoptics/get_tcx1_data', to: 'synoptics#get_tcx1_data'
+  get 'synoptics/print_tcx1', to: 'synoptics#print_tcx1'
   get 'synoptics/update_synoptic_telegram', to: 'synoptics#update_synoptic_telegram'
   get 'synoptics/avtodor', to: 'synoptics#avtodor'
   post 'synoptics/create_synoptic_telegram', to: 'synoptics#create_synoptic_telegram'

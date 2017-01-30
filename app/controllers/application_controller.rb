@@ -7,6 +7,29 @@ class ApplicationController < ActionController::Base
     months[month_num.to_i]
   end
   
-  helper_method :month_name
+  def station_name station_code
+    case station_code
+      when "34622"
+        "Амвросиевка"
+      when "34524"
+        "Дебальцево"
+      when "34519"
+        "Донецк"
+      when "34615"
+        "Волноваха"
+      when "34712"
+        "Мариуполь"
+      when "34523"
+        "Луганск"
+      when "34510"
+        "Артемовск"
+      when "34514"
+        "Красноармейск"        
+      else
+        ""
+    end
+  end
+  
+  helper_method :month_name, :station_name
   
 end

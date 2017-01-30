@@ -4,6 +4,70 @@ class SynopticsController < ApplicationController
   Time::DATE_FORMATS[:custom_date_time] = "%Y.%m.%d %H:%M:%S"
   Time::DATE_FORMATS[:custom_datetime] = "%Y.%m.%d"
   Time::DATE_FORMATS[:custom_printdate] = "%d.%m.%Y"
+
+  def print_tcx1
+    @year = params[:year]
+    @month = params[:month]
+    num_days = Time.days_in_month(@month.to_i, @year.to_i)    
+    avg_temps = get_tcx1_avg_temps(@month, @year)
+    @matrix = []
+    @matrix += tcx1_get_matrix(num_days, avg_temps)
+    one_row = []
+    one_row[0] = {:content => "Средняя по республике", :size => 9}
+    one_row += tcx1_row(avg_temps, "99999", num_days) 
+    @matrix << one_row
+    max_temps = get_tcx1_max_temps(num_days.to_s, @month, @year)
+    @matrix_max_temps = []
+    @matrix_max_temps += tcx1_get_matrix(num_days, max_temps)
+    min_temps = get_tcx1_min_temps(num_days.to_s, @month, @year)
+    @matrix_min_temps = []
+    @matrix_min_temps += tcx1_get_matrix(num_days, min_temps)
+    max_wind_speed = get_tcx1_max_wind_speed(@month, @year)
+    @matrix_max_wind_speed = []
+    @matrix_max_wind_speed += tcx1_get_matrix(num_days, max_wind_speed)
+    rainfall = get_tcx1_rainfall(@month, @year)
+    @matrix_rainfall = []
+    @matrix_rainfall += tcx1_get_matrix(num_days, rainfall)
+    min_soil_temps = get_tcx1_min_soil_temps(@month, @year)
+    @matrix_min_soil_temps = []
+    @matrix_min_soil_temps += tcx1_get_matrix(num_days, min_soil_temps)
+    min_humidity = get_min_relative_humidity(@month, @year)
+    @matrix_min_humidity = []
+    @matrix_min_humidity += tcx1_get_matrix(num_days, min_humidity)
+  end
+  
+  def tcx1_get_matrix(num_days, src)
+    matrix = []
+    matrix << tcx1_header(num_days)
+    one_row = []
+    ['34519', '34524', '34622', '34514', '34615', '34510', '34712'].each do |s|
+      one_row[0] = {:content => station_name(s), :size => 9}
+      one_row += tcx1_row(src, s, num_days) 
+      matrix << one_row
+      one_row = []
+    end
+    matrix
+  end
+  
+  def tcx1_header num_days
+    h = [{:content => 'Метеостанция', :size => 9 }] 
+    (1..num_days).each do |d|
+      d = '0'+d.to_s if d < 10
+      # h << d.to_s
+      h << {:content => d.to_s, :size => 9 }
+    end
+    h
+  end
+  
+  def tcx1_row(src, station, num_days)
+    c_d = []
+    (1..num_days).each do |d|
+      d = '0'+d.to_s if d < 10
+      val = src[station.to_s+'-'+d.to_s].to_s
+      c_d << {:content => val, :size => 9}
+    end
+    c_d
+  end
   
   def avtodor
     @print_date = Time.now.to_s(:custom_printdate)
@@ -77,27 +141,27 @@ class SynopticsController < ApplicationController
     @min_humidity = get_min_relative_humidity(@month, @year)
     @rainfall = get_tcx1_rainfall(@month, @year)
     
-    @data = {
-      labels: (01..@num_days).to_a,
-      datasets: [
-        {
-            label: 'Донецк',
-            backgroundColor: "rgba(220,220,220,0.2)",
-            borderColor: "rgba(22,22,22,1)",
-            data: chart_data(@avg_temps, '34519', @num_days) 
-        },
-        {
-            label: 'Дебальцево',
-            backgroundColor: "rgba(220,220,220,0.2)",
-            borderColor: "rgba(133,33,33,1)",
-            data: chart_data(@avg_temps, '34524', @num_days) 
-        },
-        {
-            label: 'Амвросиевка',
-            backgroundColor: "rgba(220,220,220,0.2)",
-            borderColor: "rgba(133,133,33,1)",
-            data: chart_data(@avg_temps, '34622', @num_days) 
-        }
+      @data = {
+      #   labels: (01..@num_days).to_a,
+      #   datasets: [
+      #     {
+      #         label: 'Донецк',
+      #         backgroundColor: "rgba(220,220,220,0.2)",
+      #         borderColor: "rgba(22,22,22,1)",
+      #         data: chart_data(@avg_temps, '34519', @num_days) 
+      #     },
+      #     {
+      #         label: 'Дебальцево',
+      #         backgroundColor: "rgba(220,220,220,0.2)",
+      #         borderColor: "rgba(133,33,33,1)",
+      #         data: chart_data(@avg_temps, '34524', @num_days) 
+      #     },
+      #     {
+      #         label: 'Амвросиевка',
+      #         backgroundColor: "rgba(220,220,220,0.2)",
+      #         borderColor: "rgba(133,133,33,1)",
+      #         data: chart_data(@avg_temps, '34622', @num_days) 
+      #     }
     # ,
     # {
     #     label: "My Second dataset",
@@ -105,7 +169,7 @@ class SynopticsController < ApplicationController
     #     borderColor: "rgba(151,187,205,1)",
     #     data: [28, 48, 40, 19, 86, 27, 90]
     # }
-      ]
+      # ]
     }
     @options = {
         responsive: true,
@@ -125,7 +189,7 @@ class SynopticsController < ApplicationController
     min_soil_temps = get_tcx1_min_soil_temps(month, year)
     min_humidity = get_min_relative_humidity(month, year)
     rainfall = get_tcx1_rainfall(month, year)
-    render json: {avgTemps: avg_temps, monthName: month_name(month), year: year, numDays: num_days, maxTemps: max_temps, minTemps: min_temps, maxWindSpeed: max_wind_speed, minSoilTemps: min_soil_temps, minHumidity: min_humidity, rainfall: rainfall}
+    render json: {avgTemps: avg_temps, monthName: month_name(month), month: month, year: year, numDays: num_days, maxTemps: max_temps, minTemps: min_temps, maxWindSpeed: max_wind_speed, minSoilTemps: min_soil_temps, minHumidity: min_humidity, rainfall: rainfall}
   end
   
   private
@@ -140,6 +204,34 @@ class SynopticsController < ApplicationController
         c_d << src[station.to_s+'-'+d.to_s]
       end
       c_d
+    end
+    
+    def get_min_relative_humidity(month, year)
+      # agro_data = Agro.where("Дата like '#{year}.#{month}%' and Телеграмма like 'ЩЭАГЯ 34% 91___ 3%'").order("Дата")
+      start_date = "#{year}-#{month}-02 00:00:00".to_datetime
+      stop_date = (start_date + 1.month ).to_s(:custom_date_time)
+      agro_data = Agro.where("Дата between '#{year}.#{month}.02 00:00:00' and '#{stop_date}' and Телеграмма like 'ЩЭАГЯ 34% 91___ 3%'").order("Дата")
+      min_humidity = Hash.new(nil)
+      last_day = Time.days_in_month(month.to_i, year.to_i).to_s
+      agro_data.each { |ad|
+        station = ad["Телеграмма"].match(/ 34... /).to_s.strip
+        day = ad["Дата"][8,2].to_s.strip
+        if day == '01'
+          day = last_day
+        else
+          day = (day.to_i - 1)
+          day = (day < 10 ? '0'+day.to_s : day.to_s)
+        end
+        pos_91 = ad["Телеграмма"] =~ / 91... /
+        if pos_91.present?
+          group91 = ad["Телеграмма"][pos_91, 99]
+          val = group91.match(/ 3..../).to_s.strip[3,2]
+          if val.present?
+            min_humidity[station+'-'+day] = val.to_s
+          end
+        end
+      }
+      min_humidity
     end
 
     def get_tcx1_max_wind_speed(month, year)
@@ -238,24 +330,6 @@ class SynopticsController < ApplicationController
         end
       }
       min_soil
-    end
-    
-    def get_min_relative_humidity(month, year)
-      agro_data = Agro.where("Дата like '#{year}.#{month}%' and Телеграмма like 'ЩЭАГЯ 34% 91___ 3%'").order("Дата")
-      min_humidity = Hash.new(nil)
-      agro_data.each { |ad|
-        station = ad["Телеграмма"].match(/ 34... /).to_s.strip
-        day = ad["Дата"][8,2].to_s.strip
-        pos_91 = ad["Телеграмма"] =~ / 91... /
-        if pos_91.present?
-          group91 = ad["Телеграмма"][pos_91, 99]
-          val = group91.match(/ 3..../).to_s.strip[3,2]
-          if val.present?
-            min_humidity[station+'-'+day] = val.to_s
-          end
-        end
-      }
-      min_humidity
     end
   
     def get_tcx1_min_temps(last_day, month, year)

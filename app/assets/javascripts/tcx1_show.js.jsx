@@ -122,7 +122,8 @@ class Tcx1Show extends React.Component{
       maxWindSpeed: this.props.maxWindSpeed,
       minSoilTemps: this.props.minSoilTemps,
       minHumidity: this.props.minHumidity,
-      rainfall: this.props.rainfall
+      rainfall: this.props.rainfall,
+      desiredLink: "/synoptics/print_tcx1.pdf?month="+this.props.month+"&year="+this.props.year
     };
     this.handleParamsSubmit = this.handleParamsSubmit.bind(this);
   }
@@ -136,13 +137,15 @@ class Tcx1Show extends React.Component{
           avgTemps: data.avgTemps,
           monthName: data.monthName,
           numDays: data.numDays,
+          month: data.month,
           year: data.year,
           maxTemps: data.maxTemps,
           minTemps: data.minTemps,
           maxWindSpeed: data.maxWindSpeed,
           minSoilTemps: data.minSoilTemps,
           minHumidity: data.minHumidity,
-          rainfall: data.rainfall
+          rainfall: data.rainfall,
+          desiredLink: "/synoptics/print_tcx1.pdf?month="+data.month+"&year="+data.year
         });
       }.bind(this))
       .fail(function(jqXhr) {
@@ -150,6 +153,7 @@ class Tcx1Show extends React.Component{
       });
   }
   render(){
+    
     return(
       <div>
         <h2> Таблица для обработки агрометеорологических наблюдений за {this.state.monthName} {this.state.year} года</h2>
@@ -168,6 +172,8 @@ class Tcx1Show extends React.Component{
         <AvgTempsTable avgTemps={this.state.minSoilTemps} numDays={this.state.numDays} />
         <h3> Минимальная относительная влажность воздуха, % </h3>
         <AvgTempsTable avgTemps={this.state.minHumidity} numDays={this.state.numDays} />
+        <br />
+        <a href={this.state.desiredLink}>Распечатать</a>
       </div>
     );
   }
