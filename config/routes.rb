@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  # get 'bulletins/index'
+
+  # get 'bulletins/create'
+
+  # get 'bulletins/new'
+
+  # get 'bulletins/destroy'
+
+  # get 'bulletins/show'
+  get 'bulletins/print_bulletin', to: 'bulletins#print_bulletin'
+  resources :bulletins
+
   get 'registers/search', to: 'registers#search'
   resources :registers
   get 'synoptics/heat_show', to: 'synoptics#heat_show'

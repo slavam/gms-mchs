@@ -2,8 +2,15 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+  Time::DATE_FORMATS[:custom_datetime] = "%Y.%m.%d"
+  Time::DATE_FORMATS[:custom_printdate] = "%d.%m.%Y"
   def month_name month_num
     months = %w{nil январь февраль март апрель май июнь июль август сентябрь октябрь ноябрь декабрь}
+    months[month_num.to_i]
+  end
+  
+  def month_name2 month_num
+    months = %w{nil января февраля марта апреля мая июня июля августа сентября октября ноября декабря}
     months[month_num.to_i]
   end
   
@@ -30,6 +37,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  helper_method :month_name, :station_name
+  helper_method :month_name, :month_name2, :station_name
   
 end

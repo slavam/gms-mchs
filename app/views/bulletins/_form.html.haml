@@ -1,0 +1,51 @@
+
+%h1= "Создать бюллетень"
+.content
+  = form_for @bulletin do |form|
+    %table.card
+      %tr
+        %th Отчетная дата
+        %td= form.text_field :report_date, :value => Time.now.to_s(:custom_datetime)
+      %tr
+        %th Номер бюллетеня
+        %td= form.text_field :curr_number
+      %tr
+        %th Синоптик 1
+        %td= form.text_field :synoptic1
+      %tr
+        %th Синоптик 2
+        %td= form.text_field :synoptic2
+      %tr
+        %th Шторм
+        %td= form.text_area :storm
+      %tr
+        %th Прогноз погоды на сутки
+        %td= form.text_area :forecast_day
+      %tr
+        %th Периодный прогноз
+        %td= form.text_area :forecast_period
+      %tr
+        %th Консультативный прогноз
+        %td= form.text_area :forecast_advice
+      %tr
+        %th Ориентировочный прогноз
+        %td= form.text_area :forecast_orientation
+      %tr
+        %th Прогноз погоды на сутки (на море)
+        %td= form.text_area :forecast_sea_day
+      %tr
+        %th Периодный прогноз (на море)
+        %td= form.text_area :forecast_sea_period
+      %tr
+        %th Метеорологические данные
+        %td= form.text_area :meteo_data
+      %tr
+        %th Обзор погоды
+        %td= form.text_area :agro_day_review
+      %tr
+        %th Климатические данные
+        %td= form.text_area :climate_data
+
+    %br
+  
+    = submit_tag "Сохранить"

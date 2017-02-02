@@ -2,8 +2,8 @@ class SynopticsController < ApplicationController
   before_filter :find_synoptic, :only => [:show_by_date]
   before_filter :calc_date, :only => [:heat_show]
   Time::DATE_FORMATS[:custom_date_time] = "%Y.%m.%d %H:%M:%S"
-  Time::DATE_FORMATS[:custom_datetime] = "%Y.%m.%d"
-  Time::DATE_FORMATS[:custom_printdate] = "%d.%m.%Y"
+  # Time::DATE_FORMATS[:custom_datetime] = "%Y.%m.%d"
+  # Time::DATE_FORMATS[:custom_printdate] = "%d.%m.%Y"
 
   def print_tcx1
     @year = params[:year]

@@ -1,0 +1,22 @@
+%h3= "Бюллетени"
+.container
+  %table
+    %thead
+      %tr
+        %th= "Дата"
+        %th= "Номер"
+        %th= ""
+        %th= ""
+        %th= ""
+  
+    %tbody
+      - @bulletins.each do |b| 
+        %tr
+          %td= b.report_date.to_s(:custom_datetime)
+          %td= b.curr_number
+          %td= link_to "Просмотр", bulletin_path(b)
+          %td= link_to "Распечатать", "bulletins/print_bulletin.pdf?id=#{b.id}"
+          %td= link_to 'Destroy', b, method: :delete, data: { confirm: 'Are you sure?' }
+
+  %br
+= link_to "Создать", new_bulletin_path  
