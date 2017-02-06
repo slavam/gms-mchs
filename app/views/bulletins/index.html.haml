@@ -16,6 +16,7 @@
           %td= b.curr_number
           %td= link_to "Просмотр", bulletin_path(b)
           %td= link_to "Распечатать", "bulletins/print_bulletin.pdf?id=#{b.id}"
+          %td= link_to "Изменить", edit_bulletin_path(b.id)
           %td= link_to 'Destroy', b, method: :delete, data: { confirm: 'Are you sure?' }
 
   %br

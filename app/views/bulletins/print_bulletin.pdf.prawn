@@ -34,11 +34,11 @@ prawn_document do |pdf|
   pdf.font "./app/assets/fonts/OpenSans/OpenSans-Light.ttf"
   pdf.move_down 10
   table_content = [["В Донецкой Народной Республике", "В городе Донецке"],
-                  [@bulletin.forecast_day,""]]
+                  [@bulletin.forecast_day, @bulletin.forecast_day_city]]
   pdf.table table_content, width: pdf.bounds.width
 
   pdf.move_down 10
-  pdf.text "Дежурный синоптик #{@bulletin.synoptic1}", align: :right
+  pdf.text "Дежурный синоптик #{@bulletin.duty_synoptic}", align: :right
   # pdf.text "#{pdf.bounds.width}"
 
   pdf.move_down 10
@@ -66,7 +66,7 @@ prawn_document do |pdf|
   pdf.font "./app/assets/fonts/OpenSans/OpenSans-Light.ttf"
   pdf.text @bulletin.forecast_orientation
   pdf.text "Синоптик #{@bulletin.synoptic1}", align: :right
-  
+
   pdf.start_new_page
   
   pdf.font "./app/assets/fonts/DejaVu/DejaVuSansCondensed-Bold.ttf"
@@ -106,12 +106,60 @@ prawn_document do |pdf|
   pdf.text "за период с 9.00 часов #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])} до 9.00 часов #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года", align: :center
 
   pdf.move_down 10
-  table_content = [["Название метеостанции", "Максимальная вчера днем", "Минимальная сегодня ночью", "Средняя за сутки #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])}", "В 9.00 часов сегодня", "Количество осадков за сутки (мм)", "Высота снежного покрова (см)", "Глубина промерзания (см)", "Максимальная скорость ветра (м/с)", "Явления погоды"]]
+  m_d = []
+  m_d = @bulletin.meteo_data.split(";")
+  table_content = [["Название метеостанции", "Максимальная вчера днем", "Минимальная сегодня ночью", "Средняя за сутки #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])}", "В 9.00 часов сегодня", "Количество осадков за сутки (мм)", "Высота снежного покрова (см)", "Глубина промерзания (см)", "Максимальная скорость ветра (м/с)", "Явления погоды"],
+                   ["Донецк",m_d[0], m_d[1], m_d[2], m_d[3], m_d[4], m_d[5], m_d[6], m_d[7], m_d[8]],
+                   ["Дебальцево", m_d[9].strip, m_d[10], m_d[11], m_d[12], m_d[13], m_d[14], m_d[15], m_d[16], m_d[17]],
+                   ["Амвросиевка", m_d[18].strip, m_d[19], m_d[20], m_d[21], m_d[22], m_d[23], m_d[24], m_d[25], m_d[26]]]
   pdf.font "./app/assets/fonts/OpenSans/OpenSans-Light.ttf"
-  pdf.table table_content, width: pdf.bounds.width, :cell_style => { :size => 8} do |t|
+  pdf.table table_content, width: pdf.bounds.width, :column_widths => [90, 40, 40, 40, 40, 40, 40, 40, 40] do |t|
     t.cells.padding = [1, 1]
-    t.cells.rotate = 90
-    t.cells.height = 80
     t.cells.align = :center
+    t.row(0).columns(1..8).rotate = 90
+    t.row(0).height = 100
+    t.row(0).column(0).valign = :center
+    t.row(0).column(9).valign = :center
+    t.row(0).background_color = 'eeeeee'      
+    # t.row(0).text_color = "FFFFFF"
   end
+  
+  pdf.move_down 10
+  pdf.font "./app/assets/fonts/DejaVu/DejaVuSansCondensed-Bold.ttf"
+  pdf.text "Обзор погоды и агрометеорологических условий", align: :center
+  pdf.text "в Донецкой Народной Республике", align: :center
+  pdf.text "за период с 9.00 часов #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])} до 9.00 часов #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года", align: :center
+  pdf.font "./app/assets/fonts/OpenSans/OpenSans-Light.ttf"
+  pdf.text @bulletin.agro_day_review  
+  
+  pdf.move_down 10
+  pdf.font "./app/assets/fonts/DejaVu/DejaVuSansCondensed-Bold.ttf"
+  c_d = []
+  c_d = @bulletin.climate_data.split(";")
+  pdf.text "Климатические данные по г. Донецку за #{report_date_prev[8,2]}-#{report_date[8,2]} #{month_name2(report_date[5,2])}", align: :center
+  pdf.text "С 1945 по #{report_date[0,4]} гг. по данным Гидрометеорологической службы", align: :center
+  table_content = [["Средняя за сутки температура воздуха", "#{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])}", c_d[0].strip, ""],
+                   ["Максимальная температура воздуха", "#{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])}", c_d[1].strip, "отмечалась в #{c_d[2]} г."],
+                   ["Минимальная температура воздуха", "#{report_date[8,2]} #{month_name2(report_date[5,2])}", c_d[3].strip, "отмечалась в #{c_d[4]} г."]]
+  pdf.font "./app/assets/fonts/OpenSans/OpenSans-Light.ttf"
+  pdf.table table_content, width: pdf.bounds.width
+  pdf.move_down 10
+  pdf.text "Время выпуска 13:00"
+  
+  pdf.move_down 10
+  table_content = [["Ответственный за выпуск: Начальник отдела гидрометеорологического обеспечения и обслуживания", {:image => image1, scale: 0.6}, "Л.Н. Бойко"],
+                  ["Начальник", {:image => image2, scale: 0.6},"М.Б. Лукьяненко"]]
+  pdf.table table_content, width: pdf.bounds.width, :column_widths => [300, 100] do |t|
+    t.cells.border_width = 0
+  end
+  
+  pdf.font "./app/assets/fonts/DejaVu/DejaVuSansCondensed-Bold.ttf"
+  string = "Страница <page>"
+  # Green page numbers 1 to 7
+  options = { :at => [pdf.bounds.right - 150, 0],
+   :width => 150,
+   :align => :right,
+   :start_count_at => 1}
+  pdf.number_pages string, options
+  
 end
