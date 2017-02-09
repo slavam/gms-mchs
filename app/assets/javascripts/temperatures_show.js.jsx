@@ -2,42 +2,28 @@ class ParamsForm extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      calcDate: '',
-      author: 'Иванов'
+      calcDate: this.props.calcDate
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleAuthorChange = this.handleAuthorChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
-  }
-  handleAuthorChange(e) {
-    this.setState({author: e.target.value});
   }
   handleDateChange(e) {
     this.setState({calcDate: e.target.value});
   }
   handleSubmit(e) {
     e.preventDefault();
-    var author = this.state.author.trim();
     var calcDate = this.state.calcDate.trim();
-    if (!calcDate) { // || !author) {
+    if (!calcDate) { 
       return;
     }
-    this.props.onParamsSubmit({author: author, calcDate: calcDate});
-    this.setState({author: 'Иванов', calcDate: ''});
+    this.props.onParamsSubmit({calcDate: calcDate});
   }
   render() {
     return (
       <form className="paramsForm" onSubmit={this.handleSubmit}>
         <input
           type="text"
-          placeholder="Синоптик..."
-          value={this.state.author}
-          onChange={this.handleAuthorChange}
-        />
-        <input
-          type="text"
-          placeholder="Дата..."
-          value={this.state.text}
+          value={this.state.calcDate}
           onChange={this.handleDateChange}
         />
         <input type="submit" value="Пересчитать" />
@@ -48,17 +34,21 @@ class ParamsForm extends React.Component{
 class TempRow extends React.Component{
   render() {
     var stations = {34622: "Амвросиевка", 34524: "Дебальцево", 34519: "Донецк", 34615: "Волноваха", 34712: "Мариуполь"};
+    var style = {
+      backgroundColor: '#ddd',
+      textAlign: "center",
+      width: '70px'
+    };
+    var v = [];
+    for(var i=0;i<9;i++){
+      v.push(<td style={(i % 2 == 0) ? style : {textAlign: "center", width: '70px'}} key={i.toString()}>{this.props.vector[i]}</td>);
+      
+    };
+
     return (
       <tr>
         <td>{stations[this.props.station]}</td>
-        <td>{this.props.vector[0]}</td>
-        <td>{this.props.vector[1]}</td>
-        <td>{this.props.vector[2]}</td>
-        <td>{this.props.vector[3]}</td>
-        <td>{this.props.vector[4]}</td>
-        <td>{this.props.vector[5]}</td>
-        <td>{this.props.vector[6]}</td>
-        <td>{this.props.vector[7]}</td>
+        {v}
       </tr>
     );
   }
@@ -67,10 +57,11 @@ class TemperaturesTable extends React.Component{
   render() {
     var rows = [];
     var temps;
+    
     temps = this.props.temperatures;
     
     ['34622', '34524', '34519', '34615', '34712'].forEach(function(s) {
-      rows.push(<TempRow station={s} vector={[temps[s+'-09'], temps[s+'-12'], temps[s+'-15'], temps[s+'-18'], temps[s+'-21'], temps[s+'-00'], temps[s+'-03'], temps[s+'-06']]} key={s}/>);
+      rows.push(<TempRow station={s} vector={[temps[s+'-09'], temps[s+'-12'], temps[s+'-15'], temps[s+'-18'], temps[s+'-21'], temps[s+'-00'], temps[s+'-03'], temps[s+'-06'], temps[s+'-99']]} key={s}/>);
     });
   
     return (
@@ -119,8 +110,8 @@ class TemperaturesShow extends React.Component{
       }).done(function(data) {
         // alert(data)
         this.setState({
-          calcDate: params.calcDate,
-          temperatures: data
+          calcDate: data.calcDate,
+          temperatures: data.temps
         });
       }.bind(this))
       .fail(function(jqXhr) {
@@ -130,7 +121,7 @@ class TemperaturesShow extends React.Component{
   render(){
     return(
       <div>
-        <ParamsForm onParamsSubmit={this.handleParamsSubmit} />
+        <ParamsForm onParamsSubmit={this.handleParamsSubmit} calcDate={this.state.calcDate} />
         <h4>Данные за {this.state.calcDate}</h4>
         <TemperaturesTable temperatures={this.state.temperatures} />
       </div>

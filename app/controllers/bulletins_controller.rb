@@ -28,6 +28,10 @@ class BulletinsController < ApplicationController
   end
 
   def update
+    (1..27).each do |i|
+      @bulletin.meteo_data += params["val_#{i}"]+'; '
+    end
+    @bulletin.climate_data = params[:avg_day_temp] + '; ' + params[:max_temp] + '; '+ params[:max_temp_year] + '; ' + params[:min_temp] + '; '+ params[:min_temp_year] + '; '
     if not @bulletin.update_attributes bulletin_params
       render :action => :edit
     else

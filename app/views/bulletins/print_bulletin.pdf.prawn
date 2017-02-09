@@ -31,11 +31,24 @@ prawn_document do |pdf|
     pdf.text "Прогноз погоды", align: :center, size: 14
     pdf.text "на сутки с 21 часа #{report_date[8,2]} #{month_name2(report_date[5,2])} до 21 часа #{report_date_next[8,2]} #{month_name2(report_date_next[5,2])} #{report_date_next[0,4]} года", align: :center
   end
-  pdf.font "./app/assets/fonts/OpenSans/OpenSans-Light.ttf"
+  
+  pdf.font_families.update("DejaVu" => {
+    :normal => "./app/assets/fonts/DejaVu/DejaVuSans.ttf",
+    :bold => "./app/assets/fonts/DejaVu/DejaVuSans-Bold.ttf"
+  })
+  #pdf.font "DejaVu"
+  
+  pdf.font_families.update(
+    'OpenSans' => { :normal => "./app/assets/fonts/OpenSans/OpenSans-Regular.ttf",
+                    :bold   => "./app/assets/fonts/OpenSans/OpenSans-Bold.ttf" }
+  )
+  pdf.font "OpenSans"
+  # pdf.font "./app/assets/fonts/OpenSans/OpenSans-Light.ttf"
+  # pdf.font "./app/assets/fonts/DejaVu/DejaVuSans.ttf"
   pdf.move_down 10
-  table_content = [["В Донецкой Народной Республике", "В городе Донецке"],
+  table_content = [["<b>В Донецкой Народной Республике</b>", "<b>В городе Донецке</b>"],
                   [@bulletin.forecast_day, @bulletin.forecast_day_city]]
-  pdf.table table_content, width: pdf.bounds.width
+  pdf.table table_content, width: pdf.bounds.width,:cell_style => { :padding => 3, :inline_format => true }
 
   pdf.move_down 10
   pdf.text "Дежурный синоптик #{@bulletin.duty_synoptic}", align: :right

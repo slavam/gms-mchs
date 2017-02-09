@@ -2,8 +2,6 @@ class SynopticsController < ApplicationController
   before_filter :find_synoptic, :only => [:show_by_date]
   before_filter :calc_date, :only => [:heat_show]
   Time::DATE_FORMATS[:custom_date_time] = "%Y.%m.%d %H:%M:%S"
-  # Time::DATE_FORMATS[:custom_datetime] = "%Y.%m.%d"
-  # Time::DATE_FORMATS[:custom_printdate] = "%d.%m.%Y"
 
   def print_tcx1
     @year = params[:year]
@@ -52,9 +50,7 @@ class SynopticsController < ApplicationController
   def tcx1_header num_days
     h = [{:content => 'Метеостанция', :size => 9 }] 
     (1..num_days).each do |d|
-      d = '0'+d.to_s if d < 10
-      # h << d.to_s
-      h << {:content => d.to_s, :size => 9 }
+      h << {:content => '%02d' % d, :size => 9 }
     end
     h
   end
@@ -62,8 +58,7 @@ class SynopticsController < ApplicationController
   def tcx1_row(src, station, num_days)
     c_d = []
     (1..num_days).each do |d|
-      d = '0'+d.to_s if d < 10
-      val = src[station.to_s+'-'+d.to_s].to_s
+      val = src[station.to_s+'-'+ ('%02d' % d)].to_s
       c_d << {:content => val, :size => 9}
     end
     c_d
@@ -94,20 +89,10 @@ class SynopticsController < ApplicationController
     sql = "update sinop set Телеграмма='#{params[:t_text]}' where Дата='#{params[:t_date]}';"
     connection = ActiveRecord::Base.connection
     connection.execute(sql)
-    # telegram["Телеграмма"] = params[:t_text]
-    # telegram.update_attribute("Телеграмма", params[:t_text])
-    # if telegram.save
-      render json: telegram
-    # else
-    #   render json: telegram.errors, status: :unprocessable_entity
-    # end
+    render json: telegram
   end
   
   def show_by_date
-    # @synoptic = Synoptic.find_by_sql("SELECT * FROM sinop WHERE Дата = '2016.12.02 09:56:31';")[0]
-    # @synoptic = Synoptic.where('Дата like "2015.02.26%"')
-    # var_dump(@synoptic)
-    # @synoptic = Synoptic.first
   end
   
   def heat_show
@@ -118,14 +103,16 @@ class SynopticsController < ApplicationController
   end
   
   def td_show
-    @calc_date = params[:calc_date].present? ? params[:calc_date] : calc_date     #Time.now.to_s(:custom_datetime)
+    @calc_date = params[:calc_date].present? ? params[:calc_date] : Time.now.to_s(:custom_datetime)
     @a = get_temperatures
   end
   
   def get_temps
-    @calc_date = params[:calc_date].present? ? params[:calc_date] : calc_date     #Time.now.to_s(:custom_datetime)
+    @calc_date = params[:calc_date].present? ? params[:calc_date] : calc_date     
     a = get_temperatures
-    render json: a.to_json
+    # render json: a.to_json
+    render json: {temps: a, calcDate: @calc_date}
+    
   end
   
   def tcx1
@@ -378,8 +365,23 @@ class SynopticsController < ApplicationController
       a = Hash.new(nil)
       heat_data.each {|hd|
         station_code = hd["Телеграмма"].split(' ')[1]
-        # a[[station_code, hd["Срок"]]] = hd.temp_to_s
-        a[station_code+'-'+hd["Срок"]] = hd.temp_to_s
+        if station_code.present?
+          a[station_code+'-'+hd["Срок"]] = hd.temp_to_s
+        end
+      }
+      
+      ['34622', '34524', '34519', '34615', '34712'].each {|s|
+        n = 0
+        t = 0
+        k = ''
+        (0..7).each {|i|
+          k = s + '-' + ('%02d' % (i*3))
+          if a[k].present?
+            t += a[k].to_f
+            n += 1
+          end
+        }
+        a[s+'-99'] = (t / n).round(2) if n>0
       }
       a
     end
