@@ -361,7 +361,7 @@ class SynopticsController < ApplicationController
     end
     
     def get_temperatures
-      heat_data = Synoptic.where("Дата like ? and Срок BETWEEN '00' and '21' ", @calc_date+'%').order("Срок")
+      heat_data = Synoptic.where("Дата like ? and Срок BETWEEN '00' and '21' and (Телеграмма like 'ЩЭСМЮ %' or Телеграмма like 'ЩЭСИД %')", @calc_date+'%').order("Срок")
       a = Hash.new(nil)
       heat_data.each {|hd|
         station_code = hd["Телеграмма"].split(' ')[1]

@@ -10,8 +10,8 @@ class Synoptic < ActiveRecord::Base
       else
         s
       end
-    else
-      self["Телеграмма"]
+    # else
+    #   self["Телеграмма"]
     end
   end
   

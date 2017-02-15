@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170203060326) do
+ActiveRecord::Schema.define(version: 20170209053847) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
@@ -73,5 +73,18 @@ ActiveRecord::Schema.define(version: 20170203060326) do
     t.string "Ответственный",   limit: 45
     t.string "Поручитель",      limit: 45
   end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "last_name",       limit: 255
+    t.string   "first_name",      limit: 255
+    t.string   "middle_name",     limit: 255
+    t.string   "login",           limit: 255
+    t.string   "password_digest", limit: 255
+    t.string   "position",        limit: 255
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  add_index "users", ["login"], name: "index_users_on_login", unique: true, using: :btree
 
 end

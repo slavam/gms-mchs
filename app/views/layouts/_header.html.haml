@@ -1,0 +1,8 @@
+%header{ :class=>"navbar navbar-fixed-top navbar-inverse"}
+  %div{ :class=>"container"}
+    = link_to "ГМС МЧС ДНР", registers_url, id: "logo"
+    %nav
+      %ul{ :class=>"nav navbar-nav navbar-right"}
+        = link_to 'ТСХ-1',  synoptics_tcx1_path 
+        = link_to 'Бюллетень',  bulletins_path
+        = link_to "Log in", '#'

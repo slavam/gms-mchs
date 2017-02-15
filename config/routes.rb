@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   # get 'bulletins/destroy'
 
   # get 'bulletins/show'
+  resources :users
   get 'bulletins/print_bulletin', to: 'bulletins#print_bulletin'
   resources :bulletins
 
