@@ -28,8 +28,8 @@
                 ['Тепло Донбасса',  synoptics_td_show_path] |
               ] |
     #main
-      - flash.each do |key, msg|
-        = content_tag :div, msg, :class => "flash_#{key}"
+      - flash.each do |message_type, message| 
+        %div{ class: "alert alert-#{message_type}"}= message  
       %div{'style' => "clear: both;"}
       &nbsp;
       = yield
