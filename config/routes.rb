@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'sessions/new'
+
   # get 'bulletins/index'
 
   # get 'bulletins/create'
@@ -8,6 +10,9 @@ Rails.application.routes.draw do
   # get 'bulletins/destroy'
 
   # get 'bulletins/show'
+  get    '/login',   to: 'sessions#new'
+  post   '/login',   to: 'sessions#create'
+  delete '/logout',  to: 'sessions#destroy'
   resources :users
   get 'bulletins/print_bulletin', to: 'bulletins#print_bulletin'
   resources :bulletins
