@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170209053847) do
+ActiveRecord::Schema.define(version: 20170218113828) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
@@ -83,6 +83,8 @@ ActiveRecord::Schema.define(version: 20170209053847) do
     t.string   "position",        limit: 255
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.string   "remember_digest", limit: 255
+    t.string   "role",            limit: 255
   end
 
   add_index "users", ["login"], name: "index_users_on_login", unique: true, using: :btree

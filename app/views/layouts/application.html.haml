@@ -11,22 +11,6 @@
   %body
     = render 'layouts/header'
 
-    #navigation
-      %br
-      #tabs
-        %ul
-          - if not true
-            = render :partial => 'layouts/menuItem', :collection => [ |
-              ['Login', new_user_session_url]                        |
-            ] |
-            -
-          - else
-            %div{'style' => "float: left;"}
-              = render :partial => 'layouts/menuItem', :collection => [ | 
-                ['Телеграммы (синоптические)',  synoptics_path], |
-                ['Автодор',  synoptics_avtodor_path], |
-                ['Тепло Донбасса',  synoptics_td_show_path] |
-              ] |
     #main
       - flash.each do |message_type, message| 
         %div{ class: "alert alert-#{message_type}"}= message  

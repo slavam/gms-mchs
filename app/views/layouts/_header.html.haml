@@ -3,17 +3,27 @@
     = link_to "ГМС МЧС ДНР", registers_url, id: "logo"
     %nav
       %ul{ :class=>"nav navbar-nav navbar-right"}
-        %li= link_to 'ТСХ-1',  synoptics_tcx1_path 
-        %li= link_to 'Бюллетень',  bulletins_path
         - if logged_in?
-          %li= link_to "Users", '#' 
+          - case current_user.role
+            - when 'synoptic'
+              %li= link_to 'Телеграммы',  synoptics_path
+              %li
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты <b class="caret"></b></a>
+                %ul{class: "dropdown-menu"}
+                  %li= link_to 'ТСХ-1',  synoptics_tcx1_path 
+                  %li= link_to 'Бюллетень',  bulletins_path
+                  %li= link_to 'Тепло Донбасса',  synoptics_td_show_path
+                  %li= link_to 'Автодор',  synoptics_avtodor_path
+            - when 'technicist'
+              %li= link_to 'Телеграммы',  synoptics_path
+            - when 'admin'
+              %li= link_to "Users", users_path
           %li{ class: "dropdown"}
           %li
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
             %ul{class: "dropdown-menu"}
-              %li= link_to "Profile", current_user
-              %li= link_to "Settings", '#'
+              %li= link_to "Профиль", current_user
               %li{ class: "divider"}
-              %li= link_to "Log out", logout_path, method: "delete"
+              %li= link_to "Выход", logout_path, method: "delete"
         - else
-          %li= link_to "Log in", login_path
+          %li= link_to "Войти", login_path

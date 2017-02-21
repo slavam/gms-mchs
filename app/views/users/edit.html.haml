@@ -1,4 +1,4 @@
-%h1= "Новый пользователь"
+%h1= "Изменить параметры пользователя"
 
 %div{ class: "row"}
   %div{ class: "col-md-6 col-md-offset-3"}
@@ -6,12 +6,6 @@
       = render 'shared/error_messages'
       = f.label :login, "Логин"
       = f.text_field :login, class: 'form-control'
-
-      = f.label :password 
-      = f.password_field :password, class: 'form-control' 
-
-      = f.label :password_confirmation, "Confirmation" 
-      = f.password_field :password_confirmation, class: 'form-control' 
 
       = f.label :last_name, "Фамилия"
       = f.text_field :last_name, class: 'form-control'
@@ -28,4 +22,4 @@
       = f.label :role, "Роль"
       = select("user", "role", User::ROLES, {:include_blank => false})
 
-      = f.submit "Создать", class: "btn btn-primary"
+      = f.submit "Сохранить", class: "btn btn-primary"

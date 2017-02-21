@@ -1,7 +1,22 @@
 %div{ class:"row"}
-  %aside{ class: "col-md-4"}
-    %section{ class: "user_info"}
-      %h1
-        = @user.login
-        = @user.first_name
-        = @user.last_name
+  %div{ class: "col-md-6 col-md-offset-3"}
+    %h1= "Пользователь"
+    %table{class: "table table-bordered"}
+      %tr
+        %th= "Логин:"
+        %td= @user.login
+      %tr
+        %th= "Роль:"
+        %td= @user.role
+      %tr
+        %th= "Фамилия:"
+        %td= @user.last_name
+      %tr
+        %th= "Имя:"
+        %td= @user.first_name
+      %tr
+        %th= "Отчество:"
+        %td= @user.middle_name
+      %tr
+        %th= "Должность: "
+        %td= @user.position
