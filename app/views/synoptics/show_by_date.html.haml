@@ -1,57 +1,53 @@
-%h1 Телеграмма
-.container
-  %table.card
-    %tr
-      %th Дата:
-      %td= @synoptic["Дата"]
-    %tr
-      %th Срок:
-      %td= @synoptic["Срок"]
-    %tr
-      %th Текст:
-      %td= @synoptic["Телеграмма"]
-    %tr
-      %th Станция:
-      %td= @synoptic.station_name
-    %tr
-      %th Направление ветра:
-      %td= @synoptic.wind_direct
-    %tr
-      %th Скорость ветра:
-      %td= @synoptic.wind_speed.to_s + ' м/с'
-    %tr
-      %th Видимость:
-      %td= @synoptic.visibility
-    %tr
-      %th Нижняя граница облаков:
-      %td= @synoptic.cloud_base + ' м.'
-    %tr
-      %th Облачность (баллы):
-      %td= @synoptic.cloudiness
-    %tr
-      %th Температура воздуха (градусы Цельсия):
-      %td= @synoptic.air_temperature
-    %tr
-      %th Точка росы (градусы Цельсия):
-      %td= @synoptic.dew_point
-    -if @synoptic.air_pressure
-      %tr
-        %th Давление воздуха на уровне станции:
-        %td= @synoptic.air_pressure
-    %tr
-      %th Давление воздуха (уровень моря):
-      %td= @synoptic.air_pressure_sea_level
-    %tr
-      %th Тенденция давления:
-      %td= @synoptic.barometric_tendency
-    %tr
-      %th Количество осадков:
-      %td= @synoptic.precip_accum
-  %br
-
-  .actions
-    = link_to 'Изменить', edit_synoptic_path(@synoptic["Дата"])
-    %br
-    = link_to 'Удалить', synoptic_path(@synoptic["Дата"]), method: :delete, data: {confirm: "Удалить запись?"}
-    %br
-    = link_to 'Список', synoptics_path 
+%div{ class:"row"}
+  %div{ class: "col-md-6 col-md-offset-3"}
+    %h1 Телеграмма
+    .container
+      %table{class: "table table-bordered"}
+        %tr
+          %th Дата:
+          %td= @synoptic["Дата"]
+        %tr
+          %th Срок:
+          %td= @synoptic["Срок"]
+        %tr
+          %th Текст:
+          %td= @synoptic["Телеграмма"]
+        %tr
+          %th Станция:
+          %td= @synoptic.station_name
+        %tr
+          %th Направление ветра:
+          %td= @synoptic.wind_direct
+        %tr
+          %th Скорость ветра:
+          %td= @synoptic.wind_speed.to_s + ' м/с'
+        %tr
+          %th Видимость:
+          %td= @synoptic.visibility
+        %tr
+          %th Нижняя граница облаков:
+          %td= @synoptic.cloud_base + ' м.'
+        %tr
+          %th Облачность (баллы):
+          %td= @synoptic.cloudiness
+        %tr
+          %th Температура воздуха (градусы Цельсия):
+          %td= @synoptic.air_temperature
+        %tr
+          %th Точка росы (градусы Цельсия):
+          %td= @synoptic.dew_point
+        -if @synoptic.air_pressure
+          %tr
+            %th Давление воздуха на уровне станции:
+            %td= @synoptic.air_pressure
+        %tr
+          %th Давление воздуха (уровень моря):
+          %td= @synoptic.air_pressure_sea_level
+        %tr
+          %th Тенденция давления:
+          %td= @synoptic.barometric_tendency
+        %tr
+          %th Количество осадков:
+          %td= @synoptic.precip_accum
+  
+      = link_to 'Список', synoptics_path 

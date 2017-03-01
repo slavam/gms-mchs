@@ -69,6 +69,10 @@ class SynopticsController < ApplicationController
   end
   
   def index
+    @synoptics = Synoptic.paginate(page: params[:page]).order("Дата").reverse_order
+  end
+  
+  def list
     @synoptics = Synoptic.all.limit(50).order("Дата").reverse_order
   end
 

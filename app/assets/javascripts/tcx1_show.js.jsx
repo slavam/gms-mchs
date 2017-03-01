@@ -94,7 +94,7 @@ class AvgTempsTable extends React.Component{
     };
   
     return (
-      <table>
+      <table className = "table table-hover">
         <thead>
           <tr>
             <th >Метеостанция</th>
@@ -156,7 +156,7 @@ class Tcx1Show extends React.Component{
     
     return(
       <div>
-        <h2> Таблица для обработки агрометеорологических наблюдений за {this.state.monthName} {this.state.year} года</h2>
+        <h3> Таблица для обработки агрометеорологических наблюдений за {this.state.monthName} {this.state.year} года</h3>
         <MonthYearForm onParamsSubmit={this.handleParamsSubmit} year={this.props.year} month={this.props.month}/>
         <h3> Средняя температура воздуха, °С </h3>
         <AvgTempsTable avgTemps={this.state.avgTemps} numDays={this.state.numDays} />

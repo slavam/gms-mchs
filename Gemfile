@@ -8,6 +8,9 @@ gem 'rails', '4.2.5'
 gem 'bcrypt', '~> 3.1.7'
 
 gem 'bootstrap-sass', '3.3.6'
+
+gem 'will_paginate',           '3.1.0'
+gem 'bootstrap-will_paginate', '0.0.10'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 gem 'haml'

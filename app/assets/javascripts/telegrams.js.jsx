@@ -100,7 +100,7 @@ class OneTelegram extends React.Component{
     $.ajax({
       type: 'GET',
       dataType: 'json',
-      url: "synoptics/update_synoptic_telegram?t_date="+this.props.telegram["Дата"]+"&t_text="+tlgText.tlgText
+      url: "update_synoptic_telegram?t_date="+this.props.telegram["Дата"]+"&t_text="+tlgText.tlgText
       }).done(function(data) {
         // alert(data["Дата"])
         // newTelegrams[0]["Дата"] = data["Дата"];
@@ -130,7 +130,7 @@ class TelegramsTable extends React.Component{
       rows.push(<OneTelegram telegram={t} key={t["Дата"]} />);
     });
     return (
-      <table>
+      <table className="table table-hover">
         <thead>
           <tr>
             <th>Дата</th>
@@ -162,7 +162,7 @@ class Telegrams extends React.Component{
     $.ajax({
       type: 'POST',
       dataType: 'json',
-      url: "synoptics/create_synoptic_telegram?t_term="+telegram["Срок"]+"&t_text="+telegram["Телеграмма"]
+      url: "create_synoptic_telegram?t_term="+telegram["Срок"]+"&t_text="+telegram["Телеграмма"]
       }).done(function(data) {
         // alert(data["Дата"])
         newTelegrams[0]["Дата"] = data["Дата"];

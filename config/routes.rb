@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   get 'registers/search', to: 'registers#search'
   resources :registers
+  get 'synoptics/list', to: 'synoptics#list'
   get 'synoptics/heat_show', to: 'synoptics#heat_show'
   get 'synoptics/td_show', to: 'synoptics#td_show'
   get 'synoptics/get_temps', to: 'synoptics#get_temps'
