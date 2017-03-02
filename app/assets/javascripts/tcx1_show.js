@@ -1,3 +1,7 @@
+import React from "react";
+import Datetime from 'react-datetime';
+require('moment/locale/ru');
+
 class MonthYearForm extends React.Component{
   constructor(props) {
     super(props);
@@ -6,14 +10,7 @@ class MonthYearForm extends React.Component{
       year: this.props.year
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleMonthChange = this.handleMonthChange.bind(this);
-    this.handleYearChange = this.handleYearChange.bind(this);
-  }
-  handleMonthChange(e) {
-    this.setState({month: e.target.value});
-  }
-  handleYearChange(e) {
-    this.setState({year: e.target.value});
+    this.onChange = this.onChange.bind(this);
   }
   handleSubmit(e) {
     e.preventDefault();
@@ -24,20 +21,19 @@ class MonthYearForm extends React.Component{
     }
     this.props.onParamsSubmit({month: month, year: year});
   }
+  onChange(event) {
+    this.setState({year: event.format("YYYY"), month: event.format("MM")});
+  }
   render() {
     return (
       <form className="paramsForm" onSubmit={this.handleSubmit}>
-        <input
-          type="text"
+        <Datetime 
+          locale="ru" 
+          timeFormat={false} 
+          dateFormat="YYYY-MM" 
           placeholder="Месяц..."
-          value={this.state.month}
-          onChange={this.handleMonthChange}
-        />
-        <input
-          type="text"
-          placeholder="Год..."
-          value={this.state.year}
-          onChange={this.handleYearChange}
+          closeOnSelect={true} 
+          onChange={this.onChange}
         />
         <input type="submit" value="Пересчитать" />
       </form>
@@ -106,7 +102,6 @@ class AvgTempsTable extends React.Component{
     );
   }
 }
-
 
 class Tcx1Show extends React.Component{
   constructor(props) {
@@ -178,3 +173,5 @@ class Tcx1Show extends React.Component{
     );
   }
 }
+
+export default Tcx1Show;

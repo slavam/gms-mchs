@@ -34,7 +34,8 @@ default: &default
 
 development:
   <<: *default
-  database: c9
+  database: meteo2017
+  # database: c9
   # database: meteo_dev
 
 test:
