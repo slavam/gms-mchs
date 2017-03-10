@@ -1,5 +1,23 @@
 class Synoptic < ActiveRecord::Base
   self.table_name = 'sinop'
+  TERMS = ['00', '03', '06', '09', '12', '15', '18', '21']
+  MASTER_TERMS = ['00', '06', '12', '18']
+  SLAVE_TERMS = ['03', '09', '15', '21']
+  HEADERS = ["ЩЭСМЮ" ,"ЩЭСИД"] #, "WAREP"]
+  validate :synoptic_telegramm_check
+  
+  def term_valid?
+    TERMS.include?(self["Срок"])
+  end
+  
+  def group0_valid?
+    HEADERS.include?(self["Телеграмма"][0,5])
+  end
+  
+  def term_group0_satisfy?
+    gr0 = self["Телеграмма"][0,5]
+    (("ЩЭСМЮ" == gr0) and MASTER_TERMS.include?(gr0)) or (("ЩЭСИД" == gr0) and SLAVE_TERMS.include?(gr0))
+  end
   
   def temp_to_s
     if self["Телеграмма"].split(' ').size > 4
@@ -182,8 +200,12 @@ class Synoptic < ActiveRecord::Base
   
   def dew_point
     d_p = get_group(1, '2').to_s.strip
-    sign = (d_p[1] == '0')? '' : '-'
-    return sign + d_p[2,2] + ',' + d_p[4] + '°'
+    if d_p.present?
+      sign = (d_p[1] == '0')? '' : '-'
+      return sign + d_p[2,2] + ',' + d_p[4] + '°'
+    else
+      return nil
+    end
   end
   
   def air_pressure
@@ -258,9 +280,6 @@ class Synoptic < ActiveRecord::Base
   end
   
   private
-    def get_first_section
-    end
-    
     def get_group(num_section, flag)
       pos_group = self["Телеграмма"][23,99] =~ / #{flag}.... /
       if pos_group.present?
@@ -287,6 +306,15 @@ class Synoptic < ActiveRecord::Base
         end
       else
         return nil
+      end
+    end
+    
+    def synoptic_telegramm_check
+      if !term_valid?
+        errors.add(:terms, "Неправильный срок")
+      end
+      if !group0_valid?
+        errors.add(:group0, 'Неправилная различительная группа')
       end
     end
 end

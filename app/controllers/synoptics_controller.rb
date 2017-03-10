@@ -84,7 +84,7 @@ class SynopticsController < ApplicationController
     if telegram.save
       render json: telegram
     else
-      render json: telegram.errors, status: :unprocessable_entity
+      render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
     end
   end
     
