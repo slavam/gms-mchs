@@ -1,3 +1,24 @@
+class InputError extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      message: 'Input is invalid'
+    };
+  }
+  render(){ 
+    var errorClass = classNames(this.props.className, {
+      'error_container':   true,
+      'visible':           this.props.visible,
+      'invisible':         !this.props.visible
+    });
+
+    return (
+      <div className={errorClass}>
+        <span>{this.props.errorMessage}</span>
+      </div>
+    );
+  }
+}
 
 class OptionSelect extends React.Component{
   constructor(props) {
@@ -8,13 +29,12 @@ class OptionSelect extends React.Component{
     this.props.onUserInput(event.target.value, event.target.name);
   }
   render(){
-    
     return <select name = {this.props.name} onChange = {this.handleOptionChange}>
       {
         this.props.options.map(function(op) {
           return <option key = {op.value} value = {op.value}> {op.label} </option>;
-        }
-      )}
+        })
+      }
     </select>;
   }
 }
@@ -25,11 +45,35 @@ class TelegramForm extends React.Component{
     this.state = {
       tlgTerm: '',
       tlgHeader: this.props.tlgHeader,
-      stationIndex: '',
-      group00: '',
+      stationIndex: '34622',
+      group00: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^[134/][1-4][0-9/]([0-4][0-9]|50|5[6-9]|[6-9][0-9]|\/\/)$/ },
+      group0: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^[0-9/]([012][0-9]|3[0-6]|99|\/\/)([012][0-9]|30|\/\/)$/ },
+      group1: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^1[01][0-5][0-9][0-9]$/ },
+      group2: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^2[01][0-5][0-9][0-9]$/ },
+      group3: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^3\d{4}$/ },
+      group4: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^4\d{4}$/ },
+      group5: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^5[0-8]\d{3}$/ },
+      group6: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^6\d{3}[12]$/ }, // From Margo 20170315 
+      group7: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^7\d{4}$/ },
+      group8: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^8[0-9/]{4}$/ }, // From Margo 20170317 
+      group31: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^1[01][0-9]{3}$/ },
+      group32: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^2[01][0-9]{3}$/ },
+      group34: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^4[0-9/][0-9]{3}$/ },
+      group35: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^55[0-9]{3}$/ },
+      group38: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^8[0-9/]{2}([0-4][0-9]|50|5[6-9]|[6-9][0-9])$/ },
+      group39: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^9[0-9]{4}$/ },
+      group51: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^1[0-9/][01][0-9]{2}$/ },
+      group53: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^3[0-9/][01][0-9]{2}$/ },
+      group55: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^52[01][0-9]{2}$/ },
+      group56: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^6[0-9/]{4}$/ },
+      group59: {value:'', errorVisible: false, errorMessage: 'Ошибка!', regex: /^9[0-9/]{4}$/ },
       tlgText: this.props.tlgHeader,
       errors: this.props.errors
     };
+
+    this.row1 = ['group00', 'group0', 'group1', 'group2', 'group3', 'group4', 'group5', 'group6', 'group7', 'group8'];
+    this.row3 = ['group31', 'group32', 'group34', 'group35', 'group38', 'group39'];
+    this.row5 = ['group51', 'group53', 'group55', 'group56', 'group59'];
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
     this.handleOptionSelected = this.handleOptionSelected.bind(this);
@@ -37,7 +81,26 @@ class TelegramForm extends React.Component{
     this.handleGroup00Change = this.handleGroup00Change.bind(this);
   }
   makeText(){
-    this.setState({tlgText: this.state.tlgHeader+' '+this.state.stationIndex+' '+this.state.group00});
+    let section3 = '';
+    let section5 = '';
+    let self = this;
+    if(this.state.group31.value.length>0 | this.state.group32.value.length>0 | this.state.group34.value.length>0 | this.state.group35.value.length>0 |
+      this.state.group38.value.length>0 | this.state.group39.value.length>0){
+      section3 = ' 333';
+      this.row3.forEach(function(val) {
+        section3 += (self.state[val].value.length>0 ? ' '+self.state[val].value : '');
+      });
+    }
+    if(this.state.group51.value.length>0 | this.state.group53.value.length>0 | this.state.group55.value.length>0 | this.state.group56.value.length>0 |
+      this.state.group59.value.length>0){
+      section5 = ' 555';
+      this.row5.forEach(function(val) {
+        section5 += (self.state[val].value.length>0 ? ' '+self.state[val].value : '');
+      });
+    }
+    this.setState({tlgText: this.state.tlgHeader+' '+this.state.stationIndex+' '+this.state.group00.value+' '+
+      this.state.group0.value+' '+this.state.group1.value+' '+this.state.group2.value+' '+this.state.group3.value+' '+this.state.group4.value+' '+
+      this.state.group5.value+' '+this.state.group6.value+' '+this.state.group7.value+' '+this.state.group8.value+section3+section5});
   }
   handleOptionSelected(value, senderName){
     if (senderName == 'selectStation'){
@@ -62,17 +125,18 @@ class TelegramForm extends React.Component{
     this.setState({ tlgText: '', errors: this.props.errors});
   }
   handleGroup00Change(e){
-    let gr00 = e.target.value;
-    let iRvalues = ['1', '3', '4', '/'];
-    let iXvalues = ['1', '2', '3', '4'];
-    if(iRvalues.indexOf(gr00[0])==-1)
-      alert("Недопустимое значение iR");
-    else if(gr00.length>1 && iXvalues.indexOf(gr00[1])==-1)
-      alert("Недопустимое значение iX");
-    else {
-      this.state.group00 = e.target.value;
-      this.makeText();
-    }
+    var group = e.target.value;
+    var regex = '';
+    this.state[e.target.name].value = e.target.value;
+    this.makeText();
+    if(group.length<5){
+      return;
+    } 
+    regex = this.state[e.target.name].regex;
+    if (!regex.test(group)) 
+      this.state[e.target.name].errorVisible = true;
+    else
+      this.state[e.target.name].errorVisible = false;
   }
   render() {
     const stations = [
@@ -95,6 +159,28 @@ class TelegramForm extends React.Component{
       { value: '18', label: '18' },
       { value: '21', label: '21' }
     ];
+    var tds = [];
+    var td333 = [];
+    var td555 = [];
+    var self = this;
+    this.row1.forEach(function(td) {
+      tds.push( <td>
+                  <input type="text" value={self.state[td].value} onChange={self.handleGroup00Change} name={td} key={td} />
+                  <InputError visible={self.state[td].errorVisible} errorMessage={self.state[td].errorMessage} key={'err_'+td} />
+                </td>);
+    });
+    this.row3.forEach(function(td) {
+      td333.push(<td>
+                   <input type="text" value={self.state[td].value} onChange={self.handleGroup00Change} name={td} key={td} />
+                   <InputError visible={self.state[td].errorVisible} errorMessage={self.state[td].errorMessage} key={'err_'+td} />
+                 </td>);
+    });
+    this.row5.forEach(function(td) {
+      td555.push(<td>
+                   <input type="text" value={self.state[td].value} onChange={self.handleGroup00Change} name={td} key={td} />
+                   <InputError visible={self.state[td].errorVisible} errorMessage={self.state[td].errorMessage} key={'err_'+td} />
+                 </td>);
+    });
     return (
       <form className="telegramForm" onSubmit={this.handleSubmit}>
         <p>Срок:
@@ -108,20 +194,58 @@ class TelegramForm extends React.Component{
               <th>Группа00</th>
               <th>Группа0</th>
               <th>Группа1</th>
+              <th>Группа2</th>
+              <th>Группа3</th>
+              <th>Группа4</th>
+              <th>Группа5</th>
+              <th>Группа6</th>
+              <th>Группа7</th>
+              <th>Группа8</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>
-                <OptionSelect options={stations} onUserInput={this.handleOptionSelected} name="selectStation" />
+                <OptionSelect options={stations} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" />
               </td>
+              {tds}
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th>Раздел 3</th>
+              <th>Группа1</th>
+              <th>Группа2</th>
+              <th>Группа4</th>
+              <th>Группа5</th>
+              <th>Группа8</th>
+              <th>Группа9</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
               <td>
-                <input type="text" size="10" value={this.state.group00} onChange={this.handleGroup00Change} />
+                333
               </td>
+              {td333}
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th>Раздел 5</th>
+              <th>Группа1</th>
+              <th>Группа3</th>
+              <th>Группа5</th>
+              <th>Группа6</th>
+              <th>Группа9</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
               <td>
+                555
               </td>
-              <td>
-              </td>
+              {td555}
             </tr>
           </tbody>
         </table>
