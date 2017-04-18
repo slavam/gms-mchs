@@ -325,7 +325,7 @@ class TelegramForm extends React.Component{
               {self.row1.map(function(td) {
                 return(<td key={td}>
                   <input type="text" value={self.state[td].value} onChange={self.handleGroup00Change} name={td} />
-                  <InputError visible={self.state[td].errorVisible} errorMessage="Ош��бка!" />
+                  <InputError visible={self.state[td].errorVisible} errorMessage="Ошибка!" />
                 </td>);
               })}
             </tr>
