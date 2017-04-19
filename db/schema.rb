@@ -13,11 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20170218113828) do
 
-  create_table "agro", id: false, force: :cascade do |t|
-    t.string "Дата",       limit: 60,  null: false
-    t.string "Телеграмма", limit: 650, null: false
-  end
-
   create_table "bulletins", force: :cascade do |t|
     t.date     "report_date"
     t.string   "curr_number",          limit: 255
@@ -37,41 +32,6 @@ ActiveRecord::Schema.define(version: 20170218113828) do
     t.datetime "updated_at"
     t.string   "duty_synoptic",        limit: 255
     t.text     "forecast_day_city",    limit: 65535
-  end
-
-  create_table "gidro", id: false, force: :cascade do |t|
-    t.string "Дата",       limit: 60,  null: false
-    t.string "Телеграмма", limit: 350, null: false
-  end
-
-  create_table "komplekt", primary_key: "ID", force: :cascade do |t|
-    t.string "Наименование", limit: 50
-    t.string "Модель",       limit: 155
-    t.string "Формуляр",     limit: 15
-  end
-
-  create_table "reestr", force: :cascade do |t|
-    t.string "Наименнование", limit: 155
-    t.string "Формуляр",      limit: 12
-    t.string "Инвентарный",   limit: 45
-    t.string "Кабинет",       limit: 15
-    t.string "Ответственный", limit: 195
-  end
-
-  create_table "sinop", id: false, force: :cascade do |t|
-    t.string "Дата",       limit: 65,  null: false
-    t.string "Срок",       limit: 7,   null: false
-    t.string "Телеграмма", limit: 350, null: false
-  end
-
-  create_table "task", primary_key: "Номер", force: :cascade do |t|
-    t.string "Срок",            limit: 50
-    t.string "Дата_выполнения", limit: 50
-    t.string "Задача",          limit: 150
-    t.string "Статус",          limit: 20
-    t.string "Примечание",      limit: 500
-    t.string "Ответственный",   limit: 45
-    t.string "Поручитель",      limit: 45
   end
 
   create_table "users", force: :cascade do |t|

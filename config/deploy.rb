@@ -1,7 +1,7 @@
 # config valid only for current version of Capistrano
 lock "3.8.0"
 
-set :application, "hydro_meteo_service"
+set :application, "gms-mchs"
 set :repo_url, "git@github.com:slavam/gms-mchs.git"
 set :user, 'proger'
 # set :use_sudo, false
@@ -11,11 +11,11 @@ set :user, 'proger'
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/home/proger/hydro_meteo_service"
+set :deploy_to, "/home/proger/gms-mchs"
 # set :ssh_options, {forward_agent: true, auth_methods: %w(publickey)}
 set :ssh_options, {
-  forward_agent: true,
-  port: 3456
+  forward_agent: true
+#  port: 3456
 }
 
 # Default value for :format is :airbrussh.
@@ -41,3 +41,4 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bund
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
+set :rbenv_path, '/home/proger/.rbenv'
