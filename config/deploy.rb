@@ -1,8 +1,8 @@
 # config valid only for current version of Capistrano
 lock "3.8.0"
-
+set :repo_url, "https://github.com/slavam/gms-mchs.git"
 set :application, "gms-mchs"
-set :repo_url, "git@github.com:slavam/gms-mchs.git"
+# set :repo_url, "git@github.com:slavam/gms-mchs.git"
 set :user, 'proger'
 # set :use_sudo, false
 # set :location, "sysad-lin.com"

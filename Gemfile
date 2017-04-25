@@ -1,8 +1,10 @@
-source 'https://rubygems.org'
+# source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
+# gem 'rails', '4.2.6'
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
@@ -40,6 +42,7 @@ gem 'chartjs-ror'
 
 gem 'prawn-rails'
 gem 'prawn-table', :git => 'https://github.com/straydogstudio/prawn-table.git', ref: '759a27b6'
+# gem 'prawn-table', :git => 'http://github.com/straydogstudio/prawn-table.git', ref: '759a27b6'
 
 
 # gem 'bcrypt', '~> 3.1.7'
@@ -47,9 +50,12 @@ gem 'prawn-table', :git => 'https://github.com/straydogstudio/prawn-table.git', 
 # Use Unicorn as the app server
 # gem 'unicorn'
 
+gem 'puma'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# source "http://rails-assets.org" do
 source "https://rails-assets.org" do
   gem 'rails-assets-react-date-picker'
   gem "rails-assets-moment"
