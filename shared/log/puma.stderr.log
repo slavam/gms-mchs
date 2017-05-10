@@ -15,3 +15,138 @@
 === puma startup: 2017-04-25 11:14:49 +0300 ===
 === puma startup: 2017-04-25 11:25:27 +0300 ===
 === puma startup: 2017-04-25 11:26:07 +0300 ===
+=== puma startup: 2017-04-26 11:20:48 +0000 ===
+=== puma startup: 2017-04-27 05:15:38 +0000 ===
+=== puma startup: 2017-04-28 06:41:19 +0000 ===
+=== puma startup: 2017-05-01 16:55:52 +0000 ===
+=== puma startup: 2017-05-01 17:08:24 +0000 ====== puma startup: 2017-05-01 17:08:24 +0000 ===
+=== puma startup: 2017-05-01 17:08:24 +0000 ===
+
+=== puma startup: 2017-05-01 17:08:24 +0000 ===
+=== puma startup: 2017-05-01 17:08:24 +0000 ===
+/usr/local/rvm/gems/ruby-2.3.0/gems/rack-1.6.4/lib/rack/server.rb:355:in `delete': No such file or directory @ unlink_internal - /home/ubuntu/workspace/tmp/pids/server.pid (Errno::ENOENT)
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/rack-1.6.4/lib/rack/server.rb:355:in `block in write_pid'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/cluster.rb:126:in `fork'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/cluster.rb:126:in `block in spawn_workers'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/cluster.rb:122:in `times'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/cluster.rb:122:in `spawn_workers'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/cluster.rb:447:in `run'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/launcher.rb:172:in `run'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/rack/handler/puma.rb:64:in `run'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/rack-1.6.4/lib/rack/server.rb:286:in `start'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands/server.rb:80:in `start'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands/commands_tasks.rb:80:in `block in server'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands/commands_tasks.rb:75:in `tap'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands/commands_tasks.rb:75:in `server'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands/commands_tasks.rb:39:in `run_command!'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands.rb:17:in `<top (required)>'
+	from /home/ubuntu/workspace/bin/rails:9:in `require'
+	from /home/ubuntu/workspace/bin/rails:9:in `<top (required)>'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/client/rails.rb:28:in `load'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/client/rails.rb:28:in `call'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/client/command.rb:7:in `call'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/client.rb:30:in `run'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/bin/spring:49:in `<top (required)>'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/binstub.rb:31:in `load'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/binstub.rb:31:in `<top (required)>'
+	from /home/ubuntu/workspace/bin/spring:14:in `require'
+	from /home/ubuntu/workspace/bin/spring:14:in `<top (required)>'
+	from bin/rails:3:in `load'
+	from bin/rails:3:in `<main>'
+=== puma startup: 2017-05-01 17:08:34 +0000 ===
+=== puma startup: 2017-05-01 17:12:50 +0000 ===
+=== puma startup: 2017-05-01 17:12:50 +0000 ===
+=== puma startup: 2017-05-01 17:12:50 +0000 ===
+=== puma startup: 2017-05-01 17:12:50 +0000 ===
+=== puma startup: 2017-05-01 17:12:50 +0000 ===
+=== puma startup: 2017-05-01 17:12:55 +0000 ===
+=== puma startup: 2017-05-01 17:13:41 +0000 ===
+/usr/local/rvm/gems/ruby-2.3.0/gems/rack-1.6.4/lib/rack/server.rb:355:in `delete': No such file or directory @ unlink_internal - /home/ubuntu/workspace/tmp/pids/server.pid (Errno::ENOENT)
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/rack-1.6.4/lib/rack/server.rb:355:in `block in write_pid'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/cluster.rb:126:in `fork'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/cluster.rb:126:in `block in spawn_workers'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/cluster.rb:122:in `times'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/cluster.rb:122:in `spawn_workers'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/cluster.rb:447:in `run'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/launcher.rb:172:in `run'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/rack/handler/puma.rb:64:in `run'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/rack-1.6.4/lib/rack/server.rb:286:in `start'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands/server.rb:80:in `start'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands/commands_tasks.rb:80:in `block in server'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands/commands_tasks.rb:75:in `tap'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands/commands_tasks.rb:75:in `server'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands/commands_tasks.rb:39:in `run_command!'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands.rb:17:in `<top (required)>'
+	from /home/ubuntu/workspace/bin/rails:9:in `require'
+	from /home/ubuntu/workspace/bin/rails:9:in `<top (required)>'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/client/rails.rb:28:in `load'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/client/rails.rb:28:in `call'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/client/command.rb:7:in `call'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/client.rb:30:in `run'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/bin/spring:49:in `<top (required)>'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/binstub.rb:31:in `load'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/binstub.rb:31:in `<top (required)>'
+	from /home/ubuntu/workspace/bin/spring:14:in `require'
+	from /home/ubuntu/workspace/bin/spring:14:in `<top (required)>'
+	from bin/rails:3:in `load'
+	from bin/rails:3:in `<main>'
+=== puma startup: 2017-05-01 17:26:38 +0000 ===
+=== puma startup: 2017-05-01 18:05:38 +0000 ===
+=== puma startup: 2017-05-01 18:07:39 +0000 ===
+=== puma startup: 2017-05-01 18:07:39 +0000 ===
+=== puma startup: 2017-05-01 18:07:39 +0000 ===
+=== puma startup: 2017-05-01 18:07:39 +0000 ===
+=== puma startup: 2017-05-01 18:07:39 +0000 ===
+=== puma startup: 2017-05-01 18:09:26 +0000 ===
+/usr/local/rvm/gems/ruby-2.3.0/gems/rack-1.6.4/lib/rack/server.rb:355:in `delete': No such file or directory @ unlink_internal - /home/ubuntu/workspace/tmp/pids/server.pid (Errno::ENOENT)
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/rack-1.6.4/lib/rack/server.rb:355:in `block in write_pid'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/cluster.rb:126:in `fork'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/cluster.rb:126:in `block in spawn_workers'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/cluster.rb:122:in `times'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/cluster.rb:122:in `spawn_workers'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/cluster.rb:447:in `run'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/puma/launcher.rb:172:in `run'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/puma-3.8.2/lib/rack/handler/puma.rb:64:in `run'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/rack-1.6.4/lib/rack/server.rb:286:in `start'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands/server.rb:80:in `start'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands/commands_tasks.rb:80:in `block in server'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands/commands_tasks.rb:75:in `tap'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands/commands_tasks.rb:75:in `server'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands/commands_tasks.rb:39:in `run_command!'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/railties-4.2.5/lib/rails/commands.rb:17:in `<top (required)>'
+	from /home/ubuntu/workspace/bin/rails:9:in `require'
+	from /home/ubuntu/workspace/bin/rails:9:in `<top (required)>'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/client/rails.rb:28:in `load'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/client/rails.rb:28:in `call'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/client/command.rb:7:in `call'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/client.rb:30:in `run'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/bin/spring:49:in `<top (required)>'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/binstub.rb:31:in `load'
+	from /usr/local/rvm/gems/ruby-2.3.0/gems/spring-2.0.0/lib/spring/binstub.rb:31:in `<top (required)>'
+	from /home/ubuntu/workspace/bin/spring:14:in `require'
+	from /home/ubuntu/workspace/bin/spring:14:in `<top (required)>'
+	from bin/rails:3:in `load'
+	from bin/rails:3:in `<main>'
+=== puma startup: 2017-05-01 19:04:31 +0000 ===
+=== puma startup: 2017-05-01 19:04:31 +0000 ===
+=== puma startup: 2017-05-01 19:04:31 +0000 ===
+=== puma startup: 2017-05-01 19:04:31 +0000 ===
+=== puma startup: 2017-05-01 19:04:36 +0000 ===
+=== puma startup: 2017-05-01 19:18:04 +0000 ===
+=== puma startup: 2017-05-01 19:18:04 +0000 ===
+=== puma startup: 2017-05-01 19:19:05 +0000 ===
+=== puma startup: 2017-05-01 19:19:55 +0000 ===
+=== puma startup: 2017-05-01 19:19:55 +0000 ===
+=== puma startup: 2017-05-01 19:19:55 +0000 ===
+=== puma startup: 2017-05-01 19:19:55 +0000 ===
+=== puma startup: 2017-05-01 19:19:55 +0000 ===
+=== puma startup: 2017-05-02 05:01:59 +0000 ===
+=== puma startup: 2017-05-03 05:39:20 +0000 ===
+=== puma startup: 2017-05-04 05:12:18 +0000 ===
+=== puma startup: 2017-05-06 05:13:02 +0000 ===
+=== puma startup: 2017-05-06 12:12:12 +0000 ===
+=== puma startup: 2017-05-06 12:12:12 +0000 ===
+=== puma startup: 2017-05-06 12:12:12 +0000 ===
+=== puma startup: 2017-05-06 12:12:13 +0000 ===
+=== puma startup: 2017-05-06 12:12:13 +0000 ===
+=== puma startup: 2017-05-10 06:38:48 +0000 ===

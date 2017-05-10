@@ -1,3 +1,6 @@
+# require 'net/http'
+# require 'uri'
+# require 'open-uri'
 class Synoptic < ActiveRecord::Base
   self.table_name = 'sinop'
   TERMS = ['00', '03', '06', '09', '12', '15', '18', '21']
@@ -317,4 +320,22 @@ class Synoptic < ActiveRecord::Base
         errors.add(:group0, 'Неправилная различительная группа')
       end
     end
+
+    # def open(url)
+    #   Net::HTTP.get(URI.parse(url))
+    # end
+    
+    # def self.find_in_ogimet(string) 
+      # page_content = open('http://www.ogimet.com/cgi-bin/getsynop?begin=201704300000&state=Ukr').to_s
+      # rows = page_content.split("=\n")
+      # begin=YYYYMMDDHHmm  (mandatory)
+      # end=YYYYMMDDHHmm  (default is current time)
+      # lang=eng (english, optional)
+      # header=yes (include a first line with the name of columns)
+      # state=Begin_of_state_string 
+      # block=First_digits_of_WMO_IND
+      # ship=yes (to get ship reports for a time interval over the whole world)
+
+      # http://www.ogimet.com/cgi-bin/getsynop?begin=201704280000&state=Ukr
+    # end 
 end

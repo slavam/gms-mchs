@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   get 'registers/search', to: 'registers#search'
   resources :registers
+  
   get 'synoptics/list', to: 'synoptics#list'
   get 'synoptics/heat_show', to: 'synoptics#heat_show'
   get 'synoptics/td_show', to: 'synoptics#td_show'
@@ -30,7 +31,8 @@ Rails.application.routes.draw do
   get 'synoptics/update_synoptic_telegram', to: 'synoptics#update_synoptic_telegram'
   get 'synoptics/avtodor', to: 'synoptics#avtodor'
   post 'synoptics/create_synoptic_telegram', to: 'synoptics#create_synoptic_telegram'
-  
+  get '/make_web_query', to: 'synoptics#make_web_query'
+  post '/make_web_query', to: 'synoptics#search_in_web'
   resources :synoptics
   root to: 'registers#index'
   # The priority is based upon order of creation: first created -> highest priority.

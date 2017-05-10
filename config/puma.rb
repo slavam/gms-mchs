@@ -1,13 +1,13 @@
-app = "gms-mchs"
-root = "/home/mwm/#{app}"
+# app = "gms-mchs"
+# root = "/home/mwm/#{app}"
 # Change to match your CPU core count
 workers 2
 
 # Min and Max threads per worker
 threads 1, 6
 
-# app_dir = File.expand_path("../..", __FILE__)
-app_dir = "/home/mwm/sites/gms-mchs"
+app_dir = File.expand_path("../..", __FILE__)
+# app_dir = "/home/mwm/sites/gms-mchs"
 shared_dir = "#{app_dir}/shared"
 
 # Default to production

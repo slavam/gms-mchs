@@ -2,6 +2,50 @@ class SynopticsController < ApplicationController
   before_filter :find_synoptic, :only => [:show_by_date]
   before_filter :calc_date, :only => [:heat_show]
   Time::DATE_FORMATS[:custom_date_time] = "%Y.%m.%d %H:%M:%S"
+  Time::DATE_FORMATS[:simple_date_time] = "%Y%m%d"
+  
+  def make_web_query
+  end
+  
+  def search_in_web
+    @begin = params[:synoptic][:begin]
+    year = @begin[0, 4]
+    month = @begin[4,2]
+    day = @begin[6,2]
+    term = @begin[8,2]
+    # @end = Time.now.to_s(:simple_date_time)+term+'00'
+    @end = @begin
+    synoptics = Synoptic.where("Срок = ? and Дата like ?", term, year+'.'+month+'.'+day+'%')
+    @telegrams = []
+    synoptics.each do |t|
+      @telegrams << 'sssss,YYYY,MM,DD,TT,00,AAXX '+day+term+'1 '+t["Телеграмма"][6..-1]
+    end
+    # csv_data = Net::HTTP.get(URI.parse('http://www.ogimet.com/cgi-bin/getsynop?begin=201704300300&end=201704300300&state=Ukr'))
+    
+    csv_data = Net::HTTP.get(URI.parse("http://www.ogimet.com/cgi-bin/getsynop?begin=#{@begin}&end=#{@end}"))
+    rows = csv_data.split("\n") 
+    rows = rows + @telegrams
+    directory_name = "tmp/#{year}_#{month}"
+    Dir.mkdir(directory_name) unless File.exists?(directory_name)
+    directory_name = "tmp/#{year}_#{month}/#{day}_#{month}"
+    Dir.mkdir(directory_name) unless File.exists?(directory_name)
+    File.open("tmp/#{year}_#{month}/#{day}_#{month}/AAXX.#{term}",'w+') do |f|
+      rows.each do |t|
+        pos_AAXX = t =~ /AAXX/
+        if pos_AAXX.present?
+          pos_333 = t =~ / 333 /
+          pos_555 = t =~ / 555 /
+          if pos_333.present?
+            f.puts t[28..pos_333-1]+'='
+          elsif pos_555.present?
+            f.puts t[28..pos_555-1]+'='
+          else
+            f.puts t[28..-1]
+          end
+        end
+      end
+    end
+  end
 
   def print_tcx1
     @year = params[:year]
