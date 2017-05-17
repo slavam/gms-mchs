@@ -1,0 +1,15 @@
+%div{ class:"row"}
+  %div{ class: "col-md-6 col-md-offset-3"}
+    %h1= "Результаты измерений"
+    = will_paginate
+    .container
+      %table{class: "table table-hover"}
+        %thead
+          %tr
+            %th= "Станция"
+            %th= "Вещество"
+            %th= "Дата"
+            %th= "Значение"
+        %tbody
+          = render @pollutions
+    = will_paginate  

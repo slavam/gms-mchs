@@ -18,7 +18,12 @@
             - when 'technicist'
               %li= link_to 'Телеграммы',  synoptics_list_path
             - when 'chemist'
-              %li= link_to 'Телеграммы',  synoptics_list_path
+              %li= link_to 'Вещества',  substances_path
+              %li= link_to 'Измерения',  pollutions_index_path
+              %li
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты <b class="caret"></b></a>
+                %ul{class: "dropdown-menu"}
+                  %li= link_to 'Форма 1',  pollutions_chem_forma1_path
             - when 'admin'
               %li= link_to "Users", users_path
           %li{ class: "dropdown"}

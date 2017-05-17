@@ -4004,3 +4004,975 @@ Processing by UsersController#show as HTML
   Rendered layouts/_header.html.haml (2.2ms)
   Rendered layouts/_footer.html.haml (0.3ms)
 Completed 200 OK in 88ms (Views: 84.9ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/users/8" for 46.150.97.80 at 2017-05-10 07:50:00 +0000
+Cannot render console from 46.150.97.80! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"8"}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1[0m
+  Rendered users/show.html.haml within layouts/application (0.4ms)
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170510-3731-eosuzz" -
+[3298] - Gracefully shutting down workers...
+Completed 500 Internal Server Error in 95831ms (ActiveRecord: 26.8ms)
+
+ActionView::Template::Error (Error while running `/home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170510-3731-eosuzz" -`:
+
+):
+     6:     <link rel="stylesheet" media="all" href="https://rawgit.com/arqex/react-datetime/master/css/react-datetime.css?body=1" data-turbolinks-track="true" />
+     7:     <script src="https://cdnjs.cloudflare.com/ajax/libs/classnames/2.1.5/index.min.js"></script>
+     8:     = stylesheet_link_tag 'application'
+     9:     = javascript_include_tag 'https://code.jquery.com/jquery-1.5.js', 'application'
+    10:     = csrf_meta_tags
+    11:     = render 'layouts/shim'
+    12: 
+  app/views/layouts/application.html.haml:9:in `_app_views_layouts_application_html_haml__4179624152893164077_69891137319560'
+
+
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_source.erb (7.6ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (8.4ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.6ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (116.9ms)
+[3298] === puma shutdown: 2017-05-10 07:51:45 +0000 ===
+[3298] - Goodbye!
+Exiting
+=== puma startup: 2017-05-13 11:10:40 +0000 ===
+[2679] * Starting control server on unix:///tmp/puma-status-1494673840794-2679
+[2679] - Worker 0 (pid: 2687) booted, phase: 0
+[2679] - Worker 1 (pid: 2691) booted, phase: 0
+[2679] - Gracefully shutting down workers...
+[2679] === puma shutdown: 2017-05-13 11:10:49 +0000 ===
+[2679] - Goodbye!
+Exiting
+=== puma startup: 2017-05-15 09:36:36 +0000 ===
+[3213] * Starting control server on unix:///tmp/puma-status-1494840996604-3213
+[3213] - Worker 0 (pid: 3646) booted, phase: 0
+[3213] - Worker 1 (pid: 3650) booted, phase: 0
+
+
+Started GET "/" for 193.109.166.86 at 2017-05-15 09:36:59 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by RegistersController#index as HTML
+  [1m[35mRegister Load (0.4ms)[0m  SELECT `reestr`.* FROM `reestr`  ORDER BY `reestr`.`id` ASC
+  Rendered registers/index.html.haml within layouts/application (34.2ms)
+  Rendered layouts/_shim.html.haml (3.7ms)
+  Rendered layouts/_header.html.haml (19.2ms)
+  Rendered layouts/_footer.html.haml (5.2ms)
+Completed 200 OK in 1762ms (Views: 1746.9ms | ActiveRecord: 1.5ms)
+
+
+Started GET "/assets/custom.self-aba0211c41fff7d3b8de5b1a02ae812cedce1263f6aca319dc672ee7966faed8.css?body=1" for 193.109.166.86 at 2017-05-15 09:37:01 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/bulletins.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 193.109.166.86 at 2017-05-15 09:37:01 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+
+
+Started GET "/assets/sessions.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 193.109.166.86 at 2017-05-15 09:37:01 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/substances.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 193.109.166.86 at 2017-05-15 09:37:01 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/pollutions.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 193.109.166.86 at 2017-05-15 09:37:01 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/jquery.self-bd7ddd393353a8d2480a622e80342adf488fb6006d667e8b42e4c0073393abee.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:01 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/application.self-e80e8f2318043e8af94dddc2adad5a4f09739a8ebb323b3ab31cd71d45fd9113.css?body=1" for 193.109.166.86 at 2017-05-15 09:37:02 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/jquery_ujs.self-784a997f6726036b1993eb2217c9cb558e1cbb801c6da88105588c56f13b466a.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:02 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/bootstrap.self-d0e973a52d36a01036265aeefaf2d1ae3499d2cb231a9be3bd846432daf231de.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:02 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/turbolinks.self-c5acd7a204f5f25ce7a1d8a0e4d92e28d34c9e2df2c7371cd7af88e147e4ad82.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:02 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/react_ujs_turbolinks.self-19cb50a828b179c80e0ef6463ceb612ae3e75f377fb2dd6f4afdc3b46ae75d56.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:02 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/react_ujs_turbolinks_classic.self-763df8fa4c0b0551840f5244b265843641523ad3bf7bb308d20801ac5cde2acb.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:02 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/react_ujs_turbolinks_classic_deprecated.self-f93fc4217cec084020eaf90b0425c454ba18d4ee1a054f254f5dba461eaab1a4.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:02 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/react_ujs_pjax.self-e8fc58103934b6c8054d5fbfe37ec92f2ef7719bc90566026fe9fe19e0e2cf45.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:02 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/react_ujs_event_setup.self-0cd254aea0ec32dd175eff42a443f912c283295c0235384ae7cd425cd8f7c3e5.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:02 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/react_ujs.self-538d6440534fa5f615e8a26932792a82a2e4a33a97886e2d815eab8fc216d415.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:02 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/components.self-7b73286603e8aa8c5f078b93899f6ef63b65896e5c32e86bdabbd5b2237266cc.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:02 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/react.self-e3251ec4ec5e08041151d49a171f772e6b6236b38ad62c101e29be367138f487.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:02 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/bulletins.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:04 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/chem_forma1.self-1f50357eec1074f280cc76e84384a1fdfd828438c4125ccfc763e90fae61685b.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:04 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/react_ujs_mount.self-529311908dc83d0737d62f1a5eb4e2fa326f2040e2d2755b4fd78d2c09c5cc15.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:04 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/react_ujs_native.self-69da92af440ae3f522e7294876ed2bae234447ee564d1619c9f69d53e1020a8a.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:04 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/pollutions.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:04 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/search_objects.self-16ff3f3c24bae7a567ad38bb5f612082c4ba57ff07fcdfaebc5da52b68f4162a.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:04 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/sessions.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:04 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+
+
+Started GET "/assets/tcx1_show.self-6563ca955b87422df2a6b7cc1bdca1f2be9b0358c8e66e3d4ac24aa4232c13dc.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:04 +0000
+Started GET "/assets/substances.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:04 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/telegrams.self-2027d6ef005f6467e5bd20b27a91004c0b692c62af373ebae51f722f16f1d68f.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:04 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/application.self-011e197b6aa55278adeba1738be0ea02984a92113c5885b3edac3ec431da9d79.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:04 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/temperatures_show.self-ca064af8e9a9ed0e3700660852ea6fdfc16b3000111d6d48e3d79122e517fd87.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:05 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/Chart.bundle.min.self-31f249bd6271b6fbd5967e91b2c056558ae2994bf91a499cb9338c951b75e4c9.js?body=1" for 193.109.166.86 at 2017-05-15 09:37:06 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/login" for 193.109.166.86 at 2017-05-15 09:37:16 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.haml within layouts/application (27.0ms)
+  Rendered layouts/_shim.html.haml (1.1ms)
+  Rendered layouts/_header.html.haml (7.4ms)
+  Rendered layouts/_footer.html.haml (1.5ms)
+Completed 200 OK in 731ms (Views: 695.3ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/login" for 193.109.166.86 at 2017-05-15 09:37:30 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"fj/mmAyf0IIWevnu/0CG1MvEk1VRGnRFosYjI6o8eZ4sdqxfd5t6N10I93/8YrMkAAJqNSZNL4gUPRmAneQCQw==", "session"=>{"login"=>"chemist", "password"=>"[FILTERED]"}, "commit"=>"Войти"}
+  [1m[35mUser Load (0.5ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`login` = 'chemist' LIMIT 1
+  [1m[36m (1.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  UPDATE `users` SET `remember_digest` = '$2a$10$X227cWbmEprV8ABr0t1VN.F9kDuFOArgDdlGK/.F0LLQaZdZbqK0.', `updated_at` = '2017-05-15 09:37:31' WHERE `users`.`id` = 8
+  [1m[36m (6.7ms)[0m  [1mCOMMIT[0m
+Redirected to https://gmc-test-slavam1.c9users.io/users/8
+Completed 302 Found in 310ms (ActiveRecord: 16.1ms)
+
+
+Started GET "/users/8" for 193.109.166.86 at 2017-05-15 09:37:31 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"8"}
+  [1m[35mUser Load (0.4ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1
+  Rendered users/show.html.haml within layouts/application (11.2ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.2ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 187ms (Views: 182.6ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/substances" for 193.109.166.86 at 2017-05-15 09:37:44 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SubstancesController#index as HTML
+  [1m[36mSubstance Load (0.6ms)[0m  [1mSELECT `codesofsubstance`.* FROM `codesofsubstance`[0m
+  Rendered substances/index.html.haml within layouts/application (27.4ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1
+  Rendered layouts/_header.html.haml (22.0ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 121ms (Views: 114.6ms | ActiveRecord: 3.1ms)
+
+
+Started GET "/users/8" for 193.109.166.86 at 2017-05-15 09:37:57 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"8"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1[0m
+  Rendered users/show.html.haml within layouts/application (2.7ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1
+  Rendered layouts/_header.html.haml (1.6ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 67ms (Views: 64.6ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/substances" for 193.109.166.86 at 2017-05-15 09:38:01 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SubstancesController#index as HTML
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT `codesofsubstance`.* FROM `codesofsubstance`
+  Rendered substances/index.html.haml within layouts/application (27.0ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.7ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 96ms (Views: 91.3ms | ActiveRecord: 2.2ms)
+
+
+Started GET "/pollutions/index" for 193.109.166.86 at 2017-05-15 09:38:17 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PollutionsController#index as HTML
+  [1m[35m (92.7ms)[0m  SELECT COUNT(*) FROM `dimension`
+  [1m[36mPollution Load (91.3ms)[0m  [1mSELECT  `dimension`.* FROM `dimension`  ORDER BY `dimension`.`date` DESC, `dimension`.`idstation` DESC, `dimension`.`idsubstance` DESC LIMIT 30 OFFSET 0[0m
+  [1m[35mStation Load (0.3ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.3ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 5 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 4 LIMIT 1[0m
+  [1m[35mStation Load (1.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.3ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 2 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.3ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 1 LIMIT 1[0m
+  [1m[35mStation Load (0.4ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 105 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 104 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 22 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 22 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 5 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 4 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 2 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 1 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 105 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 104 LIMIT 1[0m
+  Rendered pollutions/_pollution.html.haml (66.3ms)
+  Rendered pollutions/index.html.haml within layouts/application (266.8ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1
+  Rendered layouts/_header.html.haml (1.5ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 341ms (Views: 135.2ms | ActiveRecord: 196.1ms)
+
+
+Started GET "/" for 193.109.166.86 at 2017-05-15 12:43:10 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by RegistersController#index as HTML
+  [1m[36mRegister Load (20.8ms)[0m  [1mSELECT `reestr`.* FROM `reestr`  ORDER BY `reestr`.`id` ASC[0m
+  Rendered registers/index.html.haml within layouts/application (799.0ms)
+  Rendered layouts/_shim.html.haml (1.7ms)
+  [1m[35mUser Load (0.4ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1
+  Rendered layouts/_header.html.haml (243.7ms)
+  Rendered layouts/_footer.html.haml (33.0ms)
+Completed 200 OK in 2395ms (Views: 2089.5ms | ActiveRecord: 21.2ms)
+
+
+Started GET "/substances" for 193.109.166.86 at 2017-05-15 12:43:25 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SubstancesController#index as HTML
+  [1m[36mSubstance Load (0.3ms)[0m  [1mSELECT `codesofsubstance`.* FROM `codesofsubstance`[0m
+  Rendered substances/index.html.haml within layouts/application (24.6ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1
+  Rendered layouts/_header.html.haml (3.7ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 254ms (Views: 252.0ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/pollutions/index" for 193.109.166.86 at 2017-05-15 12:43:43 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PollutionsController#index as HTML
+  [1m[36m (22.9ms)[0m  [1mSELECT COUNT(*) FROM `dimension`[0m
+  [1m[35mPollution Load (0.2ms)[0m  SELECT  `dimension`.* FROM `dimension`  ORDER BY `dimension`.`date` DESC, `dimension`.`idstation` DESC, `dimension`.`idsubstance` DESC LIMIT 30 OFFSET 0
+  [1m[36mStation Load (0.3ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1
+  [1m[36mStation Load (0.3ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.3ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 5 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 4 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 2 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.4ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 1 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 105 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 104 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 22 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 22 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 5 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 4 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 2 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 1 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 105 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 104 LIMIT 1
+  Rendered pollutions/_pollution.html.haml (114.9ms)
+  Rendered pollutions/index.html.haml within layouts/application (749.6ms)
+  Rendered layouts/_shim.html.haml (0.2ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (6.6ms)
+  Rendered layouts/_footer.html.haml (0.6ms)
+Completed 200 OK in 1794ms (Views: 1488.6ms | ActiveRecord: 33.4ms)
+
+
+Started GET "/pollutions/index?page=3" for 193.109.166.86 at 2017-05-15 12:43:54 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PollutionsController#index as HTML
+  Parameters: {"page"=>"3"}
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `dimension`[0m
+  [1m[35mPollution Load (139.7ms)[0m  SELECT  `dimension`.* FROM `dimension`  ORDER BY `dimension`.`date` DESC, `dimension`.`idstation` DESC, `dimension`.`idsubstance` DESC LIMIT 30 OFFSET 60
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.3ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1
+  [1m[36mStation Load (0.4ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.3ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1
+  [1m[36mStation Load (0.3ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 105 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 104 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.3ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.3ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.4ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 5 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 4 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.9ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 2 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 1 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.3ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1
+  [1m[36mStation Load (1.5ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1[0m
+  [1m[35mSubstance Load (0.6ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 19 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1[0m
+  [1m[35mSubstance Load (1.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 5 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 4 LIMIT 1
+  Rendered pollutions/_pollution.html.haml (152.8ms)
+  Rendered pollutions/index.html.haml within layouts/application (468.8ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.2ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 775ms (Views: 464.5ms | ActiveRecord: 182.3ms)
+
+
+Started GET "/pollutions/index?page=7" for 193.109.166.86 at 2017-05-15 12:44:24 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PollutionsController#index as HTML
+  Parameters: {"page"=>"7"}
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `dimension`
+  [1m[36mPollution Load (120.7ms)[0m  [1mSELECT  `dimension`.* FROM `dimension`  ORDER BY `dimension`.`date` DESC, `dimension`.`idstation` DESC, `dimension`.`idsubstance` DESC LIMIT 30 OFFSET 180[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1[0m
+  [1m[35mStation Load (0.3ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 19 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 5 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 4 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 2 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 9 LIMIT 1
+  [1m[36mSubstance Load (0.4ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 1 LIMIT 1[0m
+  [1m[35mStation Load (2.3ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 7 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 7 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 7 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 7 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 7 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 19 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 7 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 7 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 5 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 7 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 4 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 7 LIMIT 1
+  [1m[36mSubstance Load (0.3ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 2 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 7 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 1 LIMIT 1[0m
+  [1m[35mStation Load (0.4ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1
+  [1m[36mSubstance Load (0.4ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 22 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 5 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 4 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 2 LIMIT 1[0m
+  [1m[35mStation Load (0.6ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 1 LIMIT 1[0m
+  [1m[35mStation Load (0.4ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 2 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1[0m
+  Rendered pollutions/_pollution.html.haml (56.2ms)
+  Rendered pollutions/index.html.haml within layouts/application (189.4ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1
+  Rendered layouts/_header.html.haml (2.3ms)
+  Rendered layouts/_footer.html.haml (0.5ms)
+Completed 200 OK in 290ms (Views: 154.1ms | ActiveRecord: 134.0ms)
+
+
+Started GET "/registers/search" for 193.109.166.86 at 2017-05-15 12:44:37 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by RegistersController#search as HTML
+  [1m[36mRegister Load (0.3ms)[0m  [1mSELECT `reestr`.* FROM `reestr`  ORDER BY `reestr`.`id` ASC[0m
+  Rendered registers/search.html.erb within layouts/application (38.0ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1
+  Rendered layouts/_header.html.haml (1.9ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 132ms (Views: 101.2ms | ActiveRecord: 23.2ms)
+
+
+Started GET "/pollutions/index" for 193.109.166.86 at 2017-05-15 12:45:21 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PollutionsController#index as HTML
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `dimension`[0m
+  [1m[35mPollution Load (0.2ms)[0m  SELECT  `dimension`.* FROM `dimension`  ORDER BY `dimension`.`date` DESC, `dimension`.`idstation` DESC, `dimension`.`idsubstance` DESC LIMIT 30 OFFSET 0
+  [1m[36mStation Load (0.4ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 5 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 4 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 2 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 1 LIMIT 1
+  [1m[36mStation Load (89.6ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 105 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 104 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1
+  [1m[36mStation Load (0.3ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.4ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 22 LIMIT 1
+  [1m[36mStation Load (0.3ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 22 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 5 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 4 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 2 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 1 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 105 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1[0m
+  [1m[35mSubstance Load (0.1ms)[0m  SELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 104 LIMIT 1
+  Rendered pollutions/_pollution.html.haml (133.2ms)
+  Rendered pollutions/index.html.haml within layouts/application (140.5ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.0ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 245ms (Views: 145.5ms | ActiveRecord: 98.7ms)
+
+
+Started GET "/substances" for 193.109.166.86 at 2017-05-15 12:46:16 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SubstancesController#index as HTML
+  [1m[35mSubstance Load (0.2ms)[0m  SELECT `codesofsubstance`.* FROM `codesofsubstance`
+  Rendered substances/index.html.haml within layouts/application (25.8ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.6ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 132ms (Views: 130.1ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/pollutions/index" for 193.109.166.86 at 2017-05-15 12:47:21 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PollutionsController#index as HTML
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `dimension`
+  [1m[36mPollution Load (0.2ms)[0m  [1mSELECT  `dimension`.* FROM `dimension`  ORDER BY `dimension`.`date` DESC, `dimension`.`idstation` DESC, `dimension`.`idsubstance` DESC LIMIT 30 OFFSET 0[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (65.4ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1[0m
+  [1m[35mStation Load (0.5ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 5 LIMIT 1[0m
+  [1m[35mStation Load (0.3ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 4 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 2 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 1 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 105 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 104 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1
+  [1m[36mSubstance Load (0.3ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 103 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 102 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1
+  [1m[36mSubstance Load (0.2ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 101 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 100 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 22 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 13 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 22 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 10 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 5 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 4 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 2 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 12 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 1 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 105 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 1 LIMIT 1
+  [1m[36mSubstance Load (0.1ms)[0m  [1mSELECT  `codesofsubstance`.* FROM `codesofsubstance` WHERE `codesofsubstance`.`idsubstance` = 104 LIMIT 1[0m
+  Rendered pollutions/_pollution.html.haml (118.0ms)
+  Rendered pollutions/index.html.haml within layouts/application (129.2ms)
+  Rendered layouts/_shim.html.haml (0.2ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1
+  Rendered layouts/_header.html.haml (3.1ms)
+  Rendered layouts/_footer.html.haml (0.5ms)
+Completed 200 OK in 260ms (Views: 184.0ms | ActiveRecord: 74.8ms)
+
+
+Started GET "/pollutions/chem_forma1" for 193.109.166.86 at 2017-05-15 12:52:36 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PollutionsController#chem_forma1 as HTML
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `dimension`
+  [1m[36m (100.1ms)[0m  [1mSELECT MIN(`dimension`.`date`) FROM `dimension`[0m
+  [1m[35m (94.3ms)[0m  SELECT MAX(`dimension`.`date`) FROM `dimension`
+  [1m[36m (0.8ms)[0m  [1mSELECT COUNT(*) FROM `codesofstation`[0m
+  [1m[35mSite Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1
+  [1m[36mPollution Load (114.9ms)[0m  [1mSELECT `dimension`.* FROM `dimension` WHERE (idstation = 5 AND date like '2005-12%')  ORDER BY `dimension`.`date` ASC, `dimension`.`idsubstance` ASC[0m
+  Rendered pollutions/chem_forma1.html.erb within layouts/application (24.7ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1
+  Rendered layouts/_header.html.haml (3.2ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 548ms (Views: 187.1ms | ActiveRecord: 310.9ms)
+
+
+Started GET "/pollutions/chem_forma1" for 193.109.166.86 at 2017-05-15 12:54:59 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PollutionsController#chem_forma1 as HTML
+  [1m[36m (1.0ms)[0m  [1mSELECT COUNT(*) FROM `dimension`[0m
+  [1m[35m (0.2ms)[0m  SELECT MIN(`dimension`.`date`) FROM `dimension`
+  [1m[36m (0.2ms)[0m  [1mSELECT MAX(`dimension`.`date`) FROM `dimension`[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `codesofstation`
+  [1m[36mSite Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1[0m
+  [1m[35mPollution Load (83.2ms)[0m  SELECT `dimension`.* FROM `dimension` WHERE (idstation = 5 AND date like '2005-12%')  ORDER BY `dimension`.`date` ASC, `dimension`.`idsubstance` ASC
+  Rendered pollutions/chem_forma1.html.erb within layouts/application (8.8ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.4ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 229ms (Views: 102.3ms | ActiveRecord: 85.2ms)
+
+
+Started GET "/pollutions/chem_forma1" for 193.109.166.86 at 2017-05-15 13:02:42 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PollutionsController#chem_forma1 as HTML
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `dimension`[0m
+  [1m[35m (0.1ms)[0m  SELECT MIN(`dimension`.`date`) FROM `dimension`
+  [1m[36m (0.1ms)[0m  [1mSELECT MAX(`dimension`.`date`) FROM `dimension`[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `codesofstation`
+  [1m[36mSite Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1[0m
+  [1m[35mPollution Load (80.3ms)[0m  SELECT `dimension`.* FROM `dimension` WHERE (idstation = 5 AND date like '2005-12%')  ORDER BY `dimension`.`date` ASC, `dimension`.`idsubstance` ASC
+  Rendered pollutions/chem_forma1.html.erb within layouts/application (4.8ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (41.6ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 369ms (Views: 133.0ms | ActiveRecord: 127.5ms)
+
+
+Started GET "/pollutions/chem_forma1" for 193.109.166.86 at 2017-05-15 14:08:06 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PollutionsController#chem_forma1 as HTML
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `dimension`
+  [1m[36m (0.1ms)[0m  [1mSELECT MIN(`dimension`.`date`) FROM `dimension`[0m
+  [1m[35m (0.1ms)[0m  SELECT MAX(`dimension`.`date`) FROM `dimension`
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `codesofstation`[0m
+  [1m[35mSite Load (0.1ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1
+  [1m[36mPollution Load (72.8ms)[0m  [1mSELECT `dimension`.* FROM `dimension` WHERE (idstation = 5 AND date like '2005-12%')  ORDER BY `dimension`.`date` ASC, `dimension`.`idsubstance` ASC[0m
+  Rendered pollutions/chem_forma1.html.erb within layouts/application (3.9ms)
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170515-3650-z4f1dg" -
+=== puma startup: 2017-05-15 14:09:18 +0000 ====== puma startup: 2017-05-15 14:09:18 +0000 ===
+=== puma startup: 2017-05-15 14:09:18 +0000 ===
+
+=== puma startup: 2017-05-15 14:09:18 +0000 ===
+=== puma startup: 2017-05-15 14:09:18 +0000 ===
+[3213] - Gracefully shutting down workers...
+Completed 500 Internal Server Error in 71973ms (ActiveRecord: 82.1ms)
+
+ActionView::Template::Error (Error while running `/home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170515-3650-z4f1dg" -`:
+
+):
+     6:     <link rel="stylesheet" media="all" href="https://rawgit.com/arqex/react-datetime/master/css/react-datetime.css?body=1" data-turbolinks-track="true" />
+     7:     <script src="https://cdnjs.cloudflare.com/ajax/libs/classnames/2.1.5/index.min.js"></script>
+     8:     = stylesheet_link_tag 'application'
+     9:     = javascript_include_tag 'https://code.jquery.com/jquery-1.5.js', 'application'
+    10:     = csrf_meta_tags
+    11:     = render 'layouts/shim'
+    12: 
+  app/views/layouts/application.html.haml:9:in `_app_views_layouts_application_html_haml__2878922649366559643_70160572611660'
+
+
+=== puma startup: 2017-05-15 14:09:25 +0000 ===
+[8311] * Starting control server on unix:///tmp/puma-status-1494857365632-8311
+[8311] - Worker 0 (pid: 8744) booted, phase: 0
+[8311] - Worker 1 (pid: 8748) booted, phase: 0
+
+
+Started GET "/pollutions/chem_forma1" for 193.109.166.86 at 2017-05-15 14:09:31 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by PollutionsController#chem_forma1 as HTML
+  [1m[35m (1.0ms)[0m  SELECT COUNT(*) FROM `dimension`
+  [1m[36m (0.2ms)[0m  [1mSELECT MIN(`dimension`.`date`) FROM `dimension`[0m
+  [1m[35m (0.1ms)[0m  SELECT MAX(`dimension`.`date`) FROM `dimension`
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `codesofstation`[0m
+  [1m[35mSite Load (0.2ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1
+  [1m[36mPollution Load (119.2ms)[0m  [1mSELECT `dimension`.* FROM `dimension` WHERE (idstation = 5 AND date like '2005-12%')  ORDER BY `dimension`.`date` ASC, `dimension`.`idsubstance` ASC[0m
+  Rendered pollutions/chem_forma1.html.erb within layouts/application (12.0ms)
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170515-8744-9cstck" -
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170515-8744-o0fllo" -
+  Rendered layouts/_shim.html.haml (3.4ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1
+  Rendered layouts/_header.html.haml (66.8ms)
+  Rendered layouts/_footer.html.haml (6.9ms)
+Completed 200 OK in 28478ms (Views: 28251.1ms | ActiveRecord: 153.6ms)
+
+
+Started GET "/assets/chem_forma1.self-40d53c76f102f153ce3c1408eee14ec2a57c877f22f8d62823e4ebdc520d2540.js?body=1" for 193.109.166.86 at 2017-05-15 14:10:00 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/pollutions/chem_forma1" for 193.109.166.86 at 2017-05-15 14:12:30 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PollutionsController#chem_forma1 as HTML
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `dimension`[0m
+  [1m[35m (0.1ms)[0m  SELECT MIN(`dimension`.`date`) FROM `dimension`
+  [1m[36m (0.1ms)[0m  [1mSELECT MAX(`dimension`.`date`) FROM `dimension`[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `codesofstation`
+  [1m[36mSite Load (0.2ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1[0m
+  [1m[35mPollution Load (106.6ms)[0m  SELECT `dimension`.* FROM `dimension` WHERE (idstation = 5 AND date like '2005-12%')  ORDER BY `dimension`.`date` ASC, `dimension`.`idsubstance` ASC
+  Rendered pollutions/chem_forma1.html.erb within layouts/application (6.4ms)
+  Rendered layouts/_shim.html.haml (0.2ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (3.0ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 266ms (Views: 119.6ms | ActiveRecord: 107.6ms)
+
+
+Started GET "/pollutions/chem_forma1" for 193.109.166.86 at 2017-05-15 14:15:11 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by PollutionsController#chem_forma1 as HTML
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `dimension`
+  [1m[36m (0.2ms)[0m  [1mSELECT MIN(`dimension`.`date`) FROM `dimension`[0m
+  [1m[35m (0.2ms)[0m  SELECT MAX(`dimension`.`date`) FROM `dimension`
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `codesofstation`[0m
+  [1m[35mSite Load (0.3ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1
+  [1m[36mPollution Load (67.9ms)[0m  [1mSELECT `dimension`.* FROM `dimension` WHERE (idstation = 5 AND date like '2005-12%')  ORDER BY `dimension`.`date` ASC, `dimension`.`idsubstance` ASC[0m
+  Rendered pollutions/chem_forma1.html.erb within layouts/application (13.7ms)
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170515-8748-1sokgxn" -
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170515-8748-p9111i" -
+  Rendered layouts/_shim.html.haml (1.7ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1
+  Rendered layouts/_header.html.haml (32.4ms)
+  Rendered layouts/_footer.html.haml (3.2ms)
+Completed 200 OK in 36169ms (Views: 35972.9ms | ActiveRecord: 77.7ms)
+
+
+Started GET "/assets/chem_forma1.self-832565b759d81643c4afea0cecaf1678dca99f81415f994166ed44662ffe6461.js?body=1" for 193.109.166.86 at 2017-05-15 14:15:48 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/pollutions/chem_forma1" for 193.109.166.86 at 2017-05-15 14:16:27 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PollutionsController#chem_forma1 as HTML
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `dimension`[0m
+  [1m[35m (0.2ms)[0m  SELECT MIN(`dimension`.`date`) FROM `dimension`
+  [1m[36m (0.2ms)[0m  [1mSELECT MAX(`dimension`.`date`) FROM `dimension`[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `codesofstation`
+  [1m[36mSite Load (0.1ms)[0m  [1mSELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1[0m
+  [1m[35mPollution Load (68.9ms)[0m  SELECT `dimension`.* FROM `dimension` WHERE (idstation = 5 AND date like '2005-12%')  ORDER BY `dimension`.`date` ASC, `dimension`.`idsubstance` ASC
+  Rendered pollutions/chem_forma1.html.erb within layouts/application (8.0ms)
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170515-8748-14ekwrn" -
+[8311] - Gracefully shutting down workers...
+=== puma startup: 2017-05-15 14:17:28 +0000 ===
+=== puma startup: 2017-05-15 14:17:28 +0000 ===
+=== puma startup: 2017-05-15 14:17:28 +0000 ===
+Completed 500 Internal Server Error in 60300ms (ActiveRecord: 71.9ms)
+
+ActionView::Template::Error (Error while running `/home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170515-8748-14ekwrn" -`:
+
+):
+     6:     <link rel="stylesheet" media="all" href="https://rawgit.com/arqex/react-datetime/master/css/react-datetime.css?body=1" data-turbolinks-track="true" />
+     7:     <script src="https://cdnjs.cloudflare.com/ajax/libs/classnames/2.1.5/index.min.js"></script>
+     8:     = stylesheet_link_tag 'application'
+     9:     = javascript_include_tag 'https://code.jquery.com/jquery-1.5.js', 'application'
+    10:     = csrf_meta_tags
+    11:     = render 'layouts/shim'
+    12: 
+  app/views/layouts/application.html.haml:9:in `_app_views_layouts_application_html_haml___815309587945352435_34904580'
+
+
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_source.erb (6.5ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.0ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (41.6ms)
+[8311] === puma shutdown: 2017-05-15 14:17:29 +0000 ===
+[8311] - Goodbye!
+Exiting
+=== puma startup: 2017-05-15 14:17:34 +0000 ===
+[9304] * Starting control server on unix:///tmp/puma-status-1494857854986-9304
+[9304] - Worker 1 (pid: 9741) booted, phase: 0
+[9304] - Worker 0 (pid: 9737) booted, phase: 0
+
+
+Started GET "/pollutions/chem_forma1" for 193.109.166.86 at 2017-05-15 14:17:40 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by PollutionsController#chem_forma1 as HTML
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `dimension`
+  [1m[36m (0.1ms)[0m  [1mSELECT MIN(`dimension`.`date`) FROM `dimension`[0m
+  [1m[35m (0.1ms)[0m  SELECT MAX(`dimension`.`date`) FROM `dimension`
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `codesofstation`[0m
+  [1m[35mSite Load (0.3ms)[0m  SELECT  `codesofstation`.* FROM `codesofstation` WHERE `codesofstation`.`idstation` = 5 LIMIT 1
+  [1m[36mPollution Load (71.2ms)[0m  [1mSELECT `dimension`.* FROM `dimension` WHERE (idstation = 5 AND date like '2005-12%')  ORDER BY `dimension`.`date` ASC, `dimension`.`idsubstance` ASC[0m
+  Rendered pollutions/chem_forma1.html.erb within layouts/application (12.7ms)
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170515-9741-1p852tz" -
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170515-9741-1rg7b33" -
+  Rendered layouts/_shim.html.haml (2.9ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 8 LIMIT 1
+  Rendered layouts/_header.html.haml (67.1ms)
+  Rendered layouts/_footer.html.haml (8.5ms)
+Completed 200 OK in 26959ms (Views: 26791.2ms | ActiveRecord: 76.7ms)
+
+
+Started GET "/assets/chem_forma1.self-9817d07bb7a5ad90a9d08b1169ceb8d196bf1f402b7ea6cfc91433a504b33b6d.js?body=1" for 193.109.166.86 at 2017-05-15 14:18:07 +0000
+Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+[9304] - Gracefully shutting down workers...=== puma startup: 2017-05-15 14:23:54 +0000 ===
+=== puma startup: 2017-05-15 14:23:54 +0000 ===
+Exiting
+[9741] ! Detected parent died, dying

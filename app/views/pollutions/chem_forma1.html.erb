@@ -1,0 +1,20 @@
+<!--%= @avg_values.inspect %-->
+<!--%= @measure_num.inspect %-->
+<div class="container">
+  <h3>Форма 1</h3>
+  <h1>Таблица наблюдений за загрязнением атмосферы</h1>
+  <%= "Год #{@year} Месяц #{@month}" %>
+  <br>
+  <%= "Всего постов #{@site_all}" %>
+  <br>
+  <%= "#{@site_description}" %>
+  <br>
+  <%= "Количество примесей #{@substantion_num}" %>
+  <div id="content">
+    <%= react_component 'ChemForma1', { pollutions: @pollutions, titles: @subst_names, measure_num: @measure_num, max_values: @max_values, avg_values: @avg_values} %>
+  </div>
+  <%= "Всего измерений #{@pollution_all}" %>
+  <br>
+  <%= "Дата начала диапазона измерений #{@pollution_date_start}" %>
+  <%= "Дата окончания диапазона измерений #{@pollution_date_end}" %>
+</div>

@@ -1,0 +1,36 @@
+%h1= "Изменить параметры вещества"
+
+%div{ class: "row"}
+  %div{ class: "col-md-6 col-md-offset-3"}
+    = form_for(@substance) do |f| 
+      = f.label :description, "Название"
+      = f.text_field :description, class: 'form-control'
+
+      = f.label :edval, "Единица измерения";
+      = f.text_field :edval, class: 'form-control'
+
+      = f.label :pdksr, "ПДК средняя"
+      = f.text_field :pdksr, class: 'form-control'
+
+      = f.label :pdkmax, "ПДК макс."
+      = f.text_field :pdkmax, class: 'form-control'
+
+      = f.label :vesmn, "vesmn"
+      = f.text_field :vesmn, class: 'form-control'
+      
+      = f.label :klop, "klop"
+      = f.text_field :klop, class: 'form-control'
+      
+      = f.label :imax, "imax"
+      = f.text_field :imax, class: 'form-control'
+      
+      = f.label :v, "v"
+      = f.text_field :v, class: 'form-control'
+      
+      = f.label :grad, "grad"
+      = f.text_field :grad, class: 'form-control'
+      
+      = f.label :point, "point"
+      = f.text_field :point, class: 'form-control'
+
+      = f.submit "Сохранить", class: "btn btn-primary"

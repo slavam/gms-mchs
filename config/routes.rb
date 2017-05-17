@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  get 'pollutions/index', to: 'pollutions#index'
+  get 'pollutions/chem_forma1', to: 'pollutions#chem_forma1'
+
+  resources :substances
+#  get 'substances/edit', to: 'substances#edit'
+
+#  get 'substances/update'
+
+#  get 'substances/index', to: 'substances#index'
+
+#  get 'substances/show'
+
   get 'sessions/new'
 
   # get 'bulletins/index'
