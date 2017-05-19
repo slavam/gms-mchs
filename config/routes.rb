@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'pollutions/index', to: 'pollutions#index'
   get 'pollutions/chem_forma1', to: 'pollutions#chem_forma1'
+  get 'pollutions/get_chem_forma1_data', to: 'pollutions#get_chem_forma1_data'
 
   resources :substances
 #  get 'substances/edit', to: 'substances#edit'

@@ -1,3 +1,57 @@
+class ChemOptionSelect extends React.Component{
+  constructor(props) {
+    super(props);
+    this.handleOptionChange = this.handleOptionChange.bind(this);
+  }
+  handleOptionChange(event) {
+    this.props.onUserInput(event.target.value, event.target.name);
+  }
+  render(){
+    return <select name={this.props.name} onChange={this.handleOptionChange} defaultValue = {this.props.defaultValue}>
+      {
+        this.props.options.map(function(op) {
+          return <option key={op.idstation} value={op.idstation}>{op.description}</option>;
+        })
+      }
+    </select>;
+  }
+}
+class Forma1Params extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      sites: this.props.sites,
+      siteIndex: 1,
+      month: this.props.month,
+      year: this.props.year
+    };
+    this.handleOptionSelected = this.handleOptionSelected.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+    var site = this.state.siteIndex;
+    var month = this.state.month.trim();
+    var year = this.state.year.trim();
+    if (!year || !month || !site) {
+      return;
+    }
+    this.props.onParamsSubmit({site: site, month: month, year: year});
+  }
+  handleOptionSelected(value, senderName){
+    if (senderName == 'selectStation'){
+      this.state.siteIndex = value;
+    }
+  }
+  render() {
+    return (
+      <form className="paramsForm" onSubmit={this.handleSubmit}>
+       <ChemOptionSelect options={this.props.sites} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" />
+       <input type="submit" value="Пересчитать" />
+      </form>
+    );
+  }
+}
 class OneMeasurement extends React.Component{
   constructor(props) {
     super(props);
@@ -79,26 +133,52 @@ class ChemForma1 extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
+      year: this.props.year,
+      month: this.props.month,
+      site_description: this.props.site_description,
+      substance_num: this.props.substance_num,
       pollutions: this.props.pollutions,
       titles: this.props.titles,
       measure_num: this.props.measure_num,
       max_values: this.props.max_values,
-      avg_values: this.props.avg_values
+      avg_values: this.props.avg_values,
+      sites: this.props.sites
     };
-    this.handleUserInput = this.handleUserInput.bind(this);
+    this.handleParamsSubmit = this.handleParamsSubmit.bind(this);
   }
   
-  handleUserInput(filterName, filterRoom) {
-    this.setState({
-      filterName: filterName,
-      filterRoom: filterRoom
-    });
+  handleParamsSubmit(params) {
+    $.ajax({
+      type: 'GET',
+      url: "get_chem_forma1_data?month="+params.month+"&year="+params.year+"&site="+params.site
+      }).done(function(data) {
+        this.setState({
+          pollutions: data.matrix.pollutions,
+          sites: data.sites,
+          month: data.month,
+          year: data.year,
+          titles: data.matrix.substance_names,
+          measure_num: data.matrix.measure_num,
+          max_values: data.matrix.max_values,
+          avg_values: data.matrix.avg_values,
+          site_description: data.matrix.site_description,
+          substance_num: data.matrix.substance_num
+        });
+      }.bind(this))
+      .fail(function(jqXhr) {
+        console.log('failed to register');
+      });
   }
   
   render(){
     return(
       <div>
-        <SearchBar filterName={this.state.filterName} filterRoom={this.state.filterRoom} onUserInput={this.handleUserInput} />
+        Год {this.state.year} Месяц {this.state.month}
+        <br/>
+        {this.state.site_description}
+        <br/>
+        Количество примесей {this.state.substance_num}
+        <Forma1Params sites={this.state.sites} onParamsSubmit={this.handleParamsSubmit} year={this.state.year} month={this.state.month} />
         <Forma1Table pollutions={this.state.pollutions} titles={this.state.titles} measure_num={this.state.measure_num} max_values={this.state.max_values} avg_values={this.state.avg_values}/>
       </div>
     );

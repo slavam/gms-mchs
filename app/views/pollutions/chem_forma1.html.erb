@@ -1,19 +1,14 @@
-<!--%= @avg_values.inspect %-->
+<!--%= @matrix[:substance_names].inspect %-->
 <!--%= @measure_num.inspect %-->
 <div class="container">
   <h3>Форма 1</h3>
   <h1>Таблица наблюдений за загрязнением атмосферы</h1>
-  <%= "Год #{@year} Месяц #{@month}" %>
+  <%= "Всего постов #{@site_num}" %>
   <br>
-  <%= "Всего постов #{@site_all}" %>
-  <br>
-  <%= "#{@site_description}" %>
-  <br>
-  <%= "Количество примесей #{@substantion_num}" %>
   <div id="content">
-    <%= react_component 'ChemForma1', { pollutions: @pollutions, titles: @subst_names, measure_num: @measure_num, max_values: @max_values, avg_values: @avg_values} %>
+    <%= react_component 'ChemForma1', { year: @year, month: @month, sites: @sites, substance_num: @matrix[:substance_num], site_description: @matrix[:site_description], pollutions: @matrix[:pollutions], titles: @matrix[:substance_names], measure_num: @matrix[:measure_num], max_values: @matrix[:max_values], avg_values: @matrix[:avg_values]} %>
   </div>
-  <%= "Всего измерений #{@pollution_all}" %>
+  <%= "Всего измерений #{@pollution_num}" %>
   <br>
   <%= "Дата начала диапазона измерений #{@pollution_date_start}" %>
   <%= "Дата окончания диапазона измерений #{@pollution_date_end}" %>
