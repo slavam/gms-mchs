@@ -1,3 +1,7 @@
+import React from "react";
+import Datetime from 'react-datetime';
+require('moment/locale/ru');
+
 class ChemOptionSelect extends React.Component{
   constructor(props) {
     super(props);
@@ -27,6 +31,7 @@ class Forma1Params extends React.Component{
     };
     this.handleOptionSelected = this.handleOptionSelected.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
   handleSubmit(e) {
     e.preventDefault();
@@ -43,11 +48,24 @@ class Forma1Params extends React.Component{
       this.state.siteIndex = value;
     }
   }
+  onChange(event) {
+    var year = event.format("YYYY");
+    var month = event.format("MM");
+    this.setState({year: year, month: month});
+  }
   render() {
     return (
       <form className="paramsForm" onSubmit={this.handleSubmit}>
-       <ChemOptionSelect options={this.props.sites} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" />
-       <input type="submit" value="Пересчитать" />
+        <ChemOptionSelect options={this.props.sites} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" />
+        <Datetime 
+          locale="ru" 
+          timeFormat={false} 
+          dateFormat="YYYY-MM" 
+          closeOnSelect={true} 
+          onChange={this.onChange}
+        />
+
+        <input type="submit" value="Пересчитать" />
       </form>
     );
   }
@@ -154,7 +172,7 @@ class ChemForma1 extends React.Component{
       }).done(function(data) {
         this.setState({
           pollutions: data.matrix.pollutions,
-          sites: data.sites,
+          // sites: data.sites,
           month: data.month,
           year: data.year,
           titles: data.matrix.substance_names,
@@ -184,3 +202,5 @@ class ChemForma1 extends React.Component{
     );
   }
 }
+
+export default ChemForma1;

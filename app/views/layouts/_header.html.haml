@@ -24,6 +24,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты <b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
                   %li= link_to 'Форма 1',  pollutions_chem_forma1_path
+                  %li= link_to 'Фоновые концентрации', pollutions_background_concentration_path
             - when 'admin'
               %li= link_to "Users", users_path
           %li{ class: "dropdown"}

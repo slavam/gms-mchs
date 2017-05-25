@@ -1,0 +1,2 @@
+class ConcentrationsController < ApplicationController
+end
