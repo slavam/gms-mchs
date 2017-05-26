@@ -1,7 +1,8 @@
-import React from "react";
-import Datetime from 'react-datetime';
-require('moment/locale/ru');
-
+// import React from "react";
+const React = require("react");
+// import Datetime from 'react-datetime';
+// //require('react-datetime');
+// require('moment/locale/ru');
 class ChemOptionSelect extends React.Component{
   constructor(props) {
     super(props);
@@ -15,7 +16,7 @@ class ChemOptionSelect extends React.Component{
     return <select name={this.props.name} onChange={this.handleOptionChange} defaultValue = {this.props.defaultValue}>
       {
         this.props.options.map(function(op) {
-          return <option key={op.idstation} value={name == "selectStation"? op.idstation : op.idsubstance}>{op.description}</option>;
+          return <option key={name == "selectStation"? op.idstation : op.idsubstance} value={name == "selectStation"? op.idstation : op.idsubstance}>{op.description}</option>;
         })
       }
     </select>;
@@ -26,6 +27,8 @@ class BCParams extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
+      startDate: this.props.startDate,
+      endDate: this.props.endDate,
       siteIndex: 1,
       substanceIndex: 1,
       month: this.props.month,
@@ -33,18 +36,21 @@ class BCParams extends React.Component{
     };
     this.handleOptionSelected = this.handleOptionSelected.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
+    this.onStartChange = this.onStartChange.bind(this);
+    this.onEndChange = this.onEndChange.bind(this);
+    this.startDateChange = this.startDateChange.bind(this);
+    this.endDateChange = this.endDateChange.bind(this);
   }
   handleSubmit(e) {
     e.preventDefault();
     var site = this.state.siteIndex;
     var substance = this.state.substanceIndex;
-    var month = this.state.month.trim();
-    var year = this.state.year.trim();
-    if (!year || !month || !site || !substance) {
+    var startDate = this.state.startDate.trim();
+    var endDate = this.state.endDate.trim();
+    if (!startDate || !endDate || !site || !substance) {
       return;
     }
-    this.props.onParamsSubmit({site: site, substance: substance, month: month, year: year});
+    this.props.onParamsSubmit({site: site, substance: substance, startDate: startDate, endDate: endDate});
   }
   handleOptionSelected(value, senderName){
     if (senderName == 'selectStation'){
@@ -53,22 +59,63 @@ class BCParams extends React.Component{
       this.state.substanceIndex = value;
     }
   }
-  onChange(event) {
-    var year = event.format("YYYY");
-    var month = event.format("MM");
-    this.setState({year: year, month: month});
+  // onChange(event) {
+  //   var year = event.format("YYYY");
+  //   var month = event.format("MM");
+  //   this.setState({year: year, month: month});
+  // }
+  onStartChange(e) {
+    var startDate = e.format("YYYY-MM-DD");
+    this.setState({startDate: startDate});
+  }
+  onEndChange(e) {
+    var endDate = e.format("YYYY-MM-DD");
+    this.setState({endDate: endDate});
+  }
+  startDateChange(e) {
+    this.setState({startDate: e.target.value});
+  }
+  endDateChange(e) {
+    this.setState({endDate: e.target.value});
   }
   render() {
     return (
       <form className="paramsForm" onSubmit={this.handleSubmit}>
         <ChemOptionSelect options={this.props.sites} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" />
         <ChemOptionSelect options={this.props.substances} onUserInput={this.handleOptionSelected} name="selectSubstance" key="selectSubstance" />
-        <Datetime 
+        {/*<Datetime 
           locale="ru" 
           timeFormat={false} 
           dateFormat="YYYY-MM" 
           closeOnSelect={true} 
           onChange={this.onChange}
+        /> 
+        <Datetime 
+          name="startDate"
+          key="startDate"
+          locale="ru" 
+          dateFormat="YYYY-MM-DD"
+          timeFormat={false} 
+          input={false}
+          onChange={this.onStartChange}
+        />*/}
+        <input
+          type="text"
+          value={this.state.startDate}
+          onChange={this.startDateChange}
+        />
+        {/*<Datetime 
+          name="endDate"
+          key="endDate"
+          locale="ru" 
+          timeFormat={false} 
+          input={false}
+          onChange={this.onEndChange}
+        />*/}
+        <input
+          type="text"
+          value={this.state.endDate}
+          onChange={this.endDateChange}
         />
         <input type="submit" value="Пересчитать" />
       </form>
@@ -79,9 +126,10 @@ class BCTable extends React.Component {
   render() {
     var rows = [];
     var concentrations = this.props.concentrations;
-    for (var i = 0; i < this.props.concentrations['size']; i++) {
-      rows.push(<tr><td></td><td>{concentrations['calm'][i]}</td><td>{concentrations['north'][i]}</td><td>{concentrations['east'][i]}</td><td>{concentrations['south'][i]}</td><td>{concentrations['west'][i]}</td></tr>);
-    }
+    if (this.props.concentrations['size'] < 100)
+      for (var i = 0; i < this.props.concentrations['size']; i++) {
+        rows.push(<tr key={i}><td></td><td>{concentrations['calm'][i]}</td><td>{concentrations['north'][i]}</td><td>{concentrations['east'][i]}</td><td>{concentrations['south'][i]}</td><td>{concentrations['west'][i]}</td></tr>);
+      }
     return (
       <table className="table table-hover">
         <thead>
@@ -121,8 +169,8 @@ class ChemBackgroundConcentrations extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      year: this.props.year,
-      month: this.props.month,
+      startDate: this.props.startDate,
+      endDate: this.props.endDate,
       site_description: this.props.site_description,
       substance: this.props.substance,
       concentrations: this.props.concentrations,
@@ -135,13 +183,12 @@ class ChemBackgroundConcentrations extends React.Component{
   handleParamsSubmit(params) {
     $.ajax({
       type: 'GET',
-      url: "get_chem_bc_data?month="+params.month+"&year="+params.year+"&site="+params.site+"&substance="+params.substance
+      url: "get_chem_bc_data?start_date="+params.startDate+"&end_date="+params.endDate+"&site="+params.site+"&substance="+params.substance
       }).done(function(data) {
         this.setState({
           concentrations: data.concentrations,
-          // sites: data.sites,
-          month: data.month,
-          year: data.year,
+          startDate: data.startDate,
+          endDate: data.endDate,
           substance: data.substance,
           site_description: data.site_description
         });
@@ -154,12 +201,12 @@ class ChemBackgroundConcentrations extends React.Component{
   render(){
     return(
       <div>
-        Год {this.state.year} Месяц {this.state.month}
+        За период с {this.state.startDate} по {this.state.endDate}
         <br/>
         {this.state.site_description}
         <br/>
         Вещество {this.state.substance}
-        <BCParams sites={this.state.sites} substances={this.state.substances} onParamsSubmit={this.handleParamsSubmit} year={this.state.year} month={this.state.month} />
+        <BCParams sites={this.state.sites} substances={this.state.substances} onParamsSubmit={this.handleParamsSubmit} startDate={this.state.startDate} endDate={this.state.endDate} />
         <BCTable concentrations={this.state.concentrations} />
       </div>
     );

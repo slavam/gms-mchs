@@ -1,9 +1,9 @@
-<!--%= @sites.inspect %-->
+<!--%= @start_date.inspect %-->
 <!--%= @substances.inspect %-->
 <div class="container">
   <h3>Фоновые концентрации</h3>
   <h1>Промежуточный результат расчета фоновых концентраций</h1>
   <div id="content">
-    <%= react_component 'ChemBackgroundConcentrations', { year: @year, month: @month, sites: @sites, site_description: @site_description, substances: @substances, substance: @substance, concentrations: @concentrations} %>
+    <%= react_component 'ChemBackgroundConcentrations', { startDate: @start_date, endDate: @end_date, sites: @sites, site_description: @site_description, substances: @substances, substance: @substance, concentrations: @concentrations} %>
   </div>
 </div>

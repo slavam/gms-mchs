@@ -21,20 +21,20 @@ class PollutionsController < ApplicationController
   end
   
   def get_chem_bc_data
-    month = params[:month]
-    year = params[:year]
+    start_date = params[:start_date]
+    end_date = params[:end_date]
     site_id = params[:site]
     substance_id = params[:substance]
     substance = Substance.find(substance_id).description
-    concentrations = get_concentrations(year, month, site_id, substance_id)
+    concentrations = get_concentrations(start_date, end_date, site_id, substance_id)
     site = Site.find(site_id)
     site_description = site.description+'. Координаты: '+site.coordinate.to_s
-    render json: {year: year, month: month, site_description: site_description, substance: substance, concentrations: concentrations}
+    render json: {startDate: start_date, endDate: end_date, site_description: site_description, substance: substance, concentrations: concentrations}
   end
   
   def background_concentration
-    @year = @pollution_date_end.year.to_s
-    @month = month_mm
+    @start_date = '2005-12-01'
+    @end_date = @pollution_date_end.strftime('%F') #@start_date
     site_id = 5 
     substance_id = 1
     
@@ -49,7 +49,7 @@ class PollutionsController < ApplicationController
     site = Site.find(site_id)
     @site_description = site.description+'. Координаты: '+site.coordinate.to_s
     
-    @concentrations = get_concentrations(@year, @month, site_id, substance_id)
+    @concentrations = get_concentrations(@start_date, @end_date, site_id, substance_id)
     
   end
   
@@ -58,12 +58,11 @@ class PollutionsController < ApplicationController
       (arr.inject(:+).to_f / arr.size).round(3)
     end
     
-    def get_concentrations(year, month, site_id, substance_id)
-      yyyy_mm = year+'-'+month+'%'
+    def get_concentrations(start_date, end_date, site_id, substance_id)
       my_query = "SELECT d.value, w_s.value speed, w_d.value direction, d.date from dimension d 
                   JOIN dimension w_s on d.date = w_s.date AND w_s.idsubstance = 102 AND w_s.value >= 0 AND w_s.idstation = #{site_id}
                   JOIN dimension w_d on w_d.date = w_s.date AND w_d.idsubstance = 101 AND w_d.idstation = #{site_id} 
-                  WHERE d.idstation = #{site_id} AND d.idsubstance = #{substance_id} AND d.date like '#{yyyy_mm}';"
+                  WHERE d.idstation = #{site_id} AND d.idsubstance = #{substance_id} AND d.date BETWEEN '#{start_date}' AND '#{end_date}';"
       concentrations = Pollution.connection.select_all(my_query)
       conc_by_direction = {}
       conc_by_direction[:calm] = []
@@ -82,11 +81,11 @@ class PollutionsController < ApplicationController
           conc_by_direction[:calm].push c['value']
         else
           case +c['direction'].to_i
-            when 90-45..90+45
+            when 90-44..90+45
               conc_by_direction[:east].push c['value']
-            when 180-45..180+45
+            when 180-44..180+45
               conc_by_direction[:south].push c['value']
-            when 270-45..270+45
+            when 270-44..270+45
               conc_by_direction[:west].push c['value']
             else
               conc_by_direction[:north].push c['value']
