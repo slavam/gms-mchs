@@ -1,3 +1,4 @@
+require 'descriptive_statistics'
 class PollutionsController < ApplicationController
   before_filter :required_params, :only => [:chem_forma1, :background_concentration]
   def index
@@ -54,15 +55,32 @@ class PollutionsController < ApplicationController
   end
   
   private
-    def avg(arr)
-      (arr.inject(:+).to_f / arr.size).round(3)
+    def transition_function(variance)
+      # (1/(1+C244^2))*EXP(1.645*КОРЕНЬ(LN(1+C244^2)))
+      s = 1.0 + variance*variance
+      return ((1.0/s)*Math.exp(1.645*(Math.sqrt(Math.log(s))))).round(4)
     end
+    
+    def std_dev(arr)
+      return 0 if arr.size < 2
+      avg = arr.mean
+      s = 0
+      arr.each do |a| 
+        s += (a - avg)*(a - avg)
+      end
+      return Math.sqrt(s/(arr.size - 1)).round(4)
+    end
+    
+    # def avg(arr)
+    #   (arr.inject(:+).to_f / arr.size).round(4)
+    # end
     
     def get_concentrations(start_date, end_date, site_id, substance_id)
       my_query = "SELECT d.value, w_s.value speed, w_d.value direction, d.date from dimension d 
                   JOIN dimension w_s on d.date = w_s.date AND w_s.idsubstance = 102 AND w_s.value >= 0 AND w_s.idstation = #{site_id}
                   JOIN dimension w_d on w_d.date = w_s.date AND w_d.idsubstance = 101 AND w_d.idstation = #{site_id} 
-                  WHERE d.idstation = #{site_id} AND d.idsubstance = #{substance_id} AND d.date BETWEEN '#{start_date}' AND '#{end_date}';"
+                  WHERE d.idstation = #{site_id} AND d.idsubstance = #{substance_id} AND d.date >= '#{start_date}' AND d.date <= '#{end_date} 23:59:59';"
+                  # WHERE d.idstation = #{site_id} AND d.idsubstance = #{substance_id} AND d.date BETWEEN '#{start_date}' AND '#{end_date}';"
       concentrations = Pollution.connection.select_all(my_query)
       conc_by_direction = {}
       conc_by_direction[:calm] = []
@@ -75,6 +93,33 @@ class PollutionsController < ApplicationController
       conc_by_direction[:avg_east] = 0
       conc_by_direction[:avg_south] = 0
       conc_by_direction[:avg_west] = 0
+      conc_by_direction[:background_concentration_calm] = 0
+      conc_by_direction[:background_concentration_north] = 0
+      conc_by_direction[:background_concentration_east] = 0
+      conc_by_direction[:background_concentration_south] = 0
+      conc_by_direction[:background_concentration_west] = 0
+      conc_by_direction[:standard_deviation_calm] = 0
+      conc_by_direction[:standard_deviation_north] = 0
+      conc_by_direction[:standard_deviation_east] = 0
+      conc_by_direction[:standard_deviation_south] = 0
+      conc_by_direction[:standard_deviation_west] = 0
+      conc_by_direction[:variance_calm] = 0
+      conc_by_direction[:variance_north] = 0
+      conc_by_direction[:variance_east] = 0
+      conc_by_direction[:variance_south] = 0
+      conc_by_direction[:variance_west] = 0
+      conc_by_direction[:transition_function_calm] = 0
+      conc_by_direction[:transition_function_north] = 0
+      conc_by_direction[:transition_function_east] = 0
+      conc_by_direction[:transition_function_south] = 0
+      conc_by_direction[:transition_function_west] = 0
+      conc_by_direction[:concentration_calm] = 0
+      conc_by_direction[:concentration_north] = 0
+      conc_by_direction[:concentration_east] = 0
+      conc_by_direction[:concentration_south] = 0
+      conc_by_direction[:concentration_west] = 0
+      conc_by_direction[:conc_bcg_avg5] = 0
+      conc_by_direction[:conc_bcg_avg4] = 0
       conc_by_direction[:size] = 0
       concentrations.each do |c|
         if c['speed'].to_i < 3
@@ -92,16 +137,78 @@ class PollutionsController < ApplicationController
           end
         end
       end
-      conc_by_direction[:avg_calm] = avg( conc_by_direction[:calm])
-      conc_by_direction[:avg_north] = avg( conc_by_direction[:north])
-      conc_by_direction[:avg_east] = avg( conc_by_direction[:east])
-      conc_by_direction[:avg_south] = avg( conc_by_direction[:south])
-      conc_by_direction[:avg_west] = avg( conc_by_direction[:west])
+      
+      # standard deviation
+      conc_by_direction[:standard_deviation_calm]  = std_dev(conc_by_direction[:calm]) # conc_by_direction[:calm].standard_deviation.round(4)
+      conc_by_direction[:standard_deviation_north] = std_dev(conc_by_direction[:north]) # conc_by_direction[:north].standard_deviation.round(4)
+      conc_by_direction[:standard_deviation_east]  = std_dev(conc_by_direction[:east]) # conc_by_direction[:east].standard_deviation.round(4)
+      conc_by_direction[:standard_deviation_south] = std_dev(conc_by_direction[:south]) # conc_by_direction[:south].standard_deviation.round(4)
+      conc_by_direction[:standard_deviation_west]  = std_dev(conc_by_direction[:west]) # conc_by_direction[:west].standard_deviation.round(4)
+      # average
+      conc_by_direction[:avg_calm]  = conc_by_direction[:calm].mean.round(4) # avg( conc_by_direction[:calm])
+      conc_by_direction[:avg_north] = conc_by_direction[:north].mean.round(4) # avg( conc_by_direction[:north])
+      conc_by_direction[:avg_east]  = conc_by_direction[:east].mean.round(4) # avg( conc_by_direction[:east])
+      conc_by_direction[:avg_south] = conc_by_direction[:south].mean.round(4) # avg( conc_by_direction[:south])
+      conc_by_direction[:avg_west]  = conc_by_direction[:west].mean.round(4) # avg( conc_by_direction[:west])
+      # max size from 5
       conc_by_direction[:size] = [conc_by_direction[:calm].size, 
                                    conc_by_direction[:north].size, 
                                    conc_by_direction[:east].size, 
                                    conc_by_direction[:south].size, 
                                    conc_by_direction[:west].size].max()
+                       
+      # коэффициент вариации                                   
+      conc_by_direction[:variance_calm]  = (conc_by_direction[:standard_deviation_calm] /conc_by_direction[:avg_calm]).round(4)
+      conc_by_direction[:variance_north] = (conc_by_direction[:standard_deviation_north]/conc_by_direction[:avg_north]).round(4)
+      conc_by_direction[:variance_east]  = (conc_by_direction[:standard_deviation_east] /conc_by_direction[:avg_east]).round(4)
+      conc_by_direction[:variance_south] = (conc_by_direction[:standard_deviation_south]/conc_by_direction[:avg_south]).round(4)
+      conc_by_direction[:variance_west]  = (conc_by_direction[:standard_deviation_west] /conc_by_direction[:avg_west]).round(4)
+      # функция перехода
+      conc_by_direction[:transition_function_calm]  = transition_function(conc_by_direction[:variance_calm])
+      conc_by_direction[:transition_function_north] = transition_function(conc_by_direction[:variance_north])
+      conc_by_direction[:transition_function_east]  = transition_function(conc_by_direction[:variance_east])
+      conc_by_direction[:transition_function_south] = transition_function(conc_by_direction[:variance_south])
+      conc_by_direction[:transition_function_west]  = transition_function(conc_by_direction[:variance_west])
+      # концентрация с функцией перехода
+      conc_by_direction[:concentration_calm] = (conc_by_direction[:transition_function_calm] * conc_by_direction[:avg_calm]).round(4)
+      conc_by_direction[:concentration_north] = (conc_by_direction[:transition_function_north] * conc_by_direction[:avg_north]).round(4)
+      conc_by_direction[:concentration_east] = (conc_by_direction[:transition_function_east] * conc_by_direction[:avg_east]).round(4)
+      conc_by_direction[:concentration_south] = (conc_by_direction[:transition_function_south] * conc_by_direction[:avg_south]).round(4)
+      conc_by_direction[:concentration_west] = (conc_by_direction[:transition_function_west] * conc_by_direction[:avg_west]).round(4)
+      
+      conc_by_direction[:conc_bcg_avg5] = ((conc_by_direction[:concentration_calm]*conc_by_direction[:calm].size +
+                                           conc_by_direction[:concentration_north]*conc_by_direction[:north].size +
+                                           conc_by_direction[:concentration_east]*conc_by_direction[:east].size +
+                                           conc_by_direction[:concentration_south]*conc_by_direction[:south].size +
+                                           conc_by_direction[:concentration_west]*conc_by_direction[:west].size) / (conc_by_direction[:calm].size+conc_by_direction[:north].size+conc_by_direction[:east].size+conc_by_direction[:south].size+conc_by_direction[:west].size)).round(4)
+
+      conc_by_direction[:conc_bcg_avg4] = ((conc_by_direction[:concentration_north]*conc_by_direction[:north].size +
+                                           conc_by_direction[:concentration_east]*conc_by_direction[:east].size +
+                                           conc_by_direction[:concentration_south]*conc_by_direction[:south].size +
+                                           conc_by_direction[:concentration_west]*conc_by_direction[:west].size) / (conc_by_direction[:north].size+conc_by_direction[:east].size+conc_by_direction[:south].size+conc_by_direction[:west].size)).round(4)                                           
+
+      conc_by_direction[:background_concentration_calm]  = conc_by_direction[:concentration_calm]
+      conc_by_direction[:background_concentration_north] = conc_by_direction[:concentration_north]
+      conc_by_direction[:background_concentration_east]  = conc_by_direction[:concentration_east]
+      conc_by_direction[:background_concentration_south] = conc_by_direction[:concentration_south]
+      conc_by_direction[:background_concentration_west]  = conc_by_direction[:concentration_west]
+      c_b5 = [conc_by_direction[:concentration_calm], conc_by_direction[:concentration_north], conc_by_direction[:concentration_east], conc_by_direction[:concentration_south], conc_by_direction[:concentration_west]]
+      if ((c_b5.max - conc_by_direction[:conc_bcg_avg5]) <= conc_by_direction[:conc_bcg_avg5]*0.25) and ((conc_by_direction[:conc_bcg_avg5] - c_b5.min) <= conc_by_direction[:conc_bcg_avg5]*0.25)
+        conc_by_direction[:background_concentration_calm]  = conc_by_direction[:conc_bcg_avg5]
+        conc_by_direction[:background_concentration_north] = conc_by_direction[:conc_bcg_avg5]
+        conc_by_direction[:background_concentration_east]  = conc_by_direction[:conc_bcg_avg5]
+        conc_by_direction[:background_concentration_south] = conc_by_direction[:conc_bcg_avg5]
+        conc_by_direction[:background_concentration_west]  = conc_by_direction[:conc_bcg_avg5]
+      else
+        c_b4 = [conc_by_direction[:concentration_north], conc_by_direction[:concentration_east], conc_by_direction[:concentration_south], conc_by_direction[:concentration_west]]
+        if ((c_b4.max - conc_by_direction[:conc_bcg_avg4]) <= conc_by_direction[:conc_bcg_avg4]*0.25) and ((conc_by_direction[:conc_bcg_avg4] - c_b4.min) <= conc_by_direction[:conc_bcg_avg4]*0.25)
+          conc_by_direction[:background_concentration_calm]  = conc_by_direction[:concentration_calm]
+          conc_by_direction[:background_concentration_north] = conc_by_direction[:conc_bcg_avg4]
+          conc_by_direction[:background_concentration_east]  = conc_by_direction[:conc_bcg_avg4]
+          conc_by_direction[:background_concentration_south] = conc_by_direction[:conc_bcg_avg4]
+          conc_by_direction[:background_concentration_west]  = conc_by_direction[:conc_bcg_avg4]
+        end
+      end
       return conc_by_direction
     end
     

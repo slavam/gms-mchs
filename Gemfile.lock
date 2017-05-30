@@ -95,6 +95,7 @@ GEM
     concurrent-ruby (1.0.2)
     connection_pool (2.2.1)
     debug_inspector (0.0.2)
+    descriptive_statistics (2.4.0)
     erubis (2.7.0)
     execjs (2.7.0)
     globalid (0.3.7)
@@ -229,6 +230,7 @@ DEPENDENCIES
   capistrano-rbenv (~> 2.1)
   chartjs-ror
   coffee-rails (~> 4.1.0)
+  descriptive_statistics (~> 2.4.0)
   haml
   jbuilder (~> 2.0)
   jquery-rails

@@ -6,6 +6,9 @@ const React = require("react");
 class ChemOptionSelect extends React.Component{
   constructor(props) {
     super(props);
+    this.state = {
+      defaultValue: this.props.defaultValue
+    };
     this.handleOptionChange = this.handleOptionChange.bind(this);
   }
   handleOptionChange(event) {
@@ -13,7 +16,7 @@ class ChemOptionSelect extends React.Component{
   }
   render(){
     var name = this.props.name;
-    return <select name={this.props.name} onChange={this.handleOptionChange} defaultValue = {this.props.defaultValue}>
+    return <select name={this.props.name} onChange={this.handleOptionChange} defaultValue = {this.state.defaultValue}>
       {
         this.props.options.map(function(op) {
           return <option key={name == "selectStation"? op.idstation : op.idsubstance} value={name == "selectStation"? op.idstation : op.idsubstance}>{op.description}</option>;
@@ -81,7 +84,7 @@ class BCParams extends React.Component{
   render() {
     return (
       <form className="paramsForm" onSubmit={this.handleSubmit}>
-        <ChemOptionSelect options={this.props.sites} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" />
+        <ChemOptionSelect options={this.props.sites} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" defaultValue="3"/>
         <ChemOptionSelect options={this.props.substances} onUserInput={this.handleOptionSelected} name="selectSubstance" key="selectSubstance" />
         {/*<Datetime 
           locale="ru" 
@@ -153,12 +156,52 @@ class BCTable extends React.Component {
             <td>{this.props.concentrations.west.length}</td>
           </tr>
           <tr>
-            <td>Среднее</td>
+            <td>Средняя концентрация за период</td>
             <td>{this.props.concentrations.avg_calm}</td>
             <td>{this.props.concentrations.avg_north}</td>
             <td>{this.props.concentrations.avg_east}</td>
             <td>{this.props.concentrations.avg_south}</td>
             <td>{this.props.concentrations.avg_west}</td>
+          </tr> 
+          <tr>
+            <td>Среднеквадратичное отклонение</td> 
+            <td>{this.props.concentrations.standard_deviation_calm}</td>
+            <td>{this.props.concentrations.standard_deviation_north}</td>
+            <td>{this.props.concentrations.standard_deviation_east}</td>
+            <td>{this.props.concentrations.standard_deviation_south}</td>
+            <td>{this.props.concentrations.standard_deviation_west}</td>
+          </tr>
+          <tr>
+            <td>Коэффициент вариации</td> 
+            <td>{this.props.concentrations.variance_calm}</td>
+            <td>{this.props.concentrations.variance_north}</td>
+            <td>{this.props.concentrations.variance_east}</td>
+            <td>{this.props.concentrations.variance_south}</td>
+            <td>{this.props.concentrations.variance_west}</td>
+          </tr>
+          <tr>
+            <td>Функция перехода</td> 
+            <td>{this.props.concentrations.transition_function_calm}</td>
+            <td>{this.props.concentrations.transition_function_north}</td>
+            <td>{this.props.concentrations.transition_function_east}</td>
+            <td>{this.props.concentrations.transition_function_south}</td>
+            <td>{this.props.concentrations.transition_function_west}</td>
+          </tr>
+          <tr>
+            <td>Концентрация</td> 
+            <td>{this.props.concentrations.concentration_calm}</td>
+            <td>{this.props.concentrations.concentration_north}</td>
+            <td>{this.props.concentrations.concentration_east}</td>
+            <td>{this.props.concentrations.concentration_south}</td>
+            <td>{this.props.concentrations.concentration_west}</td>
+          </tr>
+          <tr>
+            <td>Фоновая концентрация</td> 
+            <td>{this.props.concentrations.background_concentration_calm}</td>
+            <td>{this.props.concentrations.background_concentration_north}</td>
+            <td>{this.props.concentrations.background_concentration_east}</td>
+            <td>{this.props.concentrations.background_concentration_south}</td>
+            <td>{this.props.concentrations.background_concentration_west}</td>
           </tr>
         </tbody>
       </table>
