@@ -84,8 +84,8 @@ class BCParams extends React.Component{
   render() {
     return (
       <form className="paramsForm" onSubmit={this.handleSubmit}>
-        <ChemOptionSelect options={this.props.sites} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" defaultValue="3"/>
-        <ChemOptionSelect options={this.props.substances} onUserInput={this.handleOptionSelected} name="selectSubstance" key="selectSubstance" />
+        <p>Пост:<ChemOptionSelect options={this.props.sites} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" defaultValue="3"/>
+        Вещество:<ChemOptionSelect options={this.props.substances} onUserInput={this.handleOptionSelected} name="selectSubstance" key="selectSubstance" />
         {/*<Datetime 
           locale="ru" 
           timeFormat={false} 
@@ -102,6 +102,7 @@ class BCParams extends React.Component{
           input={false}
           onChange={this.onStartChange}
         />*/}
+        С:
         <input
           type="text"
           value={this.state.startDate}
@@ -115,11 +116,13 @@ class BCParams extends React.Component{
           input={false}
           onChange={this.onEndChange}
         />*/}
+        По:
         <input
           type="text"
           value={this.state.endDate}
           onChange={this.endDateChange}
         />
+        </p>
         <input type="submit" value="Пересчитать" />
       </form>
     );
@@ -143,6 +146,7 @@ class BCTable extends React.Component {
             <th>Ветер восточный</th>
             <th>Ветер южный</th>
             <th>Ветер западный</th>
+            <th>Всего</th>
           </tr>
         </thead>
         <tbody>
@@ -154,6 +158,7 @@ class BCTable extends React.Component {
             <td>{this.props.concentrations.east.length}</td>
             <td>{this.props.concentrations.south.length}</td>
             <td>{this.props.concentrations.west.length}</td>
+            <td>{this.props.concentrations.measurement_total}</td>
           </tr>
           <tr>
             <td>Средняя концентрация за период</td>
@@ -162,6 +167,7 @@ class BCTable extends React.Component {
             <td>{this.props.concentrations.avg_east}</td>
             <td>{this.props.concentrations.avg_south}</td>
             <td>{this.props.concentrations.avg_west}</td>
+            <td>{this.props.concentrations.avg_total}</td>
           </tr> 
           <tr>
             <td>Среднеквадратичное отклонение</td> 
@@ -170,6 +176,7 @@ class BCTable extends React.Component {
             <td>{this.props.concentrations.standard_deviation_east}</td>
             <td>{this.props.concentrations.standard_deviation_south}</td>
             <td>{this.props.concentrations.standard_deviation_west}</td>
+            <td>{this.props.concentrations.standard_deviation_total} / {this.props.concentrations.standard_deviation_total_math}</td>
           </tr>
           <tr>
             <td>Коэффициент вариации</td> 
@@ -178,6 +185,7 @@ class BCTable extends React.Component {
             <td>{this.props.concentrations.variance_east}</td>
             <td>{this.props.concentrations.variance_south}</td>
             <td>{this.props.concentrations.variance_west}</td>
+            <td>{this.props.concentrations.variance_total}</td>
           </tr>
           <tr>
             <td>Функция перехода</td> 
@@ -194,6 +202,7 @@ class BCTable extends React.Component {
             <td>{this.props.concentrations.concentration_east}</td>
             <td>{this.props.concentrations.concentration_south}</td>
             <td>{this.props.concentrations.concentration_west}</td>
+            <td>{this.props.concentrations.conc_bcg_avg5}</td>
           </tr>
           <tr>
             <td>Фоновая концентрация</td> 

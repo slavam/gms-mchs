@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :pollution_values
+  resources :measurements
+  resources :materials
+  resources :posts
+  resources :cities
   resources :concentrations
   get 'pollutions/index', to: 'pollutions#index'
   get 'pollutions/chem_forma1', to: 'pollutions#chem_forma1'

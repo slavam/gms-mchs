@@ -59,6 +59,45 @@ class Synoptic < ActiveRecord::Base
     end
   end
   
+  def get_pressure
+    a_p = get_group(1, '3').to_s.strip
+    if a_p.present?
+      first = (a_p[1] == '0')? '1' : ''
+      return (first + a_p[1,3] + '.' + a_p[4]).to_f
+    else
+      return nil
+    end
+  end
+  
+  def get_temperature
+    t = self["Телеграмма"].split(' ')
+    if t.size > 4
+      s = t[4]
+      sign = s[1] == '0' ? '' : '-'
+      return (sign+s[2,2]+'.'+s[4]).to_f
+    else
+      return nil
+    end
+  end
+  
+  def get_wind_direction
+    self["Телеграмма"].split(' ')[3][1,2].to_i
+  end
+  
+  def get_rhumb_4
+    direct = self["Телеграмма"].split(' ')[3][1,2].to_i
+    case direct
+      when 5..13
+        'east'
+      when 14..22
+        'south'
+      when 23..31
+        'west'
+      else
+        'north'
+    end
+  end
+  
   def wind_direct
     direct = self["Телеграмма"].split(' ')[3][1,2].to_i
     case direct

@@ -8,7 +8,7 @@ class PollutionsController < ApplicationController
   def chem_forma1
     @year = @pollution_date_end.year.to_s #'2005' 
     @month = month_mm
-    @site_id = 5 
+    @site_id =  5 # 20 for Gorlovka
     @matrix = get_matrix_data(@year, @month, @site_id)
   end
   
@@ -36,7 +36,7 @@ class PollutionsController < ApplicationController
   def background_concentration
     @start_date = '2005-12-01'
     @end_date = @pollution_date_end.strftime('%F') #@start_date
-    site_id = 5 
+    site_id = 5 # 20 for Gorlovka
     substance_id = 1
     
     @substance = Substance.find(substance_id).description
@@ -66,14 +66,14 @@ class PollutionsController < ApplicationController
       avg = arr.mean
       s = 0
       arr.each do |a| 
-        s += (a - avg)*(a - avg)
+        s += (a.to_f - avg)*(a.to_f - avg)
       end
-      return Math.sqrt(s/(arr.size - 1)).round(4)
+      return Math.sqrt(s/(arr.size - 1).to_f).round(4)
     end
     
-    # def avg(arr)
-    #   (arr.inject(:+).to_f / arr.size).round(4)
-    # end
+    def avg(arr)
+      (arr.inject(:+).to_f / arr.size.to_f).round(4)
+    end
     
     def get_concentrations(start_date, end_date, site_id, substance_id)
       my_query = "SELECT d.value, w_s.value speed, w_d.value direction, d.date from dimension d 
@@ -82,6 +82,20 @@ class PollutionsController < ApplicationController
                   WHERE d.idstation = #{site_id} AND d.idsubstance = #{substance_id} AND d.date >= '#{start_date}' AND d.date <= '#{end_date} 23:59:59';"
                   # WHERE d.idstation = #{site_id} AND d.idsubstance = #{substance_id} AND d.date BETWEEN '#{start_date}' AND '#{end_date}';"
       concentrations = Pollution.connection.select_all(my_query)
+      if concentrations.count < 1
+        my_query = "SELECT d.value, w_s.value speed, w_d.value direction, d.date from dimension d 
+                  JOIN dimension w_s on d.date = w_s.date AND w_s.idsubstance = 102 AND w_s.value >= 0 AND w_s.idstation = 1
+                  JOIN dimension w_d on w_d.date = w_s.date AND w_d.idsubstance = 101 AND w_d.idstation = 1
+                  WHERE d.idstation = #{site_id} AND d.idsubstance = #{substance_id} AND d.date >= '#{start_date}' AND d.date <= '#{end_date} 23:59:59';"
+        concentrations = Pollution.connection.select_all(my_query)
+      end
+      
+      # !!!!!!!!!!! Gorlovka only
+      # my_query = "SELECT d.value, w_s.value speed, w_d.value direction, d.date from dimension d 
+      #             JOIN dimension w_s on d.date = w_s.date AND w_s.idsubstance = 102 AND w_s.value >= 0 AND w_s.idstation = 22
+      #             JOIN dimension w_d on w_d.date = w_s.date AND w_d.idsubstance = 101 AND w_d.idstation = 22
+      #             WHERE d.idstation = #{site_id} AND d.idsubstance = #{substance_id} AND d.date >= '#{start_date}' AND d.date <= '#{end_date} 23:59:59';"
+      #   concentrations = Pollution.connection.select_all(my_query)
       conc_by_direction = {}
       conc_by_direction[:calm] = []
       conc_by_direction[:north] = []
@@ -121,35 +135,54 @@ class PollutionsController < ApplicationController
       conc_by_direction[:conc_bcg_avg5] = 0
       conc_by_direction[:conc_bcg_avg4] = 0
       conc_by_direction[:size] = 0
+      conc_by_direction[:measurement_total] = 0
+      conc_by_direction[:avg_total] = 0
+      conc_by_direction[:standard_deviation_total] = 0
+      conc_by_direction[:standard_deviation_total_math] = 0
+      conc_by_direction[:variance_total] = 0
+      return conc_by_direction if concentrations.count < 1
+      conc_by_direction[:measurement_total] = concentrations.count
+      total = []
       concentrations.each do |c|
+        total.push c['value'].to_f
         if c['speed'].to_i < 3
-          conc_by_direction[:calm].push c['value']
+          conc_by_direction[:calm].push c['value'].to_f
         else
-          case +c['direction'].to_i
+          direction = site_id.to_i < 15 ? c['direction'].to_i : c['direction'].to_i*10 # for Gorlovka
+          case direction
             when 90-44..90+45
-              conc_by_direction[:east].push c['value']
+              conc_by_direction[:east].push c['value'].to_f
             when 180-44..180+45
-              conc_by_direction[:south].push c['value']
+              conc_by_direction[:south].push c['value'].to_f
             when 270-44..270+45
-              conc_by_direction[:west].push c['value']
+              conc_by_direction[:west].push c['value'].to_f
             else
-              conc_by_direction[:north].push c['value']
+              conc_by_direction[:north].push c['value'].to_f
           end
         end
       end
-      
+      # conc_by_direction[:avg_total] = total.mean.round(4)
+      conc_by_direction[:avg_total] = avg(total)
+      conc_by_direction[:standard_deviation_total] = std_dev(total)
+      conc_by_direction[:standard_deviation_total_math] = total.standard_deviation.round(4)
+      conc_by_direction[:variance_total] = (conc_by_direction[:standard_deviation_total]/conc_by_direction[:avg_total]).round(4)
       # standard deviation
+      # conc_by_direction[:standard_deviation_calm]  = conc_by_direction[:calm].standard_deviation.round(4)
+      # conc_by_direction[:standard_deviation_north] = conc_by_direction[:north].standard_deviation.round(4)
+      # conc_by_direction[:standard_deviation_east]  = conc_by_direction[:east].standard_deviation.round(4)
+      # conc_by_direction[:standard_deviation_south] = conc_by_direction[:south].standard_deviation.round(4)
+      # conc_by_direction[:standard_deviation_west]  = conc_by_direction[:west].standard_deviation.round(4)
       conc_by_direction[:standard_deviation_calm]  = std_dev(conc_by_direction[:calm]) # conc_by_direction[:calm].standard_deviation.round(4)
       conc_by_direction[:standard_deviation_north] = std_dev(conc_by_direction[:north]) # conc_by_direction[:north].standard_deviation.round(4)
       conc_by_direction[:standard_deviation_east]  = std_dev(conc_by_direction[:east]) # conc_by_direction[:east].standard_deviation.round(4)
       conc_by_direction[:standard_deviation_south] = std_dev(conc_by_direction[:south]) # conc_by_direction[:south].standard_deviation.round(4)
       conc_by_direction[:standard_deviation_west]  = std_dev(conc_by_direction[:west]) # conc_by_direction[:west].standard_deviation.round(4)
       # average
-      conc_by_direction[:avg_calm]  = conc_by_direction[:calm].mean.round(4) # avg( conc_by_direction[:calm])
-      conc_by_direction[:avg_north] = conc_by_direction[:north].mean.round(4) # avg( conc_by_direction[:north])
-      conc_by_direction[:avg_east]  = conc_by_direction[:east].mean.round(4) # avg( conc_by_direction[:east])
-      conc_by_direction[:avg_south] = conc_by_direction[:south].mean.round(4) # avg( conc_by_direction[:south])
-      conc_by_direction[:avg_west]  = conc_by_direction[:west].mean.round(4) # avg( conc_by_direction[:west])
+      conc_by_direction[:avg_calm]  = conc_by_direction[:calm].mean.round(4) if conc_by_direction[:calm].size > 0
+      conc_by_direction[:avg_north] = conc_by_direction[:north].mean.round(4) if conc_by_direction[:north].size > 0
+      conc_by_direction[:avg_east]  = conc_by_direction[:east].mean.round(4) if conc_by_direction[:east].size > 0
+      conc_by_direction[:avg_south] = conc_by_direction[:south].mean.round(4) if conc_by_direction[:south].size > 0
+      conc_by_direction[:avg_west]  = conc_by_direction[:west].mean.round(4) if conc_by_direction[:west].size > 0
       # max size from 5
       conc_by_direction[:size] = [conc_by_direction[:calm].size, 
                                    conc_by_direction[:north].size, 
@@ -158,11 +191,11 @@ class PollutionsController < ApplicationController
                                    conc_by_direction[:west].size].max()
                        
       # коэффициент вариации                                   
-      conc_by_direction[:variance_calm]  = (conc_by_direction[:standard_deviation_calm] /conc_by_direction[:avg_calm]).round(4)
-      conc_by_direction[:variance_north] = (conc_by_direction[:standard_deviation_north]/conc_by_direction[:avg_north]).round(4)
-      conc_by_direction[:variance_east]  = (conc_by_direction[:standard_deviation_east] /conc_by_direction[:avg_east]).round(4)
-      conc_by_direction[:variance_south] = (conc_by_direction[:standard_deviation_south]/conc_by_direction[:avg_south]).round(4)
-      conc_by_direction[:variance_west]  = (conc_by_direction[:standard_deviation_west] /conc_by_direction[:avg_west]).round(4)
+      conc_by_direction[:variance_calm]  = (conc_by_direction[:standard_deviation_calm] /conc_by_direction[:avg_calm]).round(4) if conc_by_direction[:calm].size > 0
+      conc_by_direction[:variance_north] = (conc_by_direction[:standard_deviation_north]/conc_by_direction[:avg_north]).round(4) if conc_by_direction[:north].size > 0
+      conc_by_direction[:variance_east]  = (conc_by_direction[:standard_deviation_east] /conc_by_direction[:avg_east]).round(4) if conc_by_direction[:east].size > 0
+      conc_by_direction[:variance_south] = (conc_by_direction[:standard_deviation_south]/conc_by_direction[:avg_south]).round(4) if conc_by_direction[:south].size > 0
+      conc_by_direction[:variance_west]  = (conc_by_direction[:standard_deviation_west] /conc_by_direction[:avg_west]).round(4) if conc_by_direction[:west].size > 0
       # функция перехода
       conc_by_direction[:transition_function_calm]  = transition_function(conc_by_direction[:variance_calm])
       conc_by_direction[:transition_function_north] = transition_function(conc_by_direction[:variance_north])
@@ -170,11 +203,11 @@ class PollutionsController < ApplicationController
       conc_by_direction[:transition_function_south] = transition_function(conc_by_direction[:variance_south])
       conc_by_direction[:transition_function_west]  = transition_function(conc_by_direction[:variance_west])
       # концентрация с функцией перехода
-      conc_by_direction[:concentration_calm] = (conc_by_direction[:transition_function_calm] * conc_by_direction[:avg_calm]).round(4)
-      conc_by_direction[:concentration_north] = (conc_by_direction[:transition_function_north] * conc_by_direction[:avg_north]).round(4)
-      conc_by_direction[:concentration_east] = (conc_by_direction[:transition_function_east] * conc_by_direction[:avg_east]).round(4)
-      conc_by_direction[:concentration_south] = (conc_by_direction[:transition_function_south] * conc_by_direction[:avg_south]).round(4)
-      conc_by_direction[:concentration_west] = (conc_by_direction[:transition_function_west] * conc_by_direction[:avg_west]).round(4)
+      conc_by_direction[:concentration_calm] = (conc_by_direction[:transition_function_calm] * conc_by_direction[:avg_calm]).round(4) if conc_by_direction[:calm].size > 0
+      conc_by_direction[:concentration_north] = (conc_by_direction[:transition_function_north] * conc_by_direction[:avg_north]).round(4) if conc_by_direction[:north].size > 0
+      conc_by_direction[:concentration_east] = (conc_by_direction[:transition_function_east] * conc_by_direction[:avg_east]).round(4) if conc_by_direction[:east].size > 0
+      conc_by_direction[:concentration_south] = (conc_by_direction[:transition_function_south] * conc_by_direction[:avg_south]).round(4) if conc_by_direction[:south].size > 0
+      conc_by_direction[:concentration_west] = (conc_by_direction[:transition_function_west] * conc_by_direction[:avg_west]).round(4) if conc_by_direction[:west].size > 0
       
       conc_by_direction[:conc_bcg_avg5] = ((conc_by_direction[:concentration_calm]*conc_by_direction[:calm].size +
                                            conc_by_direction[:concentration_north]*conc_by_direction[:north].size +

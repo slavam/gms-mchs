@@ -1,0 +1,15 @@
+%div{ class:"row"}
+  %div{ class: "col-md-6 col-md-offset-3"}
+    %h1= "Посты"
+    .container
+      %table{class: "table table-hover"}
+        %thead
+          %tr
+            %th= "Название"
+            %th= "Город"
+            %th= "Тип"
+            %th= "Веществ"
+            %th= "Координаты"
+            %th= "Высота"
+        %tbody
+          = render @posts
