@@ -1,0 +1,5 @@
+%tr
+  %td= pollution_value.material.name
+  %td= pollution_value.value
+  %td= link_to 'Изменить', edit_pollution_value_path(pollution_value)
+  %td= link_to 'Удалить', pollution_value_path(pollution_value), :method => :delete, data: {:confirm => "Вы действительно хотите удалить концентрацию?"}

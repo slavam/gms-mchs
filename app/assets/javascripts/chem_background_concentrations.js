@@ -167,7 +167,7 @@ class BCTable extends React.Component {
             <td>{this.props.concentrations.avg_east}</td>
             <td>{this.props.concentrations.avg_south}</td>
             <td>{this.props.concentrations.avg_west}</td>
-            <td>{this.props.concentrations.avg_total}</td>
+            <td>{this.props.concentrations.avg_total} / {this.props.concentrations.avg_total_math}</td>
           </tr> 
           <tr>
             <td>Среднеквадратичное отклонение</td> 

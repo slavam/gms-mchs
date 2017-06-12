@@ -1,0 +1,14 @@
+%tr{:style => "background: lightgray;"}
+  %td= measurement.post.name
+  %td= measurement.date
+  %td= measurement.term
+  %td= measurement.rhumb
+  %td= measurement.wind_speed
+  %td= measurement.temperature
+  %td= measurement.atmosphere_pressure
+  %td= link_to 'Удалить', measurement_path(measurement), :method => :delete, data: {:confirm => "Вы действительно хотите удалить измерение?"}
+  // %td= measurement.phenomena
+  // %td= measurement.relative_humidity
+  // %td= measurement.partial_pressure
+  - if measurement.pollution_values.count > 0
+    = render measurement.pollution_values

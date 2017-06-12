@@ -66,7 +66,8 @@ class PollutionsController < ApplicationController
       avg = arr.mean
       s = 0
       arr.each do |a| 
-        s += (a.to_f - avg)*(a.to_f - avg)
+        # s += (a.to_f - avg)*(a.to_f - avg)
+        s += (a.to_f - avg)**2
       end
       return Math.sqrt(s/(arr.size - 1).to_f).round(4)
     end
@@ -137,6 +138,7 @@ class PollutionsController < ApplicationController
       conc_by_direction[:size] = 0
       conc_by_direction[:measurement_total] = 0
       conc_by_direction[:avg_total] = 0
+      conc_by_direction[:avg_total_math] = 0
       conc_by_direction[:standard_deviation_total] = 0
       conc_by_direction[:standard_deviation_total_math] = 0
       conc_by_direction[:variance_total] = 0
@@ -161,7 +163,7 @@ class PollutionsController < ApplicationController
           end
         end
       end
-      # conc_by_direction[:avg_total] = total.mean.round(4)
+      conc_by_direction[:avg_total_math] = total.mean.round(4)
       conc_by_direction[:avg_total] = avg(total)
       conc_by_direction[:standard_deviation_total] = std_dev(total)
       conc_by_direction[:standard_deviation_total_math] = total.standard_deviation.round(4)

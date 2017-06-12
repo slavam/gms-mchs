@@ -18,8 +18,14 @@
             - when 'technicist'
               %li= link_to 'Телеграммы',  synoptics_list_path
             - when 'chemist'
-              %li= link_to 'Вещества',  substances_path
-              %li= link_to 'Измерения',  pollutions_index_path
+              %li
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Справочники <b class="caret"></b></a>
+                %ul{class: "dropdown-menu"}
+                  %li= link_to 'Города',  cities_path 
+                  %li= link_to 'Посты',  posts_path
+                  %li= link_to 'Вещества',  materials_path
+              // %li= link_to 'Вещества',  substances_path
+              %li= link_to 'Измерения', measurements_path # pollutions_index_path
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты <b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}

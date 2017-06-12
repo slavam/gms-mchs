@@ -1,0 +1,23 @@
+// = @pollution_values.inspect
+%div{ class:"row"}
+  %h1= "Измерения"
+  = will_paginate
+  .container
+    %table{class: "table table-hover"}
+      %thead
+        %tr
+          %th= "Пост"
+          %th= "Дата"
+          %th= "Срок"
+          %th= "Направление ветра"
+          %th= "Скорость ветра"
+          %th= "Температура"
+          %th= "Атмосферное давление"
+          %th= ""
+          // %th= "Атмосферные явления"
+          // %th= "Относительная влажность"
+          // %th= "Парциальное давление"
+      %tbody
+        = render @measurements
+  = will_paginate  
+= link_to "Добавить измерение", new_measurement_path

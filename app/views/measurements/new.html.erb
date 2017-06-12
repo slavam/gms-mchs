@@ -2,12 +2,7 @@
 <!--%= @measure_num.inspect %-->
 <div class="container">
   <h1>Ввод данных о загрязнении атмосферы</h1>
-  <br>
   <div id="content">
-    <%= react_component 'InputPollutionsForm', { date: @date, term: @term, weather: @weather} %>
+    <%= react_component 'InputPollutionsForm', { date: @date, term: @term.to_i+1, materials: @materials, posts: @posts, postId: @post_id, weather: @weather} %>
   </div>
-  <!--%= "Всего измерений #{@pollution_num}" %>
-  <br>
-  <!--%= "Дата начала диапазона измерений #{@pollution_date_start}" %>
-  <!--%= "Дата окончания диапазона измерений #{@pollution_date_end}" %-->
 </div>
