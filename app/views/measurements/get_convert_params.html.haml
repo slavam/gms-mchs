@@ -1,0 +1,13 @@
+%h1= "Параметры для переноса данных из AKIAM"
+
+%div{ class: "row"}
+  %div{ class: "col-md-6 col-md-offset-3"}
+    = form_for(:measurement, url: measurements_convert_akiam_path) do |f| 
+
+      = f.label "Начальная дата"
+      = f.date_field :date_from, class: 'form-control' 
+
+      = f.label "Конечная дата"
+      = f.date_field :date_to, class: 'form-control' 
+
+      = f.submit "Начать", class: "btn btn-primary" 

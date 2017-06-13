@@ -34,7 +34,6 @@ class ChemOptionSelect extends React.Component{
     this.props.onUserInput(event.target.value, event.target.name);
   }
   render(){
-    // var name = this.props.name;
     return <select name={this.props.name} onChange={this.handleOptionChange} defaultValue = {this.state.defaultValue}>
       {
         this.props.options.map(function(op) {
@@ -74,8 +73,16 @@ class InputForm extends React.Component{
       type: 'GET',
       url: "weather_update?date="+this.state.date+"&term="+this.state.term+"&post_id="+this.state.postId
       }).done(function(data) {
+        var weather = {};
+        if (data.weather == null) {
+          weather.temperature = '';
+          weather.wind_speed = '';
+          weather.wind_direction = '';
+          weather.atmosphere_pressure = '';
+        } else
+          weather = data.weather;
         this.setState({
-          weather: data.weather
+          weather: weather
         });
       }.bind(this))
       .fail(function(jqXhr) {
@@ -85,7 +92,8 @@ class InputForm extends React.Component{
   handleSubmit(e) {
     e.preventDefault();
     var measurement = {};
-    if (!this.state.date || !this.state.term || !this.state.postId ) {
+    if (!this.state.date || !this.state.term || !this.state.postId || !this.state.weather.wind_direction) {
+      alert('Нет данных о погоде!');
       return;
     }
     measurement.date = this.state.date.trim();
@@ -99,20 +107,12 @@ class InputForm extends React.Component{
     measurement.relative_humidity = this.state.weather.relative_humidity;
     measurement.partial_pressure = this.state.weather.partial_pressure;
     measurement.atmosphere_pressure = this.state.weather.atmosphere_pressure;
-    // this.props.onParamsSubmit({postId: postId, term: term, date: date});
     $.ajax({
       type: 'POST',
       url: "save_pollutions",
-      // url: "save_pollutions?post_id="+this.state.postId+"&date="+this.state.date+"&term="+this.state.term+"&wind_direction="+
-      //   this.state.weather.wind_direction+"&wind_speed="+this.state.weather.wind_speed+"&temperature="+this.state.weather.temperature+
-      //   "&phenomena="+this.state.weather.phenomena+"&relative_humidity="+this.state.weather.relative_humidity+
-      //   "&partial_pressure="+this.state.weather.partial_pressure+"&atmosphere_pressure="+this.state.weather.atmosphere_pressure,
       data: {measurement: measurement, values: this.state.values}
       }).done(function(data) {
         console.log('successfully saved measurement');
-        // this.setState({
-        //   weather: data.weather
-        // });
       }.bind(this))
       .fail(function(jqXhr) {
         console.log('failed to register');
@@ -210,8 +210,16 @@ class InputForm extends React.Component{
 class InputPollutionsForm extends React.Component{
   constructor(props) {
     super(props);
+    var weather = {};
+    if (this.props.weather == null) {
+      weather.temperature = '';
+      weather.wind_speed = '';
+      weather.wind_direction = '';
+      weather.atmosphere_pressure = '';
+    } else
+      weather = this.props.weather;
     this.state = {
-      weather: this.props.weather,
+      weather: weather,
       date: this.props.date,
       term: this.props.term,
       postId: this.props.postId,

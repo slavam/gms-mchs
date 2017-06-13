@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   resources :pollution_values
   get 'measurements/weather_update', to: 'measurements#weather_update'
   post 'measurements/save_pollutions', to: 'measurements#save_pollutions'
+  get 'measurements/get_convert_params', to: 'measurements#get_convert_params'
+  post 'measurements/convert_akiam', to: 'measurements#convert_akiam'
   resources :measurements
   resources :materials
   resources :posts

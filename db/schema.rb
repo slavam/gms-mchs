@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170604185010) do
+ActiveRecord::Schema.define(version: 20170613163908) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
@@ -107,6 +107,8 @@ ActiveRecord::Schema.define(version: 20170604185010) do
     t.datetime "created_at",                                              null: false
     t.datetime "updated_at",                                              null: false
   end
+
+  add_index "measurements", ["date", "term", "post_id"], name: "index_measurements_on_date_and_term_and_post_id", unique: true, using: :btree
 
   create_table "pollution_values", force: :cascade do |t|
     t.integer  "measurement_id", limit: 4
