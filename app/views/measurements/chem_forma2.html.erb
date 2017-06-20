@@ -1,0 +1,9 @@
+<!--%= @pollutions.inspect %-->
+<!--%= @concentrations.inspect %-->
+<div class="container">
+  <h3>Форма 2</h3>
+  <h1>Характеристика загрязнения атмосферного воздуха</h1>
+  <div id="content">
+    <%= react_component 'ChemForma2', { dateFrom: @date_from, dateTo: @date_to, regionType: @region_type, scopeName: @scope_name, pollutions: @pollutions, posts: (@region_type == 'post' ? @posts : @cities)} %>
+  </div>
+</div>

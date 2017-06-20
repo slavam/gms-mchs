@@ -1,11 +1,97 @@
+require 'descriptive_statistics'
 class MeasurementsController < ApplicationController
   before_filter :init_weather_params, :only => [:new]
   before_filter :find_measurement, only: [:destroy]
+  HAZARD_CLASS =Array.new
+  HAZARD_CLASS[1] = 1.7
+  HAZARD_CLASS[2] = 1.3
+  HAZARD_CLASS[3] = 1.0
+  HAZARD_CLASS[4] = 0.9
   TERMS = Array.new
   TERMS[1] = '00'
   TERMS[7] = '06'
   TERMS[13] = '12'
   TERMS[19] = '18'
+
+  def chem_forma2
+    Rails.logger.debug("My object: #{params.inspect}")
+    @date_from = '2016-02-01' # Time.now.strftime("%Y-%m-01")
+    @date_to = '2016-02-29' # Time.now.strftime("%Y-%m-%d")
+    @region_type = params[:region_type] #'post' # total, city
+    if @region_type == 'post'
+      @post_id = 5
+      @scope_name = Post.find(@post_id).name
+      @city_id = 0
+      @posts = Post.where("name != 'Резерв'").order(:city_id, :id)
+    else
+      @post_id = 0
+      @city_id = 1
+      @scope_name = City.find(@city_id).name
+      @cities = City.all.order(:id)
+    end
+    @pollutions = get_data_forma2(@date_from, @date_to, @region_type, @post_id, @city_id)
+  end
+  
+  def get_chem_forma2_data
+    if params[:region_type] == 'post'
+      city_id = 0
+      post_id = params[:post_id]
+      scope_name = Post.find(post_id).name
+    else
+      city_id = params[:post_id]
+      scope_name = City.find(city_id).name
+      post_id = 0
+    end
+    pollutions = get_data_forma2(params[:date_from], params[:date_to], params[:region_type], post_id, city_id)
+    
+    render json: {pollutions: pollutions, dateFrom: params[:date_from], dateTo: params[:date_to], scopeName: scope_name}
+  end
+  
+  def get_data_forma2(date_from, date_to, region_type, post_id, city_id)
+    case region_type
+      when 'total'
+        pollutions = Pollution.where("date >= ? AND date <= ?", date_from, date_to)
+      when 'post'
+        pollutions = PollutionValue.find_by_sql("SELECT * FROM pollution_values p_v INNER JOIN measurements m ON m.id = p_v.measurement_id AND m.date >= '#{date_from}' AND m.date <= '#{date_to}' AND m.post_id = #{post_id} INNER JOIN materials ma ON ma.id = p_v.material_id")
+      else
+        pollutions = PollutionValue.find_by_sql("SELECT * FROM pollution_values p_v INNER JOIN measurements m ON m.id = p_v.measurement_id AND m.date >= '#{date_from}' AND m.date <= '#{date_to}' INNER JOIN materials ma ON ma.id = p_v.material_id INNER JOIN posts p on p.id=m.post_id AND p.city_id=#{city_id}")
+    end
+    # return pollutions
+    by_materials = {}
+    concentrations = {}
+    material_ids = []
+    pollutions.each do |p|
+      if by_materials[p.material_id].nil?
+        material_ids << p.material_id
+        concentrations[p.material_id] = {values: []}
+        by_materials[p.material_id] = {max_concentration: {value: 0, post_id: 0, date: nil, term: nil}, size: 0, mean: 0, standard_deviation: 0, variance: 0, pollution_index: 0.0, material_name: p.material.name, hazard_index: p.material.klop.to_i, pdk_avg: p.material.pdksr, pdk_max: p.material.pdkmax, lt_1pdk: 0, lt_5pdk: 0, lt_10pdk: 0, percent1: 0.0, percent5: 0.0, percent10: 0.0, avg_conc: 0.0, max_conc: 0.0}
+      end
+      concentrations[p.material_id][:values] << p.value
+      by_materials[p.material_id][:lt_1pdk] += 1 if p.value > by_materials[p.material_id][:pdk_max]
+      by_materials[p.material_id][:lt_5pdk] += 1 if p.value > by_materials[p.material_id][:pdk_max]*5
+      by_materials[p.material_id][:lt_10pdk] += 1 if p.value > by_materials[p.material_id][:pdk_max]*10
+      if by_materials[p.material_id][:max_concentration][:value] < p.value
+        by_materials[p.material_id][:max_concentration][:value] = p.value.round(4) 
+        by_materials[p.material_id][:max_concentration][:post_id] = p.post_id
+        by_materials[p.material_id][:max_concentration][:date] = p.date
+        by_materials[p.material_id][:max_concentration][:term] = p.term
+      end
+    end
+    material_ids.each do |m|
+      by_materials[m][:size] = concentrations[m][:values].size
+      by_materials[m][:mean] = concentrations[m][:values].mean.round(4)
+      by_materials[m][:standard_deviation] = concentrations[m][:values].standard_deviation.round(4)
+      by_materials[m][:variance] = (by_materials[m][:standard_deviation]/by_materials[m][:mean]).round(4) if by_materials[m][:mean] > 0
+      by_materials[m][:percent1] = (by_materials[m][:lt_1pdk]/by_materials[m][:size].to_f*100.0).round(2)
+      by_materials[m][:percent5] = (by_materials[m][:lt_5pdk]/by_materials[m][:size].to_f*100.0).round(2)
+      by_materials[m][:percent10] = (by_materials[m][:lt_10pdk]/by_materials[m][:size].to_f*100.0).round(2)
+      by_materials[m][:pollution_index] = ((by_materials[m][:mean]/by_materials[m][:pdk_avg])**HAZARD_CLASS[by_materials[m][:hazard_index]]).round(4)
+      by_materials[m][:avg_conc] = (by_materials[m][:mean]/by_materials[m][:pdk_avg]).round(4)
+      by_materials[m][:max_conc] = (by_materials[m][:max_concentration][:value]/by_materials[m][:pdk_max]).round(4)
+    end
+    
+    return by_materials
+  end
   
   def get_convert_params
   end
@@ -52,8 +138,8 @@ class MeasurementsController < ApplicationController
         end
       end
       measurement_save(measurement, values) if m.idstation != 1
-      Rails.logger.debug("My object: #{measurement.inspect}")
-      Rails.logger.debug("My object: #{values.inspect}")
+      # Rails.logger.debug("My object: #{measurement.inspect}")
+      # Rails.logger.debug("My object: #{values.inspect}")
       write_count += 1
       values.clear
     end
@@ -149,13 +235,30 @@ class MeasurementsController < ApplicationController
     measurement = Measurement.new(measurement_params)
     measurement.rhumb = wind_direction_to_rhumb(measurement.wind_direction)
     values = params[:values]
-    # Rails.logger.debug("My object: #{values.inspect}")
-    if measurement_save(measurement, values)
+    Rails.logger.debug("My object: #{measurement.inspect}")
+    if measurement.save
+      if values.present? 
+        values.each do |k, v|
+          measurement.pollution_values.build(material_id: k.to_i, value: v.to_f).save
+        end
+      end
       flash[:success] = "Измерения сохранены"
       redirect_to measurements_path
     else
-      render 'new'
+      # render 'new'
+      # Rails.logger.debug("My object: #{measurement.errors.messages.inspect}")
+      # render :json => { :errors =>measurement.errors.messages }, :status => 422
     end
+    # Rails.logger.debug("My object: #{values.inspect}")
+    # if measurement_save(measurement, values)
+    #   flash[:success] = "Измерения сохранены"
+    #   redirect_to measurements_path
+    # else
+    #   # render :json => { :errors => @employee.errors.messages }, :status => 422
+    #   Rails.logger.debug("My object: #{values.inspect}")
+    #   render json: {errors: {code: "Error"}}
+    #   # render 'new'
+    # end
   end
 
   def destroy
@@ -173,16 +276,12 @@ class MeasurementsController < ApplicationController
   end
   
   def weather_update
-    # terms = Array.new
-    # terms[1] = '00'
-    # terms[7] = '06'
-    # terms[13] = '12'
-    # terms[19] = '18'
     station = station_by_post(params[:post_id])
     synoptic_term = TERMS[params[:term].to_i]
     date = params[:date]
     weather = get_weather(station, date, synoptic_term)
-    render json: {weather: weather}
+    err = weather.nil? ? "В базе не найдена погода для поста: #{params[:post_id]}, дата: #{params[:date]}, срок: #{params[:term]}" : ''
+    render json: {weather: weather, errors: [err]}
   end
   
   private
@@ -206,9 +305,10 @@ class MeasurementsController < ApplicationController
     end
     
     def measurement_params
-      params.require(:measurement).permit(:post_id, :date, :term, :rhumb, :wind_direction,  :wind_speed, :temperature, :phenomena, :relative_humidity, :partial_pressure, :atmosphere_pressure)
-      # params.permit(:post_id, :date, :term, :rhumb, :wind_direction,  :wind_speed, :temperature, :phenomena, :relative_humidity, :partial_pressure, :atmosphere_pressure, :values)
+      params.require(:measurement).permit(:region_type, :post_id, :date, :term, :rhumb, :wind_direction,  :wind_speed, :temperature, :phenomena, :relative_humidity, :partial_pressure, :atmosphere_pressure)
+      # params.permit(:region_type, :post_id, :date, :term, :rhumb, :wind_direction,  :wind_speed, :temperature, :phenomena, :relative_humidity, :partial_pressure, :atmosphere_pressure)
     end
+    
     def init_weather_params
       @station ||= '34519' # Донецк
       @date ||= Time.now.to_s(:custom_datetime)

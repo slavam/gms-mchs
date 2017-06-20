@@ -16,7 +16,7 @@ class InputError extends React.Component{
     });
     return (
       <div className={errorClass}>
-        <span>{this.props.errorMessage}</span>
+        <span style={{color: 'red'}}>{this.props.errorMessage}</span>
       </div>
     );
   }
@@ -69,6 +69,7 @@ class InputForm extends React.Component{
     this.get_weather();
   }
   get_weather(){
+    // var that = this;
     $.ajax({
       type: 'GET',
       url: "weather_update?date="+this.state.date+"&term="+this.state.term+"&post_id="+this.state.postId
@@ -82,17 +83,29 @@ class InputForm extends React.Component{
         } else
           weather = data.weather;
         this.setState({
-          weather: weather
+          weather: weather,
+          errors: data.errors
         });
       }.bind(this))
-      .fail(function(jqXhr) {
-        console.log('failed to register');
+      .fail(function(res) {
+        
+        this.setState({errors: res.responseJSON.errors});
       });
   }
   handleSubmit(e) {
     e.preventDefault();
+    var that = this;
     var measurement = {};
-    if (!this.state.date || !this.state.term || !this.state.postId || !this.state.weather.wind_direction) {
+    // this.props.materials.map(function(m) {
+    Object.keys(this.state.values).forEach(function(k) {
+      if(that.state.values[k] < 0 || that.state.values[k] > that.props.materials[k].pdkmax){
+        // that.state.errors[0] = "Недопустимое значение - "+that.state.values[k];
+        alert("Недопустимое значение - "+that.state.values[k]);
+        return;
+      }
+    });
+    // if (!this.state.date || !this.state.term || !this.state.postId || !this.state.weather.wind_direction) {
+    if (!this.state.weather.wind_direction) {
       alert('Нет данных о погоде!');
       return;
     }
@@ -107,15 +120,17 @@ class InputForm extends React.Component{
     measurement.relative_humidity = this.state.weather.relative_humidity;
     measurement.partial_pressure = this.state.weather.partial_pressure;
     measurement.atmosphere_pressure = this.state.weather.atmosphere_pressure;
+    this.state.errors = {};
     $.ajax({
       type: 'POST',
       url: "save_pollutions",
       data: {measurement: measurement, values: this.state.values}
       }).done(function(data) {
-        console.log('successfully saved measurement');
+        // that.setState({errors: {}});
       }.bind(this))
-      .fail(function(jqXhr) {
-        console.log('failed to register');
+      .fail(function(res) {
+        that.setState({errors: ["Ошибка при сохранении данных. Дублирование записи."]});
+        // that.setState({errors: res.errors});
       });
   }
   handleValueChange(e){
@@ -146,7 +161,7 @@ class InputForm extends React.Component{
               });
     return(
       <form className="pollutionsForm" onSubmit={this.handleSubmit}>
-        
+        <InputError visible="true" errorMessage={this.state.errors[0]} />
         <h3>Данные о погоде</h3>
         <table className="table table-hover">
           <thead>
