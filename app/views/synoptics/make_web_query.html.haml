@@ -4,12 +4,6 @@
   %div{ class: "col-md-6 col-md-offset-3"}
     = form_for(:synoptic, url: make_web_query_path) do |f| 
       = f.label :begin, "Начало периода*"
-      = f.text_field :begin, class: 'form-control'
-
-      = f.label :end, "Конец периода*"
-      = f.text_field :end, class: 'form-control'
-
-      = f.label :state, "Название страны"
-      = f.text_field :state, class: 'form-control'
+      = f.text_field :begin, class: 'form-control', value: 'YYYYMMDDHH00'
 
       = f.submit "Отобрать", class: "btn btn-primary"

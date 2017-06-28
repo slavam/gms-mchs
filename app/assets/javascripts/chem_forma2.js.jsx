@@ -41,7 +41,7 @@ class Forma2Params extends React.Component{
     if (!dateFrom || !dateTo || !postId) {
       return;
     }
-    this.props.onParamsSubmit({dateFrom: dateFrom, dateTo: dateTo, postId: postId});
+    this.props.onParamsSubmit({dateFrom: dateFrom, dateTo: dateTo, placeId: postId});
   }
   handleOptionSelected(value, senderName){
     if (senderName == 'selectPost'){
@@ -137,13 +137,15 @@ class ChemForma2 extends React.Component{
       scopeName: this.props.scopeName,
       pollutions: this.props.pollutions
     };
+    this.desiredLink = "/measurements/print_forma2.pdf?date_from="+this.props.dateFrom+"&date_to="+this.props.dateTo+"&place_id="+this.props.placeId+"&region_type="+this.props.regionType;
     this.handleParamsSubmit = this.handleParamsSubmit.bind(this);
   }
   
   handleParamsSubmit(params) {
+    this.desiredLink = "/measurements/print_forma2.pdf?date_from="+params.dateFrom+"&date_to="+params.dateTo+"&place_id="+params.placeId+"&region_type="+this.props.regionType;
     $.ajax({
       type: 'GET',
-      url: "get_chem_forma2_data?date_from="+params.dateFrom+"&date_to="+params.dateTo+"&post_id="+params.postId+"&region_type="+this.props.regionType
+      url: "get_chem_forma2_data?date_from="+params.dateFrom+"&date_to="+params.dateTo+"&place_id="+params.placeId+"&region_type="+this.props.regionType
       }).done(function(data) {
         this.setState({
           pollutions: data.pollutions,
@@ -165,7 +167,9 @@ class ChemForma2 extends React.Component{
         <br/>
         {this.state.scopeName}
         <Forma2Params onParamsSubmit={this.handleParamsSubmit} dateFrom={this.state.dateFrom} dateTo={this.state.dateTo} posts={this.props.posts} regionType={this.props.regionType} postId={this.state.postId}/>
-        <Forma2Table pollutions={this.state.pollutions} /> 
+        <Forma2Table pollutions={this.state.pollutions} />
+        <br />
+        <a href={this.desiredLink}>Распечатать</a>
       </div>
     );
   }

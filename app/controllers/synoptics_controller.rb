@@ -17,8 +17,10 @@ class SynopticsController < ApplicationController
     @end = @begin
     synoptics = Synoptic.where("Срок = ? and Дата like ?", term, year+'.'+month+'.'+day+'%')
     @telegrams = []
-    synoptics.each do |t|
-      @telegrams << 'sssss,YYYY,MM,DD,TT,00,AAXX '+day+term+'1 '+t["Телеграмма"][6..-1]
+    if synoptics.present? and (synoptics.size > 0)
+      synoptics.each do |t|
+        @telegrams << 'sssss,YYYY,MM,DD,TT,00,AAXX '+day+term+'1 '+t["Телеграмма"][6..-1]
+      end
     end
     # csv_data = Net::HTTP.get(URI.parse('http://www.ogimet.com/cgi-bin/getsynop?begin=201704300300&end=201704300300&state=Ukr'))
     

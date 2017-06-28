@@ -1,6 +1,6 @@
-const React = require("react");
-import Datetime from 'react-datetime';
-require('moment/locale/ru');
+// const React = require("react");
+// import Datetime from 'react-datetime';
+// require('moment/locale/ru');
 class InputError extends React.Component{
   constructor(props) {
     super(props);
@@ -43,16 +43,77 @@ class ChemOptionSelect extends React.Component{
     </select>;
   }
 }
+class OnePollution extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      mode: 'Изменить'
+    };
+    this.handleEditClick = this.handleEditClick.bind(this);
+    // this.handleEditFormSubmit = this.handleEditFormSubmit.bind(this);
+  }
+//      {/*<tr key={this.props.rowId}><td>{this.props.pollution.material_name}</td><td>{this.props.pollution.value}</td><td><a href={desiredLink}>Удалить</a></td></tr>*/}
+  handleEditClick(e){
+    if (this.state.mode == 'Изменить')
+      this.setState({mode:'Отменить'});
+    else
+      this.setState({mode:'Изменить'});
+  }
 
+  render() {
+    var desiredLink = "/pollution_values/"+this.props.pollution.id;
+    return (
+      <tr key={this.props.material_id}><td>{this.props.pollution.material_name}</td><td>{this.props.pollution.value}</td><td><a href={desiredLink}>Удалить</a></td><td>{this.props.size > 1 ? <input id={this.props.material_id} type="submit" value={this.state.mode} onClick={this.handleEditClick}/> : ''}</td></tr>
+    );
+  }
+}
+class PollutionsTable extends React.Component {
+  render() {
+    var rows = [];
+    var size = Object.keys(this.props.concentrations).length;
+    // if (typeof this.props.concentrations !== 'undefined' && this.props.concentrations.length > 0)
+    //   for (var i = 0; i < this.props.concentrations.length; i++) {
+    //     rows.push(<OnePollution key={i} pollution={this.props.concentrations[i]} rowId={i} />);
+    //   }
+    // else
+    //   return(<div></div>);
+    {/* Object.keys(this.props.pollutions).forEach((k) => rows.push(<Forma2OneRow data={this.props.pollutions[k]} material_id={k} key={k}/>)); */}
+    if (size == 0)
+      return (<div></div>);
+    else
+      Object.keys(this.props.concentrations).forEach((k) => rows.push(<OnePollution pollution={this.props.concentrations[k]} material_id={k} key={k} size={size}/>));
+    return (
+      <div>
+        <h4>Концентрации</h4>
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th>Вещество</th>
+              <th>Значение</th>
+              <th>Действие</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
 class InputForm extends React.Component{
   constructor(props) {
     super(props);
+    var vs = {};
+    Object.keys(this.props.concentrations).forEach((k) => vs[k] = this.props.concentrations[k].value);
     this.state = {
       weather: this.props.weather,
       date: this.props.date,
       term: this.props.term,
       postId: this.props.postId,
-      values: {},
+      concentrations: this.props.concentrations,
+      values: vs,
+      value: '',
       errors: {}
     };
     this.dateChange = this.dateChange.bind(this);
@@ -69,10 +130,10 @@ class InputForm extends React.Component{
     this.get_weather();
   }
   get_weather(){
-    // var that = this;
+    var date = this.state.date; //.replace(/-/g, ".");
     $.ajax({
       type: 'GET',
-      url: "weather_update?date="+this.state.date+"&term="+this.state.term+"&post_id="+this.state.postId
+      url: "weather_update?date="+date+"&term="+this.state.term+"&post_id="+this.state.postId
       }).done(function(data) {
         var weather = {};
         if (data.weather == null) {
@@ -84,35 +145,31 @@ class InputForm extends React.Component{
           weather = data.weather;
         this.setState({
           weather: weather,
+          concentrations: data.concentrations,
           errors: data.errors
         });
       }.bind(this))
       .fail(function(res) {
-        
-        this.setState({errors: res.responseJSON.errors});
+        if(res !== 'undefined')
+          this.setState({errors: res.responseJSON.errors});
       });
   }
   handleSubmit(e) {
+    var size = Object.keys(this.state.values).length;
     e.preventDefault();
     var that = this;
     var measurement = {};
-    // this.props.materials.map(function(m) {
-    Object.keys(this.state.values).forEach(function(k) {
-      if(that.state.values[k] < 0 || that.state.values[k] > that.props.materials[k].pdkmax){
-        // that.state.errors[0] = "Недопустимое значение - "+that.state.values[k];
-        alert("Недопустимое значение - "+that.state.values[k]);
-        return;
-      }
-    });
-    // if (!this.state.date || !this.state.term || !this.state.postId || !this.state.weather.wind_direction) {
     if (!this.state.weather.wind_direction) {
       alert('Нет данных о погоде!');
+      return;
+    }
+    if (size == 0) {
+      alert('Нет данных о концентрациях!');
       return;
     }
     measurement.date = this.state.date.trim();
     measurement.post_id = this.state.postId;
     measurement.term = this.state.term;
-    // measurement.rhumb
     measurement.wind_direction = this.state.weather.wind_direction;
     measurement.wind_speed = this.state.weather.wind_speed;
     measurement.temperature = this.state.weather.temperature;
@@ -129,17 +186,21 @@ class InputForm extends React.Component{
         // that.setState({errors: {}});
       }.bind(this))
       .fail(function(res) {
-        that.setState({errors: ["Ошибка при сохранении данных. Дублирование записи."]});
+        that.setState({values: {}, value: '', errors: ["Ошибка при сохранении данных. Дублирование записи."]});
         // that.setState({errors: res.errors});
       });
   }
   handleValueChange(e){
     this.state.values[e.target.name] = e.target.value;
+    // var name = e.target.name;
+    this.setState({value: e.target.value});
+    // alert(this.state.values[e.target.name])
   }
   dateChange(e) {
-    var date = e.format("YYYY.MM.DD");
-    this.state.date = date;
+    // var date = e.format("YYYY.MM.DD");
+    this.state.date = e.target.value;
     this.get_weather();
+    // this.setState({date: e.target.value});
   }
   
   render(){
@@ -155,14 +216,36 @@ class InputForm extends React.Component{
     this.props.materials.map(function(m) {
                 ths.push(<th key={m.id}>{m.name}</th>);
                 tds.push(<td key={m.id}>
-                  <input type="text" value={self.state.values[m.id]} onChange={self.handleValueChange} name={m.id} />
-                  {/*<InputError visible={self.state[td].errorVisible} errorMessage="Ошибка!" /> */}
+                <input type="number" value={self.state.values[m.id] == null ? '' : self.state.values[m.id]} onChange={self.handleValueChange} name={m.id} min="0.0" step="0.001"/>
+                {/*    <InputError visible={self.state[td].errorVisible} errorMessage="Ошибка!" /> */}
                 </td>);
               });
     return(
-      <form className="pollutionsForm" onSubmit={this.handleSubmit}>
-        <InputError visible="true" errorMessage={this.state.errors[0]} />
-        <h3>Данные о погоде</h3>
+      <div>
+        <form className="pollutionsForm" onSubmit={this.handleSubmit}>
+          <InputError visible="true" errorMessage={this.state.errors[0]} />
+          <h3>Создать новую запись</h3>
+          <table className="table table-hover">
+            <thead>
+              <tr>
+                {ths}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {tds}
+              </tr>
+            </tbody>
+          </table>  
+          <div>
+            Пост: <ChemOptionSelect options={this.props.posts} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" defaultValue={this.props.postId}/>
+            Срок: <ChemOptionSelect options={terms} onUserInput={this.handleOptionSelected} name = "selectTerm" defaultValue="07"/>
+            Дата: <input type="date" name="measurement-date" value={this.state.date} onChange={this.dateChange} required="true" autoComplete="on"/>
+            {/* Дата: <Datetime timeFormat={false} dateFormat="YYYY.MM.DD" closeOnSelect={true} onChange={this.dateChange} defaultValue={this.props.date} /> */}
+          </div>
+          <input type="submit" value="Сохранить" />
+        </form>
+        <h4>Данные о погоде (дата: {this.state.date}; срок: {this.state.term}; пост: {this.state.postId})</h4>
         <table className="table table-hover">
           <thead>
             <tr>
@@ -198,26 +281,8 @@ class InputForm extends React.Component{
             </tr>
           </tbody>
         </table>
-        <h3>Концентрации веществ</h3>
-        <table className="table table-hover">
-          <thead>
-            <tr>
-              {ths}
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              {tds}
-            </tr>
-          </tbody>
-        </table>  
-        <div>
-          Пост: <ChemOptionSelect options={this.props.posts} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" defaultValue={this.props.postId}/>
-          Срок: <ChemOptionSelect options={terms} onUserInput={this.handleOptionSelected} name = "selectTerm" defaultValue="07"/>
-          Дата: <Datetime timeFormat={false} dateFormat="YYYY.MM.DD" closeOnSelect={true} onChange={this.dateChange} defaultValue={this.props.date} />
-        </div>
-        <input type="submit" value="Сохранить" />
-      </form>
+        <PollutionsTable concentrations={this.state.concentrations} />
+      </div>
     );
   }
     
@@ -238,6 +303,7 @@ class InputPollutionsForm extends React.Component{
       date: this.props.date,
       term: this.props.term,
       postId: this.props.postId,
+      // concentrations: this.props.concentrations,
       errors: {}
     };
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -264,9 +330,9 @@ class InputPollutionsForm extends React.Component{
   render(){
     return(
       <div>
-        <InputForm onInputFormSubmit={this.handleFormSubmit} weather = {this.state.weather} errors = {this.state.errors} date={this.state.date} term={this.state.term} materials={this.props.materials} posts={this.props.posts} postId={this.state.postId}/>
+        <InputForm onInputFormSubmit={this.handleFormSubmit} weather = {this.state.weather} errors = {this.state.errors} date={this.state.date} term={this.state.term} materials={this.props.materials} posts={this.props.posts} postId={this.state.postId} concentrations={this.props.concentrations}/>
       </div>
     );
   }
 }
-export default InputPollutionsForm;
+// export default InputPollutionsForm;
