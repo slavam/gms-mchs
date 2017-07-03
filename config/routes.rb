@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
+  delete 'pollution_values/delete_value/:id', to: 'pollution_values#delete_value'
   resources :pollution_values
   get 'measurements/weather_update', to: 'measurements#weather_update'
   post 'measurements/save_pollutions', to: 'measurements#save_pollutions'
+  post 'measurements/create_or_update', to: 'measurements#create_or_update'
   get 'measurements/get_convert_params', to: 'measurements#get_convert_params'
   get 'measurements/chem_forma2', to: 'measurements#chem_forma2'
   get 'measurements/get_chem_forma2_data', to: 'measurements#get_chem_forma2_data'

@@ -1,5 +1,5 @@
 class PollutionValuesController < ApplicationController
-  before_filter :find_pollution_value, only: [:destroy, :edit, :update]
+  before_filter :find_pollution_value, only: [:destroy, :edit, :update, :delete_value]
 
   def edit
   end
@@ -10,6 +10,13 @@ class PollutionValuesController < ApplicationController
     else
       redirect_to measurements_path
     end
+  end
+  
+  def delete_value
+    master_record_id = @pollution_value.measurement_id
+    @pollution_value.destroy
+    concentrations = Measurement.find(master_record_id).concentrations_by_measurement
+    render :json => { :errors => ["Удалена запись о концентрации"], concentrations: concentrations }
   end
   
   def destroy

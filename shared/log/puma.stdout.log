@@ -4976,3 +4976,11 @@ Cannot render console from 193.109.166.86! Allowed networks: 127.0.0.1, ::1, 127
 === puma startup: 2017-05-15 14:23:54 +0000 ===
 Exiting
 [9741] ! Detected parent died, dying
+=== puma startup: 2017-06-29 07:51:42 +0000 ===
+[2292] * Starting control server on unix:///tmp/puma-status-1498722702421-2292
+[2292] - Worker 0 (pid: 2300) booted, phase: 0
+[2292] - Worker 1 (pid: 2304) booted, phase: 0
+[2292] - Gracefully shutting down workers...
+[2292] === puma shutdown: 2017-06-29 07:51:59 +0000 ===
+[2292] - Goodbye!
+Exiting

@@ -46,24 +46,14 @@ class ChemOptionSelect extends React.Component{
 class OnePollution extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      mode: 'Изменить'
-    };
-    this.handleEditClick = this.handleEditClick.bind(this);
-    // this.handleEditFormSubmit = this.handleEditFormSubmit.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
-//      {/*<tr key={this.props.rowId}><td>{this.props.pollution.material_name}</td><td>{this.props.pollution.value}</td><td><a href={desiredLink}>Удалить</a></td></tr>*/}
-  handleEditClick(e){
-    if (this.state.mode == 'Изменить')
-      this.setState({mode:'Отменить'});
-    else
-      this.setState({mode:'Изменить'});
+  handleDeleteClick(e){
+    this.props.onClickDeletePollution(this.props.pollution.id);
   }
-
   render() {
-    var desiredLink = "/pollution_values/"+this.props.pollution.id;
     return (
-      <tr key={this.props.material_id}><td>{this.props.pollution.material_name}</td><td>{this.props.pollution.value}</td><td><a href={desiredLink}>Удалить</a></td><td>{this.props.size > 1 ? <input id={this.props.material_id} type="submit" value={this.state.mode} onClick={this.handleEditClick}/> : ''}</td></tr>
+      <tr key={this.props.material_id}><td>{this.props.pollution.material_name}</td><td>{this.props.pollution.value}</td><td>{this.props.size > 1 ? <input id={this.props.material_id} type="submit" value="Удалить" onClick={this.handleDeleteClick}/> : ''}</td></tr>
     );
   }
 }
@@ -71,17 +61,10 @@ class PollutionsTable extends React.Component {
   render() {
     var rows = [];
     var size = Object.keys(this.props.concentrations).length;
-    // if (typeof this.props.concentrations !== 'undefined' && this.props.concentrations.length > 0)
-    //   for (var i = 0; i < this.props.concentrations.length; i++) {
-    //     rows.push(<OnePollution key={i} pollution={this.props.concentrations[i]} rowId={i} />);
-    //   }
-    // else
-    //   return(<div></div>);
-    {/* Object.keys(this.props.pollutions).forEach((k) => rows.push(<Forma2OneRow data={this.props.pollutions[k]} material_id={k} key={k}/>)); */}
     if (size == 0)
       return (<div></div>);
     else
-      Object.keys(this.props.concentrations).forEach((k) => rows.push(<OnePollution pollution={this.props.concentrations[k]} material_id={k} key={k} size={size}/>));
+      Object.keys(this.props.concentrations).forEach((k) => rows.push(<OnePollution pollution={this.props.concentrations[k]} material_id={k} key={k} size={size} onClickDeletePollution={this.props.onClickDeletePollution} />));
     return (
       <div>
         <h4>Концентрации</h4>
@@ -114,13 +97,14 @@ class InputForm extends React.Component{
       concentrations: this.props.concentrations,
       values: vs,
       value: '',
-      errors: {}
+      errors: this.props.errors
     };
     this.dateChange = this.dateChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleOptionSelected = this.handleOptionSelected.bind(this);
     this.handleValueChange = this.handleValueChange.bind(this);
     this.get_weather = this.get_weather.bind(this);
+    this.deletePollution = this.deletePollution.bind(this);
   }
   handleOptionSelected(value, senderName){
     if (senderName == 'selectTerm')
@@ -130,7 +114,7 @@ class InputForm extends React.Component{
     this.get_weather();
   }
   get_weather(){
-    var date = this.state.date; //.replace(/-/g, ".");
+    var date = this.state.date; 
     $.ajax({
       type: 'GET',
       url: "weather_update?date="+date+"&term="+this.state.term+"&post_id="+this.state.postId
@@ -143,9 +127,13 @@ class InputForm extends React.Component{
           weather.atmosphere_pressure = '';
         } else
           weather = data.weather;
+        var vs = {};
+        if (Object.keys(data.concentrations).length > 0)
+          Object.keys(data.concentrations).forEach((k) => vs[k] = data.concentrations[k].value);
         this.setState({
           weather: weather,
           concentrations: data.concentrations,
+          values: vs,
           errors: data.errors
         });
       }.bind(this))
@@ -180,10 +168,11 @@ class InputForm extends React.Component{
     this.state.errors = {};
     $.ajax({
       type: 'POST',
-      url: "save_pollutions",
+      // url: "save_pollutions",
+      url: "create_or_update",
       data: {measurement: measurement, values: this.state.values}
       }).done(function(data) {
-        // that.setState({errors: {}});
+        that.setState({errors: data.errors, concentrations: data.concentrations});
       }.bind(this))
       .fail(function(res) {
         that.setState({values: {}, value: '', errors: ["Ошибка при сохранении данных. Дублирование записи."]});
@@ -202,7 +191,18 @@ class InputForm extends React.Component{
     this.get_weather();
     // this.setState({date: e.target.value});
   }
-  
+  deletePollution(pollutionId){
+    var that = this;
+    $.ajax({
+      type: 'DELETE',
+      url: "/pollution_values/delete_value/"+pollutionId //value_delete?=record_id="+pollutionId
+    }).done(function(data){
+      var vs = {};
+      Object.keys(data.concentrations).forEach((k) => vs[k] = data.concentrations[k].value);
+      that.setState({values: vs, concentrations: data.concentrations, errors: data.errors});
+    }.bind(this))
+    .fail(function(res){});
+  }
   render(){
     const terms = [
       { id: '01', name: '01' },
@@ -222,9 +222,10 @@ class InputForm extends React.Component{
               });
     return(
       <div>
+        <InputError visible="true" errorMessage={this.state.errors[0]} />
         <form className="pollutionsForm" onSubmit={this.handleSubmit}>
-          <InputError visible="true" errorMessage={this.state.errors[0]} />
-          <h3>Создать новую запись</h3>
+          
+          <h3>Создать/изменить запись</h3>
           <table className="table table-hover">
             <thead>
               <tr>
@@ -281,7 +282,7 @@ class InputForm extends React.Component{
             </tr>
           </tbody>
         </table>
-        <PollutionsTable concentrations={this.state.concentrations} />
+        <PollutionsTable concentrations={this.state.concentrations} onClickDeletePollution={this.deletePollution}/>
       </div>
     );
   }
@@ -304,7 +305,7 @@ class InputPollutionsForm extends React.Component{
       term: this.props.term,
       postId: this.props.postId,
       // concentrations: this.props.concentrations,
-      errors: {}
+      errors: []
     };
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }

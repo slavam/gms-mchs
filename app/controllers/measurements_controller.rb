@@ -116,7 +116,6 @@ class MeasurementsController < ApplicationController
     end
     flash[:success] = "Входных записей - #{source.size}. Сохранено измерений - #{write_count}."
     redirect_to measurements_path
-
   end
 
   def index
@@ -140,7 +139,7 @@ class MeasurementsController < ApplicationController
     measurement = Measurement.new(measurement_params)
     measurement.rhumb = wind_direction_to_rhumb(measurement.wind_direction)
     values = params[:values]
-    Rails.logger.debug("My object: #{measurement.inspect}")
+    # Rails.logger.debug("My object: #{measurement.inspect}")
     if measurement.save
       if values.present? 
         values.each do |k, v|
@@ -154,18 +153,38 @@ class MeasurementsController < ApplicationController
       # Rails.logger.debug("My object: #{measurement.errors.messages.inspect}")
       # render :json => { :errors =>measurement.errors.messages }, :status => 422
     end
-    # Rails.logger.debug("My object: #{values.inspect}")
-    # if measurement_save(measurement, values)
-    #   flash[:success] = "Измерения сохранены"
-    #   redirect_to measurements_path
-    # else
-    #   # render :json => { :errors => @employee.errors.messages }, :status => 422
-    #   Rails.logger.debug("My object: #{values.inspect}")
-    #   render json: {errors: {code: "Error"}}
-    #   # render 'new'
-    # end
   end
 
+  def write_pollutions(measurement, pollutions)
+    # values = measurement.pollution_values
+    pollutions.each do |k, v|
+      # PollutionValue.where("measurement_id = ? AND material_id = ?", measurement.id, k).first_or_create! do |pollution|
+      #   pollution.value = v
+      # end
+      PollutionValue.where("measurement_id = ? AND material_id = ?", measurement.id, k).first_or_initialize.tap do |pollution|
+        pollution.measurement_id = measurement.id
+        pollution.material_id = k
+        pollution.value = v
+        pollution.save
+      end
+    end
+  end
+  
+  def create_or_update
+    measurement = Measurement.where("date = ? AND term = ? AND post_id = ?", params[:measurement][:date], params[:measurement][:term].to_i, params[:measurement][:post_id].to_i).first
+# Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{measurement.inspect}")
+    if measurement.nil?
+      measurement = Measurement.new(measurement_params)
+      measurement.rhumb = wind_direction_to_rhumb(measurement.wind_direction)
+      measurement.save
+    end
+    pollutions = params[:values]
+    write_pollutions(measurement, pollutions)
+    # redirect_to new_measurement_path
+    concentrations = get_concentrations_by_measurement(measurement.id)
+    render :json => { :errors => ["Данные сохранены"], concentrations: concentrations }
+  end
+  
   def destroy
     @measurement.destroy
     flash[:success] = "Измерение удалено"
@@ -186,15 +205,16 @@ class MeasurementsController < ApplicationController
     date = params[:date]
     weather = get_weather(station, date, synoptic_term)
     err = weather.nil? ? "В базе не найдена погода для поста: #{params[:post_id]}, дата: #{params[:date]}, срок: #{params[:term]}" : ''
+    concentrations = {}
     if weather.present?
       # measurements = Measurement.where("date = ? AND term = ? AND post_id = ?", date, params[:term], params[:post_id])
       # measurement_id = measurements[0].id if measurements.size > 0
       measurement_id = Measurement.get_id_by_date_term_post(date, params[:term], params[:post_id])
-      concentrations = []
       if measurement_id.present?
         concentrations = get_concentrations_by_measurement(measurement_id)
       end
     end
+# Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{concentrations.inspect}")
     render json: {weather: weather, errors: [err], concentrations: concentrations}
   end
   

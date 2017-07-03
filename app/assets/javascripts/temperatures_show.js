@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+// import React, { Component } from "react";
+// import ReactDOM from "react-dom";
 import moment from "moment";
 import Datetime from 'react-datetime';
 require('moment/locale/ru');
