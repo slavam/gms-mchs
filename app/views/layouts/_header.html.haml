@@ -29,7 +29,8 @@
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты <b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
-                  %li= link_to 'Форма 1',  pollutions_chem_forma1_path
+                  %li= link_to 'Форма 1 (ТЗА)',  measurements_chem_forma1_tza_path
+                  %li= link_to 'Форма 1 (АКИАМ)',  pollutions_chem_forma1_path
                   %li= link_to 'Форма 2 по постам',  "/measurements/chem_forma2?region_type=post&place_id=5"
                   %li= link_to 'Форма 2 по городам',  "/measurements/chem_forma2?region_type=city&place_id=1"
                   %li= link_to 'Фоновые концентрации', pollutions_background_concentration_path

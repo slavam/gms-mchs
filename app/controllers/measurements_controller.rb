@@ -13,6 +13,47 @@ class MeasurementsController < ApplicationController
   TERMS[13] = '12'
   TERMS[19] = '18'
 
+  def chem_forma1_tza
+    @year = '2016' #@pollution_date_end.year.to_s #'2005' 
+    @month = '01' #month_mm
+    @post_id =  5 # 20 for Gorlovka
+    @matrix = get_matrix_data(@year, @month, @post_id)
+    @posts = Post.all.select(:id, :name).order(:id)
+  end
+
+  def get_chem_forma1_tza_data
+    month = params[:month]
+    year = params[:year]
+    post_id = params[:post_id]
+    matrix = get_matrix_data(year, month, post_id)
+    render json: {year: year, month: month, matrix: matrix, postId: post_id}
+  end
+
+  def make_forma1_row(k, ps)
+    row = []
+    row[0] = k[0,10]
+    row[1] = k[11,2]
+    ps.each {|v| row << v[1]}
+    return row
+  end
+  def print_forma1_tza
+    @year = params[:year]
+    @month = params[:month]
+    @post_id = params[:post_id]
+    @matrix = get_matrix_data(@year, @month, @post_id)
+    header0 = ["Число", "Срок"]
+    @matrix[:substance_names].each {|h| header0 << h[1]}
+    @pollutions = []
+    @pollutions << header0
+    @matrix[:pollutions].each do |k, p|
+      @pollutions << make_forma1_row(k, p)
+    end
+    # arr = @matrix[:measure_num].map{|k,v| v}
+    @pollutions << ["Число измерений", ""] + @matrix[:measure_num].map{|k,v| v}
+    @pollutions << ["Среднее", ""] + @matrix[:avg_values].map{|k,v| v}
+    @pollutions << ["Максимум", ""] + @matrix[:max_values].map{|k,v| v}
+  end
+  
   def print_forma2
     @date_from = params[:date_from]
     @date_to = params[:date_to]
@@ -220,6 +261,51 @@ class MeasurementsController < ApplicationController
   
   private
 
+    def get_matrix_data(year, month, post_id)
+      matrix = {}
+      post = Post.find(post_id)
+      matrix[:site_description] = post.name+'. Координаты: '+post.coordinates.to_s
+      year_month = year+'-'+month+'%'      
+      # select me.date, me.term, p_v.material_id, p_v.value from  pollution_values p_v join measurements me on me.id=p_v.measurement_id and me.post_id=5 and date like '2016-01%' order by me.date, me.term
+      pollutions_raw = Measurement.find_by_sql("SELECT concat(DATE_FORMAT(me.date, '%Y-%m-%d '), me.term) date_term, me.*, p_v.* FROM measurements me JOIN pollution_values p_v ON p_v.measurement_id=me.id WHERE date like '#{year_month}' AND post_id = #{post_id} ORDER BY date, term")
+      # measurements = Measurement.where("date like ? and post_id = ?", year_month, post_id).order(:date, :term)
+      grouped_pollutions = pollutions_raw.group_by { |p| p.material_id }
+      substance_codes = PollutionValue.find_by_sql("select distinct(p_v.material_id) material_id, ma.name name from  pollution_values p_v join measurements me on me.id=p_v.measurement_id and me.post_id=#{post_id} and date like '#{year_month}' JOIN materials ma ON ma.id=p_v.material_id order by p_v.material_id")
+      matrix[:substance_num] = substance_codes.size
+      substance_names = {}
+      measure_num = Hash.new(0)
+      max_values = Hash.new(0)
+      avg_values = Hash.new(0)
+      substance_codes.each do |s|
+        k = s.material_id
+        substance_names[k] = s.name
+        measure_num[k] = grouped_pollutions[k].size
+        grouped_pollutions[k].each {|g_p|
+          max_values[k] = g_p.value if g_p.value > max_values[k]
+          avg_values[k] += g_p.value
+        }
+        avg_values[k] = (avg_values[k]/measure_num[k]).round(3) if measure_num[k] > 0
+      end
+      matrix[:substance_names] = substance_names
+      matrix[:measure_num] = measure_num
+      matrix[:max_values] = max_values
+      matrix[:avg_values] = avg_values
+      grouped_pollutions = pollutions_raw.group_by { |p| p.date_term }
+      pollutions = {}
+      grouped_pollutions.each do |k, g_p|
+        a = {}
+        substance_codes.each do |s|
+          a[s.material_id] = ''
+        end
+        g_p.each do |p| 
+          a[p.material_id] = p.value
+        end
+        pollutions[k] = a.to_a
+      end
+      matrix[:pollutions] = pollutions
+      return matrix
+    end
+
     def measurement_save(measurement, values)
       ret = true
       if measurement.save
@@ -358,7 +444,7 @@ class MeasurementsController < ApplicationController
     end
     
     def get_place_name(region_type, place_id)
-      if region_type == 'post`'
+      if region_type == 'post'
         ret = Post.find(place_id).name
       else
         ret = City.find(place_id).name

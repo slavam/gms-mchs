@@ -23,8 +23,9 @@ class ChemOptionSelect extends React.Component{
 class Forma2Params extends React.Component{
   constructor(props) {
     super(props);
+    // var placeId = this.props.regionType == 'post' ? 5 : 1;
     this.state = {
-      postId: 1,
+      postId: this.props.placeId,
       dateFrom: this.props.dateFrom,
       dateTo: this.props.dateTo
     };
@@ -84,7 +85,7 @@ class Forma2OneRow extends React.Component{
     var k =  this.props.material_id;
     return (
       <tr key={k}><td>{k}</td><td>{p.material_name}</td><td>{p.size}</td><td>{p.mean}</td>
-         <td>{p.max_concentration.value}</td><td>{p.max_concentration.post_id}</td><td>{p.max_concentration.date} {p.max_concentration.term}</td>
+         <td>{p.max_concentration.value}</td><td>{p.max_concentration.post_id}</td><td>{p.max_concentration.date}</td><td>{p.max_concentration.term}</td>
          <td>{p.standard_deviation}</td><td>{p.variance}</td><td>{p.percent1}</td><td>{p.percent5}</td><td>{p.percent10}</td>
          <td>{p.lt_1pdk}</td><td>{p.lt_5pdk}</td><td>{p.lt_10pdk}</td><td>{p.pollution_index}</td>
          <td>{p.avg_conc}</td><td>{p.max_conc}</td>
@@ -107,6 +108,7 @@ class Forma2Table extends React.Component {
             <th>Макс. конц.</th>
             <th>Пост</th>
             <th>Дата</th>
+            <th>Срок</th>
             <th>Среднекв. отклонение</th>
             <th>Коэффициент вариации</th>
             <th>Процент повторяемости</th>
@@ -166,7 +168,7 @@ class ChemForma2 extends React.Component{
         Тип региона {this.state.regionType}
         <br/>
         {this.state.scopeName}
-        <Forma2Params onParamsSubmit={this.handleParamsSubmit} dateFrom={this.state.dateFrom} dateTo={this.state.dateTo} posts={this.props.posts} regionType={this.props.regionType} postId={this.state.postId}/>
+        <Forma2Params onParamsSubmit={this.handleParamsSubmit} dateFrom={this.state.dateFrom} dateTo={this.state.dateTo} posts={this.props.posts} regionType={this.props.regionType} placeId={this.props.placeId}/>
         <Forma2Table pollutions={this.state.pollutions} />
         <br />
         <a href={this.desiredLink}>Распечатать</a>
