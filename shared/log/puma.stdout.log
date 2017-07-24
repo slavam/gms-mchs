@@ -4992,3 +4992,11 @@ Exiting
 [2781] === puma shutdown: 2017-07-04 05:10:05 +0000 ===
 [2781] - Goodbye!
 Exiting
+=== puma startup: 2017-07-17 06:08:19 +0000 ===
+[2321] * Starting control server on unix:///tmp/puma-status-1500271699416-2321
+[2321] - Worker 1 (pid: 2333) booted, phase: 0
+[2321] - Worker 0 (pid: 2329) booted, phase: 0
+[2321] - Gracefully shutting down workers...
+[2321] === puma shutdown: 2017-07-17 06:08:24 +0000 ===
+[2321] - Goodbye!
+Exiting

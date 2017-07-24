@@ -1,7 +1,6 @@
 # source 'https://rubygems.org'
 source 'http://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
 # gem 'rails', '4.2.6'
@@ -38,14 +37,12 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
+# gem 'sdoc', '~> 0.4.0', group: :doc
 
-gem 'chartjs-ror'
+# gem 'chartjs-ror'
 
 gem 'prawn-rails'
 gem 'prawn-table', :git => 'https://github.com/straydogstudio/prawn-table.git', ref: '759a27b6'
-# gem 'prawn-table', :git => 'http://github.com/straydogstudio/prawn-table.git', ref: '759a27b6'
-
 
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -77,7 +74,8 @@ group :development do
   
   gem 'capistrano', '~> 3.7', '>= 3.7.1'
   gem 'capistrano-rails', '~> 1.2'
-  gem 'capistrano-passenger', '~> 0.2.0'
+  # gem 'capistrano-passenger', '~> 0.2.0'
+  gem 'capistrano3-puma'
   
   # Add this if you're using rbenv
   gem 'capistrano-rbenv', '~> 2.1'

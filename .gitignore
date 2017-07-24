@@ -17,4 +17,5 @@
 /tmp
 config/database.yml
 config/secrets.yml
-/shared
+/shared/log
+

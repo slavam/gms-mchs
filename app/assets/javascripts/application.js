@@ -18,7 +18,7 @@
 //= require react_ujs
 //= require components
 //= require_tree .
-//= require Chart.bundle.min
+
 
 window.$ = window.jQuery = global.$ = require('jquery');
 var React = window.React = global.React = require('react');
