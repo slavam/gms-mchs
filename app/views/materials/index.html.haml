@@ -4,6 +4,7 @@
     %table{class: "table table-hover"}
       %thead
         %tr
+          %th= "Id"
           %th= "Название"
           %th= "Единица измерения"
           %th= "ПДК средняя"
@@ -14,9 +15,13 @@
           %th= "v"
           %th= "grad"
           %th= "point"
+          %th= "Наблюдается?"
+          %th= "Действия"
+          
       %tbody
         - @materials.each do |m| 
           %tr
+            %td= m.id
             %td= m.name
             %td= m.unit
             %td= m.pdksr
@@ -27,3 +32,5 @@
             %td= m.v
             %td= m.grad
             %td= m.point
+            %td= m.active ? "Да" : "Нет"
+            %td= link_to "Изменить", edit_material_path(m)

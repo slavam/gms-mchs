@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170613163908) do
+ActiveRecord::Schema.define(version: 20170725074142) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 20170613163908) do
     t.integer  "point",      limit: 4
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.boolean  "active"
   end
 
   create_table "measurements", force: :cascade do |t|
@@ -129,6 +130,7 @@ ActiveRecord::Schema.define(version: 20170613163908) do
     t.integer  "height",           limit: 4
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.boolean  "active"
   end
 
   create_table "reestr", force: :cascade do |t|

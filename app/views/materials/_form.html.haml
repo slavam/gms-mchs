@@ -1,0 +1,41 @@
+%div{ class: "row"}
+  %div{ class: "col-md-6 col-md-offset-3"}
+    = form_for @material do |form|
+      %table.card
+        %tr
+          %th Название:
+          %td= form.text_field :name, size: 100
+        %tr
+          %th Единица измерения:
+          %td= form.text_field :unit
+        %tr
+          %th ПДК средняя:
+          %td= form.text_field :pdksr
+        %tr
+          %th ПДК максимальная:
+          %td= form.text_field :pdkmax
+        %tr
+          %th vesmn:
+          %td= form.text_field :vesmn
+        %tr
+          %th Класс опасности:
+          %td= form.text_field :klop
+        %tr
+          %th imax:
+          %td= form.text_field :imax
+        %tr
+          %th v:
+          %td= form.text_field :v
+        %tr
+          %th grad:
+          %td= form.text_field :grad
+        %tr
+          %th point:
+          %td= form.text_field :point
+        %tr
+          %th Наблюдается?:
+          %td= form.check_box :active
+  
+  
+      = submit_tag "Сохранить"
+= link_to "Список", materials_path       

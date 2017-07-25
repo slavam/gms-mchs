@@ -5,3 +5,5 @@
   %td= post.substances_num
   %td= post.coordinates
   %td= post.height
+  %td= post.active ? "Да" : "Нет"
+  %td= link_to "Изменить", edit_post_path(post)

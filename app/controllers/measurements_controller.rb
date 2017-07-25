@@ -18,7 +18,7 @@ class MeasurementsController < ApplicationController
     @month = '01' #month_mm
     @post_id =  5 # 20 for Gorlovka
     @matrix = get_matrix_data(@year, @month, @post_id)
-    @posts = Post.all.select(:id, :name).order(:id)
+    @posts = Post.actual.order(:id) #Post.all.select(:id, :name).order(:id)
   end
 
   def get_chem_forma1_tza_data
