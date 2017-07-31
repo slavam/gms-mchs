@@ -1,6 +1,6 @@
-import React from "react";
-import Datetime from 'react-datetime';
-require('moment/locale/ru');
+// import React from "react";
+// import Datetime from 'react-datetime';
+// require('moment/locale/ru');
 
 class ChemOptionSelect extends React.Component{
   constructor(props) {
@@ -31,7 +31,8 @@ class Forma1Params extends React.Component{
     };
     this.handleOptionSelected = this.handleOptionSelected.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
+    // this.onChange = this.onChange.bind(this);
+    this.dateChange = this.dateChange.bind(this);
   }
   handleSubmit(e) {
     e.preventDefault();
@@ -48,23 +49,31 @@ class Forma1Params extends React.Component{
       this.state.siteIndex = value;
     }
   }
-  onChange(event) {
-    var year = event.format("YYYY");
-    var month = event.format("MM");
+  dateChange(e) {
+    var date = e.target.value;
+    var year = date.substr(0,4);
+    var month = date.substr(5,2);
     this.setState({year: year, month: month});
   }
+  // onChange(event) {
+  //   var year = event.format("YYYY");
+  //   var month = event.format("MM");
+  //   this.setState({year: year, month: month});
+  // }
   render() {
+    var yearMonth = this.state.year+'-'+this.state.month;
     return (
       <form className="paramsForm" onSubmit={this.handleSubmit}>
         <ChemOptionSelect options={this.props.posts} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" defaultValue = {this.state.siteIndex}/>
-        <Datetime 
+        <input type="month" value={yearMonth} min="2000-01" max="2020-01" onChange={this.dateChange}/>
+        {/*<Datetime 
           locale="ru" 
           timeFormat={false} 
           dateFormat="YYYY-MM" 
           closeOnSelect={true} 
           onChange={this.onChange}
         />
-
+*/}
         <input type="submit" value="Пересчитать" />
       </form>
     );
@@ -207,4 +216,4 @@ class ChemForma1Tza extends React.Component{
   }
 }
 
-export default ChemForma1Tza;
+// export default ChemForma1Tza;

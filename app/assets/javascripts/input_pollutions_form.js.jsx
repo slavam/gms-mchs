@@ -229,6 +229,22 @@ class InputForm extends React.Component{
           <table className="table table-hover">
             <thead>
               <tr>
+                <th>Пост</th>
+                <th>Срок</th>
+                <th>Дата</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><ChemOptionSelect options={this.props.posts} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" defaultValue={this.props.postId}/></td>
+                <td><ChemOptionSelect options={terms} onUserInput={this.handleOptionSelected} name = "selectTerm" defaultValue="07"/></td>
+                <td><input type="date" name="measurement-date" value={this.state.date} onChange={this.dateChange} required="true" autoComplete="on"/></td>
+              </tr>
+            </tbody>
+          </table>  
+          <table className="table table-hover">
+            <thead>
+              <tr>
                 {ths}
               </tr>
             </thead>
@@ -238,12 +254,12 @@ class InputForm extends React.Component{
               </tr>
             </tbody>
           </table>  
-          <div>
+            {/*
             Пост: <ChemOptionSelect options={this.props.posts} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" defaultValue={this.props.postId}/>
             Срок: <ChemOptionSelect options={terms} onUserInput={this.handleOptionSelected} name = "selectTerm" defaultValue="07"/>
-            Дата: <input type="date" name="measurement-date" value={this.state.date} onChange={this.dateChange} required="true" autoComplete="on"/>
-            {/* Дата: <Datetime timeFormat={false} dateFormat="YYYY.MM.DD" closeOnSelect={true} onChange={this.dateChange} defaultValue={this.props.date} /> */}
-          </div>
+            Дата: <input size="10px" type="date" name="measurement-date" value={this.state.date} onChange={this.dateChange} required="true" autoComplete="on"/>
+             Дата: <Datetime timeFormat={false} dateFormat="YYYY.MM.DD" closeOnSelect={true} onChange={this.dateChange} defaultValue={this.props.date} /> 
+          </div>*/}
           <input type="submit" value="Сохранить" />
         </form>
         <h4>Данные о погоде (дата: {this.state.date}; срок: {this.state.term}; пост: {this.state.postId})</h4>
@@ -286,8 +302,8 @@ class InputForm extends React.Component{
       </div>
     );
   }
-    
 }
+
 class InputPollutionsForm extends React.Component{
   constructor(props) {
     super(props);
@@ -304,34 +320,14 @@ class InputPollutionsForm extends React.Component{
       date: this.props.date,
       term: this.props.term,
       postId: this.props.postId,
-      // concentrations: this.props.concentrations,
       errors: []
     };
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
-  handleFormSubmit(concentrations) {
-    // var that = this;
-    // var telegrams = that.state.telegrams;
-    // var newTelegrams = [telegram].concat(telegrams);
-    // $.ajax({
-    //   type: 'POST',
-    //   dataType: 'json',
-    //   url: "create_synoptic_telegram?t_term="+telegram["Срок"]+"&t_text="+telegram["Телеграмма"]
-    //   }).done(function(data) {
-    //     // alert(data["Дата"])
-    //     newTelegrams[0]["Дата"] = data["Дата"];
-    //     that.setState({telegrams: newTelegrams, errors: {}});
-    //   }.bind(that))
-    //   .fail(function(res) {
-    //     that.setState({errors: res.responseJSON.errors});
-    //   }.bind(that)); 
-  }
-  
   render(){
     return(
       <div>
-        <InputForm onInputFormSubmit={this.handleFormSubmit} weather = {this.state.weather} errors = {this.state.errors} date={this.state.date} term={this.state.term} materials={this.props.materials} posts={this.props.posts} postId={this.state.postId} concentrations={this.props.concentrations}/>
+        <InputForm weather = {this.state.weather} errors = {this.state.errors} date={this.state.date} term={this.state.term} materials={this.props.materials} posts={this.props.posts} postId={this.state.postId} concentrations={this.props.concentrations}/>
       </div>
     );
   }

@@ -1,5 +1,6 @@
 require 'descriptive_statistics'
 class MeasurementsController < ApplicationController
+  before_filter :require_chemist
   before_filter :init_weather_params, :only => [:new]
   before_filter :find_measurement, only: [:destroy]
   HAZARD_CLASS =Array.new
@@ -18,7 +19,7 @@ class MeasurementsController < ApplicationController
     @month = '01' #month_mm
     @post_id =  5 # 20 for Gorlovka
     @matrix = get_matrix_data(@year, @month, @post_id)
-    @posts = Post.actual.order(:id) #Post.all.select(:id, :name).order(:id)
+    @posts = Post.actual.order(:id) 
   end
 
   def get_chem_forma1_tza_data
@@ -36,6 +37,7 @@ class MeasurementsController < ApplicationController
     ps.each {|v| row << v[1]}
     return row
   end
+  
   def print_forma1_tza
     @year = params[:year]
     @month = params[:month]
@@ -48,7 +50,6 @@ class MeasurementsController < ApplicationController
     @matrix[:pollutions].each do |k, p|
       @pollutions << make_forma1_row(k, p)
     end
-    # arr = @matrix[:measure_num].map{|k,v| v}
     @pollutions << ["Число измерений", ""] + @matrix[:measure_num].map{|k,v| v}
     @pollutions << ["Среднее", ""] + @matrix[:avg_values].map{|k,v| v}
     @pollutions << ["Максимум", ""] + @matrix[:max_values].map{|k,v| v}
@@ -58,7 +59,7 @@ class MeasurementsController < ApplicationController
     @date_from = params[:date_from]
     @date_to = params[:date_to]
     @scope_name = get_place_name(params[:region_type], params[:place_id])
-    pollutions = get_data_forma2(@date_from, @date_to, params[:region_type], params[:place_id]) #post_id, city_id)
+    pollutions = get_data_forma2(@date_from, @date_to, params[:region_type], params[:place_id]) 
     @total_materials = pollutions.size
     header0 = [{content: "Код", rowspan: 2}, 
       {content: "Название", rowspan: 2},
@@ -95,13 +96,12 @@ class MeasurementsController < ApplicationController
     else
       @cities = City.all.order(:id)
     end
-    @pollutions = get_data_forma2(@date_from, @date_to, @region_type, @place_id) # post_id, city_id)
+    @pollutions = get_data_forma2(@date_from, @date_to, @region_type, @place_id) 
   end
   
   def get_chem_forma2_data
     scope_name = get_place_name(params[:region_type], params[:place_id])
-    pollutions = get_data_forma2(params[:date_from], params[:date_to], params[:region_type], params[:place_id]) # post_id, city_id)
-    
+    pollutions = get_data_forma2(params[:date_from], params[:date_to], params[:region_type], params[:place_id]) 
     render json: {pollutions: pollutions, dateFrom: params[:date_from], dateTo: params[:date_to], scopeName: scope_name}
   end
   
@@ -167,7 +167,7 @@ class MeasurementsController < ApplicationController
     @date = '2017-01-03'
     @weather = get_weather(@station, @date, @term)
     @materials = Material.actual_materials
-    @posts = Post.all.order(:id)
+    @posts = Post.actual.order(:id)
     @post_id = 14
     measurement_id = Measurement.get_id_by_date_term_post(@date, 7, @post_id)
     @concentrations = []
@@ -197,11 +197,7 @@ class MeasurementsController < ApplicationController
   end
 
   def write_pollutions(measurement, pollutions)
-    # values = measurement.pollution_values
     pollutions.each do |k, v|
-      # PollutionValue.where("measurement_id = ? AND material_id = ?", measurement.id, k).first_or_create! do |pollution|
-      #   pollution.value = v
-      # end
       PollutionValue.where("measurement_id = ? AND material_id = ?", measurement.id, k).first_or_initialize.tap do |pollution|
         pollution.measurement_id = measurement.id
         pollution.material_id = k
@@ -248,8 +244,6 @@ class MeasurementsController < ApplicationController
     err = weather.nil? ? "В базе не найдена погода для поста: #{params[:post_id]}, дата: #{params[:date]}, срок: #{params[:term]}" : ''
     concentrations = {}
     if weather.present?
-      # measurements = Measurement.where("date = ? AND term = ? AND post_id = ?", date, params[:term], params[:post_id])
-      # measurement_id = measurements[0].id if measurements.size > 0
       measurement_id = Measurement.get_id_by_date_term_post(date, params[:term], params[:post_id])
       if measurement_id.present?
         concentrations = get_concentrations_by_measurement(measurement_id)
@@ -260,6 +254,14 @@ class MeasurementsController < ApplicationController
   end
   
   private
+    def require_chemist
+      if current_user and (current_user.role == 'chemist')
+      else
+        flash[:danger] = 'Вход только для химиков'
+        redirect_to login_path
+        return false
+      end
+    end
 
     def get_matrix_data(year, month, post_id)
       matrix = {}
@@ -433,9 +435,7 @@ class MeasurementsController < ApplicationController
     end
     
     def get_concentrations_by_measurement(measurement_id)
-      # return PollutionValue.where("measurement_id = ?", measurement_id).order(:material_id)
       pollutions = PollutionValue.find_by_sql("SELECT p_v.id id, p_v.material_id material_id, p_v.value value, ma.name name FROM pollution_values p_v INNER JOIN materials ma ON ma.id = p_v.material_id WHERE p_v.measurement_id = #{measurement_id} ORDER BY p_v.material_id")
-# Rails.logger.debug("My object: #{pollutions.inspect}")
       concentrations = {}
       pollutions.each {|p|
         concentrations[p.material_id] = {id: p.id, material_name: p.name, value: p.value}

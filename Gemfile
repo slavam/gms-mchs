@@ -51,6 +51,9 @@ gem 'prawn-table', :git => 'https://github.com/straydogstudio/prawn-table.git', 
 
 gem 'puma'
 
+gem 'execjs'
+gem 'therubyracer', :platforms => :ruby
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
