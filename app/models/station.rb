@@ -1,3 +1,2 @@
-class Station < Chemist
-  self.table_name = "codesofstation"
+class Station < ActiveRecord::Base
 end

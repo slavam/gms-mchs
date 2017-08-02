@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170725074142) do
+ActiveRecord::Schema.define(version: 20170801113353) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
@@ -156,6 +156,56 @@ ActiveRecord::Schema.define(version: 20170725074142) do
   create_table "sites", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "stations", force: :cascade do |t|
+    t.string  "name", limit: 255
+    t.integer "code", limit: 4
+  end
+
+  create_table "synoptic_observations", force: :cascade do |t|
+    t.date     "date"
+    t.integer  "term",                             limit: 4
+    t.string   "telegram",                         limit: 255
+    t.integer  "station_id",                       limit: 4
+    t.integer  "cloud_base_height",                limit: 4
+    t.integer  "visibility_range",                 limit: 4
+    t.integer  "cloud_amount_1",                   limit: 4
+    t.integer  "wind_direction",                   limit: 4
+    t.integer  "wind_speed_avg",                   limit: 4
+    t.decimal  "temperature",                                  precision: 5, scale: 1
+    t.decimal  "temperature_dew_point",                        precision: 5, scale: 1
+    t.decimal  "pressure_at_station_level",                    precision: 6, scale: 1
+    t.decimal  "pressure_at_sea_level",                        precision: 6, scale: 1
+    t.integer  "pressure_tendency_characteristic", limit: 4
+    t.decimal  "pressure_tendency",                            precision: 6, scale: 1
+    t.integer  "precipitation_1",                  limit: 4
+    t.integer  "precipitation_time_range_1",       limit: 4
+    t.integer  "weather_in_term",                  limit: 4
+    t.integer  "weather_past_1",                   limit: 4
+    t.integer  "weather_past_2",                   limit: 4
+    t.integer  "cloud_amount_2",                   limit: 4
+    t.integer  "clouds_1",                         limit: 4
+    t.integer  "clouds_2",                         limit: 4
+    t.integer  "clouds_3",                         limit: 4
+    t.decimal  "temperature_dey_max",                          precision: 5, scale: 1
+    t.decimal  "temperature_night_min",                        precision: 5, scale: 1
+    t.integer  "underlying_surface_сondition",     limit: 4
+    t.integer  "snow_cover_height",                limit: 4
+    t.decimal  "sunshine_duration",                            precision: 5, scale: 1
+    t.integer  "cloud_amount_3",                   limit: 4
+    t.integer  "cloud_form",                       limit: 4
+    t.integer  "cloud_height",                     limit: 4
+    t.string   "weather_data_add",                 limit: 255
+    t.integer  "soil_surface_condition_1",         limit: 4
+    t.integer  "temperature_soil",                 limit: 4
+    t.integer  "soil_surface_condition_2",         limit: 4
+    t.decimal  "temperature_soil_min",                         precision: 5, scale: 1
+    t.integer  "temperature_2cm_min",              limit: 4
+    t.integer  "precipitation_2",                  limit: 4
+    t.integer  "precipitation_time_range_2",       limit: 4
+    t.datetime "created_at",                                                           null: false
+    t.datetime "updated_at",                                                           null: false
   end
 
   create_table "task", primary_key: "Номер", force: :cascade do |t|

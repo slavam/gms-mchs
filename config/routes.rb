@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :synoptic_observations
   delete 'pollution_values/delete_value/:id', to: 'pollution_values#delete_value'
   resources :pollution_values
   get 'measurements/weather_update', to: 'measurements#weather_update'
@@ -16,6 +17,7 @@ Rails.application.routes.draw do
   resources :materials
   resources :posts
   resources :cities
+  resources :stations
   resources :concentrations
   get 'pollutions/index', to: 'pollutions#index'
   get 'pollutions/chem_forma1', to: 'pollutions#chem_forma1'

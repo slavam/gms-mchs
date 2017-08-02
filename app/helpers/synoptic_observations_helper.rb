@@ -1,0 +1,2 @@
+module SynopticObservationsHelper
+end

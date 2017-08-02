@@ -45,7 +45,7 @@ module SessionsHelper
   
   def require_admin
     if !logged_in? or !current_user.admin?
-      redirect_to :back, :alert => "Access denied."
+      redirect_to login_path, :alert => "Access denied."
     end
   end
 end

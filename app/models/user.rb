@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   validates :middle_name, length: { maximum: 50 }
   has_secure_password
   validates :password, presence: true, length: { minimum: 4 }, :on => :create
-  ROLES = [:admin, :vip, :technicist, :accountant, :synoptic, :agro, :hydro, :specialist, :user, :chemist]
+  ROLES = [:admin, :vip, :technicist, :accountant, :synoptic, :agro, :hydro, :specialist, :user, :chemist, :observer]
   after_initialize :set_default_role, :if => :new_record?
 
   def set_default_role
