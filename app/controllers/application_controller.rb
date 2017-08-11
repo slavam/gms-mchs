@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
   Time::DATE_FORMATS[:custom_datetime] = "%Y.%m.%d"
   Time::DATE_FORMATS[:custom_printdate] = "%d.%m.%Y"
+  
+  
   def month_name month_num
     months = %w{nil январь февраль март апрель май июнь июль август сентябрь октябрь ноябрь декабрь}
     months[month_num.to_i]

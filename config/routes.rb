@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  post 'synoptic_observations/create_synoptic_telegram', to: 'synoptic_observations#create_synoptic_telegram'
   resources :synoptic_observations
   delete 'pollution_values/delete_value/:id', to: 'pollution_values#delete_value'
   resources :pollution_values
@@ -18,6 +19,7 @@ Rails.application.routes.draw do
   resources :posts
   resources :cities
   resources :stations
+  resources :audits
   resources :concentrations
   get 'pollutions/index', to: 'pollutions#index'
   get 'pollutions/chem_forma1', to: 'pollutions#chem_forma1'

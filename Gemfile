@@ -8,6 +8,8 @@ gem 'rails', '4.2.5'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+gem "audited", "~> 4.5"
+
 gem 'bootstrap-sass', '3.3.6'
 
 gem 'will_paginate',           '3.1.0'

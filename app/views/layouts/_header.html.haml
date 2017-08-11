@@ -19,6 +19,10 @@
               %li= link_to 'Телеграммы',  synoptics_list_path
             - when 'observer'
               %li= link_to 'Метеостанции', stations_path
+              %li
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Телеграммы<b class="caret"></b></a>
+                %ul{class: "dropdown-menu"}
+                  %li= link_to 'Синоптические',  new_synoptic_observation_path
             - when 'chemist'
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Справочники <b class="caret"></b></a>
@@ -41,6 +45,7 @@
                   %li= link_to 'Конверсия из АКИАМ', measurements_get_convert_params_path
             - when 'admin'
               %li= link_to "Users", users_path
+              %li= link_to "Audit", audits_path
           %li{ class: "dropdown"}
           %li
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>

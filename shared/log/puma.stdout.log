@@ -5000,3 +5000,594 @@ Exiting
 [2321] === puma shutdown: 2017-07-17 06:08:24 +0000 ===
 [2321] - Goodbye!
 Exiting
+=== puma startup: 2017-08-07 11:20:56 +0000 ===
+[6427] * Starting control server on unix:///tmp/puma-status-1502104856382-6427
+[6427] - Worker 1 (pid: 6439) booted, phase: 0
+[6427] - Worker 0 (pid: 6435) booted, phase: 0
+
+
+Started GET "/synoptic_observations/new" for 109.254.85.111 at 2017-08-07 11:21:03 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by SynopticObservationsController#new as HTML
+  [1m[35mUser Load (0.3ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1
+  [1m[36mSynopticObservation Load (0.4ms)[0m  [1mSELECT  `synoptic_observations`.* FROM `synoptic_observations`  ORDER BY `synoptic_observations`.`date` DESC, `synoptic_observations`.`term` DESC LIMIT 50[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT `stations`.* FROM `stations`  ORDER BY `stations`.`name` ASC
+  Rendered synoptic_observations/new.html.erb within layouts/application (17.7ms)
+  Rendered layouts/_shim.html.haml (1.3ms)
+  Rendered layouts/_header.html.haml (11.0ms)
+  Rendered layouts/_footer.html.haml (1.6ms)
+Completed 200 OK in 1011ms (Views: 934.6ms | ActiveRecord: 5.2ms)
+
+
+Started GET "/assets/synoptic_telegram.self-e3a2e4a89080f153b4f028d9a60dedd5e9e02c88f92ac770ce56bd8a2993203a.js?body=1" for 109.254.85.111 at 2017-08-07 11:21:05 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+
+
+Started POST "/synoptic_observations/create_synoptic_telegram?date=2017-08-07&term=00&telegram=%D0%A9%D0%AD%D0%A1%D0%9C%D0%AE%2034622%2011111%2011111%2011111=&station_code=34622" for 109.254.85.111 at 2017-08-07 11:21:30 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#create_synoptic_telegram as JSON
+  Parameters: {"date"=>"2017-08-07", "term"=>"00", "telegram"=>"ЩЭСМЮ 34622 11111 11111 11111=", "station_code"=>"34622"}
+Can't verify CSRF token authenticity
+Redirected to https://gmc-test-slavam1.c9users.io/login
+Filter chain halted as :require_observer rendered or redirected
+Completed 200 OK in 10ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/synoptic_observations/new" for 109.254.85.111 at 2017-08-07 11:32:23 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#new as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1
+  [1m[36mSynopticObservation Load (0.2ms)[0m  [1mSELECT  `synoptic_observations`.* FROM `synoptic_observations`  ORDER BY `synoptic_observations`.`date` DESC, `synoptic_observations`.`term` DESC LIMIT 50[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT `stations`.* FROM `stations`  ORDER BY `stations`.`name` ASC
+  Rendered synoptic_observations/new.html.erb within layouts/application (13.2ms)
+  Rendered layouts/_shim.html.haml (1.0ms)
+  Rendered layouts/_header.html.haml (6.7ms)
+  Rendered layouts/_footer.html.haml (2.0ms)
+Completed 200 OK in 537ms (Views: 480.0ms | ActiveRecord: 4.8ms)
+
+
+Started POST "/synoptic_observations/create_synoptic_telegram?date=2017-08-07&term=00&telegram=%D0%A9%D0%AD%D0%A1%D0%9C%D0%AE%2034622%2011111%2011111%2011111=&station_code=34622" for 109.254.85.111 at 2017-08-07 11:32:38 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#create_synoptic_telegram as JSON
+  Parameters: {"date"=>"2017-08-07", "term"=>"00", "telegram"=>"ЩЭСМЮ 34622 11111 11111 11111=", "station_code"=>"34622"}
+Can't verify CSRF token authenticity
+Redirected to https://gmc-test-slavam1.c9users.io/login
+Filter chain halted as :require_observer rendered or redirected
+Completed 200 OK in 5ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/synoptic_observations/new" for 109.254.85.111 at 2017-08-07 11:34:02 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#new as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1[0m
+  [1m[35mSynopticObservation Load (0.2ms)[0m  SELECT  `synoptic_observations`.* FROM `synoptic_observations`  ORDER BY `synoptic_observations`.`date` DESC, `synoptic_observations`.`term` DESC LIMIT 50
+  [1m[36mStation Load (0.3ms)[0m  [1mSELECT `stations`.* FROM `stations`  ORDER BY `stations`.`name` ASC[0m
+  Rendered synoptic_observations/new.html.erb within layouts/application (10.8ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  Rendered layouts/_header.html.haml (1.2ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 181ms (Views: 155.1ms | ActiveRecord: 4.1ms)
+
+
+Started POST "/synoptic_observations/create_synoptic_telegram?date=2017-08-07&term=00&telegram=%D0%A9%D0%AD%D0%A1%D0%9C%D0%AE%2034622%2011111%2011111%2011111=&station_code=34622" for 109.254.85.111 at 2017-08-07 11:34:13 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#create_synoptic_telegram as JSON
+  Parameters: {"date"=>"2017-08-07", "term"=>"00", "telegram"=>"ЩЭСМЮ 34622 11111 11111 11111=", "station_code"=>"34622"}
+Can't verify CSRF token authenticity
+Redirected to https://gmc-test-slavam1.c9users.io/login
+Filter chain halted as :require_observer rendered or redirected
+Completed 200 OK in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/synoptic_observations/new" for 109.254.85.111 at 2017-08-07 11:35:10 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#new as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1[0m
+  [1m[35mSynopticObservation Load (0.2ms)[0m  SELECT  `synoptic_observations`.* FROM `synoptic_observations`  ORDER BY `synoptic_observations`.`date` DESC, `synoptic_observations`.`term` DESC LIMIT 50
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT `stations`.* FROM `stations`  ORDER BY `stations`.`name` ASC[0m
+  Rendered synoptic_observations/new.html.erb within layouts/application (6.5ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  Rendered layouts/_header.html.haml (1.2ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 109ms (Views: 82.8ms | ActiveRecord: 11.2ms)
+
+
+Started POST "/synoptic_observations/create_synoptic_telegram?date=2017-08-07&term=00&telegram=%D0%A9%D0%AD%D0%A1%D0%9C%D0%AE%2034622%2011111%2011111%2011111=&station_code=34622" for 109.254.85.111 at 2017-08-07 11:35:27 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#create_synoptic_telegram as JSON
+  Parameters: {"date"=>"2017-08-07", "term"=>"00", "telegram"=>"ЩЭСМЮ 34622 11111 11111 11111=", "station_code"=>"34622"}
+Can't verify CSRF token authenticity
+Redirected to https://gmc-test-slavam1.c9users.io/login
+Filter chain halted as :require_observer rendered or redirected
+Completed 200 OK in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/synoptic_observations/new" for 109.254.85.111 at 2017-08-07 11:47:10 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#new as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1
+  [1m[36mSynopticObservation Load (0.4ms)[0m  [1mSELECT  `synoptic_observations`.* FROM `synoptic_observations`  ORDER BY `synoptic_observations`.`date` DESC, `synoptic_observations`.`term` DESC LIMIT 50[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT `stations`.* FROM `stations`  ORDER BY `stations`.`name` ASC
+  Rendered synoptic_observations/new.html.erb within layouts/application (7.4ms)
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170807-6439-1tmwipf" -
+
+
+Started GET "/synoptic_observations/new" for 109.254.85.111 at 2017-08-07 11:49:22 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#new as HTML
+  [1m[35mUser Load (4.9ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1
+  [1m[36mSynopticObservation Load (2.0ms)[0m  [1mSELECT  `synoptic_observations`.* FROM `synoptic_observations`  ORDER BY `synoptic_observations`.`date` DESC, `synoptic_observations`.`term` DESC LIMIT 50[0m
+  [1m[35mStation Load (1.3ms)[0m  SELECT `stations`.* FROM `stations`  ORDER BY `stations`.`name` ASC
+  Rendered synoptic_observations/new.html.erb within layouts/application (57.6ms)
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170807-6435-1onitmx" -
+[6427] - Gracefully shutting down workers...
+Completed 500 Internal Server Error in 116472ms (ActiveRecord: 689.6ms)
+
+ActionView::Template::Error (Error while running `/home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170807-6435-1onitmx" -`:
+
+):
+     6:     <link rel="stylesheet" media="all" href="https://rawgit.com/arqex/react-datetime/master/css/react-datetime.css?body=1" data-turbolinks-track="true" />
+     7:     <script src="https://cdnjs.cloudflare.com/ajax/libs/classnames/2.1.5/index.min.js"></script>
+     8:     = stylesheet_link_tag 'application'
+     9:     = javascript_include_tag 'https://code.jquery.com/jquery-1.5.js', 'application'
+    10:     = csrf_meta_tags
+    11:     = render 'layouts/shim'
+    12: 
+  app/views/layouts/application.html.haml:9:in `_app_views_layouts_application_html_haml___1032394033014117809_30683500'
+
+
+Completed 500 Internal Server Error in 276079ms (ActiveRecord: 4.9ms)
+
+ActionView::Template::Error (Error while running `/home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170807-6439-1tmwipf" -`:
+
+):
+     6:     <link rel="stylesheet" media="all" href="https://rawgit.com/arqex/react-datetime/master/css/react-datetime.css?body=1" data-turbolinks-track="true" />
+     7:     <script src="https://cdnjs.cloudflare.com/ajax/libs/classnames/2.1.5/index.min.js"></script>
+     8:     = stylesheet_link_tag 'application'
+     9:     = javascript_include_tag 'https://code.jquery.com/jquery-1.5.js', 'application'
+    10:     = csrf_meta_tags
+    11:     = render 'layouts/shim'
+    12: 
+  app/views/layouts/application.html.haml:9:in `_app_views_layouts_application_html_haml___1032394033014117809_70157659545700'
+
+
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_source.erb (12.9ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (15.2ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (12.3ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (85.3ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_source.erb (43.4ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (14.7ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (7.8ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (98.2ms)
+[6427] === puma shutdown: 2017-08-07 11:51:58 +0000 ===
+[6427] - Goodbye!
+Exiting
+=== puma startup: 2017-08-07 11:52:14 +0000 ===
+[9022] * Starting control server on unix:///tmp/puma-status-1502106734303-9022
+[9022] - Worker 0 (pid: 9030) booted, phase: 0
+[9022] - Worker 1 (pid: 9034) booted, phase: 0
+
+
+Started GET "/synoptic_observations/new" for 109.254.85.111 at 2017-08-07 11:52:21 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by SynopticObservationsController#new as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1
+  [1m[36mSynopticObservation Load (0.3ms)[0m  [1mSELECT  `synoptic_observations`.* FROM `synoptic_observations`  ORDER BY `synoptic_observations`.`date` DESC, `synoptic_observations`.`term` DESC LIMIT 50[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT `stations`.* FROM `stations`  ORDER BY `stations`.`name` ASC
+  Rendered synoptic_observations/new.html.erb within layouts/application (21.6ms)
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170807-9030-1o0c1c8" -
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170807-9030-o8lhb7" -
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170807-9030-13qy2gd" -
+  Rendered layouts/_shim.html.haml (4.7ms)
+  Rendered layouts/_header.html.haml (62.2ms)
+  Rendered layouts/_footer.html.haml (10.0ms)
+Completed 200 OK in 43383ms (Views: 43295.5ms | ActiveRecord: 5.3ms)
+
+
+Started GET "/assets/synoptic_telegram.self-7fc1453a0a91e839d1c877856f0a7cbba618304011cf22b54a6a2f3096a0a125.js?body=1" for 109.254.85.111 at 2017-08-07 11:53:06 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started POST "/synoptic_observations/create_synoptic_telegram?date=2017-08-07&term=00&telegram=%D0%A9%D0%AD%D0%A1%D0%9C%D0%AE%2034622%2011111%2011111%2011111=&station_code=34622" for 109.254.85.111 at 2017-08-07 11:53:35 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by SynopticObservationsController#create_synoptic_telegram as JSON
+  Parameters: {"date"=>"2017-08-07", "term"=>"00", "telegram"=>"ЩЭСМЮ 34622 11111 11111 11111=", "station_code"=>"34622"}
+Can't verify CSRF token authenticity
+Redirected to https://gmc-test-slavam1.c9users.io/login
+Filter chain halted as :require_observer rendered or redirected
+Completed 200 OK in 45ms (ActiveRecord: 0.0ms)
+
+
+Started POST "/synoptic_observations/create_synoptic_telegram?date=2017-08-07&term=00&telegram=%D0%A9%D0%AD%D0%A1%D0%9C%D0%AE%2034622%2011111%2011111%2011111=&station_code=34622" for 109.254.85.111 at 2017-08-07 13:14:48 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#create_synoptic_telegram as JSON
+  Parameters: {"date"=>"2017-08-07", "term"=>"00", "telegram"=>"ЩЭСМЮ 34622 11111 11111 11111=", "station_code"=>"34622"}
+Can't verify CSRF token authenticity
+Redirected to https://gmc-test-slavam1.c9users.io/login
+Filter chain halted as :require_observer rendered or redirected
+Completed 200 OK in 10ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/synoptic_observations/new" for 109.254.85.111 at 2017-08-07 13:21:04 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#new as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1[0m
+  [1m[35mSynopticObservation Load (1.6ms)[0m  SELECT  `synoptic_observations`.* FROM `synoptic_observations`  ORDER BY `synoptic_observations`.`date` DESC, `synoptic_observations`.`term` DESC LIMIT 50
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT `stations`.* FROM `stations`  ORDER BY `stations`.`name` ASC[0m
+  Rendered synoptic_observations/new.html.erb within layouts/application (10.6ms)
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170807-9030-1lzerqb" -
+[9022] - Gracefully shutting down workers...
+Completed 500 Internal Server Error in 131115ms (ActiveRecord: 34.8ms)
+
+ActionView::Template::Error (Error while running `/home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170807-9030-1lzerqb" -`:
+
+):
+     6:     <link rel="stylesheet" media="all" href="https://rawgit.com/arqex/react-datetime/master/css/react-datetime.css?body=1" data-turbolinks-track="true" />
+     7:     <script src="https://cdnjs.cloudflare.com/ajax/libs/classnames/2.1.5/index.min.js"></script>
+     8:     = stylesheet_link_tag 'application'
+     9:     = javascript_include_tag 'https://code.jquery.com/jquery-1.5.js', 'application'
+    10:     = csrf_meta_tags
+    11:     = render 'layouts/shim'
+    12: 
+  app/views/layouts/application.html.haml:9:in `_app_views_layouts_application_html_haml__182865178844411958_29310800'
+
+
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_source.erb (7.6ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (5.3ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.2ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (52.3ms)
+[9022] === puma shutdown: 2017-08-07 13:23:15 +0000 ===
+[9022] - Goodbye!
+Exiting
+=== puma startup: 2017-08-10 05:16:54 +0000 ===
+[2828] * Starting control server on unix:///tmp/puma-status-1502342214070-2828
+[2828] - Worker 0 (pid: 2836) booted, phase: 0
+[2828] - Worker 1 (pid: 2840) booted, phase: 0
+
+
+Started GET "/synoptic_observations/2" for 109.254.85.111 at 2017-08-10 05:17:02 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[35mSynopticObservation Load (0.5ms)[0m  SELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 2 LIMIT 1
+  [1m[36mStation Load (0.3ms)[0m  [1mSELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 4 LIMIT 1[0m
+  Rendered synoptic_observations/show.html.haml within layouts/application (54.6ms)
+  Rendered layouts/_shim.html.haml (1.0ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1
+  Rendered layouts/_header.html.haml (18.6ms)
+  Rendered layouts/_footer.html.haml (1.6ms)
+Completed 200 OK in 1633ms (Views: 1533.0ms | ActiveRecord: 4.6ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 05:17:19 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mSynopticObservation Load (0.4ms)[0m  [1mSELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1[0m
+  [1m[35mStation Load (0.3ms)[0m  SELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1
+  Rendered synoptic_observations/show.html.haml within layouts/application (1.6ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.5ms)
+  Rendered layouts/_footer.html.haml (0.2ms)
+Completed 200 OK in 65ms (Views: 62.8ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 05:23:59 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[35mSynopticObservation Load (0.1ms)[0m  SELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1[0m
+  Rendered synoptic_observations/show.html.haml within layouts/application (10.9ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1
+  Rendered layouts/_header.html.haml (13.0ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 110ms (Views: 87.1ms | ActiveRecord: 4.3ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 05:30:00 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mSynopticObservation Load (0.3ms)[0m  [1mSELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1
+  Rendered synoptic_observations/show.html.haml within layouts/application (7.5ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (15.3ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 135ms (Views: 112.8ms | ActiveRecord: 4.5ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 05:34:23 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[35mSynopticObservation Load (0.2ms)[0m  SELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1[0m
+  Rendered synoptic_observations/show.html.haml within layouts/application (43.1ms)
+  Rendered layouts/_shim.html.haml (2.4ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1
+  Rendered layouts/_header.html.haml (63.4ms)
+  Rendered layouts/_footer.html.haml (1.8ms)
+Completed 200 OK in 1070ms (Views: 1003.9ms | ActiveRecord: 4.9ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 05:42:08 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mSynopticObservation Load (2.9ms)[0m  [1mSELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1
+  Rendered synoptic_observations/show.html.haml within layouts/application (15.9ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (11.9ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 146ms (Views: 100.8ms | ActiveRecord: 8.4ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 06:05:58 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[35mSynopticObservation Load (0.2ms)[0m  SELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1[0m
+  Rendered synoptic_observations/show.html.haml within layouts/application (9.4ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.1ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1
+  Rendered layouts/_header.html.haml (12.2ms)
+  Rendered layouts/_footer.html.haml (0.5ms)
+Completed 200 OK in 137ms (Views: 101.1ms | ActiveRecord: 15.3ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 06:19:21 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mSynopticObservation Load (0.2ms)[0m  [1mSELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1
+  Rendered synoptic_observations/show.html.haml within layouts/application (12.7ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (13.4ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 151ms (Views: 124.7ms | ActiveRecord: 4.8ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 06:37:12 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[35mSynopticObservation Load (0.4ms)[0m  SELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1[0m
+  Rendered synoptic_observations/show.html.haml within layouts/application (16.1ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1
+  Rendered layouts/_header.html.haml (22.3ms)
+  Rendered layouts/_footer.html.haml (1.9ms)
+Completed 200 OK in 226ms (Views: 156.9ms | ActiveRecord: 12.3ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 06:56:44 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mSynopticObservation Load (0.2ms)[0m  [1mSELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1[0m
+  [1m[35mStation Load (3.8ms)[0m  SELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1
+  Rendered synoptic_observations/show.html.haml within layouts/application (17.4ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.7ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 123ms (Views: 117.5ms | ActiveRecord: 4.2ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 07:10:55 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[35mSynopticObservation Load (0.2ms)[0m  SELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1[0m
+  Rendered synoptic_observations/show.html.haml within layouts/application (11.5ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1
+  Rendered layouts/_header.html.haml (12.3ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 199ms (Views: 112.7ms | ActiveRecord: 67.2ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 07:15:30 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mSynopticObservation Load (0.2ms)[0m  [1mSELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1
+  Rendered synoptic_observations/show.html.haml within layouts/application (12.3ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (13.8ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 142ms (Views: 104.8ms | ActiveRecord: 4.3ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 07:20:59 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[35mSynopticObservation Load (0.2ms)[0m  SELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1[0m
+  Rendered synoptic_observations/show.html.haml within layouts/application (16.0ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.1ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1
+  Rendered layouts/_header.html.haml (15.8ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 181ms (Views: 125.3ms | ActiveRecord: 4.4ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 07:41:35 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mSynopticObservation Load (0.2ms)[0m  [1mSELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1[0m
+  [1m[35mStation Load (0.6ms)[0m  SELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1
+  Rendered synoptic_observations/show.html.haml within layouts/application (18.0ms)
+  Rendered layouts/_shim.html.haml (0.2ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (14.1ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 173ms (Views: 111.9ms | ActiveRecord: 28.3ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 07:43:14 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[35mSynopticObservation Load (0.2ms)[0m  SELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1[0m
+  Rendered synoptic_observations/show.html.haml within layouts/application (6.0ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1
+  Rendered layouts/_header.html.haml (1.8ms)
+  Rendered layouts/_footer.html.haml (0.2ms)
+Completed 200 OK in 79ms (Views: 76.7ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 07:58:21 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mSynopticObservation Load (0.3ms)[0m  [1mSELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1[0m
+  [1m[35mStation Load (0.2ms)[0m  SELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1
+  Rendered synoptic_observations/show.html.haml within layouts/application (7.7ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.6ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 89ms (Views: 87.0ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 08:11:08 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[35mSynopticObservation Load (0.3ms)[0m  SELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1[0m
+  Rendered synoptic_observations/show.html.haml within layouts/application (18.7ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.1ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1
+  Rendered layouts/_header.html.haml (11.6ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 167ms (Views: 118.1ms | ActiveRecord: 17.1ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 08:40:27 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[35mSynopticObservation Load (0.2ms)[0m  SELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1
+  [1m[36mStation Load (0.1ms)[0m  [1mSELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1[0m
+  Rendered synoptic_observations/show.html.haml within layouts/application (13.0ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1
+  Rendered layouts/_header.html.haml (20.0ms)
+  Rendered layouts/_footer.html.haml (0.5ms)
+Completed 200 OK in 199ms (Views: 156.0ms | ActiveRecord: 12.8ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 10:06:18 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mSynopticObservation Load (0.2ms)[0m  [1mSELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1[0m
+  [1m[35mStation Load (0.1ms)[0m  SELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1
+  Rendered synoptic_observations/show.html.haml within layouts/application (15.6ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (12.2ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 198ms (Views: 138.3ms | ActiveRecord: 28.9ms)
+
+
+Started GET "/synoptic_observations/3" for 109.254.85.111 at 2017-08-10 10:10:28 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[35mSynopticObservation Load (0.3ms)[0m  SELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 3 LIMIT 1
+  [1m[36mStation Load (0.2ms)[0m  [1mSELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 7 LIMIT 1[0m
+  Rendered synoptic_observations/show.html.haml within layouts/application (12.0ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 9 LIMIT 1
+  Rendered layouts/_header.html.haml (1.9ms)
+  Rendered layouts/_footer.html.haml (0.5ms)
+Completed 200 OK in 105ms (Views: 102.2ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/synoptic_observations/1" for 109.254.85.111 at 2017-08-10 10:15:04 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSynopticObservation Load (9.0ms)[0m  [1mSELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 1 LIMIT 1[0m
+  [1m[35mStation Load (0.3ms)[0m  SELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 5 LIMIT 1
+  Rendered synoptic_observations/show.html.haml within layouts/application (8.9ms)
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170810-2836-1rp6qkl" -
+
+
+Started GET "/synoptic_observations/1" for 109.254.85.111 at 2017-08-10 10:17:14 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSynopticObservation Load (10.1ms)[0m  [1mSELECT  `synoptic_observations`.* FROM `synoptic_observations` WHERE `synoptic_observations`.`id` = 1 LIMIT 1[0m
+  [1m[35mStation Load (8.3ms)[0m  SELECT  `stations`.* FROM `stations` WHERE `stations`.`id` = 5 LIMIT 1
+  Rendered synoptic_observations/show.html.haml within layouts/application (1012.1ms)
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170810-2840-3xgkwx" -
+[2828] - Gracefully shutting down workers...
+Completed 500 Internal Server Error in 146121ms (ActiveRecord: 12.7ms)
+
+ActionView::Template::Error (Error while running `/home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170810-2836-1rp6qkl" -`:
+
+):
+     6:     <link rel="stylesheet" media="all" href="https://rawgit.com/arqex/react-datetime/master/css/react-datetime.css?body=1" data-turbolinks-track="true" />
+     7:     <script src="https://cdnjs.cloudflare.com/ajax/libs/classnames/2.1.5/index.min.js"></script>
+     8:     = stylesheet_link_tag 'application'
+     9:     = javascript_include_tag 'https://code.jquery.com/jquery-1.5.js', 'application'
+    10:     = csrf_meta_tags
+    11:     = render 'layouts/shim'
+    12: 
+  app/views/layouts/application.html.haml:9:in `_app_views_layouts_application_html_haml___3539188164339220991_40262000'
+
+
+Completed 500 Internal Server Error in 13738ms (ActiveRecord: 297.9ms)
+
+ActionView::Template::Error (Error while running `/home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170810-2840-3xgkwx" -`:
+
+):
+     6:     <link rel="stylesheet" media="all" href="https://rawgit.com/arqex/react-datetime/master/css/react-datetime.css?body=1" data-turbolinks-track="true" />
+     7:     <script src="https://cdnjs.cloudflare.com/ajax/libs/classnames/2.1.5/index.min.js"></script>
+     8:     = stylesheet_link_tag 'application'
+     9:     = javascript_include_tag 'https://code.jquery.com/jquery-1.5.js', 'application'
+    10:     = csrf_meta_tags
+    11:     = render 'layouts/shim'
+    12: 
+  app/views/layouts/application.html.haml:9:in `_app_views_layouts_application_html_haml___3539188164339220991_43477320'
+
+
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_source.erb (10.0ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (6.0ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (3.8ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (57.0ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_source.erb (7.2ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (4.5ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (3.7ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (48.7ms)
+[2828] === puma shutdown: 2017-08-10 10:17:31 +0000 ===
+[2828] - Goodbye!
+Exiting

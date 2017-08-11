@@ -11,12 +11,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170801113353) do
+ActiveRecord::Schema.define(version: 20170807082357) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
     t.string "Телеграмма", limit: 650, null: false
   end
+
+  create_table "audits", force: :cascade do |t|
+    t.integer  "auditable_id",    limit: 4
+    t.string   "auditable_type",  limit: 255
+    t.integer  "associated_id",   limit: 4
+    t.string   "associated_type", limit: 255
+    t.integer  "user_id",         limit: 4
+    t.string   "user_type",       limit: 255
+    t.string   "username",        limit: 255
+    t.string   "action",          limit: 255
+    t.text     "audited_changes", limit: 65535
+    t.integer  "version",         limit: 4,     default: 0
+    t.string   "comment",         limit: 255
+    t.string   "remote_address",  limit: 255
+    t.string   "request_uuid",    limit: 255
+    t.datetime "created_at"
+  end
+
+  add_index "audits", ["associated_id", "associated_type"], name: "associated_index", using: :btree
+  add_index "audits", ["auditable_id", "auditable_type"], name: "auditable_index", using: :btree
+  add_index "audits", ["created_at"], name: "index_audits_on_created_at", using: :btree
+  add_index "audits", ["request_uuid"], name: "index_audits_on_request_uuid", using: :btree
+  add_index "audits", ["user_id", "user_type"], name: "user_index", using: :btree
 
   create_table "bulletins", force: :cascade do |t|
     t.date     "report_date"
@@ -207,6 +230,8 @@ ActiveRecord::Schema.define(version: 20170801113353) do
     t.datetime "created_at",                                                           null: false
     t.datetime "updated_at",                                                           null: false
   end
+
+  add_index "synoptic_observations", ["date", "term", "station_id"], name: "index_synoptic_observations_on_date_and_term_and_station_id", unique: true, using: :btree
 
   create_table "task", primary_key: "Номер", force: :cascade do |t|
     t.string "Срок",            limit: 50

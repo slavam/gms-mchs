@@ -1,0 +1,36 @@
+// %h2= @added.inspect
+%h1 Audit details
+.content
+  %table{class: "table table-hover"}
+    %tr
+      %th Model:
+      %td= @audit.auditable_type
+    %tr
+      %th Id:
+      %td= @audit.auditable_id
+    %tr
+      %th Action:
+      %td= @audit.action
+    %tr
+      %th User:
+      %td= @audit.user.login
+    %tr
+      %th Time:
+      %td= @audit.created_at
+    %tr
+      %th IP:
+      %td= @audit.remote_address
+
+  %h3 Changes:
+  %table{class: "table table-hover"}
+    %tr
+      %th Field name
+      - @value_field_names.each do |name|
+        %th= name
+      - i = 0
+      - d = @audit.action == 'update' ? 3 : 2
+      - @changes.each do |v|
+        - if i % d == 0
+          %tr
+        %td= v
+        - i += 1

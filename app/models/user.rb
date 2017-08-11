@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   validates :password, presence: true, length: { minimum: 4 }, :on => :create
   ROLES = [:admin, :vip, :technicist, :accountant, :synoptic, :agro, :hydro, :specialist, :user, :chemist, :observer]
   after_initialize :set_default_role, :if => :new_record?
+  audited except: [:password_digest, :remember_digest],  allow_mass_assignment: true
+  # attr_protected :logins, :audit_ids
 
   def set_default_role
     self.role ||= :user
