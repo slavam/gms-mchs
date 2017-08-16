@@ -1,6 +1,19 @@
 class SynopticObservationsController < ApplicationController
   # before_filter :require_observer_or_technicist
-  before_filter :find_synoptic_observation, only: [:show] 
+  before_filter :find_synoptic_observation, only: [:show, :update_synoptic_telegram] 
+  # Time::DATE_FORMATS[:simple_date_time] = "%Y%m%d"
+  
+  def search_synoptic_telegrams
+    date ||= params[:date].present? ? params[:date] : Time.now.strftime("%Y-%m-%d")
+    term = params[:term].present? ? " and term = #{params[:term]}" : ''
+    station = (params[:station_id].present? && params[:station_id]>0) ? " and station_id = #{params[:station_id]}" : ''
+    text = params[:text].present? ? " and telegram like #{params[:text]}" : ''
+       
+    sql = "select * from synoptic_observations where date like '#{date}' #{term} #{station} #{text};"
+    tlgs = SynopticObservation.find_by_sql(sql)
+    @stations = Station.all.order(:name)
+    @telegrams = fields_short_list(tlgs)
+  end
   
   def show
   end
@@ -26,6 +39,15 @@ class SynopticObservationsController < ApplicationController
     end
   end
   
+  def update_synoptic_telegram
+    if @synoptic_observation.update_attributes observation_params
+      render json: {errors: []}
+    else
+      render json: {errors: ["Ошибка при сохранении изменений"]}, status: :unprocessable_entity
+    end
+    # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{@synoptic_observation.inspect}")
+    # Rails.logger.debug("My object+++++++++++++++: #{params[:observation].inspect}")
+  end
   private
     def find_synoptic_observation
       @synoptic_observation = SynopticObservation.find(params[:id])

@@ -1,0 +1,8 @@
+<!--%= @telegrams.inspect %-->
+<!--%= Audit.new.tap { |a| a.user = controller.current_user }.inspect %-->
+<div class="container">
+  <h1>Поиск синоптических телеграмм</h1>
+  <div id="content">
+    <%= react_component 'SearchSynopticTelegrams', { telegrams: @telegrams, stations: @stations} %>
+  </div>
+</div>

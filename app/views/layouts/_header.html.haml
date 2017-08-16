@@ -7,6 +7,7 @@
           - case current_user.role
             - when 'synoptic'
               %li= link_to 'Телеграммы',  synoptics_path
+              %li= link_to 'Поиск',  search_synoptic_telegrams_path
               %li= link_to 'Отбор из ogimet',  make_web_query_path
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты <b class="caret"></b></a>
