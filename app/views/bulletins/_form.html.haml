@@ -1,6 +1,6 @@
-.content
+.container
   = form_for @bulletin do |form|
-    %table.card
+    %table
       %tr
         %th Отчетная дата
         %td= form.text_field :report_date, size: 10
@@ -8,15 +8,12 @@
         %th Номер бюллетеня
         %td= form.text_field :curr_number, size: 8
       %tr
-        %th Дежурный синоптик
-        %td= form.select :duty_synoptic, options_for_select([["Маренкова Н.В.", "Маренкова Н.В."], ["Соколова Т.Е.", "Соколова Т.Е."], ["Щербак Е.Д.","Щербак Е.Д."]], @bulletin.duty_synoptic.present? ? @bulletin.duty_synoptic : "Маренкова Н.В.")
-        
-      %tr
-        %th Синоптик 1
-        %td= form.select :synoptic1, options_for_select([["Деревянко Н.Н.", "Деревянко Н.Н."], ["Осокина Л.Н.", "Осокина Л.Н."], ["Николаева А.Р.", "Николаева А.Р."]], @bulletin.synoptic1.present? ? @bulletin.synoptic1 : "Деревянко Н.Н.")
-      %tr
-        %th Синоптик 2
-        %td= form.select :synoptic2, options_for_select([["Маренкова Н.В.", "Маренкова Н.В."], ["Осокина Л.Н.", "Осокина Л.Н."]], @bulletin.synoptic2.present? ? @bulletin.synoptic2 : "Маренкова Н.В.")
+        %th Лето
+        %td= form.check_box :summer
+      /
+        %tr
+          %th Синоптик 2
+          %td= form.select :synoptic2, options_for_select([["Маренкова Н.В.", "Маренкова Н.В."], ["Осокина Л.Н.", "Осокина Л.Н."]], @bulletin.synoptic2.present? ? @bulletin.synoptic2 : "Маренкова Н.В.")
       %tr
         %th Шторм
         %td= form.text_area :storm, cols: "30", rows: "5"
@@ -27,6 +24,9 @@
         %th Прогноз погоды на сутки по Донецку
         %td= form.text_area :forecast_day_city, cols: "30", rows: "5"
       %tr
+        %th Дежурный синоптик
+        %td= form.select :duty_synoptic, options_for_select([["Деревянко Н.Н.", "Деревянко Н.Н."], ["Маренкова Н.В.", "Маренкова Н.В."], ["Соколова Т.Е.", "Соколова Т.Е."], ["Щербак Е.Д.","Щербак Е.Д."]], @bulletin.duty_synoptic.present? ? @bulletin.duty_synoptic : "Маренкова Н.В.")
+      %tr
         %th Периодный прогноз
         %td= form.text_area :forecast_period, cols: "30", rows: "5"
       %tr
@@ -36,13 +36,11 @@
         %th Ориентировочный прогноз
         %td= form.text_area :forecast_orientation, cols: "30", rows: "5"
       %tr
-        %th Прогноз погоды на сутки (на море)
-        %td= form.text_area :forecast_sea_day, cols: "30", rows: "5"
-      %tr
-        %th Периодный прогноз (на море)
-        %td= form.text_area :forecast_sea_period, cols: "30", rows: "5"
-      %tr
-        - report_date_prev = (Time.now - 1.day).to_s(:custom_datetime)
+        %th Синоптик
+        %td= form.select :synoptic1, options_for_select([["Деревянко Н.Н.", "Деревянко Н.Н."], ["Осокина Л.Н.", "Осокина Л.Н."], ["Николаева А.Р.", "Николаева А.Р."]], @bulletin.synoptic1.present? ? @bulletin.synoptic1 : "Деревянко Н.Н.")
+      %table{class: "table table-hover"}
+        -# report_date_prev = (Time.now - 1.day).to_s(:custom_datetime)
+        - report_date_prev = (@bulletin.report_date - 1.day).to_s(:custom_datetime)
         %th Метеорологические данные
         %td
           %tr
@@ -52,8 +50,10 @@
             %th= "Средняя за сутки #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])}"
             %th= "В 9.00 часов сегодня"
             %th= "Количество осадков за сутки (мм)"
-            %th= "Высота снежного покрова (см)"
-            %th= "Глубина промерзания (см)"
+            -# %th= "Высота снежного покрова (см)"
+            %th= "Минимальная температура почвы"
+            -# %th= "Глубина промерзания (см)"
+            %th= "Минимальная относительная влажность воздуха (%)" 
             %th= "Максимальная скорость ветра (м/с)"
             %th= "Явления погоды"
           - m_d = []
@@ -70,11 +70,17 @@
             %td= "Амвросиевка"
             - (19..27).each do |i|
               %td= text_field_tag "val_"+i.to_s, m_d[i-1].present? ? m_d[i-1] : '', size: 4
+          %tr
+            %td= "Седово"
+            - (28..36).each do |i|
+              %td= text_field_tag "val_"+i.to_s, m_d[i-1].present? ? m_d[i-1] : '', size: 4
+    %table
       %tr
         %th Обзор погоды
-        %td= form.text_area :agro_day_review, cols: "30", rows: "5"
+        %td= form.text_area :agro_day_review, cols: "100", rows: "5"
       - c_d = []
       - c_d = @bulletin.climate_data.split(";") if @bulletin.climate_data.present?
+    %table{class: "table table-hover"}
       %tr
         %th Средняя за сутки температура воздуха #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])}
         %td= text_field_tag :avg_day_temp, c_d[0].present? ? c_d[0] : '', size: 5
@@ -82,17 +88,17 @@
         %th Максимальная температура воздуха #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])}
         %td 
           %tr
-            %th Значегие
+            %th Значение
             %td= text_field_tag :max_temp, c_d[1].present? ? c_d[1] : '', size: 5
           %tr
             %th Отмечалась в
             %td= text_field_tag :max_temp_year, c_d[2].present? ? c_d[2] : '', size: 8
       %tr
-        - report_date = Time.now.to_s(:custom_datetime)
+        - report_date = @bulletin.report_date.to_s(:custom_datetime)
         %th Минимальная температура воздуха #{report_date[8,2]} #{month_name2(report_date[5,2])}
         %td 
           %tr
-            %th Значегие
+            %th Значение
             %td= text_field_tag :min_temp, c_d[3].present? ? c_d[3] : '', size: 5
           %tr
             %th Отмечалась в

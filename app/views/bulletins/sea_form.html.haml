@@ -1,0 +1,9 @@
+.content
+  = form_for @sea_bulletin do |form|
+    %table.card
+      %tr
+        %th Прогноз погоды на сутки (на море)
+        %td= form.text_area :forecast_sea_day, cols: "30", rows: "5"
+      %tr
+        %th Периодный прогноз (на море)
+        %td= form.text_area :forecast_sea_period, cols: "30", rows: "5"

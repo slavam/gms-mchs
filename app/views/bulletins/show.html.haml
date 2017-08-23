@@ -1,148 +1,168 @@
-%h3= "ГИДРОМЕТЕОРОЛОГИЧЕСКИЙ БЮЛЛЕТЕНЬ № #{@bulletin.curr_number}"
-%h3= @bulletin.report_date_as_str
-- report_date = @bulletin.report_date.to_s(:custom_datetime)
-- report_date_next = (@bulletin.report_date + 1.day).to_s(:custom_datetime)
-%br
-%h3= "Прогноз погоды на сутки с 21 часа #{report_date[8,2]} #{month_name2(report_date[5,2])} до 21 часа #{report_date_next[8,2]} #{month_name2(report_date_next[5,2])} #{report_date_next[0,4]} года"
-%h4= "В Донецкой Народной Республике"
-%p= @bulletin.forecast_day
-%h4= "В городе Донецке"
-%p= @bulletin.forecast_day_city
-%h5= "Дежурный синоптик #{@bulletin.duty_synoptic}"
-%br
-- report_date_next2 = (@bulletin.report_date + 2.day).to_s(:custom_datetime)
-- report_date_next3 = (@bulletin.report_date + 3.day).to_s(:custom_datetime)
-%h3= "Периодный прогноз погоды на #{report_date_next2[8,2]}-#{report_date_next3[8,2]} #{month_name2(report_date_next3[5,2])} #{report_date_next3[0,4]} года в Донецкой Народной Республике"
-%p= @bulletin.forecast_period
-%br
-- report_date_next4 = (@bulletin.report_date + 4.day).to_s(:custom_datetime)
-- report_date_next5 = (@bulletin.report_date + 5.day).to_s(:custom_datetime)
-%h3= "Консультативный прогноз погоды на #{report_date_next4[8,2]}-#{report_date_next5[8,2]} #{month_name2(report_date_next5[5,2])} #{report_date_next5[0,4]} года"
-%p= @bulletin.forecast_advice
-%br
-- report_date_next6 = (@bulletin.report_date + 6.day).to_s(:custom_datetime)
-- report_date_next11 = (@bulletin.report_date + 11.day).to_s(:custom_datetime)
-%h3= "Ориентировочный прогноз погоды на #{report_date_next6[8,2]}-#{report_date_next11[8,2]} #{month_name2(report_date_next11[5,2])} #{report_date_next11[0,4]} года"
-%p= @bulletin.forecast_orientation
-%h5= "Синоптик #{@bulletin.synoptic1}"
-%br
-%h3= "По акватории Азовского моря (на участке с. Безыменное – пгт. Седово)"
-%h3= "Прогноз погоды на сутки с 21 часа #{report_date[8,2]} #{month_name2(report_date[5,2])} до 21 часа #{report_date_next[8,2]} #{month_name2(report_date_next[5,2])} #{report_date_next[0,4]} года"
-%p= @bulletin.forecast_sea_day
-%br
-%h3= "Периодный прогноз погоды на #{report_date_next2[8,2]}-#{report_date_next3[8,2]} #{month_name2(report_date_next3[5,2])} #{report_date_next3[0,4]} года"
-%p= @bulletin.forecast_sea_period
-%h5= "Синоптик #{@bulletin.synoptic2}"
-%br
-%h5= "Время выпуска 13:00"
-%br
 .container
-  %table
+  %h3{align: :center, :style => "color: #0000ff"}
+    %span= "ГИДРОМЕТЕОРОЛОГИЧЕСКИЙ БЮЛЛЕТЕНЬ № #{@bulletin.curr_number}"
+    %br
+    %span= @bulletin.report_date_as_str
+  - report_date = @bulletin.report_date.to_s(:custom_datetime)
+  - report_date_next = (@bulletin.report_date + 1.day).to_s(:custom_datetime)
+  %br
+  - if @bulletin.storm.present?
+    %h3{align: :center, :style => "color: #ff0000"}= "ШТОРМОВОЕ ПРЕДУПРЕЖДЕНИЕ"
+    %p= @bulletin.storm
+  %br
+  %h3{align: :center, :style => "color: #0000ff"}
+    %span= "ПРОГНОЗ ПОГОДЫ"
+    %br
+    %span= "на сутки с 21 часа #{report_date[8,2]} #{month_name2(report_date[5,2])} до 21 часа #{report_date_next[8,2]} #{month_name2(report_date_next[5,2])} #{report_date_next[0,4]} года"
+  %table{class: "table table-hover"}
     %thead
       %tr
-        %td= "Ответственный за выпуск: Начальник отдела гидрометеорологического обеспечения и обслуживания"
-        %td= ""
-        %td= "Л.Н. Бойко"
-      %tr
-        %td= "Начальник"
-        %td= ""
-        %td= "М.Б. Лукьяненко"
-%br
-%h3= "Приложение к Гидрометеорологическому Бюллетеню от #{@bulletin.report_date_as_str} № #{@bulletin.curr_number}"
-- report_date_prev = (@bulletin.report_date - 1.day).to_s(:custom_datetime)
-%h3= "МЕТЕОРОЛОГИЧЕСКИЕ ДАННЫЕ за период с 9.00 часов #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])} до 9.00 часов #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года"
-- m_d = []
-- m_d = @bulletin.meteo_data.split(";")
-.container
-  %table
-    %thead
-      %tr
-        %th= "Название метеостанции"
-        %th= "Максимальная вчера днем"
-        %th= "Минимальная сегодня ночью"
-        %th= "Средняя за сутки #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])}"
-        %th= "В 9.00 часов сегодня"
-        %th= "Количество осадков за сутки (мм)"
-        %th= "Высота снежного покрова (см)"
-        %th= "Глубина промерзания (см)"
-        %th= "Максимальная скорость ветра (м/с)"
-        %th= "Явления погоды"
+        %th= "В Донецкой Народной Республике"
+        %th= "В городе Донецке"
     %tbody
       %tr
-        %td= "Донецк"
-        %td= m_d[0]
-        %td= m_d[1]
-        %td= m_d[2]
-        %td= m_d[3]
-        %td= m_d[4]
-        %td= m_d[5]
-        %td= m_d[6]
-        %td= m_d[7]
-        %td= m_d[8]
-      %tr
-        %td= "Дебальцево"
-        %td= m_d[9]
-        %td= m_d[10]
-        %td= m_d[11]
-        %td= m_d[12]
-        %td= m_d[13]
-        %td= m_d[14]
-        %td= m_d[15]
-        %td= m_d[16]
-        %td= m_d[17]
-      %tr
-        %td= "Амвросиевка"
-        %td= m_d[18]
-        %td= m_d[19]
-        %td= m_d[20]
-        %td= m_d[21]
-        %td= m_d[22]
-        %td= m_d[23]
-        %td= m_d[24]
-        %td= m_d[25]
-        %td= m_d[26]
-%br
-%h3= "Обзор погоды и агрометеорологических условий в Донецкой Народной Республике"
-%h3= "за период с 9.00 часов #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])} до 9.00 часов #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года"
-%p= @bulletin.agro_day_review
-%br
-%h3= "Климатические данные по г. Донецку за #{report_date_prev[8,2]}-#{report_date[8,2]} #{month_name2(report_date[5,2])}"
-%h3= "С 1945 по #{report_date[0,4]} гг. по данным Гидрометеорологической службы"
-- c_d = []
-- c_d = @bulletin.climate_data.split(";")
-.container
-  %table
-    %tbody
-      %tr
-        %td= "Средняя за сутки температура воздуха"
-        %td= "#{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])}"
-        %td= c_d[0]
-      %tr
-        %td= "Максимальная температура воздуха"
-        %td= "#{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])}"
-        %td= c_d[1]
-        %td= "отмечалась в #{c_d[2]} г."
-      %tr
-        %td= "Минимальная температура воздуха"
-        %td= "#{report_date[8,2]} #{month_name2(report_date[5,2])}"
-        %td= c_d[3]
-        %td= "отмечалась в #{c_d[4]} г."
-%br
-%h5= "Время выпуска 13:00"
-%br
-.container
-  %table
-    %thead
-      %tr
-        %td= "Ответственный за выпуск: Начальник отдела гидрометеорологического обеспечения и обслуживания"
-        %td= ""
-        %td= "Л.Н. Бойко"
-      %tr
-        %td= "Начальник"
-        %td= ""
-        %td= "М.Б. Лукьяненко"
-%br
-
+        %td= @bulletin.forecast_day
+        %td= @bulletin.forecast_day_city
+  %h5{align: :right}= "Дежурный синоптик #{@bulletin.duty_synoptic}"
+  %br
+  - report_date_next2 = (@bulletin.report_date + 2.day).to_s(:custom_datetime)
+  - report_date_next3 = (@bulletin.report_date + 3.day).to_s(:custom_datetime)
+  %h3{align: :center}= "Периодный прогноз погоды на #{report_date_next2[8,2]}-#{report_date_next3[8,2]} #{month_name2(report_date_next3[5,2])} #{report_date_next3[0,4]} года в Донецкой Народной Республике"
+  %p= @bulletin.forecast_period
+  %br
+  - report_date_next4 = (@bulletin.report_date + 4.day).to_s(:custom_datetime)
+  - report_date_next5 = (@bulletin.report_date + 5.day).to_s(:custom_datetime)
+  %h3{align: :center}= "Консультативный прогноз погоды на #{report_date_next4[8,2]}-#{report_date_next5[8,2]} #{month_name2(report_date_next5[5,2])} #{report_date_next5[0,4]} года"
+  %p= @bulletin.forecast_advice
+  %br
+  - if @bulletin.forecast_orientation.present?
+    - report_date_next6 = (@bulletin.report_date + 6.day).to_s(:custom_datetime)
+    - report_date_next11 = (@bulletin.report_date + 11.day).to_s(:custom_datetime)
+    %h3{align: :center}= "Ориентировочный прогноз погоды на #{report_date_next6[8,2]}-#{report_date_next11[8,2]} #{month_name2(report_date_next11[5,2])} #{report_date_next11[0,4]} года"
+    %p= @bulletin.forecast_orientation
+  %h5{align: :right}= "Синоптик #{@bulletin.synoptic1}"
+  %br
+  /
+    %h3= "По акватории Азовского моря (на участке с. Безыменное – пгт. Седово)"
+    %h3= "Прогноз погоды на сутки с 21 часа #{report_date[8,2]} #{month_name2(report_date[5,2])} до 21 часа #{report_date_next[8,2]} #{month_name2(report_date_next[5,2])} #{report_date_next[0,4]} года"
+    %p= @bulletin.forecast_sea_day
+    %br
+    %h3= "Периодный прогноз погоды на #{report_date_next2[8,2]}-#{report_date_next3[8,2]} #{month_name2(report_date_next3[5,2])} #{report_date_next3[0,4]} года"
+    %p= @bulletin.forecast_sea_period
+    %h5= "Синоптик #{@bulletin.synoptic2}"
+    %br
+    %h5= "Время выпуска 13:00"
+    %br
+    %p= "Ответственный за выпуск:"
+    .container
+      %table{class: "table table-hover"}
+        %thead
+          %tr
+            %td= "Начальник отдела гидрометеорологического обеспечения и обслуживания"
+            %td= ""
+            %td= "Л.Н. Бойко"
+          %tr
+            %td= "Начальник"
+            %td= ""
+            %td= "М.Б. Лукьяненко"
+    %br
+  %h3{align: :center, :style => "color: #0000ff"}
+    %span= "Приложение к Гидрометеорологическому Бюллетеню"
+    %br
+    %span= "от #{@bulletin.report_date_as_str} № #{@bulletin.curr_number}"
+  - report_date_prev = (@bulletin.report_date - 1.day).to_s(:custom_datetime)
+  %h3{align: :center, :style => "color: #0000ff"}
+    %span= "МЕТЕОРОЛОГИЧЕСКИЕ ДАННЫЕ"
+    %br
+    %span= "за период с 9.00 часов #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])} до 9.00 часов #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года"
+  - m_d = []
+  - m_d = @bulletin.meteo_data.split(";")
+  .container
+    %table{class: "table table-hover"}
+      %thead
+        %tr
+          %th= "Название метеостанции"
+          %th{style: "color: #ff0000"}= "Максимальная вчера днем"
+          %th{style: "color: #0000ff"}= "Минимальная сегодня ночью"
+          %th= "Средняя за сутки #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])}"
+          %th= "В 9.00 часов сегодня"
+          %th= "Количество осадков за сутки (мм)"
+          - if @bulletin.summer
+            %th= "Минимальная температура почвы" 
+            %th= "Минимальная относительная влажность воздуха (%)"
+          - else
+            %th= "Высота снежного покрова (см)"
+            %th= "Глубина промерзания (см)"
+          %th= "Максимальная скорость ветра (м/с)"
+          %th= "Явления погоды"
+      %tbody
+        %tr
+          %td= "Донецк"
+          - (0..8).each do |i|
+            %td= m_d[i]
+        %tr
+          %td= "Дебальцево"
+          - (9..17).each do |i|
+            %td= m_d[i]
+        %tr
+          %td= "Амвросиевка"
+          - (18..26).each do |i|
+            %td= m_d[i]
+        %tr
+          %td= "Седово"
+          - (27..35).each do |i|
+            %td= m_d[i]
+  %br
+  %h3{align: :center, :style => "color: #0000ff"}
+    %span= "ОБЗОР ПОГОДЫ И АГРОМЕТЕОРОЛОГИЧЕСКИХ УСЛОВИЙ"
+    %br
+    %span= "в Донецкой Народной Республике"
+    %br
+    %span= "за период с 9.00 часов #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])} до 9.00 часов #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года"
+  %p= @bulletin.agro_day_review
+  %br
+  %h3{align: :center, :style => "color: #0000ff"}
+    %span= "Климатические данные по г. Донецку за #{report_date_prev[8,2]}-#{report_date[8,2]} #{month_name2(report_date[5,2])}"
+    %br
+    %span= "С 1945 по #{report_date[0,4]} гг. по данным Гидрометеорологической службы"
+  - c_d = []
+  - c_d = @bulletin.climate_data.split(";")
+  .container
+    %table{class: "table table-hover"}
+      %tbody
+        %tr
+          %td= "Средняя за сутки температура воздуха"
+          %td= "#{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])}"
+          %td= c_d[0]
+        %tr
+          %td= "Максимальная температура воздуха"
+          %td= "#{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])}"
+          %td= c_d[1]
+          %td= "отмечалась в #{c_d[2]} г."
+        %tr
+          %td= "Минимальная температура воздуха"
+          %td= "#{report_date[8,2]} #{month_name2(report_date[5,2])}"
+          %td= c_d[3]
+          %td= "отмечалась в #{c_d[4]} г."
+  %br
+  %h5= "Время выпуска 13:00"
+  %br
+  .container
+    %table{class: "table table-hover"}
+      %thead
+        %tr
+          %td
+            %span= "Ответственный за выпуск:"
+            %br
+            %span= "Начальник отдела гидрометеорологического обеспечения и обслуживания"
+          %td= ""
+          %td= "Л.Н. Бойко"
+        %tr
+          %td <b>Начальник</b>
+          %td= ""
+          %td <b>М.Б. Лукьяненко</b>
+  %br
+  
 = link_to "Список", bulletins_path  
 = link_to "Распечатать", "print_bulletin.pdf?id=#{@bulletin.id}"
 = link_to "Изменить", edit_bulletin_path(@bulletin.id)

@@ -13,7 +13,7 @@ class BulletinsController < ApplicationController
   def create
     @bulletin = Bulletin.new(bulletin_params)
     @bulletin.meteo_data = ''
-    (1..27).each do |i|
+    (1..36).each do |i|
       @bulletin.meteo_data += params["val_#{i}"]+'; '
     end
     @bulletin.climate_data = params[:avg_day_temp] + '; ' + params[:max_temp] + '; '+ params[:max_temp_year] + '; ' + params[:min_temp] + '; '+ params[:min_temp_year] + '; '
@@ -28,8 +28,9 @@ class BulletinsController < ApplicationController
   end
 
   def update
-    (1..27).each do |i|
-      @bulletin.meteo_data += params["val_#{i}"]+'; '
+     @bulletin.meteo_data = ''
+    (1..36).each do |i|
+      @bulletin.meteo_data += params["val_#{i}"].strip+'; '
     end
     @bulletin.climate_data = params[:avg_day_temp] + '; ' + params[:max_temp] + '; '+ params[:max_temp_year] + '; ' + params[:min_temp] + '; '+ params[:min_temp_year] + '; '
     if not @bulletin.update_attributes bulletin_params
@@ -53,7 +54,7 @@ class BulletinsController < ApplicationController
   private
   
     def bulletin_params
-      params.require(:bulletin).permit(:report_date, :curr_number, :duty_synoptic, :synoptic1, :synoptic2, :storm, :forecast_day, :forecast_day_city, :forecast_period, :forecast_advice, :forecast_orientation, :forecast_sea_day, :forecast_sea_period, :meteo_data, :agro_day_review, :climate_data)
+      params.require(:bulletin).permit(:report_date, :curr_number, :duty_synoptic, :synoptic1, :synoptic2, :storm, :forecast_day, :forecast_day_city, :forecast_period, :forecast_advice, :forecast_orientation, :forecast_sea_day, :forecast_sea_period, :meteo_data, :agro_day_review, :climate_data, :summer)
     end
     
     def find_bulletin

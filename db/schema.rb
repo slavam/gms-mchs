@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170807082357) do
+ActiveRecord::Schema.define(version: 20170818123451) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20170807082357) do
     t.datetime "updated_at"
     t.string   "duty_synoptic",        limit: 255
     t.text     "forecast_day_city",    limit: 65535
+    t.boolean  "summer",                             default: false
   end
 
   create_table "cities", force: :cascade do |t|

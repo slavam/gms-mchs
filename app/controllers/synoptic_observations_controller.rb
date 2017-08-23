@@ -1,18 +1,23 @@
 class SynopticObservationsController < ApplicationController
   # before_filter :require_observer_or_technicist
   before_filter :find_synoptic_observation, only: [:show, :update_synoptic_telegram] 
-  # Time::DATE_FORMATS[:simple_date_time] = "%Y%m%d"
   
   def search_synoptic_telegrams
-    date ||= params[:date].present? ? params[:date] : Time.now.strftime("%Y-%m-%d")
+    @date ||= params[:date].present? ? params[:date] : Time.now.strftime("%Y-%m-%d")
     term = params[:term].present? ? " and term = #{params[:term]}" : ''
-    station = (params[:station_id].present? && params[:station_id]>0) ? " and station_id = #{params[:station_id]}" : ''
-    text = params[:text].present? ? " and telegram like #{params[:text]}" : ''
+    station_id = params[:station_code].present? ? Station.find_by_code(params[:station_code]).id : nil
+    station = station_id.present? ? " and station_id = #{station_id}" : ''
+    text = params[:text].present? ? " and telegram like '%#{params[:text]}%'" : ''
        
-    sql = "select * from synoptic_observations where date like '#{date}' #{term} #{station} #{text};"
+    sql = "select * from synoptic_observations where date like '#{@date}' #{term} #{station} #{text};"
     tlgs = SynopticObservation.find_by_sql(sql)
     @stations = Station.all.order(:name)
+    @stations << {code: 0, name: 'Любая'}
     @telegrams = fields_short_list(tlgs)
+    respond_to do |format|
+      format.html 
+      format.json { render json: {telegrams: @telegrams} }
+    end
   end
   
   def show
