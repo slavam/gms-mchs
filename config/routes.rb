@@ -54,6 +54,12 @@ Rails.application.routes.draw do
   delete '/logout',  to: 'sessions#destroy'
   resources :users
   get 'bulletins/print_bulletin', to: 'bulletins#print_bulletin'
+  get 'bulletins/new_sea_bulletin', to: 'bulletins#new_sea_bulletin'
+  get 'bulletins/:id/sea_show', to: 'bulletins#sea_show'
+  get 'bulletins/new_storm_bulletin', to: 'bulletins#new_storm_bulletin'
+  get 'bulletins/:id/storm_show', to: 'bulletins#storm_show'
+  get 'bulletins/list', to: 'bulletins#list'
+  # post 'bulletins/sea_bulletin_create', to: 'bulletins#sea_bulletin_create'
   resources :bulletins
 
   get 'registers/search', to: 'registers#search'

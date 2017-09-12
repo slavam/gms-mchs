@@ -1,0 +1,20 @@
+- report_date = @bulletin.report_date.to_s(:custom_datetime)
+.container
+  %h4= "#{report_date[8,2]}.#{report_date[5,2]}.#{report_date[0,4]} г. #{@bulletin.storm_hour} час. #{@bulletin.storm_minute} мин."
+  %h3{align: :center, :style => "color: #ff0000"}= "ШТОРМОВОЕ ПРЕДУПРЕЖДЕНИЕ № #{@bulletin.curr_number}"
+  %p= @bulletin.storm
+  %br
+  .container
+    %table{class: "table table-hover"}
+      %thead
+        %tr
+          %td <b>Начальник</b>
+          %td= ""
+          %td <b>М.Б. Лукьяненко</b>
+  %br
+  %h5= "Синоптик #{@bulletin.synoptic1}"
+  %br
+  
+= link_to "Список", "/bulletins/list?bulletin_type=storm"  
+= link_to "Распечатать", "/bulletins/#{@bulletin.id}/storm_show.pdf"
+= link_to "Изменить", edit_bulletin_path(@bulletin.id)

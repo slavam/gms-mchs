@@ -1,0 +1,86 @@
+- m_d = []
+- m_d = @bulletin.meteo_data.split(";") if @bulletin.meteo_data.present?
+- report_date_prev = (@bulletin.report_date - 1.day).to_s(:custom_datetime)
+.container
+  = form_for @bulletin do |form|
+    %table{class: "table table-hover"}
+      %tr
+        %th Отчетная дата
+        %td= form.text_field :report_date, size: 10
+      %tr
+        %th Тип
+        %td= form.text_field :bulletin_type
+      %tr
+        %th Номер бюллетеня
+        %td= form.text_field :curr_number, size: 8
+      %tr
+        %th Лето
+        %td= form.check_box :summer
+      %tr
+        %th Шторм
+        %td= form.text_area :storm, cols: "30", rows: "5"
+      %tr
+        %th Прогноз погоды на сутки По акватории Азовского моря
+        %td= form.text_area :forecast_day, cols: "30", rows: "5"
+      %tr
+        %th Прогноз погоды на сутки в пгт. Седово
+        %td= form.text_area :forecast_day_city, cols: "30", rows: "5"
+      %tr
+        %th Периодный прогноз
+        %td= form.text_area :forecast_period, cols: "30", rows: "5"
+      %tr
+        %th Синоптик
+        %td= form.select :synoptic1, options_for_select([["Деревянко Н.Н.", "Деревянко Н.Н."], ["Осокина Л.Н.", "Осокина Л.Н."], ["Николаева А.Р.", "Николаева А.Р."]], @bulletin.synoptic1.present? ? @bulletin.synoptic1 : "Деревянко Н.Н.")
+      %tr
+        %th МЕТЕОРОЛОГИЧЕСКИЕ ДАННЫЕ И СВЕДЕНИЯ О СОСТОЯНИИ МОРЯ
+      %tr
+        %th Название метеостанции
+        %td Седово
+      %tr
+        %th Максимальная температура воздуха вчера днем
+        %td= text_field_tag "val_1", m_d[0].present? ? m_d[0] : '', size: 4
+      %tr
+        %th Минимальная температура воздуха сегодня ночью
+        %td= text_field_tag "val_2", m_d[1].present? ? m_d[1] : '', size: 4
+      %tr
+        %th Температура воздуха в 9.00 часов сегодня
+        %td= text_field_tag "val_3", m_d[2].present? ? m_d[2] : '', size: 4
+      %tr
+        %th Количество осадков за сутки (мм)
+        %td= text_field_tag "val_4", m_d[3].present? ? m_d[3] : '', size: 4
+      %tr
+        %th Направление ветра
+        %td= text_field_tag "val_5", m_d[4].present? ? m_d[4] : '', size: 4
+      %tr
+        %th Максимальная скорость ветра (м/с)
+        %td= text_field_tag "val_6", m_d[5].present? ? m_d[5] : '', size: 4
+      %tr
+        %th= "Явления погоды"
+        %td= text_field_tag "val_7", m_d[6].present? ? m_d[6] : '', size: 4
+      %tr
+        %th= "Уровень моря над '0' поста (см)"
+        %td= text_field_tag "val_8", m_d[7].present? ? m_d[7] : '', size: 4
+      %tr
+        %th= "Повышение (+) понижение (-) уровня моря за сутки (см)"
+        %td= text_field_tag "val_9", m_d[8].present? ? m_d[8] : '', size: 4
+      %tr
+        %th= "Температура воды"
+        %td= text_field_tag "val_10", m_d[9].present? ? m_d[9] : '', size: 4
+      %tr
+        %th= "Направление волн"
+        %td= text_field_tag "val_11", m_d[10].present? ? m_d[10] : '', size: 4
+      %tr
+        %th= "Высота волн (дм)"
+        %td= text_field_tag "val_12", m_d[11].present? ? m_d[11] : '', size: 4
+      %tr
+        %th= "Видимость"
+        %td= text_field_tag "val_13", m_d[12].present? ? m_d[12] : '', size: 4
+      %tr
+        %th Обзор погоды
+        %td= form.text_area :forecast_sea_day, cols: "100", rows: "5"
+      %tr
+        %th Обзор состояния Азовского моря
+        %td= form.text_area :forecast_sea_period, cols: "100", rows: "5"
+    %br
+    = submit_tag "Сохранить"
+= link_to "Список", bulletins_path    

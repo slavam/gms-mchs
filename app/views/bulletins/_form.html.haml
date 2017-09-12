@@ -10,6 +10,9 @@
       %tr
         %th Лето
         %td= form.check_box :summer
+      %tr
+        %th Тип бюллетеня
+        %td= form.select :bulletin_type, options_for_select([["Ежедневный", "daily"], ["Море", "sea"], ["Выходного дня", "holiday"], ["Шторм", 'storm'], ["Радиация", 'radiation'], ["Телевидение", 'tv']], @bulletin.bulletin_type.present? ? @bulletin.bulletin_type : "daily")
       /
         %tr
           %th Синоптик 2
