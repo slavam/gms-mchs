@@ -24,6 +24,9 @@
               - when 'sea'
                 %td= link_to "Просмотр", "#{b.id}/sea_show"
                 %td= link_to "Распечатать", "#{b.id}/sea_show.pdf"
+              - when 'holiday'
+                %td= link_to "Просмотр", "#{b.id}/holiday_show"
+                %td= link_to "Распечатать", "#{b.id}/holiday_show.pdf"
               - when 'storm'
                 %td= link_to "Просмотр", "#{b.id}/storm_show"
                 %td= link_to "Распечатать", "#{b.id}/storm_show.pdf"
@@ -38,3 +41,5 @@
     = link_to "Создать", bulletins_new_sea_bulletin_path  
   -when 'storm'
     = link_to "Создать", bulletins_new_storm_bulletin_path  
+  -when 'holiday'
+    = link_to "Создать", bulletins_new_holiday_bulletin_path  

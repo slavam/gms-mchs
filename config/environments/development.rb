@@ -14,7 +14,42 @@ Rails.application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  # config.action_mailer.raise_delivery_errors = false
+  # config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  # config.action_mailer.perform_caching = false
+  
+  # mwm
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  #   address:              '10.105.24.5',
+  #   port:                 25,
+  #   domain:               'localhost',
+  #   user_name:            '<username>',
+  #   password:             '<password>',
+  #   authentication:       'plain',
+  #   enable_starttls_auto: true  }  
+  
+  # ActionMailer Config
+config.action_mailer.default_url_options = { host: 'gmc-test-slavam1.c9users.io', protocol: 'https'  }
+config.action_mailer.delivery_method = :smtp
+# change to true to allow email to be sent during development
+config.action_mailer.perform_deliveries = false # true #
+config.action_mailer.raise_delivery_errors = true
+config.action_mailer.default :charset => "utf-8"
+  
+  config.action_mailer.smtp_settings = {
+    address:              'smtp.gmail.com',
+    port:                 2587,
+    domain:               'localhost',
+    # user_name:            ENV["GMAIL_USERNAME"],
+    # password:             ENV["GMAIL_PASSWORD"],
+    user_name:            'mwm1955',
+    # password:             '',
+    authentication:       'plain',
+    enable_starttls_auto: true  
+  }
+  
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

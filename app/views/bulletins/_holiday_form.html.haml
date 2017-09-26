@@ -1,0 +1,33 @@
+.container
+  = form_for @bulletin do |form|
+    %table{class: "table table-hover"}
+      %tr
+        %th Отчетная дата
+        %td= form.text_field :report_date, size: 10
+      %tr
+        %th Номер бюллетеня
+        %td= form.text_field :curr_number, size: 8
+      %tr
+        %th Тип
+        %td= form.text_field :bulletin_type
+      %tr
+        %th Шторм
+        %td= form.text_area :storm, cols: "30", rows: "5"      
+      %tr
+        %th Прогноз погоды на сутки
+        %td= form.text_area :forecast_day, cols: "30", rows: "5"
+      %tr
+        %th Прогноз погоды на сутки по Донецку
+        %td= form.text_area :forecast_day_city, cols: "30", rows: "5"
+      %tr
+        %th Дежурный синоптик
+        %td= form.select :duty_synoptic, options_for_select(Bulletin.synoptic_list)
+      %tr
+        %th Периодный прогноз
+        %td= form.text_area :forecast_period, cols: "30", rows: "5"
+      %tr
+        %th Синоптик
+        %td= form.select :synoptic1, options_for_select(Bulletin.synoptic_list)
+    %br
+    = submit_tag "Сохранить"
+= link_to "Список", "/bulletins/list?bulletin_type=holiday"

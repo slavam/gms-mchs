@@ -1,6 +1,6 @@
 %header{ :class=>"navbar navbar-fixed-top navbar-inverse"}
   %div{ :class=>"container"}
-    = link_to "ГМС МЧС ДНР", registers_url, id: "logo"
+    = link_to "Гидрометцентр МЧС ДНР", "#", id: "logo"
     %nav
       %ul{ :class=>"nav navbar-nav navbar-right"}
         - if logged_in?
@@ -14,9 +14,10 @@
                 %ul{class: "dropdown-menu"}
                   %li= link_to 'ТСХ-1',  synoptics_tcx1_path 
                   %li= link_to 'Бюллетень',  bulletins_path
-                  %li= link_to 'Бюллетени ежедневные',  "/bulletins/list?bulletin_type=daily"
-                  %li= link_to 'Бюллетени морские',  "/bulletins/list?bulletin_type=sea"
-                  %li= link_to 'Штормовые предупреждения',  "/bulletins/list?bulletin_type=storm"
+                  %li= link_to 'Бюллетени ежедневные', "/bulletins/list?bulletin_type=daily"
+                  %li= link_to 'Бюллетени морские', "/bulletins/list?bulletin_type=sea"
+                  %li= link_to 'Бюллетени выходного дня', "/bulletins/list?bulletin_type=holiday"
+                  %li= link_to 'Штормовые предупреждения', "/bulletins/list?bulletin_type=storm"
                   %li= link_to 'Тепло Донбасса',  synoptics_td_show_path
                   %li= link_to 'Автодор',  synoptics_avtodor_path
             - when 'technicist'

@@ -76,7 +76,7 @@
     %br
     %span= "за период с 9.00 часов #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])} до 9.00 часов #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года"
   - m_d = []
-  - m_d = @bulletin.meteo_data.split(";")
+  - m_d = @bulletin.meteo_data.split(";") if @bulletin.meteo_data.present?
   .container
     %table{class: "table table-hover"}
       %thead
@@ -163,6 +163,6 @@
           %td <b>М.Б. Лукьяненко</b>
   %br
   
-= link_to "Список", bulletins_path  
+= link_to "Список", "/bulletins/list?bulletin_type=daily"
 = link_to "Распечатать", "print_bulletin.pdf?id=#{@bulletin.id}"
 = link_to "Изменить", edit_bulletin_path(@bulletin.id)

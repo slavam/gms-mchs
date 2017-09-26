@@ -11,11 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170911123900) do
+ActiveRecord::Schema.define(version: 20170925084533) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
     t.string "Телеграмма", limit: 650, null: false
+  end
+
+  create_table "agro_observations", force: :cascade do |t|
+    t.string   "telegram_type", limit: 255, default: "ЩЭАГЯ", null: false
+    t.integer  "station_id",    limit: 4,                     null: false
+    t.date     "date_dev",                                    null: false
+    t.integer  "day_obs",       limit: 4,                     null: false
+    t.integer  "month_obs",     limit: 4,                     null: false
+    t.integer  "telegram_num",  limit: 4,   default: 1,       null: false
+    t.string   "telegram",      limit: 255,                   null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
   end
 
   create_table "audits", force: :cascade do |t|

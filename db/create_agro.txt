@@ -1,0 +1,209 @@
+class CreateAgroObservations < ActiveRecord::Migration
+  def change
+    create_table :agro_observations do |t|
+      t.date :date  # дата наблюдения
+      t.string  :telegram # текст телеграммы
+      t.integer :station_id # ссылка на станцию
+      t.integer :decade_last_day # YY номер последнего дня декады 10, 20, 28, 29, 30, 31
+      t.integer :telegram_num # B0 порядковый номер телеграммы 1..8
+            # декадная метеорологическая информация
+            # декадная телеграмма группа 111 зоны 90, 91
+      t.integer :temperature_dec_avg_delta                          # 1 90 T0T0 отклонение средней за декаду температуры от среднего многолетнего (целые градусы Цельсия)
+      t.decimal :temperature_dec_avg, precision: 5, scale: 1        # 1 1 TTT средняя температура воздуха за декаду с десятыми долями градуса Цельсия
+      t.integer :temperature_dec_max                                # 1 2 TxTx максимум температуры воздуха за декаду (целые градусы Цельсия)
+      t.integer :hot_dec_day_num                                    # 1 2 ntx количество дней за декаду с макс. температурой за сутки 30 и выше 1..11, nil
+      t.integer :temperature_dec_min                                # 1 3 TnTn минимум температуры воздуха за декаду (целые градусы Цельсия)
+      t.integer :dry_dec_day_num                                    # 1 3 nu количество дней за декаду с мин. за сутки относительной влажностью воздуха 30% и меньше 1..11, nil
+      t.integer :temperature_dec_min_soil                           # 1 4 TgTg минимум температуры поверхности грунта за декаду (целые градусы Цельсия)
+      t.integer :cold_soil_dec_day_num                              # 1 4 ntg количество дней за декаду с мин. температурой за сутки на поверхности почвы -20 и ниже 1..11, nil
+      t.integer :precipitation_dec                                  # 1 5 RRR количество осадков за декаду 0..999 табл. 4
+      t.integer :wet_dec_day_num                                    # 1 5 nR1 количество дней за декаду с количеством осадков за сутки 1 мм и более 1..11, nil
+      t.integer :precipitation_dec_percent                          # 1 6 R0R0R0R0 количество осадков за декаду в процентах от среднего многолетнего
+      t.integer :wind_speed_dec_max                                 # 1 7 fxfx максимальная скорость ветра в метрах в секунду за декаду
+      t.integer :wind_speed_dec_max_day_num                         # 1 7 nf количество дней за декаду с макс. скоростью ветра за сутки 15м/с и более 1..11, nil
+      t.integer :duster_dec_day_num                                 # 1 7 nb количество дней за декаду с пылевыми бурями 1..11, nil
+            # декадная телеграмма группа 111 зона 91
+      t.integer :temperature_dec_max_soil                           # 1 91 TzTz максимум температуры поверхности грунта за декаду (целые градусы Цельсия)
+      t.integer :sunshine_duration_dec                              # 1 1 SdSdSd продолжительность солнечного сияния за декаду
+      t.integer :freezing_dec_day_num                               # 1 1 n0 количество дней за декаду с заморозками 1..11, nil
+      t.integer :temperature_dec_avg_soil10                         # 1 2 t10t10 средняя за декаду температура почвы на глубине 10 см
+      t.integer :temperature25_soil10_dec_day_num                   # 1 2 n25 количество суток за декаду с температурой почвы на глубине 10 см 25 и выше 1..11, nil
+      t.integer :dew_dec_day_num                                    # 1 2 nr количество суток за декаду с росой 1..11, nil
+      t.integer :saturation_deficit_dec_avg                         # 1 3 DdDd средний дефицит насыщения за декаду (гПа)
+      t.integer :relative_humidity_dec_avg                          # 1 3 UdUd средняя относительная влажность воздуха за декаду (%)
+      t.integer :percipitation_dec_max                              # 1 4 RxRxRx суточный максимум осадков за декаду (мм)
+      t.integer :percipitation5_dec_day_num                         # 1 4 nR5 количество суток за декаду с количеством осадков 5 мм и более
+            # декадная агрометеорологическая информация 
+            # декадная телеграмма группа 222 зона 92
+            # вынести в отдельную таблицу!
+      t.integer :agro_observation_id
+      t.integer :crop_id                                            # 2 92 KpKpKp культура
+      t.integer :plot_id                                            # 2 1 NNN участок наблюдения
+      t.integer :agrotechnology                                     # 2 1 Af показатель наличия агротехнологии 1..7
+      t.integer :development_phase_1                                # 2 2 1 FF фаза развития растения
+      t.integer :development_phase_2                                # 2 2 2 FF фаза развития растения
+      t.integer :development_phase_3                                # 2 2 3 FF фаза развития растения
+      t.integer :development_phase_4                                # 2 2 4 FF фаза развития растения
+      t.integer :development_phase_5                                # 2 2 5 FF фаза развития растения
+      t.integer :day_phase_1                                        # 2 2 1 Ya день декады, когда наступила фаза
+      t.integer :day_phase_2                                        # 2 2 2 Ya день декады, когда наступила фаза
+      t.integer :day_phase_3                                        # 2 2 3 Ya день декады, когда наступила фаза
+      t.integer :day_phase_4                                        # 2 2 4 Ya день декады, когда наступила фаза
+      t.integer :day_phase_5                                        # 2 2 5 Ya день декады, когда наступила фаза
+      t.integer :assessment_condition_1                             # 2 2 1 O оценка состояния на последний день декады табл. 5
+      t.integer :assessment_condition_2                             # 2 2 2 O оценка состояния на последний день декады табл. 5
+      t.integer :assessment_condition_3                             # 2 2 3 O оценка состояния на последний день декады табл. 5
+      t.integer :assessment_condition_4                             # 2 2 4 O оценка состояния на последний день декады табл. 5
+      t.integer :assessment_condition_5                             # 2 2 5 O оценка состояния на последний день декады табл. 5
+      t.integer :clogging_weeds                                     # 2 3 Oz засорение посевов бурьяном
+      t.integer :height_plants                                      # 2 3 BBB средняя высота рстений
+      t.integer :number_plants                                      # 2 4 CpCpCpCp среднее количество растений на единицу площади
+      t.integer :average_mass                                       # 2 5 CnCnCnCn средняя масса кукурузы или сахарной свеклы в граммах
+      t.integer :agricultural_work_1                                # 2 6 1 PrPrPr сельскохозяйственная работа доп. 4
+      t.integer :agricultural_work_2                                # 2 6 2 PrPrPr сельскохозяйственная работа доп. 4
+      t.integer :agricultural_work_3                                # 2 6 3 PrPrPr сельскохозяйственная работа доп. 4
+      t.integer :agricultural_work_4                                # 2 6 4 PrPrPr сельскохозяйственная работа доп. 4
+      t.integer :agricultural_work_5                                # 2 6 5 PrPrPr сельскохозяйственная работа доп. 4
+      t.integer :day_work_1                                         # 2 6 1 Yr день декады, когда началась работа
+      t.integer :day_work_2                                         # 2 6 2 Yr день декады, когда началась работа
+      t.integer :day_work_3                                         # 2 6 3 Yr день декады, когда началась работа
+      t.integer :day_work_4                                         # 2 6 4 Yr день декады, когда началась работа
+      t.integer :day_work_5                                         # 2 6 5 Yr день декады, когда началась работа
+      t.integer :damage_plants_1                                    # 2 7 1 PvPvPv характер повреждения растений доп.3
+      t.integer :damage_plants_2                                    # 2 7 2 PvPvPv характер повреждения растений доп.3
+      t.integer :damage_plants_3                                    # 2 7 3 PvPvPv характер повреждения растений доп.3
+      t.integer :damage_plants_4                                    # 2 7 4 PvPvPv характер повреждения растений доп.3
+      t.integer :damage_plants_5                                    # 2 7 5 PvPvPv характер повреждения растений доп.3
+      t.integer :day_damage_1                                       # 2 7 1 Yp день декады, когда отмечено повреждение растений
+      t.integer :day_damage_2                                       # 2 7 2 Yp день декады, когда отмечено повреждение растений
+      t.integer :day_damage_3                                       # 2 7 3 Yp день декады, когда отмечено повреждение растений
+      t.integer :day_damage_4                                       # 2 7 4 Yp день декады, когда отмечено повреждение растений
+      t.integer :day_damage_5                                       # 2 7 5 Yp день декады, когда отмечено повреждение растений
+      t.integer :damage_level_1                                     # 2 0 1 Cn степень повреждения растений табл. 7, 8, 9
+      t.integer :damage_level_2                                     # 2 0 2 Cn степень повреждения растений табл. 7, 8, 9
+      t.integer :damage_level_3                                     # 2 0 3 Cn степень повреждения растений табл. 7, 8, 9
+      t.integer :damage_level_4                                     # 2 0 4 Cn степень повреждения растений табл. 7, 8, 9
+      t.integer :damage_level_5                                     # 2 0 5 Cn степень повреждения растений табл. 7, 8, 9
+      t.integer :damage_volume_1                                    # 2 0 1 Cv степень охвата растений повреждениями табл. 10
+      t.integer :damage_volume_2                                    # 2 0 2 Cv степень охвата растений повреждениями табл. 10
+      t.integer :damage_volume_3                                    # 2 0 3 Cv степень охвата растений повреждениями табл. 10
+      t.integer :damage_volume_4                                    # 2 0 4 Cv степень охвата растений повреждениями табл. 10
+      t.integer :damage_volume_5                                    # 2 0 5 Cv степень охвата растений повреждениями табл. 10
+      t.integer :damage_space_1                                     # 2 0 1 E0E0 площадь поля, охваченная повреждениями в %
+      t.integer :damage_space_2                                     # 2 0 2 E0E0 площадь поля, охваченная повреждениями в %
+      t.integer :damage_space_3                                     # 2 0 3 E0E0 площадь поля, охваченная повреждениями в %
+      t.integer :damage_space_4                                     # 2 0 4 E0E0 площадь поля, охваченная повреждениями в %
+      t.integer :damage_space_5                                     # 2 0 5 E0E0 площадь поля, охваченная повреждениями в %
+            # декадная телеграмма группа 222 зона 93
+      t.integer :number_spicas                                      # 2 93 riri количество колосков в колосе
+      t.integer :num_bad_spicas                                     # 2 93 rk количество неразвитых колосков в колосе
+      t.integer :number_stalks                                      # 2 93 1 C0C0C0C0 количество стеблей на 1 м2
+      t.integer :stalk_with_spike_num                               # 2 93 2 CkCkCkCk количество стеблей с колосом на 1 м2
+      t.integer :normal_size_potato                                 # 2 93 3 LeLe процент картофелин нормального размера от общего количества в кусте
+      t.integer :losses                                             # 2 93 3 ZeZe потери в процентах
+      t.integer :grain_num                                          # 2 93 4 rerere среднее количество зерен в колосе
+      t.integer :bad_grain_percent                                  # 2 93 4 rm процент щуплых зерен
+      t.integer :bushiness                                          # 2 93 5 MzMz кустистость зерновых
+      t.integer :shoots_inflorescences                              # 2 93 5 VzVz побеги с соцветьями
+      t.decimal :grain1000_mass, precision: 5, scale: 1             # 2 93 6 AbAbAbAb масса 1000 зерен (г) у зерновых с точностью до десятых
+            # декадная телеграмма группа 222 зона 94
+      t.integer :moisture_reserve_10                                # 2 94 W10W10W10 запас продуктивной влаги (мм) в слое грунта 0-100 см 
+      t.integer :moisture_reserve_5                                 # 2 94 1 W5W5W5 запас продуктивной влаги (мм) в слое грунта 0-50 см 
+      t.integer :soil_index                                         # 2 94 1 P показатель грунта табл. 12
+      t.integer :moisture_reserve_2                                 # 2 94 2 W2W2 запас продуктивной влаги (мм) в слое грунта 0-20 см
+      t.integer :moisture_reserve_1                                 # 2 94 2 W1W1 запас продуктивной влаги (мм) в слое грунта 0-10 см
+      t.integer :temperature_water_2                                # 2 94 4 t2t2 средняя за декаду температура воды в чеке на глубине 2 см
+      t.integer :depth_water                                        # 2 94 4 HwHw средняя за декаду уровень воды в чеке (см)
+      t.integer :depth_groundwater                                  # 2 94 5 GbGbGbGb глубина залегания грунтовых вод (см) на последний день декады
+      t.integer :depth_thawing_soil                                 # 2 94 6 HcHcHc глубина оттаивания грунта (см) на последний день декады
+      t.integer :depth_soil_wetting                                 # 2 94 7 GpGpGp глубина промокания грунта (см)
+            # декадная телеграмма группа 222 зона 95
+      t.integer :height_snow_cover                                  # 2 95 sss средняя высота (см) снежного покрова на последний день декады табл. 13
+      t.integer :snow_retention                                     # 2 95 1 H индекс снегозадержания табл.14
+      t.integer :snow_cover                                         # 2 95 1 E характеристика залегания снежного покрова табл. 15
+      t.decimal :snow_cover_density, precision: 5, scale: 2         # 2 95 1 MpMp средняя плотность снежного покрова (г/см2) в сотых долях
+      t.integer :number_measurements_0                              # 2 95 2 C0 количество промеров с высотой снежного покрова 0 см
+      t.integer :number_measurements_3                              # 2 95 2 C3 количество промеров с высотой снежного покрова 1-3 см
+      t.integer :number_measurements_30                             # 2 95 2 C30 количество промеров с высотой снежного покрова >30 см табл. 16
+      t.integer :ice_crust                                          # 2 95 2 L расширение ледяной корки (баллы)
+      t.integer :thickness_ice_cake                                 # 2 95 3 LaLa среднее значение толщины (мм) ледяной корки
+      t.integer :depth_thawing_soil_2                               # 2 95 3 HcHc глубина оттаивания грунта (см) на последний день декады
+      t.integer :depth_soil_freezing                                # 2 95 4 HpHpHp глубина промерзания грунта (см) на последний день декады
+      t.integer :thaw_days                                          # 2 95 4 nq количество дней с оттепелью табл. 3
+      t.integer :thermometer_index                                  # 2 95 5 n прибор для измерения температуры грунта табл.17
+      t.integer :temperature_dec_min_soil3                          # 2 95 5 t3t3 минимальная за декаду температура грунта на глубине 3 (20) см
+      t.integer :height_snow_cover_rail                             # 2 95 6 ststst высота (см) снежного покрова по рейке
+      t.integer :viable_method                                      # 2 95 7 P5 способ определения жизнеспособности зимующих культур табл.18
+      t.integer :soil_index_2                                       # 2 95 7 P показатель грунта табл. 12
+      t.integer :losses_1                                           # 2 95 7 E1E1 потери в процентах в первом образце
+      t.integer :losses_2                                           # 2 95 8 E2E2 потери в процентах во 2 образце
+      t.integer :losses_3                                           # 2 95 8 E3E3 потери в процентах в 3 образце
+      t.integer :losses_4                                           # 2 95 0 E4E4 потери в процентах в 4 образце
+      t.integer :temperature_dead50                                 # 2 95 0 K5K5 температура в морозильной камере, при которой погибло более 50% растений
+            # ежедневная агрометеорологическая информация 
+            # ежедневная телеграмма группа 333 зона 90
+      t.integer :temperature_max_12                                 # 3 90 TxTx максимальная температура воздуха за 12 дневных часов
+      t.decimal :temperature_avg_24, precision: 5, scale: 1         # 3 90 1 T24T24T24 средняя за сутки температура воздуха табл. 2
+      t.integer :temperature_min_24                                 # 3 90 3 TnTn минимальная за сутки температура воздуха
+      t.integer :temperature_min_soil_24                            # 3 90 4 TgTg минимальная за сутки температура на поверхности почвы
+      t.integer :percipitation_24                                   # 3 90 5 R24R24R24 количество осадков (мм), выпавших за сутки табл.4
+      t.integer :percipitation_type                                 # 3 90 5 Rx вид осадков 1..5, nil
+      t.integer :percipitation_12                                   # 3 90 6 R12R12R12 количество осадков за 12 ночных часов табл. 4
+      t.integer :wind_speed_max_24                                  # 3 90 7 fxfx максимальная за сутки скорость ветра (м/с)
+      t.integer :saturation_deficit_max_24                          # 3 90 7 DxDx максимальный дефицит насыщения воздуха за сутки (гПа)
+      t.integer :duration_dew_24                                    # 3 90 8 XX продолжительность росы (часов) за сутки
+      t.integer :dew_intensity_max                                  # 3 90 8 Z максимальная за сутки интенсивность росы 0..2
+      t.integer :dew_intensity_8                                    # 3 90 8 Z1 интенсивность росы в срок 8 часов 0..2
+            # ежедневная телеграмма группа 333 зона 91
+      t.integer :sunshine_duration_24                               # 3 91 S24S24 продолжительность солнечного сияния (часов) за предыдущие сутки
+      t.integer :state_top_layer_soil                               # 3 91 Ml состояние верхнего слоя грунта табл. 19
+      t.integer :temperature_field_5_16                             # 3 91 1 t5t5 температура грунта на глубине 5 см в поле в 16 часов
+      t.integer :temperature_field_10_16                            # 3 91 1 t10t10 температура грунта на глубине 10 см в поле в 16 часов
+      t.integer :temperature_avg_soil_5                             # 3 91 2 t_5t_5 средняя за предыдущие сутки температура грунта на глубине 5 см 
+      t.integer :temperature_avg_soil_10                            # 3 91 2 t_10t_10 средняя за предыдущие сутки температура грунта на глубине 10 см 
+      t.integer :saturation_deficit_avg_24                          # 3 91 3 DeDe средний дефицит насыщения воздуха за минувшие сутки (гПа)
+      t.integer :relative_humidity_min_24                           # 3 91 3 uxux минимальная относительная влажность воздуха за минувшие сутки (%)
+            # ежедневная телеграмма группа 333 зона 92
+            # вынести в отдельную таблицу!
+      t.integer :daily_agro_observation_id            
+      t.integer :crop_id                                            # 3 92 KpKpKp культура
+      t.integer :development_phase_1                                # 3 92 1 1 FF фаза развития растения
+      t.integer :development_phase_2                                # 3 92 1 2 FF фаза развития растения
+      t.integer :development_phase_3                                # 3 92 1 3 FF фаза развития растения
+      t.integer :development_phase_4                                # 3 92 1 4 FF фаза развития растения
+      t.integer :development_phase_5                                # 3 92 1 5 FF фаза развития растения            
+      t.integer :assessment_condition_1                             # 3 92 1 1 Ov оценка состояния табл. 5
+      t.integer :assessment_condition_2                             # 3 92 1 2 Ov оценка состояния табл. 5
+      t.integer :assessment_condition_3                             # 3 92 1 3 Ov оценка состояния табл. 5
+      t.integer :assessment_condition_4                             # 3 92 1 4 Ov оценка состояния табл. 5
+      t.integer :assessment_condition_5                             # 3 92 1 5 Ov оценка состояния табл. 5            
+      t.integer :agricultural_work_1                                # 3 92 6 1 PrPrPr сельскохозяйственная работа доп. 4
+      t.integer :agricultural_work_2                                # 3 92 6 2 PrPrPr сельскохозяйственная работа доп. 4
+      t.integer :agricultural_work_3                                # 3 92 6 3 PrPrPr сельскохозяйственная работа доп. 4
+      t.integer :agricultural_work_4                                # 3 92 6 4 PrPrPr сельскохозяйственная работа доп. 4
+      t.integer :agricultural_work_5                                # 3 92 6 5 PrPrPr сельскохозяйственная работа доп. 4
+      t.integer :index_weather_1                                    # 3 92 6 1 Xr благоприятные погодные условия табл. 20
+      t.integer :index_weather_2                                    # 3 92 6 2 Xr благоприятные погодные условия табл. 20
+      t.integer :index_weather_3                                    # 3 92 6 3 Xr благоприятные погодные условия табл. 20
+      t.integer :index_weather_4                                    # 3 92 6 4 Xr благоприятные погодные условия табл. 20
+      t.integer :index_weather_5                                    # 3 92 6 5 Xr благоприятные погодные условия табл. 20
+      t.integer :damage_plants_1                                    # 3 92 7 1 PvPvPv характер повреждения растений доп.3
+      t.integer :damage_plants_2                                    # 3 92 7 2 PvPvPv характер повреждения растений доп.3
+      t.integer :damage_plants_3                                    # 3 92 7 3 PvPvPv характер повреждения растений доп.3
+      t.integer :damage_plants_4                                    # 3 92 7 4 PvPvPv характер повреждения растений доп.3
+      t.integer :damage_plants_5                                    # 3 92 7 5 PvPvPv характер повреждения растений доп.3
+      t.integer :damage_volume_1                                    # 3 92 7 1 Cv степень охвата растений повреждениями табл. 10
+      t.integer :damage_volume_2                                    # 3 92 7 2 Cv степень охвата растений повреждениями табл. 10
+      t.integer :damage_volume_3                                    # 3 92 7 3 Cv степень охвата растений повреждениями табл. 10
+      t.integer :damage_volume_4                                    # 3 92 7 4 Cv степень охвата растений повреждениями табл. 10
+      t.integer :damage_volume_5                                    # 3 92 7 5 Cv степень охвата растений повреждениями табл. 10
+            # ежедневная телеграмма группа 333 зона 95
+      t.integer :height_snow_cover_rail                             # 3 95 ststst средняя высота (см) снежного покрова по рейке табл. 13
+      t.integer :depth_soil_freezing                                # 3 95 4 HmHmHm глубина промерзания грунта (см)
+      t.integer :thermometer_index                                  # 3 95 5 n прибор для измерения температуры грунта табл.17
+      t.integer :temperature_dec_min_soil3                          # 3 95 5 t3t3 температура грунта на глубине 3 см
+
+      t.timestamps null: false
+    end
+  end
+end

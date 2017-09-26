@@ -5591,3 +5591,1619 @@ ActionView::Template::Error (Error while running `/home/ubuntu/workspace/node_mo
 [2828] === puma shutdown: 2017-08-10 10:17:31 +0000 ===
 [2828] - Goodbye!
 Exiting
+=== puma startup: 2017-09-25 11:05:41 +0000 ===
+[5068] * Starting control server on unix:///tmp/puma-status-1506337541709-5068
+[5068] - Worker 0 (pid: 5077) booted, phase: 0
+[5068] - Worker 1 (pid: 5081) booted, phase: 0
+
+
+Started GET "/" for 109.254.85.111 at 2017-09-25 11:05:48 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by RegistersController#index as HTML
+  [1m[35mRegister Load (0.2ms)[0m  SELECT `reestr`.* FROM `reestr`  ORDER BY `reestr`.`id` ASC
+  Rendered registers/index.html.haml within layouts/application (35.0ms)
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170925-5081-18xh4s6" -
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170925-5081-19iktuc" -
+  Rendered layouts/_shim.html.haml (1.0ms)
+  [1m[36mUser Load (1.1ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (98.5ms)
+  Rendered layouts/_footer.html.haml (1.7ms)
+Completed 200 OK in 85082ms (Views: 85009.9ms | ActiveRecord: 56.5ms)
+
+
+Started GET "/assets/agro_observations.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 109.254.85.111 at 2017-09-25 11:07:14 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/agro_observations.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 109.254.85.111 at 2017-09-25 11:07:14 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/users/3" for 109.254.85.111 at 2017-09-25 11:07:23 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered users/show.html.haml within layouts/application (2.8ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.8ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 84ms (Views: 81.8ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/synoptics" for 109.254.85.111 at 2017-09-25 11:07:26 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by SynopticsController#index as HTML
+  [1m[35m (145.0ms)[0m  SELECT COUNT(*) FROM `sinop`
+  [1m[36mSynoptic Load (55.2ms)[0m  [1mSELECT  `sinop`.* FROM `sinop`  ORDER BY Дата DESC LIMIT 30 OFFSET 0[0m
+  Rendered synoptics/_synoptic.html.haml (19.7ms)
+  Rendered synoptics/index.html.haml within layouts/application (273.6ms)
+  Rendered layouts/_shim.html.haml (1.2ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (39.1ms)
+  Rendered layouts/_footer.html.haml (1.6ms)
+Completed 200 OK in 1253ms (Views: 1030.5ms | ActiveRecord: 202.9ms)
+
+
+Started GET "/bulletins/list?bulletin_type=daily" for 109.254.85.111 at 2017-09-25 11:07:38 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"daily"}
+  [1m[36mBulletin Load (9.2ms)[0m  [1mSELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'daily'  ORDER BY `bulletins`.`created_at` DESC[0m
+  Rendered bulletins/list.html.haml within layouts/application (117.4ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (1.8ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 237ms (Views: 221.1ms | ActiveRecord: 10.7ms)
+
+
+Started GET "/bulletins/9" for 109.254.85.111 at 2017-09-25 11:07:46 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#show as HTML
+  Parameters: {"id"=>"9"}
+  [1m[35mBulletin Load (0.4ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 9 LIMIT 1
+  Rendered bulletins/show.html.haml within layouts/application (44.2ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.5ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 290ms (Views: 245.0ms | ActiveRecord: 2.6ms)
+
+
+Started GET "/bulletins/print_bulletin.pdf?id=9" for 109.254.85.111 at 2017-09-25 11:07:53 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#print_bulletin as PDF
+  Parameters: {"id"=>"9"}
+  [1m[36mBulletin Load (0.2ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 9 LIMIT 1[0m
+  Rendered bulletins/print_bulletin.pdf.prawn (717.8ms)
+Completed 200 OK in 729ms (Views: 726.1ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/bulletins/9/edit" for 109.254.85.111 at 2017-09-25 11:08:01 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#edit as HTML
+  Parameters: {"id"=>"9"}
+  [1m[35mBulletin Load (17.7ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 9 LIMIT 1
+  Rendered bulletins/_form.html.haml (111.8ms)
+  Rendered bulletins/edit.html.haml within layouts/application (116.5ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.8ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 267ms (Views: 247.1ms | ActiveRecord: 17.9ms)
+
+
+Started GET "/bulletins/new" for 109.254.85.111 at 2017-09-25 11:08:19 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#new as HTML
+  Rendered bulletins/_form.html.haml (43.6ms)
+  Rendered bulletins/new.html.haml within layouts/application (46.3ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (3.4ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 138ms (Views: 135.9ms | ActiveRecord: 0.3ms)
+
+
+Started POST "/bulletins" for 109.254.85.111 at 2017-09-25 11:10:18 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"2gRTIzyN+ZQFhk4U93Rf4rKv5aaMvuX6KzbGZs62kiiSC9uszJ+fu0BEzFlhaE9q6+BmyBioNMBsjpxuDsj0lA==", "bulletin"=>{"report_date"=>"2017.09.25", "curr_number"=>"268", "summer"=>"1", "bulletin_type"=>"daily", "storm"=>"Шторм", "forecast_day"=>"Прогноз погоды на сутки", "forecast_day_city"=>"гноз погоды на сутки по", "duty_synoptic"=>"Соколова Т.Е.", "forecast_period"=>"риодный прогноз", "forecast_advice"=>"льтативный прогноз", "forecast_orientation"=>"иентировочный прогноз", "synoptic1"=>"Николаева А.Р.", "agro_day_review"=>"бзор погоды"}, "val_1"=>"1", "val_2"=>"2", "val_3"=>"3", "val_4"=>"4", "val_5"=>"5", "val_6"=>"6", "val_7"=>"7", "val_8"=>"8", "val_9"=>"9", "val_10"=>"21", "val_11"=>"22", "val_12"=>"23", "val_13"=>"24", "val_14"=>"", "val_15"=>"", "val_16"=>"", "val_17"=>"", "val_18"=>"", "val_19"=>"31", "val_20"=>"32", "val_21"=>"33", "val_22"=>"", "val_23"=>"", "val_24"=>"", "val_25"=>"", "val_26"=>"", "val_27"=>"", "val_28"=>"41", "val_29"=>"42", "val_30"=>"", "val_31"=>"", "val_32"=>"", "val_33"=>"", "val_34"=>"", "val_35"=>"", "val_36"=>"", "avg_day_temp"=>"33", "max_temp"=>"44", "max_temp_year"=>"5555", "min_temp"=>"11", "min_temp_year"=>"1111", "commit"=>"Сохранить"}
+  [1m[35m (132.8ms)[0m  BEGIN
+  [1m[36mSQL (18.0ms)[0m  [1mINSERT INTO `bulletins` (`report_date`, `curr_number`, `duty_synoptic`, `synoptic1`, `storm`, `forecast_day`, `forecast_day_city`, `forecast_period`, `forecast_advice`, `forecast_orientation`, `agro_day_review`, `summer`, `meteo_data`, `climate_data`, `created_at`, `updated_at`) VALUES ('2017-09-25', '268', 'Соколова Т.Е.', 'Николаева А.Р.', 'Шторм', 'Прогноз погоды на сутки', 'гноз погоды на сутки по', 'риодный прогноз', 'льтативный прогноз', 'иентировочный прогноз', 'бзор погоды', 1, '1; 2; 3; 4; 5; 6; 7; 8; 9; 21; 22; 23; 24; ; ; ; ; ; 31; 32; 33; ; ; ; ; ; ; 41; 42; ; ; ; ; ; ; ; ', '33; 44; 5555; 11; 1111; ', '2017-09-25 11:10:18', '2017-09-25 11:10:18')[0m
+  [1m[35m (4.9ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered meteo_mailer/welcome_email.html.erb within layouts/mailer (0.7ms)
+  Rendered meteo_mailer/welcome_email.text.erb within layouts/mailer (0.4ms)
+
+MeteoMailer#welcome_email: processed outbound mail in 177.5ms
+
+Sent mail to mwm1955@gmail.com (11.7ms)
+Date: Mon, 25 Sep 2017 11:10:19 +0000
+From: DSinoptik@Gidromet.MCHS
+To: mwm1955@gmail.com
+Message-ID: <59c8e41b3013b_13d5f8b90c956ac@slavam1-gmc-test-4104208.mail>
+Subject: Welcome to My Awesome Site
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_59c8e41b2d73e_13d5f8b90c9556d";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+
+----==_mimepart_59c8e41b2d73e_13d5f8b90c9556d
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: base64
+
+V2VsY29tZSB0byDQk9C40LTRgNC+0LzQtdGC0YbQtdC90YLRgCwgbDtrO2w7
+bGtsCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09CiAKWW91IGhhdmUgc3VjY2Vzc2Z1bGx5IHNpZ25lZCB1cCB0byDQ
+k9C40LTRgNC+0LzQtdGC0YbQtdC90YLRgCwKeW91ciB1c2VybmFtZSBpczog
+dGVzdDMuCiAKVG8gbG9naW4gdG8gdGhlIHNpdGUsIGp1c3QgZm9sbG93IHRo
+aXMgbGluazogaHR0cDovL3d3dy5nbWFpbC5jb20uCiAKVGhhbmtzIGZvciBq
+b2luaW5nIGFuZCBoYXZlIGEgZ3JlYXQgZGF5IQo=
+
+----==_mimepart_59c8e41b2d73e_13d5f8b90c9556d
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <body>
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />
+  </head>
+  <body>
+    <h1>Welcome to =D0=93=D0=B8=D0=B4=D1=80=D0=BE=D0=BC=D0=B5=D1=82=D1=86=
+=D0=B5=D0=BD=D1=82=D1=80, l;k;l;lkl</h1>
+    <p>
+      You have successfully signed up to =D0=93=D0=B8=D0=B4=D1=80=D0=BE=D0=
+=BC=D0=B5=D1=82=D1=86=D0=B5=D0=BD=D1=82=D1=80,
+      your username is: test3.<br>
+    </p>
+    <p>
+      To login to the site, just follow this link: http://www.gmail.com.
+    </p>
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+</html>
+  </body>
+</html>
+
+----==_mimepart_59c8e41b2d73e_13d5f8b90c9556d--
+
+Redirected to https://gmc-test-slavam1.c9users.io/bulletins/list?bulletin_type=daily
+Completed 302 Found in 468ms (ActiveRecord: 155.9ms)
+
+
+Started GET "/bulletins/list?bulletin_type=daily" for 109.254.85.111 at 2017-09-25 11:10:19 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"daily"}
+  [1m[35mBulletin Load (2.7ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'daily'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (6.1ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.8ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 235ms (Views: 230.9ms | ActiveRecord: 2.8ms)
+
+
+Started GET "/bulletins/40" for 109.254.85.111 at 2017-09-25 11:10:23 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#show as HTML
+  Parameters: {"id"=>"40"}
+  [1m[35mBulletin Load (1.1ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 40 LIMIT 1
+  Rendered bulletins/show.html.haml within layouts/application (19.9ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.7ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 95ms (Views: 92.5ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/bulletins/40/edit" for 109.254.85.111 at 2017-09-25 11:10:38 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#edit as HTML
+  Parameters: {"id"=>"40"}
+  [1m[36mBulletin Load (0.2ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 40 LIMIT 1[0m
+  Rendered bulletins/_form.html.haml (5.8ms)
+  Rendered bulletins/edit.html.haml within layouts/application (8.9ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (1.9ms)
+  Rendered layouts/_footer.html.haml (0.5ms)
+Completed 200 OK in 101ms (Views: 98.3ms | ActiveRecord: 0.4ms)
+
+
+Started PATCH "/bulletins/40" for 109.254.85.111 at 2017-09-25 11:10:56 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"vri7VGt1vtJt42RWWjQiwotlu3jsCDcDrvmwnzWVQAf2tzPbm2fY/Sgh5hvMKDJK0io4Fnge5jnpQeqX9esmuw==", "bulletin"=>{"report_date"=>"2017-09-25", "curr_number"=>"268", "summer"=>"1", "bulletin_type"=>"daily", "storm"=>"Шторм", "forecast_day"=>"Прогноз погоды на сутки", "forecast_day_city"=>"Прогноз погоды на сутки по", "duty_synoptic"=>"Соколова Т.Е.", "forecast_period"=>"риодный прогноз", "forecast_advice"=>"льтативный прогноз", "forecast_orientation"=>"иентировочный прогноз", "synoptic1"=>"Николаева А.Р.", "agro_day_review"=>"бзор погоды"}, "val_1"=>"1", "val_2"=>" 2", "val_3"=>" 3", "val_4"=>" 4", "val_5"=>" 5", "val_6"=>" 6", "val_7"=>" 7", "val_8"=>" 8", "val_9"=>" 9", "val_10"=>" 21", "val_11"=>" 22", "val_12"=>" 23", "val_13"=>" 24", "val_14"=>"", "val_15"=>"", "val_16"=>"", "val_17"=>"", "val_18"=>"", "val_19"=>" 31", "val_20"=>" 32", "val_21"=>" 33", "val_22"=>"", "val_23"=>"", "val_24"=>"", "val_25"=>"", "val_26"=>"", "val_27"=>"", "val_28"=>" 41", "val_29"=>" 42", "val_30"=>"", "val_31"=>"", "val_32"=>"", "val_33"=>"", "val_34"=>"", "val_35"=>"", "val_36"=>"", "avg_day_temp"=>"33", "max_temp"=>" 44", "max_temp_year"=>" 5555", "min_temp"=>" 11", "min_temp_year"=>" 1111", "commit"=>"Сохранить", "id"=>"40"}
+  [1m[36mBulletin Load (0.2ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 40 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (4.2ms)[0m  [1mUPDATE `bulletins` SET `climate_data` = '33;  44;  5555;  11;  1111; ', `forecast_day_city` = 'Прогноз погоды на сутки по', `updated_at` = '2017-09-25 11:10:56' WHERE `bulletins`.`id` = 40[0m
+  [1m[35m (4.6ms)[0m  COMMIT
+Redirected to https://gmc-test-slavam1.c9users.io/bulletins/list?bulletin_type=daily
+Completed 302 Found in 18ms (ActiveRecord: 9.1ms)
+
+
+Started GET "/bulletins/list?bulletin_type=daily" for 109.254.85.111 at 2017-09-25 11:10:57 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"daily"}
+  [1m[35mBulletin Load (0.5ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'daily'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (3.5ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.7ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 82ms (Views: 79.8ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/bulletins/40" for 109.254.85.111 at 2017-09-25 11:11:00 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#show as HTML
+  Parameters: {"id"=>"40"}
+  [1m[35mBulletin Load (1.3ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 40 LIMIT 1
+  Rendered bulletins/show.html.haml within layouts/application (2.1ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.8ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 72ms (Views: 69.0ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/bulletins/list?bulletin_type=sea" for 109.254.85.111 at 2017-09-25 11:11:22 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"sea"}
+  [1m[36mBulletin Load (1.9ms)[0m  [1mSELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'sea'  ORDER BY `bulletins`.`created_at` DESC[0m
+  Rendered bulletins/list.html.haml within layouts/application (9.0ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (1.7ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 84ms (Views: 81.0ms | ActiveRecord: 2.1ms)
+
+
+Started GET "/bulletins/10/sea_show" for 109.254.85.111 at 2017-09-25 11:11:26 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#sea_show as HTML
+  Parameters: {"id"=>"10"}
+  [1m[35mBulletin Load (0.4ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 10 LIMIT 1
+  Rendered bulletins/sea_show.html.haml within layouts/application (10.0ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.8ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 92ms (Views: 90.2ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/bulletins/10/edit" for 109.254.85.111 at 2017-09-25 11:11:35 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#edit as HTML
+  Parameters: {"id"=>"10"}
+  [1m[35mBulletin Load (0.2ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 10 LIMIT 1
+  Rendered bulletins/_sea_form.html.haml (10.4ms)
+  Rendered bulletins/edit.html.haml within layouts/application (12.8ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.9ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 109ms (Views: 106.7ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/bulletins/list?bulletin_type=sea" for 109.254.85.111 at 2017-09-25 11:11:43 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"sea"}
+  [1m[35mBulletin Load (0.2ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'sea'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (2.3ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.9ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 87ms (Views: 85.4ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/bulletins/10/sea_show.pdf" for 109.254.85.111 at 2017-09-25 11:11:44 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#sea_show as PDF
+  Parameters: {"id"=>"10"}
+  [1m[35mBulletin Load (0.2ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 10 LIMIT 1
+  Rendered text template (0.0ms)
+Sent data Bulletin 254 (5.0ms)
+Completed 200 OK in 383ms (Views: 4.8ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/bulletins/new_sea_bulletin" for 109.254.85.111 at 2017-09-25 11:11:54 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#new_sea_bulletin as HTML
+  Rendered bulletins/_sea_form.html.haml (3.1ms)
+  Rendered bulletins/new_sea_bulletin.html.haml within layouts/application (5.1ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.1ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 131ms (Views: 129.6ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/bulletins" for 109.254.85.111 at 2017-09-25 11:12:37 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"qHkbV4xr6O/d95mWEx9xuDjKkcLCyCxtM+lQIRvjF5bgdpPYfHmOwJg1G9uFA2EwYYUSrFbe/Vd0UQop251xKg==", "bulletin"=>{"report_date"=>"2017.09.25", "bulletin_type"=>"sea", "curr_number"=>"268", "summer"=>"1", "storm"=>"werwerw", "forecast_day"=>"qerqwer", "forecast_day_city"=>"asfsdf", "forecast_period"=>"fghfghdfg", "synoptic1"=>"Осокина Л.Н.", "forecast_sea_day"=>"fghdfghdfghdf", "forecast_sea_period"=>"rterterter"}, "val_1"=>"fghfgh", "val_2"=>"44", "val_3"=>"55", "val_4"=>"66", "val_5"=>"77", "val_6"=>"88", "val_7"=>"44", "val_8"=>"33", "val_9"=>"22", "val_10"=>"1", "val_11"=>"2", "val_12"=>"3", "val_13"=>"4", "commit"=>"Сохранить"}
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (3.0ms)[0m  [1mINSERT INTO `bulletins` (`report_date`, `curr_number`, `synoptic1`, `storm`, `forecast_day`, `forecast_day_city`, `forecast_period`, `forecast_sea_day`, `forecast_sea_period`, `summer`, `bulletin_type`, `meteo_data`, `created_at`, `updated_at`) VALUES ('2017-09-25', '268', 'Осокина Л.Н.', 'werwerw', 'qerqwer', 'asfsdf', 'fghfghdfg', 'fghdfghdfghdf', 'rterterter', 1, 'sea', 'fghfgh; 44; 55; 66; 77; 88; 44; 33; 22; 1; 2; 3; 4; ', '2017-09-25 11:12:37', '2017-09-25 11:12:37')[0m
+  [1m[35m (3.2ms)[0m  COMMIT
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered meteo_mailer/welcome_email.html.erb within layouts/mailer (0.1ms)
+  Rendered meteo_mailer/welcome_email.text.erb within layouts/mailer (0.0ms)
+
+MeteoMailer#welcome_email: processed outbound mail in 14.1ms
+
+Sent mail to mwm1955@gmail.com (2.6ms)
+Date: Mon, 25 Sep 2017 11:12:37 +0000
+From: DSinoptik@Gidromet.MCHS
+To: mwm1955@gmail.com
+Message-ID: <59c8e4a51be13_13d5f8b90c9585c@slavam1-gmc-test-4104208.mail>
+Subject: Welcome to My Awesome Site
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_59c8e4a51a7df_13d5f8b90c9578c";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+
+----==_mimepart_59c8e4a51a7df_13d5f8b90c9578c
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: base64
+
+V2VsY29tZSB0byDQk9C40LTRgNC+0LzQtdGC0YbQtdC90YLRgCwgbDtrO2w7
+bGtsCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09CiAKWW91IGhhdmUgc3VjY2Vzc2Z1bGx5IHNpZ25lZCB1cCB0byDQ
+k9C40LTRgNC+0LzQtdGC0YbQtdC90YLRgCwKeW91ciB1c2VybmFtZSBpczog
+dGVzdDMuCiAKVG8gbG9naW4gdG8gdGhlIHNpdGUsIGp1c3QgZm9sbG93IHRo
+aXMgbGluazogaHR0cDovL3d3dy5nbWFpbC5jb20uCiAKVGhhbmtzIGZvciBq
+b2luaW5nIGFuZCBoYXZlIGEgZ3JlYXQgZGF5IQo=
+
+----==_mimepart_59c8e4a51a7df_13d5f8b90c9578c
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <body>
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />
+  </head>
+  <body>
+    <h1>Welcome to =D0=93=D0=B8=D0=B4=D1=80=D0=BE=D0=BC=D0=B5=D1=82=D1=86=
+=D0=B5=D0=BD=D1=82=D1=80, l;k;l;lkl</h1>
+    <p>
+      You have successfully signed up to =D0=93=D0=B8=D0=B4=D1=80=D0=BE=D0=
+=BC=D0=B5=D1=82=D1=86=D0=B5=D0=BD=D1=82=D1=80,
+      your username is: test3.<br>
+    </p>
+    <p>
+      To login to the site, just follow this link: http://www.gmail.com.
+    </p>
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+</html>
+  </body>
+</html>
+
+----==_mimepart_59c8e4a51a7df_13d5f8b90c9578c--
+
+Redirected to https://gmc-test-slavam1.c9users.io/bulletins/list?bulletin_type=sea
+Completed 302 Found in 31ms (ActiveRecord: 6.4ms)
+
+
+Started GET "/bulletins/list?bulletin_type=sea" for 109.254.85.111 at 2017-09-25 11:12:37 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"sea"}
+  [1m[36mBulletin Load (1.7ms)[0m  [1mSELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'sea'  ORDER BY `bulletins`.`created_at` DESC[0m
+  Rendered bulletins/list.html.haml within layouts/application (5.5ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (1.7ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 100ms (Views: 95.6ms | ActiveRecord: 1.9ms)
+
+
+Started GET "/bulletins/41/sea_show" for 109.254.85.111 at 2017-09-25 11:12:41 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#sea_show as HTML
+  Parameters: {"id"=>"41"}
+  [1m[36mBulletin Load (0.4ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 41 LIMIT 1[0m
+  Rendered bulletins/sea_show.html.haml within layouts/application (13.9ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (1.7ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 89ms (Views: 86.9ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/bulletins/41/sea_show.pdf" for 109.254.85.111 at 2017-09-25 11:12:55 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#sea_show as PDF
+  Parameters: {"id"=>"41"}
+  [1m[36mBulletin Load (0.2ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 41 LIMIT 1[0m
+  Rendered text template (0.0ms)
+Sent data Bulletin 268 (2.4ms)
+Completed 200 OK in 364ms (Views: 2.2ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/bulletins/list?bulletin_type=sea" for 109.254.85.111 at 2017-09-25 11:13:10 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"sea"}
+  [1m[35mBulletin Load (0.2ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'sea'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (2.3ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.8ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 78ms (Views: 76.0ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/bulletins/list?bulletin_type=holiday" for 109.254.85.111 at 2017-09-25 11:13:16 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"holiday"}
+  [1m[35mBulletin Load (1.5ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'holiday'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (3.2ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.2ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 89ms (Views: 86.0ms | ActiveRecord: 1.8ms)
+
+
+Started GET "/bulletins/12/holiday_show" for 109.254.85.111 at 2017-09-25 11:13:21 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#holiday_show as HTML
+  Parameters: {"id"=>"12"}
+  [1m[35mBulletin Load (0.5ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 12 LIMIT 1
+  Rendered bulletins/holiday_show.html.haml within layouts/application (10.6ms)
+  Rendered layouts/_shim.html.haml (0.2ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.5ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 169ms (Views: 165.8ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/bulletins/list?bulletin_type=holiday" for 109.254.85.111 at 2017-09-25 11:13:26 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"holiday"}
+  [1m[35mBulletin Load (0.2ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'holiday'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (2.9ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (3.0ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 151ms (Views: 148.3ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/bulletins/12/holiday_show.pdf" for 109.254.85.111 at 2017-09-25 11:13:28 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#holiday_show as PDF
+  Parameters: {"id"=>"12"}
+  [1m[35mBulletin Load (0.2ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 12 LIMIT 1
+  Rendered text template (0.0ms)
+Sent data Bulletin_12 (0.9ms)
+Sent file /home/ubuntu/workspace/app/assets/pdf_folder/Bulletin_12.pdf (0.2ms)
+Completed 200 OK in 636ms (Views: 0.7ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/bulletins/new_holiday_bulletin" for 109.254.85.111 at 2017-09-25 11:14:02 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#new_holiday_bulletin as HTML
+  Rendered bulletins/_holiday_form.html.haml (9.9ms)
+  Rendered bulletins/new_holiday_bulletin.html.haml within layouts/application (14.9ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (112.8ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (128.5ms)
+  Rendered layouts/_footer.html.haml (0.6ms)
+Completed 200 OK in 464ms (Views: 349.9ms | ActiveRecord: 112.8ms)
+
+
+Started POST "/bulletins" for 109.254.85.111 at 2017-09-25 11:14:26 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"S6mLawM7zJhlfJ4kjawFDIenk6oPALBwJiHy/TpQw40DpgPk8ymqtyC+HGkbsBWE3ugQxJsWYUphmaj1+i6lMQ==", "bulletin"=>{"report_date"=>"2017.09.25", "curr_number"=>"268", "bulletin_type"=>"holiday", "storm"=>"erertert", "forecast_day"=>"dfgdfgdf", "forecast_day_city"=>"cvbcvbv", "duty_synoptic"=>"Щербак Е.Д.", "forecast_period"=>"dgdfgdf", "synoptic1"=>"Маренкова Н.В."}, "commit"=>"Сохранить"}
+  [1m[35m (17.5ms)[0m  BEGIN
+  [1m[36mSQL (14.2ms)[0m  [1mINSERT INTO `bulletins` (`report_date`, `curr_number`, `duty_synoptic`, `synoptic1`, `storm`, `forecast_day`, `forecast_day_city`, `forecast_period`, `bulletin_type`, `created_at`, `updated_at`) VALUES ('2017-09-25', '268', 'Щербак Е.Д.', 'Маренкова Н.В.', 'erertert', 'dfgdfgdf', 'cvbcvbv', 'dgdfgdf', 'holiday', '2017-09-25 11:14:26', '2017-09-25 11:14:26')[0m
+  [1m[35m (4.9ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered meteo_mailer/welcome_email.html.erb within layouts/mailer (0.4ms)
+  Rendered meteo_mailer/welcome_email.text.erb within layouts/mailer (0.1ms)
+
+MeteoMailer#welcome_email: processed outbound mail in 18.4ms
+
+Sent mail to mwm1955@gmail.com (2.8ms)
+Date: Mon, 25 Sep 2017 11:14:26 +0000
+From: DSinoptik@Gidromet.MCHS
+To: mwm1955@gmail.com
+Message-ID: <59c8e51250942_13d5f8b90c96029@slavam1-gmc-test-4104208.mail>
+Subject: Welcome to My Awesome Site
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_59c8e5124f21f_13d5f8b90c959da";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+
+----==_mimepart_59c8e5124f21f_13d5f8b90c959da
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: base64
+
+V2VsY29tZSB0byDQk9C40LTRgNC+0LzQtdGC0YbQtdC90YLRgCwgbDtrO2w7
+bGtsCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09CiAKWW91IGhhdmUgc3VjY2Vzc2Z1bGx5IHNpZ25lZCB1cCB0byDQ
+k9C40LTRgNC+0LzQtdGC0YbQtdC90YLRgCwKeW91ciB1c2VybmFtZSBpczog
+dGVzdDMuCiAKVG8gbG9naW4gdG8gdGhlIHNpdGUsIGp1c3QgZm9sbG93IHRo
+aXMgbGluazogaHR0cDovL3d3dy5nbWFpbC5jb20uCiAKVGhhbmtzIGZvciBq
+b2luaW5nIGFuZCBoYXZlIGEgZ3JlYXQgZGF5IQo=
+
+----==_mimepart_59c8e5124f21f_13d5f8b90c959da
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <body>
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />
+  </head>
+  <body>
+    <h1>Welcome to =D0=93=D0=B8=D0=B4=D1=80=D0=BE=D0=BC=D0=B5=D1=82=D1=86=
+=D0=B5=D0=BD=D1=82=D1=80, l;k;l;lkl</h1>
+    <p>
+      You have successfully signed up to =D0=93=D0=B8=D0=B4=D1=80=D0=BE=D0=
+=BC=D0=B5=D1=82=D1=86=D0=B5=D0=BD=D1=82=D1=80,
+      your username is: test3.<br>
+    </p>
+    <p>
+      To login to the site, just follow this link: http://www.gmail.com.
+    </p>
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+</html>
+  </body>
+</html>
+
+----==_mimepart_59c8e5124f21f_13d5f8b90c959da--
+
+Redirected to https://gmc-test-slavam1.c9users.io/bulletins/list?bulletin_type=holiday
+Completed 302 Found in 66ms (ActiveRecord: 36.8ms)
+
+
+Started GET "/bulletins/list?bulletin_type=holiday" for 109.254.85.111 at 2017-09-25 11:14:26 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"holiday"}
+  [1m[35mBulletin Load (2.9ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'holiday'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (5.0ms)
+  Rendered layouts/_shim.html.haml (1.2ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.9ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 187ms (Views: 182.9ms | ActiveRecord: 3.1ms)
+
+
+Started GET "/bulletins/42/holiday_show" for 109.254.85.111 at 2017-09-25 11:14:34 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#holiday_show as HTML
+  Parameters: {"id"=>"42"}
+  [1m[35mBulletin Load (0.4ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 42 LIMIT 1
+  Rendered bulletins/holiday_show.html.haml within layouts/application (1.5ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.0ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 92ms (Views: 89.4ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/bulletins/42/edit" for 109.254.85.111 at 2017-09-25 11:14:39 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#edit as HTML
+  Parameters: {"id"=>"42"}
+  [1m[35mBulletin Load (0.3ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 42 LIMIT 1
+  Rendered bulletins/_holiday_form.html.haml (7.2ms)
+  Rendered bulletins/edit.html.haml within layouts/application (8.5ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.8ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 98ms (Views: 95.4ms | ActiveRecord: 0.5ms)
+
+
+Started PATCH "/bulletins/42" for 109.254.85.111 at 2017-09-25 11:14:58 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"y7lRvMd4Rdva9pv3TAt0YNwUxdJZbnZBQ+vmv+m4L3ODttkzN2oj9J80GbraF2TohVtGvM14p3sEU7y3KcZJzw==", "bulletin"=>{"report_date"=>"2017-09-25", "curr_number"=>"268 в", "bulletin_type"=>"holiday", "storm"=>"erertert", "forecast_day"=>"dfgdfgdf", "forecast_day_city"=>"cvbcvbv", "duty_synoptic"=>"Деревянко Н.Н.", "forecast_period"=>"dgdfgdf", "synoptic1"=>"Деревянко Н.Н."}, "commit"=>"Сохранить", "id"=>"42"}
+  [1m[35mBulletin Load (0.2ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 42 LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (3.6ms)[0m  UPDATE `bulletins` SET `curr_number` = '268 в', `duty_synoptic` = 'Деревянко Н.Н.', `synoptic1` = 'Деревянко Н.Н.', `updated_at` = '2017-09-25 11:14:58' WHERE `bulletins`.`id` = 42
+  [1m[36m (4.7ms)[0m  [1mCOMMIT[0m
+Redirected to https://gmc-test-slavam1.c9users.io/bulletins/list?bulletin_type=holiday
+Completed 302 Found in 13ms (ActiveRecord: 8.7ms)
+
+
+Started GET "/bulletins/list?bulletin_type=holiday" for 109.254.85.111 at 2017-09-25 11:14:59 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"holiday"}
+  [1m[35mBulletin Load (0.6ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'holiday'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (2.6ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.7ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 102ms (Views: 100.1ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/bulletins/42/holiday_show.pdf" for 109.254.85.111 at 2017-09-25 11:15:04 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#holiday_show as PDF
+  Parameters: {"id"=>"42"}
+  [1m[35mBulletin Load (0.4ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 42 LIMIT 1
+  Rendered text template (0.0ms)
+Sent data Bulletin_42 (0.7ms)
+Sent file /home/ubuntu/workspace/app/assets/pdf_folder/Bulletin_42.pdf (0.1ms)
+Completed 200 OK in 239ms (Views: 0.6ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/bulletins/list?bulletin_type=storm" for 109.254.85.111 at 2017-09-25 11:15:26 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"storm"}
+  [1m[35mBulletin Load (1.4ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'storm'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (7.1ms)
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --list --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170925-5081-14tf25i" -
+Browserify: /home/ubuntu/workspace/node_modules/.bin/browserifyinc -t [ babelify --presets [ es2015 react stage-0 ] ] --cachefile=/home/ubuntu/workspace/tmp/cache/browserify-rails/browserifyinc-cache.json -o "/home/ubuntu/workspace/tmp/cache/browserify-rails/output20170925-5081-1d8vsi8" -
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (39.8ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (42.0ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 160697ms (Views: 160654.0ms | ActiveRecord: 41.2ms)
+
+
+Started GET "/bulletins/list?bulletin_type=storm" for 109.254.85.111 at 2017-09-25 11:18:07 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"storm"}
+  [1m[35mBulletin Load (0.2ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'storm'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (5.5ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.5ms)
+  Rendered layouts/_footer.html.haml (0.2ms)
+Completed 200 OK in 94ms (Views: 92.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/bulletins/list?bulletin_type=storm" for 109.254.85.111 at 2017-09-25 11:18:07 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"storm"}
+  [1m[35mBulletin Load (0.1ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'storm'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (4.1ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.6ms)
+  Rendered layouts/_footer.html.haml (0.2ms)
+Completed 200 OK in 73ms (Views: 71.6ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/bulletins/list?bulletin_type=holiday" for 109.254.85.111 at 2017-09-25 11:18:07 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"holiday"}
+  [1m[35mBulletin Load (1.2ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'holiday'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (2.8ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.5ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 71ms (Views: 69.0ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/synoptics" for 109.254.85.111 at 2017-09-25 11:18:22 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticsController#index as HTML
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `sinop`
+  [1m[36mSynoptic Load (0.2ms)[0m  [1mSELECT  `sinop`.* FROM `sinop`  ORDER BY Дата DESC LIMIT 30 OFFSET 0[0m
+  Rendered synoptics/_synoptic.html.haml (5.7ms)
+  Rendered synoptics/index.html.haml within layouts/application (104.6ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (1.9ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 185ms (Views: 106.9ms | ActiveRecord: 72.2ms)
+
+
+Started GET "/search_synoptic_telegrams" for 109.254.85.111 at 2017-09-25 11:18:29 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by SynopticObservationsController#search_synoptic_telegrams as HTML
+  [1m[36mSynopticObservation Load (32.1ms)[0m  [1mselect * from synoptic_observations where date like '2017-09-25'   ;[0m
+  [1m[35mStation Load (6.6ms)[0m  SELECT `stations`.* FROM `stations`  ORDER BY `stations`.`name` ASC
+  Rendered synoptic_observations/search_synoptic_telegrams.html.erb within layouts/application (14.7ms)
+  Rendered layouts/_shim.html.haml (1.6ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (6.5ms)
+  Rendered layouts/_footer.html.haml (0.7ms)
+Completed 200 OK in 585ms (Views: 438.9ms | ActiveRecord: 46.1ms)
+
+
+Started GET "/bulletins/list?bulletin_type=sea" for 109.254.85.111 at 2017-09-25 11:18:40 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"sea"}
+  [1m[35mBulletin Load (2.2ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'sea'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (8.4ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.7ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 169ms (Views: 163.4ms | ActiveRecord: 2.3ms)
+
+
+Started GET "/bulletins/list?bulletin_type=holiday" for 109.254.85.111 at 2017-09-25 11:18:45 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"holiday"}
+  [1m[35mBulletin Load (0.3ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'holiday'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (3.2ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.9ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 142ms (Views: 139.7ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/bulletins/list?bulletin_type=storm" for 109.254.85.111 at 2017-09-25 11:18:49 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"storm"}
+  [1m[36mBulletin Load (0.2ms)[0m  [1mSELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'storm'  ORDER BY `bulletins`.`created_at` DESC[0m
+  Rendered bulletins/list.html.haml within layouts/application (11.1ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (2.3ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 277ms (Views: 273.3ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/bulletins/39/storm_show" for 109.254.85.111 at 2017-09-25 11:18:57 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#storm_show as HTML
+  Parameters: {"id"=>"39"}
+  [1m[35mBulletin Load (0.4ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 39 LIMIT 1
+  Rendered bulletins/storm_show.html.haml within layouts/application (6.8ms)
+  Rendered layouts/_shim.html.haml (0.2ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (42.3ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 186ms (Views: 183.7ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/bulletins/39/storm_show.pdf" for 109.254.85.111 at 2017-09-25 11:19:05 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#storm_show as PDF
+  Parameters: {"id"=>"39"}
+  [1m[36mBulletin Load (0.2ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 39 LIMIT 1[0m
+  Rendered text template (0.0ms)
+Sent data Bulletin 44444 (0.8ms)
+Completed 200 OK in 382ms (Views: 0.6ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/bulletins/list?bulletin_type=daily" for 109.254.85.111 at 2017-09-25 11:19:16 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"daily"}
+  [1m[35mBulletin Load (628.2ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'daily'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (635.1ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (94.1ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (96.1ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 855ms (Views: 131.8ms | ActiveRecord: 722.4ms)
+
+
+Started GET "/bulletins/list?bulletin_type=sea" for 109.254.85.111 at 2017-09-25 11:19:22 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"sea"}
+  [1m[35mBulletin Load (37.6ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'sea'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (40.6ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (96.6ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (103.0ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 296ms (Views: 160.1ms | ActiveRecord: 134.2ms)
+
+
+Started GET "/bulletins/list?bulletin_type=holiday" for 109.254.85.111 at 2017-09-25 11:19:26 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"holiday"}
+  [1m[35mBulletin Load (62.9ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'holiday'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (68.7ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (15.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (18.1ms)
+  Rendered layouts/_footer.html.haml (0.7ms)
+Completed 200 OK in 230ms (Views: 149.9ms | ActiveRecord: 78.3ms)
+
+
+Started GET "/bulletins/list?bulletin_type=storm" for 109.254.85.111 at 2017-09-25 11:19:30 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"storm"}
+  [1m[35mBulletin Load (0.2ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'storm'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (8.6ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.9ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 95ms (Views: 93.6ms | ActiveRecord: 0.5ms)
+
+
+Started DELETE "/bulletins/24" for 109.254.85.111 at 2017-09-25 11:19:42 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"WOCE0HT+VGRO/NsH3ydz79R1KG6l/qx0kE5v5i6VOmcQ7wxfhOwySws+WUpJO2NnjTqrADHofU7X9jXu7utc2w==", "id"=>"24"}
+  [1m[35mBulletin Load (148.5ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 24 LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (8.4ms)[0m  DELETE FROM `bulletins` WHERE `bulletins`.`id` = 24
+  [1m[36m (6.7ms)[0m  [1mCOMMIT[0m
+Redirected to https://gmc-test-slavam1.c9users.io/bulletins/list?bulletin_type=storm
+Completed 302 Found in 167ms (ActiveRecord: 163.8ms)
+
+
+Started GET "/bulletins/list?bulletin_type=storm" for 109.254.85.111 at 2017-09-25 11:19:42 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"storm"}
+  [1m[35mBulletin Load (7.0ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'storm'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (11.7ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.9ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 133ms (Views: 124.8ms | ActiveRecord: 7.2ms)
+
+
+Started GET "/bulletins/new_storm_bulletin" for 109.254.85.111 at 2017-09-25 11:19:49 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#new_storm_bulletin as HTML
+  Rendered bulletins/_storm_form.html.haml (10.2ms)
+  Rendered bulletins/new_storm_bulletin.html.haml within layouts/application (13.5ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (2.6ms)
+  Rendered layouts/_footer.html.haml (0.7ms)
+Completed 200 OK in 132ms (Views: 129.9ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/bulletins" for 109.254.85.111 at 2017-09-25 11:20:06 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"bE3ImjlWjGsvIIxVlOcsUQc43XQcvVYgaWmUv6j1Ci0kQkAVyUTqRGriDhgC+zzZXndeGoirhxou0c63aItskQ==", "bulletin"=>{"report_date"=>"2017.09.25", "storm_hour"=>"14", "storm_minute"=>"0", "bulletin_type"=>"storm", "curr_number"=>"3/141", "storm"=>"ыапвыапва", "synoptic1"=>"Деревянко Н.Н."}, "commit"=>"Сохранить"}
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (2.6ms)[0m  [1mINSERT INTO `bulletins` (`report_date`, `curr_number`, `synoptic1`, `storm`, `bulletin_type`, `storm_hour`, `created_at`, `updated_at`) VALUES ('2017-09-25', '3/141', 'Деревянко Н.Н.', 'ыапвыапва', 'storm', 14, '2017-09-25 11:20:06', '2017-09-25 11:20:06')[0m
+  [1m[35m (3.9ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered meteo_mailer/welcome_email.html.erb within layouts/mailer (0.2ms)
+  Rendered meteo_mailer/welcome_email.text.erb within layouts/mailer (0.1ms)
+
+MeteoMailer#welcome_email: processed outbound mail in 26.8ms
+
+Sent mail to mwm1955@gmail.com (7.7ms)
+Date: Mon, 25 Sep 2017 11:20:06 +0000
+From: DSinoptik@Gidromet.MCHS
+To: mwm1955@gmail.com
+Message-ID: <59c8e6665422a_13d5f8b90c962eb@slavam1-gmc-test-4104208.mail>
+Subject: Welcome to My Awesome Site
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_59c8e66650fca_13d5f8b90c961ad";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+
+----==_mimepart_59c8e66650fca_13d5f8b90c961ad
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: base64
+
+V2VsY29tZSB0byDQk9C40LTRgNC+0LzQtdGC0YbQtdC90YLRgCwgbDtrO2w7
+bGtsCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09CiAKWW91IGhhdmUgc3VjY2Vzc2Z1bGx5IHNpZ25lZCB1cCB0byDQ
+k9C40LTRgNC+0LzQtdGC0YbQtdC90YLRgCwKeW91ciB1c2VybmFtZSBpczog
+dGVzdDMuCiAKVG8gbG9naW4gdG8gdGhlIHNpdGUsIGp1c3QgZm9sbG93IHRo
+aXMgbGluazogaHR0cDovL3d3dy5nbWFpbC5jb20uCiAKVGhhbmtzIGZvciBq
+b2luaW5nIGFuZCBoYXZlIGEgZ3JlYXQgZGF5IQo=
+
+----==_mimepart_59c8e66650fca_13d5f8b90c961ad
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <body>
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />
+  </head>
+  <body>
+    <h1>Welcome to =D0=93=D0=B8=D0=B4=D1=80=D0=BE=D0=BC=D0=B5=D1=82=D1=86=
+=D0=B5=D0=BD=D1=82=D1=80, l;k;l;lkl</h1>
+    <p>
+      You have successfully signed up to =D0=93=D0=B8=D0=B4=D1=80=D0=BE=D0=
+=BC=D0=B5=D1=82=D1=86=D0=B5=D0=BD=D1=82=D1=80,
+      your username is: test3.<br>
+    </p>
+    <p>
+      To login to the site, just follow this link: http://www.gmail.com.
+    </p>
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+</html>
+  </body>
+</html>
+
+----==_mimepart_59c8e66650fca_13d5f8b90c961ad--
+
+Redirected to https://gmc-test-slavam1.c9users.io/bulletins/list?bulletin_type=storm
+Completed 302 Found in 53ms (ActiveRecord: 6.9ms)
+
+
+Started GET "/bulletins/list?bulletin_type=storm" for 109.254.85.111 at 2017-09-25 11:20:06 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"storm"}
+  [1m[35mBulletin Load (0.7ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'storm'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (9.3ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.4ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 141ms (Views: 137.1ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/bulletins/43/storm_show" for 109.254.85.111 at 2017-09-25 11:20:10 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#storm_show as HTML
+  Parameters: {"id"=>"43"}
+  [1m[36mBulletin Load (1.6ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 43 LIMIT 1[0m
+  Rendered bulletins/storm_show.html.haml within layouts/application (6.4ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (2.9ms)
+  Rendered layouts/_footer.html.haml (0.7ms)
+Completed 200 OK in 262ms (Views: 258.4ms | ActiveRecord: 1.8ms)
+
+
+Started GET "/bulletins/43/storm_show.pdf" for 109.254.85.111 at 2017-09-25 11:20:13 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#storm_show as PDF
+  Parameters: {"id"=>"43"}
+  [1m[36mBulletin Load (0.2ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 43 LIMIT 1[0m
+  Rendered text template (0.0ms)
+Sent data Bulletin 3/141 (0.7ms)
+Completed 200 OK in 219ms (Views: 0.6ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/bulletins/43/edit" for 109.254.85.111 at 2017-09-25 11:20:22 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#edit as HTML
+  Parameters: {"id"=>"43"}
+  [1m[35mBulletin Load (1.0ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 43 LIMIT 1
+  Rendered bulletins/_storm_form.html.haml (5.4ms)
+  Rendered bulletins/edit.html.haml within layouts/application (8.1ms)
+  Rendered layouts/_shim.html.haml (0.2ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.9ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 135ms (Views: 129.6ms | ActiveRecord: 1.3ms)
+
+
+Started PATCH "/bulletins/43" for 109.254.85.111 at 2017-09-25 11:20:30 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"7iZGOw8JIm8Jvp1+ex114z9SieRzZqD2OVUL5ZWPcy6mKc60/xtEQEx8HzPtAWVrZh0Kiudwccx+7VHtVfEVkg==", "bulletin"=>{"report_date"=>"2017-09-25", "storm_hour"=>"14", "storm_minute"=>"0", "bulletin_type"=>"storm", "curr_number"=>"3/141", "storm"=>"ыапвы\r\nапва\r\nывапыва", "synoptic1"=>"Деревянко Н.Н."}, "commit"=>"Сохранить", "id"=>"43"}
+  [1m[35mBulletin Load (0.2ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 43 LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (9.3ms)[0m  UPDATE `bulletins` SET `storm` = 'ыапвы\r\nапва\r\nывапыва', `updated_at` = '2017-09-25 11:20:30' WHERE `bulletins`.`id` = 43
+  [1m[36m (5.6ms)[0m  [1mCOMMIT[0m
+Redirected to https://gmc-test-slavam1.c9users.io/bulletins/list?bulletin_type=storm
+Completed 302 Found in 47ms (ActiveRecord: 15.2ms)
+
+
+Started GET "/bulletins/list?bulletin_type=storm" for 109.254.85.111 at 2017-09-25 11:20:30 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"storm"}
+  [1m[35mBulletin Load (0.5ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'storm'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (5.2ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.6ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 82ms (Views: 80.4ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/bulletins/43/storm_show" for 109.254.85.111 at 2017-09-25 11:20:33 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#storm_show as HTML
+  Parameters: {"id"=>"43"}
+  [1m[35mBulletin Load (1.6ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 43 LIMIT 1
+  Rendered bulletins/storm_show.html.haml within layouts/application (0.8ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.0ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 101ms (Views: 97.5ms | ActiveRecord: 1.8ms)
+
+
+Started GET "/bulletins/43/storm_show.pdf" for 109.254.85.111 at 2017-09-25 11:20:41 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#storm_show as PDF
+  Parameters: {"id"=>"43"}
+  [1m[35mBulletin Load (0.2ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 43 LIMIT 1
+  Rendered text template (0.0ms)
+Sent data Bulletin 3/141 (0.8ms)
+Completed 200 OK in 394ms (Views: 0.6ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/bulletins/list?bulletin_type=storm" for 109.254.85.111 at 2017-09-25 11:21:07 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"storm"}
+  [1m[36mBulletin Load (12.8ms)[0m  [1mSELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'storm'  ORDER BY `bulletins`.`created_at` DESC[0m
+  Rendered bulletins/list.html.haml within layouts/application (26.9ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (27.4ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (30.3ms)
+  Rendered layouts/_footer.html.haml (0.6ms)
+Completed 200 OK in 334ms (Views: 292.5ms | ActiveRecord: 40.2ms)
+
+
+Started GET "/bulletins/43/storm_show" for 109.254.85.111 at 2017-09-25 11:33:14 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#storm_show as HTML
+  Parameters: {"id"=>"43"}
+  [1m[35mBulletin Load (29.6ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 43 LIMIT 1
+  Rendered bulletins/storm_show.html.haml within layouts/application (26.6ms)
+  Rendered layouts/_shim.html.haml (0.2ms)
+  [1m[36mUser Load (2.4ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (10.5ms)
+  Rendered layouts/_footer.html.haml (1.1ms)
+Completed 200 OK in 550ms (Views: 514.9ms | ActiveRecord: 31.9ms)
+
+
+Started GET "/bulletins/38/storm_show" for 109.254.85.111 at 2017-09-25 11:33:18 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#storm_show as HTML
+  Parameters: {"id"=>"38"}
+  [1m[36mBulletin Load (15.3ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 38 LIMIT 1[0m
+  Rendered bulletins/storm_show.html.haml within layouts/application (130.9ms)
+  Rendered layouts/_shim.html.haml (1.4ms)
+  [1m[35mUser Load (1.4ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (66.4ms)
+  Rendered layouts/_footer.html.haml (15.7ms)
+Completed 200 OK in 2563ms (Views: 2115.4ms | ActiveRecord: 16.7ms)
+
+
+Started GET "/bulletins/37/edit" for 109.254.85.111 at 2017-09-25 11:33:26 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#edit as HTML
+  Parameters: {"id"=>"37"}
+  [1m[36mBulletin Load (0.4ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 37 LIMIT 1[0m
+  Rendered bulletins/_storm_form.html.haml (119.3ms)
+  Rendered bulletins/edit.html.haml within layouts/application (124.4ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (9.9ms)
+  Rendered layouts/_footer.html.haml (0.9ms)
+Completed 200 OK in 1917ms (Views: 1913.4ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/bulletins/list?bulletin_type=sea" for 109.254.85.111 at 2017-09-25 11:33:43 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"sea"}
+  [1m[36mBulletin Load (1.8ms)[0m  [1mSELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'sea'  ORDER BY `bulletins`.`created_at` DESC[0m
+  Rendered bulletins/list.html.haml within layouts/application (56.4ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (1.8ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 624ms (Views: 471.2ms | ActiveRecord: 2.0ms)
+
+
+Started GET "/bulletins/41/sea_show" for 109.254.85.111 at 2017-09-25 11:33:46 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#sea_show as HTML
+  Parameters: {"id"=>"41"}
+  [1m[35mBulletin Load (0.5ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 41 LIMIT 1
+  Rendered bulletins/sea_show.html.haml within layouts/application (9.3ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.9ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 103ms (Views: 100.9ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/bulletins/list?bulletin_type=sea" for 109.254.85.111 at 2017-09-25 11:34:08 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"sea"}
+  [1m[36mBulletin Load (0.2ms)[0m  [1mSELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'sea'  ORDER BY `bulletins`.`created_at` DESC[0m
+  Rendered bulletins/list.html.haml within layouts/application (3.9ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (1.9ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 131ms (Views: 129.4ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/bulletins/41/sea_show.pdf" for 109.254.85.111 at 2017-09-25 11:34:15 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#sea_show as PDF
+  Parameters: {"id"=>"41"}
+  [1m[36mBulletin Load (0.2ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 41 LIMIT 1[0m
+  Rendered text template (0.0ms)
+Sent data Bulletin 268 (3.4ms)
+Completed 200 OK in 894ms (Views: 2.2ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/bulletins/41/edit" for 109.254.85.111 at 2017-09-25 11:34:40 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#edit as HTML
+  Parameters: {"id"=>"41"}
+  [1m[35mBulletin Load (0.2ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 41 LIMIT 1
+  Rendered bulletins/_sea_form.html.haml (25.3ms)
+  Rendered bulletins/edit.html.haml within layouts/application (27.8ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.0ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 121ms (Views: 118.7ms | ActiveRecord: 0.4ms)
+
+
+Started PATCH "/bulletins/41" for 109.254.85.111 at 2017-09-25 11:34:47 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"RN4Kvrup8fRRaNthfN5AdWrrxu7ZeNWUAolhkqmTfdIM0YIxS7uX2xSqWSzqwlD9M6RFgE1uBK5FMTuaae0bbg==", "bulletin"=>{"report_date"=>"2017-09-25", "bulletin_type"=>"sea", "curr_number"=>"268", "summer"=>"1", "storm"=>"", "forecast_day"=>"qerqwer", "forecast_day_city"=>"asfsdf", "forecast_period"=>"fghfghdfg", "synoptic1"=>"Осокина Л.Н.", "forecast_sea_day"=>"fghdfghdfghdf", "forecast_sea_period"=>"rterterter"}, "val_1"=>"fghfgh", "val_2"=>" 44", "val_3"=>" 55", "val_4"=>" 66", "val_5"=>" 77", "val_6"=>" 88", "val_7"=>" 44", "val_8"=>" 33", "val_9"=>" 22", "val_10"=>" 1", "val_11"=>" 2", "val_12"=>" 3", "val_13"=>" 4", "commit"=>"Сохранить", "id"=>"41"}
+  [1m[35mBulletin Load (0.8ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 41 LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (2.0ms)[0m  UPDATE `bulletins` SET `storm` = '', `updated_at` = '2017-09-25 11:34:48' WHERE `bulletins`.`id` = 41
+  [1m[36m (4.9ms)[0m  [1mCOMMIT[0m
+Redirected to https://gmc-test-slavam1.c9users.io/bulletins/list?bulletin_type=sea
+Completed 302 Found in 283ms (ActiveRecord: 7.9ms)
+
+
+Started GET "/bulletins/list?bulletin_type=sea" for 109.254.85.111 at 2017-09-25 11:34:48 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"sea"}
+  [1m[35mBulletin Load (0.5ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'sea'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (10.9ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (7.3ms)
+  Rendered layouts/_footer.html.haml (0.5ms)
+Completed 200 OK in 302ms (Views: 298.5ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/bulletins/41/sea_show" for 109.254.85.111 at 2017-09-25 11:34:52 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#sea_show as HTML
+  Parameters: {"id"=>"41"}
+  [1m[35mBulletin Load (0.4ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 41 LIMIT 1
+  Rendered bulletins/sea_show.html.haml within layouts/application (2.0ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.6ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 231ms (Views: 229.2ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/bulletins/41/sea_show.pdf" for 109.254.85.111 at 2017-09-25 11:35:01 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#sea_show as PDF
+  Parameters: {"id"=>"41"}
+  [1m[35mBulletin Load (0.2ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 41 LIMIT 1
+  Rendered text template (0.0ms)
+Sent data Bulletin 268 (0.8ms)
+Completed 200 OK in 725ms (Views: 0.6ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/bulletins/list?bulletin_type=sea" for 109.254.85.111 at 2017-09-25 11:35:14 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"sea"}
+  [1m[35mBulletin Load (0.3ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'sea'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (11.6ms)
+  Rendered layouts/_shim.html.haml (1.0ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (9.2ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 512ms (Views: 505.3ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/bulletins/41/sea_show" for 109.254.85.111 at 2017-09-25 11:46:49 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#sea_show as HTML
+  Parameters: {"id"=>"41"}
+  [1m[36mBulletin Load (0.3ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 41 LIMIT 1[0m
+  Rendered bulletins/sea_show.html.haml within layouts/application (3.0ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (1.1ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (2.7ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 158ms (Views: 154.4ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/bulletins/41/sea_show.pdf" for 109.254.85.111 at 2017-09-25 11:46:55 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#sea_show as PDF
+  Parameters: {"id"=>"41"}
+  [1m[36mBulletin Load (0.1ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 41 LIMIT 1[0m
+  Rendered text template (0.0ms)
+Sent data Bulletin 268 (0.7ms)
+Completed 200 OK in 342ms (Views: 0.5ms | ActiveRecord: 0.1ms)
+
+
+Started GET "/bulletins/list?bulletin_type=daily" for 109.254.85.111 at 2017-09-25 12:45:31 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"daily"}
+  [1m[35mBulletin Load (8.4ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'daily'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (24.4ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (3.8ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 206ms (Views: 173.4ms | ActiveRecord: 8.8ms)
+
+
+Started GET "/bulletins/40" for 109.254.85.111 at 2017-09-25 12:45:34 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#show as HTML
+  Parameters: {"id"=>"40"}
+  [1m[35mBulletin Load (3.6ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 40 LIMIT 1
+  Rendered bulletins/show.html.haml within layouts/application (5.2ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.3ms)
+  Rendered layouts/_footer.html.haml (0.6ms)
+Completed 200 OK in 508ms (Views: 501.8ms | ActiveRecord: 3.8ms)
+
+
+Started GET "/bulletins/list?bulletin_type=daily" for 109.254.85.111 at 2017-09-25 12:49:08 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"daily"}
+  [1m[35mBulletin Load (9.4ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'daily'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (16.2ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.6ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 183ms (Views: 169.9ms | ActiveRecord: 9.6ms)
+
+
+Started GET "/bulletins/9" for 109.254.85.111 at 2017-09-25 12:49:30 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#show as HTML
+  Parameters: {"id"=>"9"}
+  [1m[35mBulletin Load (0.6ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 9 LIMIT 1
+  Rendered bulletins/show.html.haml within layouts/application (13.1ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.4ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 133ms (Views: 130.8ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/bulletins/9/edit" for 109.254.85.111 at 2017-09-25 12:49:36 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#edit as HTML
+  Parameters: {"id"=>"9"}
+  [1m[35mBulletin Load (0.3ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 9 LIMIT 1
+  Rendered bulletins/_form.html.haml (21.0ms)
+  Rendered bulletins/edit.html.haml within layouts/application (23.7ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.8ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 193ms (Views: 191.3ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/users/3" for 109.254.85.111 at 2017-09-25 12:49:51 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered users/show.html.haml within layouts/application (7.4ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.8ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 111ms (Views: 107.2ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/bulletins/list?bulletin_type=daily" for 109.254.85.111 at 2017-09-25 12:50:05 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"daily"}
+  [1m[35mBulletin Load (0.2ms)[0m  SELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'daily'  ORDER BY `bulletins`.`created_at` DESC
+  Rendered bulletins/list.html.haml within layouts/application (4.5ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (2.0ms)
+  Rendered layouts/_footer.html.haml (0.6ms)
+Completed 200 OK in 706ms (Views: 704.7ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/bulletins/print_bulletin.pdf?id=40" for 109.254.85.111 at 2017-09-25 12:50:09 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#print_bulletin as PDF
+  Parameters: {"id"=>"40"}
+  [1m[35mBulletin Load (0.2ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 40 LIMIT 1
+  Rendered bulletins/print_bulletin.pdf.prawn (467.6ms)
+Completed 200 OK in 474ms (Views: 471.9ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/bulletins/new" for 109.254.85.111 at 2017-09-25 12:50:28 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#new as HTML
+  Rendered bulletins/_form.html.haml (5.4ms)
+  Rendered bulletins/new.html.haml within layouts/application (9.5ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (1.8ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 96ms (Views: 91.4ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/bulletins" for 109.254.85.111 at 2017-09-25 12:50:59 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"42JsljEPmTMf9kdwq/bVS72Az9V1dTY3kIa/uL4edXurbeQZwR3/HFo0xT096sXD5M9Mu+Fj5w3XPuWwfmATxw==", "bulletin"=>{"report_date"=>"2017.09.25", "curr_number"=>"268", "summer"=>"0", "bulletin_type"=>"daily", "storm"=>"кенгкнгке\r\nекнгкнк", "forecast_day"=>"", "forecast_day_city"=>"", "duty_synoptic"=>"Маренкова Н.В.", "forecast_period"=>"", "forecast_advice"=>"", "forecast_orientation"=>"", "synoptic1"=>"Деревянко Н.Н.", "agro_day_review"=>""}, "val_1"=>"", "val_2"=>"", "val_3"=>"", "val_4"=>"", "val_5"=>"", "val_6"=>"", "val_7"=>"", "val_8"=>"", "val_9"=>"", "val_10"=>"", "val_11"=>"", "val_12"=>"", "val_13"=>"", "val_14"=>"", "val_15"=>"", "val_16"=>"", "val_17"=>"", "val_18"=>"", "val_19"=>"", "val_20"=>"", "val_21"=>"", "val_22"=>"", "val_23"=>"", "val_24"=>"", "val_25"=>"", "val_26"=>"", "val_27"=>"", "val_28"=>"", "val_29"=>"", "val_30"=>"", "val_31"=>"", "val_32"=>"", "val_33"=>"", "val_34"=>"", "val_35"=>"", "val_36"=>"", "avg_day_temp"=>"", "max_temp"=>"", "max_temp_year"=>"", "min_temp"=>"", "min_temp_year"=>"", "commit"=>"Сохранить"}
+  [1m[36m (3.8ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (9.6ms)[0m  INSERT INTO `bulletins` (`report_date`, `curr_number`, `duty_synoptic`, `synoptic1`, `storm`, `forecast_day`, `forecast_day_city`, `forecast_period`, `forecast_advice`, `forecast_orientation`, `agro_day_review`, `climate_data`, `created_at`, `updated_at`) VALUES ('2017-09-25', '268', 'Маренкова Н.В.', 'Деревянко Н.Н.', 'кенгкнгке\r\nекнгкнк', '', '', '', '', '', '', '; ; ; ; ; ', '2017-09-25 12:50:59', '2017-09-25 12:50:59')
+  [1m[36m (8.1ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.3ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered meteo_mailer/welcome_email.html.erb within layouts/mailer (27.2ms)
+  Rendered meteo_mailer/welcome_email.text.erb within layouts/mailer (0.6ms)
+
+MeteoMailer#welcome_email: processed outbound mail in 494.8ms
+
+Sent mail to mwm1955@gmail.com (46.4ms)
+Date: Mon, 25 Sep 2017 12:51:00 +0000
+From: DSinoptik@Gidromet.MCHS
+To: mwm1955@gmail.com
+Message-ID: <59c8fbb4d8656_13d93fa34c9088d09563c@slavam1-gmc-test-4104208.mail>
+Subject: Welcome to My Awesome Site
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_59c8fbb4cdd1c_13d93fa34c9088d095577";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+
+----==_mimepart_59c8fbb4cdd1c_13d93fa34c9088d095577
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: base64
+
+V2VsY29tZSB0byDQk9C40LTRgNC+0LzQtdGC0YbQtdC90YLRgCwgbDtrO2w7
+bGtsCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09CiAKWW91IGhhdmUgc3VjY2Vzc2Z1bGx5IHNpZ25lZCB1cCB0byDQ
+k9C40LTRgNC+0LzQtdGC0YbQtdC90YLRgCwKeW91ciB1c2VybmFtZSBpczog
+dGVzdDMuCiAKVG8gbG9naW4gdG8gdGhlIHNpdGUsIGp1c3QgZm9sbG93IHRo
+aXMgbGluazogaHR0cDovL3d3dy5nbWFpbC5jb20uCiAKVGhhbmtzIGZvciBq
+b2luaW5nIGFuZCBoYXZlIGEgZ3JlYXQgZGF5IQo=
+
+----==_mimepart_59c8fbb4cdd1c_13d93fa34c9088d095577
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <body>
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />
+  </head>
+  <body>
+    <h1>Welcome to =D0=93=D0=B8=D0=B4=D1=80=D0=BE=D0=BC=D0=B5=D1=82=D1=86=
+=D0=B5=D0=BD=D1=82=D1=80, l;k;l;lkl</h1>
+    <p>
+      You have successfully signed up to =D0=93=D0=B8=D0=B4=D1=80=D0=BE=D0=
+=BC=D0=B5=D1=82=D1=86=D0=B5=D0=BD=D1=82=D1=80,
+      your username is: test3.<br>
+    </p>
+    <p>
+      To login to the site, just follow this link: http://www.gmail.com.
+    </p>
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+</html>
+  </body>
+</html>
+
+----==_mimepart_59c8fbb4cdd1c_13d93fa34c9088d095577--
+
+Redirected to https://gmc-test-slavam1.c9users.io/bulletins/list?bulletin_type=daily
+Completed 302 Found in 1426ms (ActiveRecord: 21.9ms)
+
+
+Started GET "/bulletins/list?bulletin_type=daily" for 109.254.85.111 at 2017-09-25 12:51:01 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"daily"}
+  [1m[36mBulletin Load (5.1ms)[0m  [1mSELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'daily'  ORDER BY `bulletins`.`created_at` DESC[0m
+  Rendered bulletins/list.html.haml within layouts/application (9.3ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (2.0ms)
+  Rendered layouts/_footer.html.haml (0.4ms)
+Completed 200 OK in 123ms (Views: 116.5ms | ActiveRecord: 5.3ms)
+
+
+Started GET "/bulletins/44" for 109.254.85.111 at 2017-09-25 12:51:09 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#show as HTML
+  Parameters: {"id"=>"44"}
+  [1m[36mBulletin Load (0.6ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 44 LIMIT 1[0m
+  Rendered bulletins/show.html.haml within layouts/application (27.2ms)
+Completed 500 Internal Server Error in 33ms (ActiveRecord: 0.6ms)
+
+ActionView::Template::Error (undefined method `split' for nil:NilClass):
+    76:     %br
+    77:     %span= "за период с 9.00 часов #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])} до 9.00 часов #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года"
+    78:   - m_d = []
+    79:   - m_d = @bulletin.meteo_data.split(";")
+    80:   .container
+    81:     %table{class: "table table-hover"}
+    82:       %thead
+  app/views/bulletins/show.html.haml:79:in `_app_views_bulletins_show_html_haml___2515833290555190199_69970355256120'
+
+
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_source.erb (12.5ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (4.2ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.5ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (64.8ms)
+
+
+Started GET "/bulletins/40" for 109.254.85.111 at 2017-09-25 12:51:16 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#show as HTML
+  Parameters: {"id"=>"40"}
+  [1m[35mBulletin Load (2.0ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 40 LIMIT 1
+  Rendered bulletins/show.html.haml within layouts/application (2.8ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1[0m
+  Rendered layouts/_header.html.haml (1.8ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 106ms (Views: 102.0ms | ActiveRecord: 2.2ms)
+
+
+Started GET "/bulletins/print_bulletin.pdf?id=40" for 109.254.85.111 at 2017-09-25 12:51:25 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#print_bulletin as PDF
+  Parameters: {"id"=>"40"}
+  [1m[35mBulletin Load (0.2ms)[0m  SELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 40 LIMIT 1
+  Rendered bulletins/print_bulletin.pdf.prawn (418.5ms)
+Completed 200 OK in 430ms (Views: 427.2ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/bulletins/40/edit" for 109.254.85.111 at 2017-09-25 12:51:32 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#edit as HTML
+  Parameters: {"id"=>"40"}
+  [1m[36mBulletin Load (0.2ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 40 LIMIT 1[0m
+  Rendered bulletins/_form.html.haml (12.3ms)
+  Rendered bulletins/edit.html.haml within layouts/application (14.4ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (1.8ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 149ms (Views: 142.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/bulletins/list?bulletin_type=daily" for 109.254.85.111 at 2017-09-25 12:56:01 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"daily"}
+  [1m[36mBulletin Load (2.7ms)[0m  [1mSELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'daily'  ORDER BY `bulletins`.`created_at` DESC[0m
+  Rendered bulletins/list.html.haml within layouts/application (12.7ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (2.2ms)
+  Rendered layouts/_footer.html.haml (0.3ms)
+Completed 200 OK in 170ms (Views: 163.0ms | ActiveRecord: 2.9ms)
+
+
+Started GET "/bulletins/44" for 109.254.85.111 at 2017-09-25 12:56:03 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#show as HTML
+  Parameters: {"id"=>"44"}
+  [1m[36mBulletin Load (0.3ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 44 LIMIT 1[0m
+  Rendered bulletins/show.html.haml within layouts/application (10.3ms)
+Completed 500 Internal Server Error in 14ms (ActiveRecord: 0.3ms)
+
+ActionView::Template::Error (undefined method `split' for nil:NilClass):
+    76:     %br
+    77:     %span= "за период с 9.00 часов #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])} до 9.00 часов #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года"
+    78:   - m_d = []
+    79:   - m_d = @bulletin.meteo_data.split(";")
+    80:   .container
+    81:     %table{class: "table table-hover"}
+    82:       %thead
+  app/views/bulletins/show.html.haml:79:in `_app_views_bulletins_show_html_haml___2515833290555190199_69970355256120'
+
+
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_source.erb (52.0ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (40.6ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (125.8ms)
+  Rendered /usr/local/rvm/gems/ruby-2.3.0/gems/actionpack-4.2.5/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (320.1ms)
+
+
+Started GET "/bulletins/44" for 109.254.85.111 at 2017-09-25 12:58:31 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#show as HTML
+  Parameters: {"id"=>"44"}
+  [1m[36mBulletin Load (22.1ms)[0m  [1mSELECT  `bulletins`.* FROM `bulletins` WHERE `bulletins`.`id` = 44 LIMIT 1[0m
+  Rendered bulletins/show.html.haml within layouts/application (130.3ms)
+  Rendered layouts/_shim.html.haml (3.7ms)
+  [1m[35mUser Load (12.4ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (20.7ms)
+  Rendered layouts/_footer.html.haml (1.4ms)
+Completed 200 OK in 515ms (Views: 442.9ms | ActiveRecord: 34.4ms)
+
+
+Started GET "/bulletins/list?bulletin_type=daily" for 109.254.85.111 at 2017-09-25 12:58:47 +0000
+Cannot render console from 109.254.85.111! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by BulletinsController#list as HTML
+  Parameters: {"bulletin_type"=>"daily"}
+  [1m[36mBulletin Load (1.3ms)[0m  [1mSELECT `bulletins`.* FROM `bulletins` WHERE `bulletins`.`bulletin_type` = 'daily'  ORDER BY `bulletins`.`created_at` DESC[0m
+  Rendered bulletins/list.html.haml within layouts/application (18.8ms)
+  Rendered layouts/_shim.html.haml (0.1ms)
+  [1m[35mUser Load (5.9ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  Rendered layouts/_header.html.haml (10.7ms)
+  Rendered layouts/_footer.html.haml (0.6ms)
+Completed 200 OK in 198ms (Views: 182.8ms | ActiveRecord: 7.2ms)
+[5068] - Gracefully shutting down workers...
+[5068] === puma shutdown: 2017-09-25 13:51:22 +0000 ===
+[5068] - Goodbye!
+Exiting

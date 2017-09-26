@@ -1,5 +1,10 @@
 %h1= "Изменить бюллетень"
-- if @bulletin.bulletin_type == 'daily'
-  = render 'form' 
-- else
-  = render 'sea_form'
+- case @bulletin.bulletin_type 
+  - when 'daily'
+    = render 'form' 
+  - when 'storm'  
+    = render 'storm_form'
+  - when 'holiday'  
+    = render 'holiday_form'
+  - else
+    = render 'sea_form'

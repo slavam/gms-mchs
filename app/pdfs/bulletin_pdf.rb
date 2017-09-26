@@ -14,18 +14,12 @@ class BulletinPdf < Prawn::Document
     image "./app/assets/images/logo.jpg", at: [0, y_pos], :scale => 0.25
     font "./app/assets/fonts/OpenSans/OpenSans-Bold.ttf"
     bounding_box([50, y_pos], :width => 470) do
-        text "МЧС ДНР
-        ГИДРОМЕТЕОРОЛОГИЧЕСКАЯ СЛУЖБА
-        МИНИСТЕРСТВА ПО ДЕЛАМ ГРАЖДАНСКОЙ ОБОРОНЫ, ЧРЕЗВЫЧАЙНЫМ
-        СИТУАЦИЯМ И ЛИКВИДАЦИИ ПОСЛЕДСТВИЙ СТИХИЙНЫХ БЕДСТВИЙ
-        ДОНЕЦКОЙ НАРОДНОЙ РЕСПУБЛИКИ
-        (ГМС МЧС ДНР)", align: :center
+        text Bulletin::HEAD, align: :center
     end
     move_down 20
     font "./app/assets/fonts/OpenSans/OpenSans-Regular.ttf"
     bounding_box([50, cursor], :width => 470) do
-        text "ул. Любавина, 2, г. Донецк, 83015
-        телефон: (062) 304-82-22, телефон/факс: (062) 304-99-25, e-mail: gidromet@mail.dnmchs.ru", align: :center, size: 10
+        text Bulletin::ADDRESS, align: :center, size: 10
     end
     report_date = @bulletin.report_date.to_s(:custom_datetime)
     font "./app/assets/fonts/DejaVu/DejaVuSansCondensed-Bold.ttf"

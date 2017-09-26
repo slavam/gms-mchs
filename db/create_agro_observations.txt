@@ -1,0 +1,15 @@
+class CreateAgroObservations < ActiveRecord::Migration
+  def change
+    create_table :agro_observations do |t|
+      t.string :telegram_type # ЩЭАГЯ - ежедневная, ЩЭАГУ - декадная
+      t.integer :station_id # ссылка на станцию
+      t.date :date_dev  # дата ввода наблюдения
+      t.integer :day_obs # YY день или номер последнего дня декады 10, 20, 28, 29, 30, 31
+      t.integer :month_obs # MM месяц
+      t.integer :telegram_num # B0 порядковый номер телеграммы 1..8
+      t.string  :telegram # текст телеграммы
+
+      t.timestamps null: false
+    end
+  end
+end

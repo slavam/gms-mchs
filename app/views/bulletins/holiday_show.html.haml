@@ -1,0 +1,39 @@
+.container
+  %h3{align: :center, :style => "color: #0000ff"}
+    %span= "ГИДРОМЕТЕОРОЛОГИЧЕСКИЙ БЮЛЛЕТЕНЬ № #{@bulletin.curr_number}"
+    %br
+    %span= @bulletin.report_date_as_str
+  - report_date = @bulletin.report_date.to_s(:custom_datetime)
+  - report_date_next = (@bulletin.report_date + 1.day).to_s(:custom_datetime)
+  %br
+  - if @bulletin.storm.present?
+    %h3{align: :center, :style => "color: #ff0000"}= "ШТОРМОВОЕ ПРЕДУПРЕЖДЕНИЕ"
+    %p= @bulletin.storm
+  %br
+  %h3{align: :center, :style => "color: #0000ff"}
+    %span= "ПРОГНОЗ ПОГОДЫ"
+    %br
+    %span= "на сутки с 21 часа #{report_date[8,2]} #{month_name2(report_date[5,2])} до 21 часа #{report_date_next[8,2]} #{month_name2(report_date_next[5,2])} #{report_date_next[0,4]} года"
+  %table{class: "table table-hover"}
+    %thead
+      %tr
+        %th= "В Донецкой Народной Республике"
+        %th= "В городе Донецке"
+    %tbody
+      %tr
+        %td= @bulletin.forecast_day
+        %td= @bulletin.forecast_day_city
+  %h5{align: :right}= "Дежурный синоптик #{@bulletin.duty_synoptic}"
+  %br
+  - report_date_next2 = (@bulletin.report_date + 2.day).to_s(:custom_datetime)
+  - report_date_next3 = (@bulletin.report_date + 3.day).to_s(:custom_datetime)
+  %h3{align: :center}= "Периодный прогноз погоды на #{report_date_next2[8,2]}-#{report_date_next3[8,2]} #{month_name2(report_date_next3[5,2])} #{report_date_next3[0,4]} года в Донецкой Народной Республике"
+  %p= @bulletin.forecast_period
+  %br
+
+  %h5{align: :right}= "Синоптик #{@bulletin.synoptic1}"
+  %br
+  
+= link_to "Список", "/bulletins/list?bulletin_type=holiday"  
+= link_to "Распечатать", "/bulletins/#{@bulletin.id}/holiday_show.pdf"
+= link_to "Изменить", edit_bulletin_path(@bulletin.id)
