@@ -1,0 +1,19 @@
+%div{ class: "row"}
+  %div{ class: "col-md-6 col-md-offset-3"}
+    = form_for(@agro_observation) do |f| 
+      = f.label "Тип"
+      = select(:agro_observation, :telegram_type, [["ЩЭАГЯ", "ЩЭАГЯ"], ["ЩЭАГУ", "ЩЭАГУ"]], {:include_blank => false})
+      
+      = f.label "Дата"
+      = f.date_field :date_dev
+      
+      = f.label "Метеотанция"
+      = collection_select(:agro_observation, :station_id, Station.all.order(:name), :id, :name)
+      
+      = f.label "Порядковый номер"
+      = f.number_field :telegram_num
+      
+      = f.label "Текст"
+      = f.text_area :telegram, rows: "5"
+
+      = f.submit "Сохранить", class: "btn btn-primary"

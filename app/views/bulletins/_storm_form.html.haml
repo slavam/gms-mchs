@@ -3,19 +3,19 @@
     %table{class: "table table-hover"}
       %tr
         %th Отчетная дата
-        %td= form.text_field :report_date, size: 10
+        %td= form.text_field :report_date
       %tr
         %th Час
-        %td= form.text_field :storm_hour, size: 10
+        %td= form.text_field :storm_hour
       %tr
         %th Минуты
-        %td= form.text_field :storm_minute, size: 10
+        %td= form.text_field :storm_minute
       %tr
         %th Тип
         %td= form.text_field :bulletin_type
       %tr
         %th Номер
-        %td= form.text_field :curr_number, size: 8
+        %td= form.text_field :curr_number
       %tr
         %th Текст
         %td= form.text_area :storm, cols: "30", rows: "5"

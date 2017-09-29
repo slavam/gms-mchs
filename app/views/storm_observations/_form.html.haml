@@ -1,0 +1,13 @@
+%div{ class: "row"}
+  %div{ class: "col-md-6 col-md-offset-3"}
+    = form_for(@storm_observation) do |f| 
+      = f.label "Тип"
+      = select(:storm_observation, :telegram_type, [["ЩЭОЯЮ", "ЩЭОЯЮ"], ["ЩЭОЗМ", "ЩЭОЗМ"]], {:include_blank => false})
+      
+      = f.label "Метеотанция"
+      = collection_select(:storm_observation, :station_id, Station.all.order(:name), :id, :code)
+      
+      = f.label "Текст"
+      = f.text_area :telegram
+
+      = f.submit "Сохранить", class: "btn btn-primary"

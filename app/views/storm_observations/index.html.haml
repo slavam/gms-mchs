@@ -1,0 +1,26 @@
+%div{ class: "col-md-6 col-md-offset-3"}
+%h1= "Телеграммы штормовые"
+.container
+  %table{class: "table table-hover"}
+    %thead
+      %tr
+        %th Дата
+        %th Метеостанция
+        %th Телеграмма
+        %th= ""
+        %th= ""
+        %th= ""
+        %th= ""
+  
+    %tbody
+      - @storm_observations.each do |s_o| 
+        %tr
+          %td= s_o.created_at
+          %td= s_o.station.name
+          %td= s_o.telegram
+          %td= link_to "Просмотр", storm_observation_path(s_o)
+          %td= link_to "Изменить", edit_storm_observation_path(s_o.id)
+          %td= link_to 'Destroy', s_o, method: :delete, data: { confirm: 'Are you sure?' }
+
+  %br
+  = link_to "Создать", new_storm_observation_path  

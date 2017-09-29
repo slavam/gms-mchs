@@ -1,0 +1,29 @@
+%div{ class: "col-md-6 col-md-offset-3"}
+%h1= "Телеграммы синоптические"
+= will_paginate  
+.container
+  %table{class: "table table-hover"}
+    %thead
+      %tr
+        %th Дата
+        %th Срок
+        %th Метеостанция
+        %th Телеграмма
+        /
+          %th= ""
+          %th= ""
+  
+    %tbody
+      - @synoptic_observations.each do |s_o| 
+        %tr
+          %td= s_o.created_at
+          %td= s_o.term
+          %td= s_o.station.name
+          %td= link_to s_o.telegram, synoptic_observation_path(s_o)
+          /
+            %td= link_to "Изменить", edit_synoptic_observation_path(s_o.id)
+            %td= link_to 'Destroy', s_o, method: :delete, data: { confirm: 'Are you sure?' }
+= will_paginate  
+
+%br
+= link_to "Создать синоптическую телеграмму", new_synoptic_observation_path  

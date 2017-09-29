@@ -1,6 +1,6 @@
 .container
   = form_for @bulletin do |form|
-    %table
+    %table{class: "table table-hover"}
       %tr
         %th Отчетная дата
         %td= form.text_field :report_date, size: 10
@@ -28,7 +28,7 @@
         %td= form.text_area :forecast_day_city, cols: "30", rows: "5"
       %tr
         %th Дежурный синоптик
-        %td= form.select :duty_synoptic, options_for_select([["Деревянко Н.Н.", "Деревянко Н.Н."], ["Маренкова Н.В.", "Маренкова Н.В."], ["Соколова Т.Е.", "Соколова Т.Е."], ["Щербак Е.Д.","Щербак Е.Д."]], @bulletin.duty_synoptic.present? ? @bulletin.duty_synoptic : "Маренкова Н.В.")
+        %td= form.select :duty_synoptic, options_for_select(Bulletin.synoptic_list)
       %tr
         %th Периодный прогноз
         %td= form.text_area :forecast_period, cols: "30", rows: "5"
@@ -40,9 +40,8 @@
         %td= form.text_area :forecast_orientation, cols: "30", rows: "5"
       %tr
         %th Синоптик
-        %td= form.select :synoptic1, options_for_select([["Деревянко Н.Н.", "Деревянко Н.Н."], ["Осокина Л.Н.", "Осокина Л.Н."], ["Николаева А.Р.", "Николаева А.Р."]], @bulletin.synoptic1.present? ? @bulletin.synoptic1 : "Деревянко Н.Н.")
+        %td= form.select :synoptic1, options_for_select(Bulletin.synoptic_list)
       %table{class: "table table-hover"}
-        -# report_date_prev = (Time.now - 1.day).to_s(:custom_datetime)
         - report_date_prev = (@bulletin.report_date - 1.day).to_s(:custom_datetime)
         %th Метеорологические данные
         %td
@@ -77,13 +76,12 @@
             %td= "Седово"
             - (28..36).each do |i|
               %td= text_field_tag "val_"+i.to_s, m_d[i-1].present? ? m_d[i-1] : '', size: 4
-    %table
-      %tr
-        %th Обзор погоды
-        %td= form.text_area :agro_day_review, cols: "100", rows: "5"
       - c_d = []
       - c_d = @bulletin.climate_data.split(";") if @bulletin.climate_data.present?
     %table{class: "table table-hover"}
+      %tr
+        %th Обзор погоды
+        %td= form.text_area :agro_day_review, cols: "100", rows: "5"
       %tr
         %th Средняя за сутки температура воздуха #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])}
         %td= text_field_tag :avg_day_temp, c_d[0].present? ? c_d[0] : '', size: 5
@@ -108,7 +106,5 @@
             %td= text_field_tag :min_temp_year, c_d[4].present? ? c_d[4] : '', size: 8
 
     %br
-    
-  
     = submit_tag "Сохранить"
 = link_to "Список", "/bulletins/list?bulletin_type=daily"

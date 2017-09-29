@@ -3,13 +3,15 @@ class SynopticObservationsController < ApplicationController
   before_filter :find_synoptic_observation, only: [:show, :update_synoptic_telegram] 
   
   def search_synoptic_telegrams
-    @date ||= params[:date].present? ? params[:date] : Time.now.strftime("%Y-%m-%d")
+    @date_from ||= params[:date_from].present? ? params[:date_from] : Time.now.strftime("%Y-%m-%d")
+    @date_to ||= params[:date_to].present? ? params[:date_to] : Time.now.strftime("%Y-%m-%d")
     term = params[:term].present? ? " and term = #{params[:term]}" : ''
     station_id = params[:station_code].present? ? Station.find_by_code(params[:station_code]).id : nil
     station = station_id.present? ? " and station_id = #{station_id}" : ''
     text = params[:text].present? ? " and telegram like '%#{params[:text]}%'" : ''
        
-    sql = "select * from synoptic_observations where date like '#{@date}' #{term} #{station} #{text};"
+    # sql = "select * from synoptic_observations where date like '#{@date}' #{term} #{station} #{text};"
+    sql = "select * from synoptic_observations where date >= '#{@date_from}' and date <= '#{@date_to} 23:59:59' #{term} #{station} #{text};"
     tlgs = SynopticObservation.find_by_sql(sql)
     @stations = Station.all.order(:name)
     @stations << {code: 0, name: 'Любая'}
@@ -19,7 +21,16 @@ class SynopticObservationsController < ApplicationController
       format.json { render json: {telegrams: @telegrams} }
     end
   end
+
+  def index
+    @synoptic_observations = SynopticObservation.paginate(page: params[:page]).order(:created_at).reverse_order
+  end
   
+  def synoptic_storm_telegrams
+    sql = "select created_at, term as fterm, station_id, telegram from synoptic_observations union select created_at, 'Ш' as fterm, station_id, telegram from storm_observations order by created_at desc;"
+    @telegrams = SynopticObservation.find_by_sql(sql)
+  end
+    
   def show
   end
   
@@ -71,6 +82,7 @@ class SynopticObservationsController < ApplicationController
     
     def require_observer_or_technicist
       if current_user and ((current_user.role == 'observer') || (current_user.role == 'technicist'))
+        return true
       else
         flash[:danger] = 'Вход только для наблюдателей'
         redirect_to login_path

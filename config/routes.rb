@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
+  resources :storm_observations
   resources :agro_observations
   post 'synoptic_observations/create_synoptic_telegram', to: 'synoptic_observations#create_synoptic_telegram'
   put 'synoptic_observations/update_synoptic_telegram', to: 'synoptic_observations#update_synoptic_telegram'
   get '/search_synoptic_telegrams', to: 'synoptic_observations#search_synoptic_telegrams'
+  get 'synoptic_observations/synoptic_storm_telegrams', to: 'synoptic_observations#synoptic_storm_telegrams'
   resources :synoptic_observations
   delete 'pollution_values/delete_value/:id', to: 'pollution_values#delete_value'
   resources :pollution_values

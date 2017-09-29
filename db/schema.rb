@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170925084533) do
+ActiveRecord::Schema.define(version: 20170927112043) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
@@ -200,6 +200,17 @@ ActiveRecord::Schema.define(version: 20170925084533) do
   create_table "stations", force: :cascade do |t|
     t.string  "name", limit: 255
     t.integer "code", limit: 4
+  end
+
+  create_table "storm_observations", force: :cascade do |t|
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+    t.string   "telegram_type", limit: 255, default: "ЩЭОЯЮ", null: false
+    t.integer  "station_id",    limit: 4,                     null: false
+    t.integer  "day_event",     limit: 4,                     null: false
+    t.integer  "hour_event",    limit: 4
+    t.integer  "minute_event",  limit: 4
+    t.string   "telegram",      limit: 255,                   null: false
   end
 
   create_table "synoptic_observations", force: :cascade do |t|

@@ -111,7 +111,7 @@ prawn_document do |pdf|
 
   pdf.move_down 10
   m_d = []
-  m_d = @bulletin.meteo_data.split(";")
+  m_d = @bulletin.meteo_data.split(";") if @bulletin.meteo_data.present?
   if @bulletin.summer
     h7 = "Минимальная температура почвы" 
     h8 = "Минимальная относительная влажность воздуха (%)"
@@ -148,7 +148,7 @@ prawn_document do |pdf|
   pdf.move_down 10
   pdf.font "./app/assets/fonts/DejaVu/DejaVuSansCondensed-Bold.ttf"
   c_d = []
-  c_d = @bulletin.climate_data.split(";")
+  c_d = @bulletin.climate_data.split(";") if @bulletin.climate_data.present?
   pdf.text "Климатические данные по г. Донецку за #{report_date_prev[8,2]}-#{report_date[8,2]} #{month_name2(report_date[5,2])}", align: :center, :color => "0000FF"
   pdf.text "С 1945 по #{report_date[0,4]} гг. по данным Гидрометеорологической службы", align: :center, :color => "0000FF"
   table_content = [["Средняя за сутки температура воздуха", "#{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])}", c_d[0].present? ? c_d[0].strip : '', ""],
