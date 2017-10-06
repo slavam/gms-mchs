@@ -1,4 +1,4 @@
-.container
+/
   %h3{align: :center, :style => "color: #0000ff"}
     %span= "ГИДРОМЕТЕОРОЛОГИЧЕСКИЙ БЮЛЛЕТЕНЬ № #{@bulletin.curr_number}"
     %br
@@ -30,9 +30,13 @@
   %h3{align: :center}= "Периодный прогноз погоды на #{report_date_next2[8,2]}-#{report_date_next3[8,2]} #{month_name2(report_date_next3[5,2])} #{report_date_next3[0,4]} года в Донецкой Народной Республике"
   %p= @bulletin.forecast_period
   %br
-
   %h5{align: :right}= "Синоптик #{@bulletin.synoptic1}"
-  %br
+  
+%br
+  
+= render :partial => 'show_image'
+  
+%br
   
 = link_to "Список", "/bulletins/list?bulletin_type=holiday"  
 = link_to "Распечатать", "/bulletins/#{@bulletin.id}/holiday_show.pdf"

@@ -1,0 +1,16 @@
+- if (@bulletin.bulletin_type == 'daily') or (@bulletin.bulletin_type == 'sea')
+  %br
+    
+  %div{align: :center}= image_tag @png_filename_page1, :style => "border: 1px solid black"
+  %br
+  %div{align: :center}= image_tag @png_filename_page2, :style => "border: 1px solid black"
+    
+  %br
+- else
+  %br
+  = render :partial => 'show_image'
+  %br
+  
+= link_to "Список", "/bulletins/list?bulletin_type=#{@bulletin.bulletin_type}"  
+= link_to "Распечатать", "/bulletins/#{@bulletin.id}/bulletin_show.pdf"
+= link_to "Изменить", edit_bulletin_path(@bulletin.id)

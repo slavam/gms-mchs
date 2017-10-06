@@ -19,6 +19,11 @@ gem 'browserify-rails', '1.5.0'
 
 gem 'descriptive_statistics', '~> 2.4.0', :require => 'descriptive_statistics/safe'
 
+gem 'carrierwave',             '1.1.0'
+gem 'mini_magick',             '4.7.0'
+gem 'fog',                     '1.40.0'
+gem 'rmagick'
+
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 gem 'haml'

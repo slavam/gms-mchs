@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170927112043) do
+ActiveRecord::Schema.define(version: 20171002102757) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 20170927112043) do
     t.string   "bulletin_type",        limit: 255,   default: "daily"
     t.integer  "storm_hour",           limit: 4,     default: 0
     t.integer  "storm_minute",         limit: 4,     default: 0
+    t.string   "picture",              limit: 255
   end
 
   create_table "cities", force: :cascade do |t|

@@ -9,6 +9,19 @@ class Bulletin < ActiveRecord::Base
         телефон: (062) 304-82-22, телефон/факс: (062) 304-99-25, 
         e-mail: gidromet@mail.dnmchs.ru"
   MONTH_NAME2 = %w{nil января февраля марта апреля мая июня июля августа сентября октября ноября декабря}
+  mount_uploader :picture, PictureUploader
+  def pdf_filename(user_id)
+    "Bulletin_#{self.bulletin_type}_#{user_id}.pdf"
+  end
+  
+  def png_filename(user_id)
+    "Bulletin_#{self.bulletin_type}_#{user_id}.png"
+  end
+
+  def png_page_filename(user_id, page)
+    "Bulletin_#{self.bulletin_type}_#{user_id}-#{page}.png"
+  end
+
   def report_date_as_str
     date = self.report_date.to_s(:custom_datetime)
     date[8, 2] + ' ' + MONTH_NAME2[date[5,2].to_i]+ ' ' + date[0,4] + " года"

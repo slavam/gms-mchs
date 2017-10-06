@@ -17,19 +17,22 @@
           %tr
             %td= b.report_date.to_s(:custom_datetime)
             %td= b.curr_number
-            - case @bulletin_type
-              - when 'daily'
-                %td= link_to "Просмотр", bulletin_path(b)
-                %td= link_to "Распечатать", "print_bulletin.pdf?id=#{b.id}"
-              - when 'sea'
-                %td= link_to "Просмотр", "#{b.id}/sea_show"
-                %td= link_to "Распечатать", "#{b.id}/sea_show.pdf"
-              - when 'holiday'
-                %td= link_to "Просмотр", "#{b.id}/holiday_show"
-                %td= link_to "Распечатать", "#{b.id}/holiday_show.pdf"
-              - when 'storm'
-                %td= link_to "Просмотр", "#{b.id}/storm_show"
-                %td= link_to "Распечатать", "#{b.id}/storm_show.pdf"
+            /
+              - case @bulletin_type
+                - when 'daily'
+                  %td= link_to "Просмотр", bulletin_path(b)
+                  %td= link_to "Распечатать", "print_bulletin.pdf?id=#{b.id}"
+                - when 'sea'
+                  %td= link_to "Просмотр", "#{b.id}/sea_show"
+                  %td= link_to "Распечатать", "#{b.id}/sea_show.pdf"
+                - when 'holiday'
+                  %td= link_to "Просмотр", "#{b.id}/holiday_show"
+                  %td= link_to "Распечатать", "#{b.id}/holiday_show.pdf"
+                - when 'storm'
+                  %td= link_to "Просмотр", "#{b.id}/storm_show"
+                  %td= link_to "Распечатать", "#{b.id}/storm_show.pdf"
+            %td= link_to "Просмотр", "#{b.id}/bulletin_show"
+            %td= link_to "Распечатать", "#{b.id}/bulletin_show.pdf"
             %td= link_to "Изменить", edit_bulletin_path(b.id)
             %td= link_to 'Destroy', b, method: :delete, data: { confirm: 'Are you sure?' }
   

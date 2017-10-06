@@ -26,13 +26,15 @@ class Storm < Prawn::Document
     move_down 20
     bounding_box([0, cursor], width: bounds.width) do
       text "ШТОРМОВОЕ ПРЕДУПРЕЖДЕНИЕ № #{@bulletin.curr_number}", align: :center, color: "ff0000"
-      move_down 10
-      font "OpenSans"
-      text @bulletin.storm
     end
+    move_down 10
+    font "OpenSans"
+    text_box @bulletin.storm, :at => [0, cursor], :width => bounds.width, :height => 300, :overflow => :shrink_to_fit
     move_down 20
-    table [["<b>Начальник</b>", {image: "./app/assets/images/chief.png", scale: 0.6},"<b>М.Б. Лукьяненко</b>"]], width: bounds.width, column_widths:  [300, 100], cell_style: {overflow: :shrink_to_fit, inline_format: true } do |t|
-      t.cells.border_width = 0
+    bounding_box([0, 150], width: bounds.width) do
+      table [["<b>Начальник</b>", {image: "./app/assets/images/chief.png", scale: 0.6},"<b>М.Б. Лукьяненко</b>"]], width: bounds.width, column_widths:  [300, 100], cell_style: {overflow: :shrink_to_fit, inline_format: true } do |t|
+        t.cells.border_width = 0
+      end
     end
     text_box @bulletin.synoptic1, :at => [0, 30], :width => 170
     image "./app/assets/images/storm.png", at: [450, 100], :scale => 0.75

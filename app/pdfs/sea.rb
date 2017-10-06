@@ -1,5 +1,5 @@
 require 'prawn'
-class BulletinPdf < Prawn::Document
+class Sea < Prawn::Document
   MONTH_NAME2 = %w{nil января февраля марта апреля мая июня июля августа сентября октября ноября декабря}
 	def initialize(bulletin)
 		super(top_margin: 40)		
@@ -91,7 +91,7 @@ class BulletinPdf < Prawn::Document
 	end
 	def meteo_data
     m_d = []
-    m_d = @bulletin.meteo_data.split(";")
+    m_d = @bulletin.meteo_data.split(";") if @bulletin.meteo_data.present?
     report_date_prev = (@bulletin.report_date - 1.day).to_s(:custom_datetime)
 	  [
 	    [{:content => "Название

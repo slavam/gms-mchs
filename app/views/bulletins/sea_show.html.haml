@@ -1,123 +1,132 @@
-.container
-  %h3{align: :center, :style => "color: #0000ff"}
-    %span= "МОРСКОЙ ГИДРОМЕТЕОРОЛОГИЧЕСКИЙ БЮЛЛЕТЕНЬ № #{@bulletin.curr_number}"
-    %br
-    %span= @bulletin.report_date_as_str
-  - report_date = @bulletin.report_date.to_s(:custom_datetime)
-  - report_date_next = (@bulletin.report_date + 1.day).to_s(:custom_datetime)
-  %br
-  - if @bulletin.storm.present?
-    %h3{align: :center, :style => "color: #ff0000"}= "ШТОРМОВОЕ ПРЕДУПРЕЖДЕНИЕ"
-    %p= @bulletin.storm
-  %br
-  %h3{align: :center, :style => "color: #0000ff"}
-    %span= "ПРОГНОЗ ПОГОДЫ"
-    %br
-    %span= "на сутки с 21 часа #{report_date[8,2]} #{month_name2(report_date[5,2])} до 21 часа #{report_date_next[8,2]} #{month_name2(report_date_next[5,2])} #{report_date_next[0,4]} года"
-  %table{class: "table table-hover"}
-    %thead
-      %tr
-        %th= "По акватории Азовского моря (на участке с. Безыменное – пгт. Седово)"
-        %th= "В пгт. Седово"
-    %tbody
-      %tr
-        %td= @bulletin.forecast_day
-        %td= @bulletin.forecast_day_city
-  - report_date_next2 = (@bulletin.report_date + 2.day).to_s(:custom_datetime)
-  - report_date_next3 = (@bulletin.report_date + 3.day).to_s(:custom_datetime)
-  %h3{align: :center, :style => "color: #0000ff"}
-    %span= "Периодный прогноз погоды на #{report_date_next2[8,2]}-#{report_date_next3[8,2]} #{month_name2(report_date_next3[5,2])} #{report_date_next3[0,4]} года"
-    %br
-    %span= "По акватории Азовского моря (на участке с. Безыменное – пгт. Седово)"
-  %p= @bulletin.forecast_period
-  %br
-  %h5{align: :right}= "Синоптик #{@bulletin.synoptic1}"
-  %br
-  %h3{align: :center, :style => "color: #0000ff"}
-    %span= "Приложение к Морскому Гидрометеорологическому Бюллетеню"
-    %br
-    %span= "от #{@bulletin.report_date_as_str} № #{@bulletin.curr_number}"
-  - report_date_prev = (@bulletin.report_date - 1.day).to_s(:custom_datetime)
-  %h3{align: :center, :style => "color: #0000ff"}= "МЕТЕОРОЛОГИЧЕСКИЕ ДАННЫЕ И СВЕДЕНИЯ О СОСТОЯНИИ МОРЯ"
-  - m_d = []
-  - m_d = @bulletin.meteo_data.split(";")
+/
   .container
-    %table{class: "table table-hover"}
-      %tr
-        %th Название метеостанции
-        %td Седово
-      %tr
-        %th{align: :right}= "за период с 9.00 часов #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])} до 9.00 часов #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года"
-        %td
-      %tr
-        %th{style: "color: #ff0000"} Максимальная температура воздуха вчера днем
-        %td= m_d[0]
-      %tr
-        %th{style: "color: #0000ff"}= "Минимальная температура воздуха сегодня ночью"
-        %td= m_d[1]
-      %tr
-        %th= "Температура воздуха в 9.00 часов сегодня"
-        %td= m_d[2]
-      %tr
-        %th= "Количество осадков за сутки (мм)"
-        %td= m_d[3]
-      %tr
-        %th= "Направление ветра"
-        %td= m_d[4]
-      %tr
-        %th= "Максимальная скорость ветра (м/с)"
-        %td= m_d[5]
-      %tr
-        %th= "Явления погоды"
-        %td= m_d[6]
-      %tr
-        %th{align: :right}= "в срок 9.00 #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года"
-      %tr
-        %th= "Уровень моря над '0' поста (см)"
-        %td= m_d[7]
-      %tr
-        %th= "Повышение (+) понижение (-) уровня моря за сутки (см)"
-        %td= m_d[8]
-      %tr
-        %th= "Температура воды"
-        %td= m_d[9]
-      %tr
-        %th= "Направление волн"
-        %td= m_d[10]
-      %tr
-        %th= "Высота волн (дм)"
-        %td= m_d[11]
-      %tr
-        %th= "Видимость"
-        %td= m_d[12]
-  %br
-  %h3{align: :center, :style => "color: #0000ff"}
-    %span= "ОБЗОР ПОГОДЫ"
+    %h3{align: :center, :style => "color: #0000ff"}
+      %span= "МОРСКОЙ ГИДРОМЕТЕОРОЛОГИЧЕСКИЙ БЮЛЛЕТЕНЬ № #{@bulletin.curr_number}"
+      %br
+      %span= @bulletin.report_date_as_str
+    - report_date = @bulletin.report_date.to_s(:custom_datetime)
+    - report_date_next = (@bulletin.report_date + 1.day).to_s(:custom_datetime)
     %br
-    %span= "за период с 9.00 часов #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])} до 9.00 часов #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года"
-  %p= @bulletin.forecast_sea_day
-  %h3{align: :center, :style => "color: #0000ff"}
-    %span= "ОБЗОР СОСТОЯНИЯ АЗОВСКОГО МОРЯ"
+    - if @bulletin.storm.present?
+      %h3{align: :center, :style => "color: #ff0000"}= "ШТОРМОВОЕ ПРЕДУПРЕЖДЕНИЕ"
+      %p= @bulletin.storm
     %br
-    %span= "за период с 9.00 часов #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])} до 9.00 часов #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года"
-  %p= @bulletin.forecast_sea_period
-  %h5= "Время выпуска 13:00"
-  %br
-  .container
+    %h3{align: :center, :style => "color: #0000ff"}
+      %span= "ПРОГНОЗ ПОГОДЫ"
+      %br
+      %span= "на сутки с 21 часа #{report_date[8,2]} #{month_name2(report_date[5,2])} до 21 часа #{report_date_next[8,2]} #{month_name2(report_date_next[5,2])} #{report_date_next[0,4]} года"
     %table{class: "table table-hover"}
       %thead
         %tr
-          %td
-            %span= "Ответственный за выпуск:"
-            %br
-            %span= "Начальник отдела гидрометеорологического обеспечения и обслуживания"
-          %td= ""
-          %td= "Л.Н. Бойко"
+          %th= "По акватории Азовского моря (на участке с. Безыменное – пгт. Седово)"
+          %th= "В пгт. Седово"
+      %tbody
         %tr
-          %td <b>Начальник</b>
-          %td= ""
-          %td <b>М.Б. Лукьяненко</b>
-  %br
+          %td= @bulletin.forecast_day
+          %td= @bulletin.forecast_day_city
+    - report_date_next2 = (@bulletin.report_date + 2.day).to_s(:custom_datetime)
+    - report_date_next3 = (@bulletin.report_date + 3.day).to_s(:custom_datetime)
+    %h3{align: :center, :style => "color: #0000ff"}
+      %span= "Периодный прогноз погоды на #{report_date_next2[8,2]}-#{report_date_next3[8,2]} #{month_name2(report_date_next3[5,2])} #{report_date_next3[0,4]} года"
+      %br
+      %span= "По акватории Азовского моря (на участке с. Безыменное – пгт. Седово)"
+    %p= @bulletin.forecast_period
+    %br
+    %h5{align: :right}= "Синоптик #{@bulletin.synoptic1}"
+    %br
+    %h3{align: :center, :style => "color: #0000ff"}
+      %span= "Приложение к Морскому Гидрометеорологическому Бюллетеню"
+      %br
+      %span= "от #{@bulletin.report_date_as_str} № #{@bulletin.curr_number}"
+    - report_date_prev = (@bulletin.report_date - 1.day).to_s(:custom_datetime)
+    %h3{align: :center, :style => "color: #0000ff"}= "МЕТЕОРОЛОГИЧЕСКИЕ ДАННЫЕ И СВЕДЕНИЯ О СОСТОЯНИИ МОРЯ"
+    - m_d = []
+    - m_d = @bulletin.meteo_data.split(";") if @bulletin.meteo_data.present?
+    .container
+      %table{class: "table table-hover"}
+        %tr
+          %th Название метеостанции
+          %td Седово
+        %tr
+          %th{align: :right}= "за период с 9.00 часов #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])} до 9.00 часов #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года"
+          %td
+        %tr
+          %th{style: "color: #ff0000"} Максимальная температура воздуха вчера днем
+          %td= m_d[0]
+        %tr
+          %th{style: "color: #0000ff"}= "Минимальная температура воздуха сегодня ночью"
+          %td= m_d[1]
+        %tr
+          %th= "Температура воздуха в 9.00 часов сегодня"
+          %td= m_d[2]
+        %tr
+          %th= "Количество осадков за сутки (мм)"
+          %td= m_d[3]
+        %tr
+          %th= "Направление ветра"
+          %td= m_d[4]
+        %tr
+          %th= "Максимальная скорость ветра (м/с)"
+          %td= m_d[5]
+        %tr
+          %th= "Явления погоды"
+          %td= m_d[6]
+        %tr
+          %th{align: :right}= "в срок 9.00 #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года"
+        %tr
+          %th= "Уровень моря над '0' поста (см)"
+          %td= m_d[7]
+        %tr
+          %th= "Повышение (+) понижение (-) уровня моря за сутки (см)"
+          %td= m_d[8]
+        %tr
+          %th= "Температура воды"
+          %td= m_d[9]
+        %tr
+          %th= "Направление волн"
+          %td= m_d[10]
+        %tr
+          %th= "Высота волн (дм)"
+          %td= m_d[11]
+        %tr
+          %th= "Видимость"
+          %td= m_d[12]
+    %br
+    %h3{align: :center, :style => "color: #0000ff"}
+      %span= "ОБЗОР ПОГОДЫ"
+      %br
+      %span= "за период с 9.00 часов #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])} до 9.00 часов #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года"
+    %p= @bulletin.forecast_sea_day
+    %h3{align: :center, :style => "color: #0000ff"}
+      %span= "ОБЗОР СОСТОЯНИЯ АЗОВСКОГО МОРЯ"
+      %br
+      %span= "за период с 9.00 часов #{report_date_prev[8,2]} #{month_name2(report_date_prev[5,2])} до 9.00 часов #{report_date[8,2]} #{month_name2(report_date[5,2])} #{report_date[0,4]} года"
+    %p= @bulletin.forecast_sea_period
+    %h5= "Время выпуска 13:00"
+    %br
+    .container
+      %table{class: "table table-hover"}
+        %thead
+          %tr
+            %td
+              %span= "Ответственный за выпуск:"
+              %br
+              %span= "Начальник отдела гидрометеорологического обеспечения и обслуживания"
+            %td= ""
+            %td= "Л.Н. Бойко"
+          %tr
+            %td <b>Начальник</b>
+            %td= ""
+            %td <b>М.Б. Лукьяненко</b>
+    %br
+  
+%br
+  
+%div{align: :center}= image_tag @png_filename_page1, :style => "border: 1px solid black"
+%br
+%div{align: :center}= image_tag @png_filename_page2, :style => "border: 1px solid black"
+  
+%br
   
 = link_to "Список", "/bulletins/list?bulletin_type=sea"  
 = link_to "Распечатать", "/bulletins/#{@bulletin.id}/sea_show.pdf"

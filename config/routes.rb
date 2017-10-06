@@ -58,11 +58,12 @@ Rails.application.routes.draw do
   resources :users
   get 'bulletins/print_bulletin', to: 'bulletins#print_bulletin'
   get 'bulletins/new_sea_bulletin', to: 'bulletins#new_sea_bulletin'
-  get 'bulletins/:id/sea_show', to: 'bulletins#sea_show'
+  # get 'bulletins/:id/sea_show', to: 'bulletins#sea_show'
   get 'bulletins/new_storm_bulletin', to: 'bulletins#new_storm_bulletin'
-  get 'bulletins/:id/storm_show', to: 'bulletins#storm_show'
+  # get 'bulletins/:id/storm_show', to: 'bulletins#storm_show'
   get 'bulletins/new_holiday_bulletin', to: 'bulletins#new_holiday_bulletin'
-  get 'bulletins/:id/holiday_show', to: 'bulletins#holiday_show'
+  # get 'bulletins/:id/holiday_show', to: 'bulletins#holiday_show'
+  get 'bulletins/:id/bulletin_show', to: 'bulletins#bulletin_show'
   get 'bulletins/list', to: 'bulletins#list'
   # post 'bulletins/sea_bulletin_create', to: 'bulletins#sea_bulletin_create'
   resources :bulletins
