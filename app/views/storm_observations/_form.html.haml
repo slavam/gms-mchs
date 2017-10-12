@@ -4,7 +4,7 @@
       = f.label "Тип"
       = select(:storm_observation, :telegram_type, [["ЩЭОЯЮ", "ЩЭОЯЮ"], ["ЩЭОЗМ", "ЩЭОЗМ"]], {:include_blank => false})
       
-      = f.label "Метеотанция"
+      = f.label "Метеостанция"
       = collection_select(:storm_observation, :station_id, Station.all.order(:name), :id, :code)
       
       = f.label "Текст"

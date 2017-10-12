@@ -31,7 +31,7 @@ class TlgOptionSelect extends React.Component{
     return <select name={this.props.name} onChange={this.handleOptionChange} defaultValue = {this.props.defaultValue}>
       {
         this.props.options.map(function(op) {
-          return <option key={op.code} value={op.code}>{op.name}</option>;
+          return <option key={op.code} value={op.code}>{op.name+' ('+op.code+')'}</option>;
         })
       }
     </select>;

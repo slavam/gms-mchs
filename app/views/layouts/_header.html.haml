@@ -26,8 +26,8 @@
                   %li= link_to 'Бюллетени морские', "/bulletins/list?bulletin_type=sea"
                   %li= link_to 'Бюллетени выходного дня', "/bulletins/list?bulletin_type=holiday"
                   %li= link_to 'Штормовые предупреждения', "/bulletins/list?bulletin_type=storm"
+                  %li= link_to 'Тепло Донбасса',  synoptic_observations_heat_donbass_show_path
                   /
-                    %li= link_to 'Тепло Донбасса',  synoptics_td_show_path
                     %li= link_to 'Автодор',  synoptics_avtodor_path
             - when 'technicist'
               %li= link_to 'Телеграммы',  synoptics_list_path

@@ -64,7 +64,35 @@ class SynopticObservationsController < ApplicationController
     # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{@synoptic_observation.inspect}")
     # Rails.logger.debug("My object+++++++++++++++: #{params[:observation].inspect}")
   end
+  
+  def heat_donbass_show
+    @calc_date = params[:calc_date].present? ? params[:calc_date] : Time.now.strftime("%Y-%m-%d")
+    @temperatures = get_temperatures(@calc_date) # ("2017-10-08") 
+    # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{@temperatures.inspect}")
+  end
+  
+  def get_temps
+    calc_date = params[:calc_date].present? ? params[:calc_date] : Time.now.strftime("%Y-%m-%d")
+    temperatures = get_temperatures(calc_date)
+    render json: {temperatures: temperatures, calcDate: calc_date}
+  end
+  
+  def input_telegrams
+    @telegram_type = 'synoptic' # 'agro', 'storm', 'hydro', 'other'
+    @curr_date =  Time.now.strftime("%Y-%m-%d")
+    @telegrams = SynopticObservation.select(:id, :date, :term, :telegram, :station_id).where("date like ?", @curr_date).limit(50).order(:date, :term).reverse_order
+  end
+
   private
+    def get_temperatures(date)
+      heat_data = SynopticObservation.select(:id, :station_id, :term, :temperature).where("date like ? and station_id in (1, 2, 3, 4, 5)", date).order(:station_id, :term)
+      a = Hash.new(nil)
+      heat_data.each {|hd|
+        a[[hd.station_id, hd.term]] = hd.temperature
+      }
+      a
+    end
+    
     def find_synoptic_observation
       @synoptic_observation = SynopticObservation.find(params[:id])
     end
