@@ -26,8 +26,8 @@ class Daily < Prawn::Document
     bounding_box([50, cursor-10], :width => 470, :height => 30, align: :center) do
       # pdf.stroke_bounds
       # pdf.fill_color = "FF0000"
-      text "ГИДРОМЕТЕОРОЛОГИЧЕСКИЙ БЮЛЛЕТЕНЬ № #{@bulletin.curr_number}", :color => "0000FF"
-      text @bulletin.report_date_as_str, :color => "0000FF" #, align: :center
+      text "ГИДРОМЕТЕОРОЛОГИЧЕСКИЙ БЮЛЛЕТЕНЬ № #{@bulletin.curr_number}", :color => "0000FF", align: :center
+      text @bulletin.report_date_as_str, :color => "0000FF", align: :center
     end
 
     if @bulletin.storm.present?

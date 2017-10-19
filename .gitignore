@@ -18,5 +18,5 @@
 config/database.yml
 config/secrets.yml
 /shared/log/*
-assets/pdf_folder/*
+/app/assets/pdf_folder/*
 

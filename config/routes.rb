@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
+  resources :sea_observations
+  post 'storm_observations/create_storm_telegram', to: 'storm_observations#create_storm_telegram'
   resources :storm_observations
+  post 'agro_observations/create_agro_telegram', to: 'agro_observations#create_agro_telegram'
   resources :agro_observations
   post 'synoptic_observations/create_synoptic_telegram', to: 'synoptic_observations#create_synoptic_telegram'
   put 'synoptic_observations/update_synoptic_telegram', to: 'synoptic_observations#update_synoptic_telegram'
@@ -7,7 +10,7 @@ Rails.application.routes.draw do
   get 'synoptic_observations/synoptic_storm_telegrams', to: 'synoptic_observations#synoptic_storm_telegrams'
   get 'synoptic_observations/heat_donbass_show', to: 'synoptic_observations#heat_donbass_show'
   get 'synoptic_observations/get_temps', to: 'synoptic_observations#get_temps'
-  get 'synoptic_observations/input_telegrams', to: 'synoptic_observations#input_telegrams'
+  get '/input_telegrams', to: 'synoptic_observations#input_telegrams'
   resources :synoptic_observations
   delete 'pollution_values/delete_value/:id', to: 'pollution_values#delete_value'
   resources :pollution_values

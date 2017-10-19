@@ -111,7 +111,7 @@ class HeatDonbass extends React.Component{
     return(
       <div className="col-md-6 col-md-offset-3">
         <h4>К договору №08/16-17/03   ГП "Донбасстеплоэнерго"   тел. 304-74-24</h4>
-        <DateForm calcDate={this.props.calcDate} onDateSubmit={this.handleDateSubmit} />
+        <DateForm calcDate={this.state.calcDate} onDateSubmit={this.handleDateSubmit} />
         <h3>Температура воздуха (°С) в сроки наблюдений по данным метеорологических станций {this.state.calcDate}</h3>
         <TemperaturesTable temperatures={this.state.temperatures} />
       </div>

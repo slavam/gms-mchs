@@ -32,6 +32,22 @@ class AgroObservationsController < ApplicationController
     end
   end
   
+  def create_agro_telegram
+    telegram = AgroObservation.new(agro_observation_params)
+    telegram.station_id = Station.find_by_code(telegram.telegram[6,5].to_i).id
+    telegram.telegram_type = telegram.telegram[0,5]
+    telegram.day_obs = telegram.telegram[12,2].to_i
+    telegram.month_obs = telegram.telegram[14,2].to_i
+    telegram.telegram_num = telegram.telegram[16,1].to_i
+    if telegram.save
+      telegrams = AgroObservation.last_50_telegrams
+      last_telegrams = fields_short_list(telegrams)
+      render json: {telegrams: last_telegrams, tlgType: 'agro', currDate: telegram.date_dev, errors: ["Телеграмма добавлена в базу"]}
+    else
+      render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
+    end
+  end
+  
   private
 
     def agro_observation_params
@@ -40,5 +56,11 @@ class AgroObservationsController < ApplicationController
     
     def find_agro_observation
       @agro_observation = AgroObservation.find(params[:id])
+    end
+    
+    def fields_short_list(full_list)
+      full_list.map do |rec|
+        {id: rec.id, date: rec.date_dev, station_name: rec.station.name, telegram: rec.telegram}
+      end
     end
 end

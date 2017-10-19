@@ -36,6 +36,23 @@ class StormObservationsController < ApplicationController
     end
   end
   
+  def create_storm_telegram
+    telegram = StormObservation.new(storm_observation_params)
+    # telegram.station_id = Station.find_by_code(telegram.telegram[12,5].to_i).id
+    # telegram.day_event = telegram.telegram[18,2].to_i
+    telegram.hour_event = telegram.telegram[20,2].to_i
+    telegram.minute_event = telegram.telegram[22,2].to_i
+    telegram.telegram_type = telegram.telegram[0, 5]
+    # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{telegram.inspect}")
+    if telegram.save
+      telegrams = StormObservation.last_50_telegrams
+      last_telegrams = fields_short_list(telegrams)
+      render json: {telegrams: last_telegrams, tlgType: 'storm', currDate: telegram.telegram_date, errors: ["Телеграмма добавлена в базу"]}
+    else
+      render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
+    end
+  end
+  
   def edit
   end
   
@@ -55,10 +72,18 @@ class StormObservationsController < ApplicationController
   
   private
     def storm_observation_params
-      params.require(:storm_observation).permit(:registred_at, :telegram_type, :station_id, :day_event, :hour_event, :minute_event, :telegram)
+      params.require(:storm_observation).permit(:registred_at, :telegram_type, :station_id, :day_event, :hour_event, :minute_event, :telegram, :telegram_date)
+      # :code_warep, :wind_direction, :wind_speed_avg, :wind_speed_max
     end
     
     def find_storm_observation
       @storm_observation = StormObservation.find(params[:id])
+    end
+    
+    def fields_short_list(full_list)
+      # stations = Station.all
+      full_list.map do |rec|
+        {id: rec.id, date: rec.telegram_date, station_name: rec.station.name, telegram: rec.telegram}
+      end
     end
 end

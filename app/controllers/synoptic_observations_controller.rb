@@ -44,12 +44,11 @@ class SynopticObservationsController < ApplicationController
   
   def create_synoptic_telegram
     telegram = SynopticObservation.new(observation_params)
-    telegram.station_id = Station.find_by_code(params[:station_code]).id
-    # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{current_user.inspect}")
+    telegram.station_id = Station.find_by_code(telegram.telegram[6,5].to_i).id
     if telegram.save
       telegrams = SynopticObservation.last_50_telegrams
       last_telegrams = fields_short_list(telegrams)
-      render json: {telegrams: last_telegrams}
+      render json: {telegrams: last_telegrams, tlgType: 'synoptic', currDate: telegram.date, errors: ["Телеграмма добавлена в базу"]}
     else
       render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
     end
@@ -80,7 +79,9 @@ class SynopticObservationsController < ApplicationController
   def input_telegrams
     @telegram_type = 'synoptic' # 'agro', 'storm', 'hydro', 'other'
     @curr_date =  Time.now.strftime("%Y-%m-%d")
-    @telegrams = SynopticObservation.select(:id, :date, :term, :telegram, :station_id).where("date like ?", @curr_date).limit(50).order(:date, :term).reverse_order
+    @stations = Station.all.order(:name)
+    last_telegrams = SynopticObservation.last_50_telegrams
+    @telegrams = fields_short_list(last_telegrams)
   end
 
   private
@@ -119,6 +120,7 @@ class SynopticObservationsController < ApplicationController
     end
     
     def fields_short_list(full_list)
+      # stations = Station.all
       full_list.map do |rec|
         {id: rec.id, date: rec.date, term: rec.term, station_name: rec.station.name, telegram: rec.telegram}
       end

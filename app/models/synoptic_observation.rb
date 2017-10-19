@@ -1,6 +1,11 @@
 class SynopticObservation < ActiveRecord::Base
+  validates :date, presence: true
+  validates :term, presence: true
+  validates :station_id, presence: true
+  validates :telegram, presence: true
   belongs_to :station
   audited
+  
   def self.last_50_telegrams
     SynopticObservation.all.limit(50).order(:date, :term, :updated_at).reverse_order
   end

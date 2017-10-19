@@ -1,0 +1,13 @@
+class CreateSeaObservations < ActiveRecord::Migration
+  def change
+    create_table :sea_observations do |t|
+      t.date    :date_dev  # дата ввода наблюдения
+      t.integer :term # срок наблюдений 9, 15, 21
+      t.integer :day_obs # YY день 
+      t.integer :station_id # ссылка на станцию
+      t.string  :telegram # текст телеграммы
+
+      t.timestamps null: false
+    end
+  end
+end
