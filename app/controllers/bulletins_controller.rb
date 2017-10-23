@@ -31,6 +31,13 @@ class BulletinsController < ApplicationController
     @bulletin.bulletin_type = 'storm'
   end
   
+  def new_radiation_bulletin
+    @bulletin = Bulletin.new
+    @bulletin.report_date = Time.now.to_s(:custom_datetime)
+    @bulletin.curr_number = Date.today.yday()
+    @bulletin.bulletin_type = 'radiation'
+  end
+  
   def new
     @bulletin = Bulletin.new
     @bulletin.report_date = Time.now.to_s(:custom_datetime)
@@ -135,6 +142,9 @@ class BulletinsController < ApplicationController
         when 'storm'
           pdf = Storm.new(@bulletin)
           @png_filename = @bulletin.png_filename(current_user.id)
+        when 'radiation'
+          pdf = Radiation.new(@bulletin)
+          @png_filename = @bulletin.png_filename(current_user.id)
       end
       format.html do
         save_as_pdf(pdf)
@@ -229,6 +239,14 @@ class BulletinsController < ApplicationController
     end
     
     def n
-      @bulletin.bulletin_type == 'sea' ? 13 : 36 
+      case @bulletin.bulletin_type
+        when 'sea'
+          13
+        when 'radiation'
+          4
+        else
+          36        
+      end
+      # @bulletin.bulletin_type == 'sea' ? 13 : 36 
     end
 end

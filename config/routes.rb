@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  post 'sea_observations/create_sea_telegram', to: 'sea_observations#create_sea_telegram'
   resources :sea_observations
   post 'storm_observations/create_storm_telegram', to: 'storm_observations#create_storm_telegram'
   resources :storm_observations
@@ -64,6 +65,7 @@ Rails.application.routes.draw do
   resources :users
   get 'bulletins/print_bulletin', to: 'bulletins#print_bulletin'
   get 'bulletins/new_sea_bulletin', to: 'bulletins#new_sea_bulletin'
+  get 'bulletins/new_radiation_bulletin', to: 'bulletins#new_radiation_bulletin'
   # get 'bulletins/:id/sea_show', to: 'bulletins#sea_show'
   get 'bulletins/new_storm_bulletin', to: 'bulletins#new_storm_bulletin'
   # get 'bulletins/:id/storm_show', to: 'bulletins#storm_show'

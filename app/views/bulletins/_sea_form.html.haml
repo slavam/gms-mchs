@@ -30,7 +30,7 @@
         %td= form.text_area :forecast_period, cols: "30", rows: "5"
       %tr
         %th Синоптик
-        %td= form.select :synoptic1, options_for_select([["Деревянко Н.Н.", "Деревянко Н.Н."], ["Осокина Л.Н.", "Осокина Л.Н."], ["Николаева А.Р.", "Николаева А.Р."]], @bulletin.synoptic1.present? ? @bulletin.synoptic1 : "Деревянко Н.Н.")
+        %td= form.select :synoptic1, options_for_select(Bulletin.synoptic_list)
       %tr
         %th МЕТЕОРОЛОГИЧЕСКИЕ ДАННЫЕ И СВЕДЕНИЯ О СОСТОЯНИИ МОРЯ
       %tr

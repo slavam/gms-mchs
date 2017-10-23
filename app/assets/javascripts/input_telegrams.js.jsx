@@ -45,6 +45,8 @@ class NewTelegramForm extends React.Component{
         break;
       case 'agro':
         this.observation.date_dev = date;
+      case 'sea':
+        this.observation.date_dev = date;
     }
     this.props.onFormSubmit({observation: this.observation, currDate: date, tlgType: this.state.tlgType, tlgText: this.state.tlgText});
     this.setState({
@@ -70,7 +72,8 @@ class NewTelegramForm extends React.Component{
     const types = [
       { value: 'synoptic', label: 'Синоптические' },
       { value: 'agro', label: 'Агро' },
-      { value: 'storm', label: 'Штормовые' }
+      { value: 'storm', label: 'Штормовые' },
+      { value: 'sea', label: 'Морские' },
     ];
     const terms = [
       { value: '00', label: '00' },
@@ -166,6 +169,9 @@ class TelegramRow extends React.Component{
       case 'agro':
         desiredLink = "/agro_observations/"+this.props.telegram.id;
         break;
+      case 'sea':
+        desiredLink = "/sea_observations/"+this.props.telegram.id;
+        break;
     }
     return (
       <tr>
@@ -235,9 +241,12 @@ class InputTelegrams extends React.Component{
         desiredLink = "agro_observations/create_agro_telegram";
         break;
       case 'storm':
-        // telegram.observation.telegram_date = telegram.observation.date;
         tlgData = {storm_observation: telegram.observation};
         desiredLink = "storm_observations/create_storm_telegram";
+        break;
+      case 'sea':
+        tlgData = {sea_observation: telegram.observation};
+        desiredLink = "sea_observations/create_sea_telegram";
     }
     $.ajax({
       type: 'POST',
@@ -386,20 +395,6 @@ function checkStormTelegram(tlg, stations, errors, observation){
       }
       
       break;      
-      
-      
-      
-      
-      
-      
-    case [11, 12, 17, 18, 19, 36, 78].some(function(s){return +codeWAREP == s}): //1
-      break;
-    case [19, 91].some(function(s){return +codeWAREP == s}): //2
-      break;
-    case [61, 62, 64, 65, 66, 71, 75].some(function(s){return +codeWAREP == s}): //3
-      break;
-    case [19, 91].some(function(s){return +codeWAREP == s}): // 4
-      break;
   }
   // return false; // debug only! 
   return true;

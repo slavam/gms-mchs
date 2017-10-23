@@ -31,6 +31,9 @@
                 - when 'storm'
                   %td= link_to "Просмотр", "#{b.id}/storm_show"
                   %td= link_to "Распечатать", "#{b.id}/storm_show.pdf"
+                - when 'radiation'
+                  %td= link_to "Просмотр", "#{b.id}/radiation_show"
+                  %td= link_to "Распечатать", "#{b.id}/radiation_show.pdf"
             %td= link_to "Просмотр", "#{b.id}/bulletin_show"
             %td= link_to "Распечатать", "#{b.id}/bulletin_show.pdf"
             %td= link_to "Изменить", edit_bulletin_path(b.id)
@@ -46,3 +49,5 @@
     = link_to "Создать", bulletins_new_storm_bulletin_path  
   -when 'holiday'
     = link_to "Создать", bulletins_new_holiday_bulletin_path  
+  -when 'radiation'
+    = link_to "Создать", bulletins_new_radiation_bulletin_path  

@@ -16,6 +16,7 @@
                   %li= link_to 'Телеграммы штормовые',  storm_observations_path
                   %li= link_to 'Ввод телеграмм',  input_telegrams_path
               %li= link_to 'Поиск',  search_synoptic_telegrams_path
+              %li= link_to 'Карты', "http://www.kcgms.ru/unimas/maps/", target: :_blank
               %li= link_to 'Отбор из ogimet',  make_web_query_path
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты <b class="caret"></b></a>
@@ -27,6 +28,7 @@
                   %li= link_to 'Бюллетени морские', "/bulletins/list?bulletin_type=sea"
                   %li= link_to 'Бюллетени выходного дня', "/bulletins/list?bulletin_type=holiday"
                   %li= link_to 'Штормовые предупреждения', "/bulletins/list?bulletin_type=storm"
+                  %li= link_to 'Радиация', "/bulletins/list?bulletin_type=radiation"
                   %li= link_to 'Тепло Донбасса',  synoptic_observations_heat_donbass_show_path
                   /
                     %li= link_to 'Автодор',  synoptics_avtodor_path
