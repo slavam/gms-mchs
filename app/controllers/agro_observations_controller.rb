@@ -2,7 +2,7 @@ class AgroObservationsController < ApplicationController
   before_filter :find_agro_observation, only: [:show]
   
   def index
-    @agro_observations = AgroObservation.all.order(:created_at).reverse_order
+    @agro_observations = AgroObservation.paginate(page: params[:page]).order(:date_dev, :created_at).reverse_order
   end
   
   def show

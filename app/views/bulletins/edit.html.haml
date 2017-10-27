@@ -2,9 +2,13 @@
 - case @bulletin.bulletin_type 
   - when 'daily'
     = render 'form' 
-  - when 'storm'  
+  - when 'storm', 'sea_storm'
     = render 'storm_form'
   - when 'holiday'  
     = render 'holiday_form'
+  - when 'tv'
+    = render 'tv_form'
+  - when 'radiation'  
+    = render 'radiation_form'
   - else
     = render 'sea_form'

@@ -28,7 +28,8 @@ class BulletinsController < ApplicationController
   def new_storm_bulletin
     @bulletin = Bulletin.new
     @bulletin.report_date = Time.now.to_s(:custom_datetime)
-    @bulletin.bulletin_type = 'storm'
+    @bulletin.curr_number = Date.today.yday()
+    @bulletin.bulletin_type = params[:bulletin_type]
   end
   
   def new_radiation_bulletin
@@ -36,6 +37,12 @@ class BulletinsController < ApplicationController
     @bulletin.report_date = Time.now.to_s(:custom_datetime)
     @bulletin.curr_number = Date.today.yday()
     @bulletin.bulletin_type = 'radiation'
+  end
+
+  def new_tv_bulletin
+    @bulletin = Bulletin.new
+    @bulletin.report_date = Time.now.to_s(:custom_datetime)
+    @bulletin.bulletin_type = 'tv'
   end
   
   def new
@@ -56,6 +63,7 @@ class BulletinsController < ApplicationController
     if @bulletin.bulletin_type == 'daily'
       @bulletin.climate_data = params[:avg_day_temp] + '; ' + params[:max_temp] + '; '+ params[:max_temp_year] + '; ' + params[:min_temp] + '; '+ params[:min_temp_year] + '; '
     end
+    @bulletin.curr_number ||= Date.today.yday().to_s+'-tv' if @bulletin.bulletin_type == 'tv'
     if not @bulletin.save
       render :new
     else
@@ -81,7 +89,6 @@ class BulletinsController < ApplicationController
     if not @bulletin.update_attributes bulletin_params
       render :action => :edit
     else
-      # redirect_to "/bulletins/list?bulletin_type="+@bulletin.bulletin_type
       redirect_to "/bulletins/#{@bulletin.id}/bulletin_show"
     end
   end
@@ -92,12 +99,12 @@ class BulletinsController < ApplicationController
     redirect_to "/bulletins/list?bulletin_type="+bulletin_type
   end
   
-  def pdf_png_delete
-    filename = File.join(Rails.root, "app/assets/pdf_folder", @bulletin.pdf_filename)
-    File.delete(filename) if File.exist?(filename)
-    filename = File.join(Rails.root, "app/assets/pdf_folder", @bulletin.png_filename)
-    File.delete(filename) if File.exist?(filename)
-  end
+  # def pdf_png_delete
+  #   filename = File.join(Rails.root, "app/assets/pdf_folder", @bulletin.pdf_filename)
+  #   File.delete(filename) if File.exist?(filename)
+  #   filename = File.join(Rails.root, "app/assets/pdf_folder", @bulletin.png_filename)
+  #   File.delete(filename) if File.exist?(filename)
+  # end
 
   def show
   end
@@ -139,11 +146,14 @@ class BulletinsController < ApplicationController
         when 'holiday'
           pdf = Holiday.new(@bulletin)
           @png_filename = @bulletin.png_filename(current_user.id)
-        when 'storm'
+        when 'storm', 'sea_storm'
           pdf = Storm.new(@bulletin)
           @png_filename = @bulletin.png_filename(current_user.id)
         when 'radiation'
           pdf = Radiation.new(@bulletin)
+          @png_filename = @bulletin.png_filename(current_user.id)
+        when 'tv'
+          pdf = Tv.new(@bulletin)
           @png_filename = @bulletin.png_filename(current_user.id)
       end
       format.html do
@@ -244,9 +254,10 @@ class BulletinsController < ApplicationController
           13
         when 'radiation'
           4
+        when 'tv'
+          38
         else
           36        
       end
-      # @bulletin.bulletin_type == 'sea' ? 13 : 36 
     end
 end

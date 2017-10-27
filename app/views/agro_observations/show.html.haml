@@ -1,11 +1,15 @@
-%div{ class: "col-md-6 col-md-offset-3"}
-%h1 Телеграмма
 .container
-  %h4= @agro_observation.telegram
+  %h3 Телеграмма агрометеорологическая
   %table{class: "table table-bordered"}
     %tr
-      %th Дата загрузки:
+      %th Дата ввода:
+      %td= @agro_observation.created_at
+    %tr
+      %th Дата:
       %td= @agro_observation.date_dev
+    %tr
+      %th Текст:
+      %td= @agro_observation.telegram
     %tr
       %th Тип телеграммы
       %td= @agro_observation.telegram_type == 'ЩЭАГЯ'? 'Ежедневная (ЩЭАГЯ)' : 'Декадная (ЩЭАГУ)'
@@ -21,3 +25,4 @@
     %tr
       %th Номер телеграммы:
       %td= @agro_observation.telegram_num
+  = link_to "Список", agro_observations_path

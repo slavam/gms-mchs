@@ -24,4 +24,7 @@
         %td= form.select :synoptic1, options_for_select(Bulletin.synoptic_list)
     %br
     = submit_tag "Сохранить"
-= link_to "Список", "/bulletins/list?bulletin_type=storm"
+- if @bulletin.bulletin_type == 'storm'
+  = link_to "Список", "/bulletins/list?bulletin_type=storm"
+- else
+  = link_to "Список", "/bulletins/list?bulletin_type=sea_storm"

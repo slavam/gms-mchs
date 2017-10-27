@@ -1,26 +1,27 @@
-%div{ class: "col-md-6 col-md-offset-3"}
-%h1= "Телеграммы агрометеорологические"
 .container
+  %h3 Телеграммы агрометеорологические
+  = will_paginate
   %table{class: "table table-hover"}
     %thead
       %tr
-        %th Дата
+        %th{width: "100px"} Дата
         %th Метеостанция
         %th Телеграмма
-        %th= ""
-        %th= ""
-        %th= ""
-        %th= ""
-  
+        /
+          %th= ""
+          %th= ""
+          %th= ""
     %tbody
       - @agro_observations.each do |a_o| 
         %tr
-          %td= a_o.date_dev.to_s(:custom_datetime)
+          %td= a_o.date_dev
           %td= a_o.station.name
-          %td= a_o.telegram
-          %td= link_to "Просмотр", agro_observation_path(a_o)
-          %td= link_to "Изменить", edit_agro_observation_path(a_o.id)
-          %td= link_to 'Destroy', a_o, method: :delete, data: { confirm: 'Are you sure?' }
-
+          %td= link_to a_o.telegram, agro_observation_path(a_o)
+          /
+            %td= link_to "Просмотр", agro_observation_path(a_o)
+            %td= link_to "Изменить", edit_agro_observation_path(a_o.id)
+            %td= link_to 'Destroy', a_o, method: :delete, data: { confirm: 'Are you sure?' }
+  = will_paginate
+/  
   %br
   = link_to "Создать", new_agro_observation_path  

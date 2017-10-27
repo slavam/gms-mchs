@@ -1,6 +1,18 @@
-- bulletin_types = {'daily' => "Ежедневные", 'sea' => "Морские", 'holiday' => "Выходного дня", 'storm' => "Штормовые", 'radiation' => "Радиация", 'tv' => "Телевидение"}
-%div{:class=>"center jumbotron"}
-  %h3= "Бюллетени (#{bulletin_types[@bulletin_type]})"
+.container
+  - case @bulletin_type
+    - when 'daily'
+      = link_to "Создать", new_bulletin_path  
+    -when 'sea'
+      = link_to "Создать", bulletins_new_sea_bulletin_path  
+    -when 'storm', 'sea_storm'
+      = link_to "Создать", "new_storm_bulletin?bulletin_type="+@bulletin_type
+    -when 'holiday'
+      = link_to "Создать", bulletins_new_holiday_bulletin_path  
+    -when 'radiation'
+      = link_to "Создать", bulletins_new_radiation_bulletin_path  
+    -when 'tv'
+      = link_to "Создать", bulletins_new_tv_bulletin_path  
+  %h3= Bulletin::BULLETIN_TYPES[@bulletin_type]
   .container
     %table{class: "table table-hover"}
       %thead
@@ -11,43 +23,12 @@
           %th= ""
           %th= ""
           %th= ""
-    
       %tbody
         - @bulletins.each do |b| 
           %tr
-            %td= b.report_date.to_s(:custom_datetime)
+            %td= b.report_date.to_s
             %td= b.curr_number
-            /
-              - case @bulletin_type
-                - when 'daily'
-                  %td= link_to "Просмотр", bulletin_path(b)
-                  %td= link_to "Распечатать", "print_bulletin.pdf?id=#{b.id}"
-                - when 'sea'
-                  %td= link_to "Просмотр", "#{b.id}/sea_show"
-                  %td= link_to "Распечатать", "#{b.id}/sea_show.pdf"
-                - when 'holiday'
-                  %td= link_to "Просмотр", "#{b.id}/holiday_show"
-                  %td= link_to "Распечатать", "#{b.id}/holiday_show.pdf"
-                - when 'storm'
-                  %td= link_to "Просмотр", "#{b.id}/storm_show"
-                  %td= link_to "Распечатать", "#{b.id}/storm_show.pdf"
-                - when 'radiation'
-                  %td= link_to "Просмотр", "#{b.id}/radiation_show"
-                  %td= link_to "Распечатать", "#{b.id}/radiation_show.pdf"
-            %td= link_to "Просмотр", "#{b.id}/bulletin_show"
+            %td= link_to "Просмотреть", "#{b.id}/bulletin_show"
             %td= link_to "Распечатать", "#{b.id}/bulletin_show.pdf"
             %td= link_to "Изменить", edit_bulletin_path(b.id)
-            %td= link_to 'Destroy', b, method: :delete, data: { confirm: 'Are you sure?' }
-  
-    %br
-- case @bulletin_type
-  - when 'daily'
-    = link_to "Создать", new_bulletin_path  
-  -when 'sea'
-    = link_to "Создать", bulletins_new_sea_bulletin_path  
-  -when 'storm'
-    = link_to "Создать", bulletins_new_storm_bulletin_path  
-  -when 'holiday'
-    = link_to "Создать", bulletins_new_holiday_bulletin_path  
-  -when 'radiation'
-    = link_to "Создать", bulletins_new_radiation_bulletin_path  
+            %td= link_to 'Удалить', b, method: :delete, data: { confirm: 'Вы уверены?' }

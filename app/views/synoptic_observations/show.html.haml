@@ -1,80 +1,82 @@
-%div{ class: "row"}
-  %div{ class: "col-md-6 col-md-offset-3"}
-    %h1 Телеграмма
-    .container
-      %table{class: "table table-bordered"}
-        %tr
-          %th Дата:
-          %td= @synoptic_observation.date
-        %tr
-          %th Срок:
-          %td= @synoptic_observation.term
-        %tr
-          %th Текст:
-          %td= @synoptic_observation.telegram
-        %tr
-          %th Метеостанция:
-          %td= @synoptic_observation.station.name
-        %tr
-          %th Направление ветра:
-          %td= @synoptic_observation.wind_direction_to_s
-        %tr
-          %th Скорость ветра (м/с):
-          %td= @synoptic_observation.wind_speed_avg.to_s
-        %tr
-          %th Метеорологическая дальность видимости:
-          %td= @synoptic_observation.visibility
-        %tr
-          %th Высота нижней границы самых низких облаков (м):
-          %td= @synoptic_observation.cloud_base_height_to_s
-        %tr
-          %th Общее количество облаков всех ярусов (баллы):
-          %td= @synoptic_observation.cloud_amount(@synoptic_observation.cloud_amount_1)
-        %tr
-          %th Температура воздуха (градусы Цельсия):
-          %td= @synoptic_observation.temperature
-        %tr
-          %th Точка росы (градусы Цельсия):
-          %td= @synoptic_observation.temperature_dew_point
-        %tr
-          %th Давление воздуха на уровне станции (гектопаскали):
-          %td= @synoptic_observation.pressure_at_station_level
-        %tr
-          %th Давление воздуха, приведенное к уровню моря (гектопаскали):
-          %td= @synoptic_observation.pressure_at_sea_level
-        %tr
-          %th Характеристика барической тенденции:
-          %td= @synoptic_observation.pressure_tendency_characteristic_to_s
-        %tr
-          %th Значение барической тенденции (гектопаскали):
-          %td= @synoptic_observation.pressure_tendency.to_s
-        - if @synoptic_observation.precipitation_1.present?
-          %tr
-            %th Количество осадков (мм):
-            %td= @synoptic_observation.precipitation_1_to_s
-        - if @synoptic_observation.cloud_amount_2.present?
-          %tr
-            %th Количество облаков CL или CM (баллы):
-            %td= @synoptic_observation.cloud_amount(@synoptic_observation.cloud_amount_2)
-          %tr
-            %th Облака вертикального развития (CL)
-            %td= @synoptic_observation.clouds_1_to_s
-          %tr
-            %th Облака среднего яруса (CM)
-            %td= @synoptic_observation.clouds_2_to_s
-          %tr
-            %th Облака верхнего яруса (CH)
-            %td= @synoptic_observation.clouds_3_to_s
-        - if @synoptic_observation.sunshine_duration.present?
-          %tr
-            %th Продолжительность солнечного сияния (часы):
-            %td= @synoptic_observation.sunshine_duration.to_s
-        - if @synoptic_observation.soil_surface_condition_1.present?
-          %tr
-            %th Состояние поверхности почвы:
-            %td= @synoptic_observation.soil_surface_condition_1_to_s
-        - if @synoptic_observation.temperature_soil.present?
-          %tr
-            %th Температура поверхности почвы (градусы Цельсия):
-            %td= @synoptic_observation.temperature_soil.to_s
-  
+.container
+  %h3 Телеграмма синоптическая
+  %table{class: "table table-bordered"}
+    %tr
+      %th Дата ввода:
+      %td= @synoptic_observation.created_at.to_s
+    %tr
+      %th Дата:
+      %td= @synoptic_observation.date
+    %tr
+      %th Срок:
+      %td= @synoptic_observation.term
+    %tr
+      %th Текст:
+      %td= @synoptic_observation.telegram
+    %tr
+      %th Метеостанция:
+      %td= @synoptic_observation.station.name
+    %tr
+      %th Направление ветра:
+      %td= @synoptic_observation.wind_direction_to_s
+    %tr
+      %th Скорость ветра (м/с):
+      %td= @synoptic_observation.wind_speed_avg.to_s
+    %tr
+      %th Метеорологическая дальность видимости:
+      %td= @synoptic_observation.visibility
+    %tr
+      %th Высота нижней границы самых низких облаков (м):
+      %td= @synoptic_observation.cloud_base_height_to_s
+    %tr
+      %th Общее количество облаков всех ярусов (баллы):
+      %td= @synoptic_observation.cloud_amount(@synoptic_observation.cloud_amount_1)
+    %tr
+      %th Температура воздуха (градусы Цельсия):
+      %td= @synoptic_observation.temperature
+    %tr
+      %th Точка росы (градусы Цельсия):
+      %td= @synoptic_observation.temperature_dew_point
+    %tr
+      %th Давление воздуха на уровне станции (гектопаскали):
+      %td= @synoptic_observation.pressure_at_station_level
+    %tr
+      %th Давление воздуха, приведенное к уровню моря (гектопаскали):
+      %td= @synoptic_observation.pressure_at_sea_level
+    %tr
+      %th Характеристика барической тенденции:
+      %td= @synoptic_observation.pressure_tendency_characteristic_to_s
+    %tr
+      %th Значение барической тенденции (гектопаскали):
+      %td= @synoptic_observation.pressure_tendency.to_s
+    - if @synoptic_observation.precipitation_1.present?
+      %tr
+        %th Количество осадков (мм):
+        %td= @synoptic_observation.precipitation_1_to_s
+    - if @synoptic_observation.cloud_amount_2.present?
+      %tr
+        %th Количество облаков CL или CM (баллы):
+        %td= @synoptic_observation.cloud_amount(@synoptic_observation.cloud_amount_2)
+      %tr
+        %th Облака вертикального развития (CL)
+        %td= @synoptic_observation.clouds_1_to_s
+      %tr
+        %th Облака среднего яруса (CM)
+        %td= @synoptic_observation.clouds_2_to_s
+      %tr
+        %th Облака верхнего яруса (CH)
+        %td= @synoptic_observation.clouds_3_to_s
+    - if @synoptic_observation.sunshine_duration.present?
+      %tr
+        %th Продолжительность солнечного сияния (часы):
+        %td= @synoptic_observation.sunshine_duration.to_s
+    - if @synoptic_observation.soil_surface_condition_1.present?
+      %tr
+        %th Состояние поверхности почвы:
+        %td= @synoptic_observation.soil_surface_condition_1_to_s
+    - if @synoptic_observation.temperature_soil.present?
+      %tr
+        %th Температура поверхности почвы (градусы Цельсия):
+        %td= @synoptic_observation.temperature_soil.to_s
+
+  = link_to "Список", synoptic_observations_path

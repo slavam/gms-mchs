@@ -31,22 +31,29 @@ Rails.application.configure do
   #   enable_starttls_auto: true  }  
   
   # ActionMailer Config
-config.action_mailer.default_url_options = { host: 'gmc-test-slavam1.c9users.io', protocol: 'https'  }
+# config.action_mailer.default_url_options = { host: 'gmc-test-slavam1.c9users.io', protocol: 'https'  }
+# config.action_mailer.default_url_options = { host: 'gidromet.mchs' } #, protocol: 'https'  }
+# config.action_mailer.delivery_method = :sendmail
 config.action_mailer.delivery_method = :smtp
 # change to true to allow email to be sent during development
-config.action_mailer.perform_deliveries = false # true #
+config.action_mailer.perform_deliveries = true # false # 
 config.action_mailer.raise_delivery_errors = true
 config.action_mailer.default :charset => "utf-8"
   
   config.action_mailer.smtp_settings = {
+    # address:              'gidromet.mchs',
     address:              'smtp.gmail.com',
-    port:                 2587,
-    domain:               'localhost',
+    # address:              '10.105.0.7',
+    port:                   587,
+    # port:                 25, #2587,
+    domain:               'localhost', #'gidromet.mchs', #
     # user_name:            ENV["GMAIL_USERNAME"],
     # password:             ENV["GMAIL_PASSWORD"],
-    user_name:            'mwm1955',
-    # password:             '',
-    authentication:       'plain',
+    # user_name:            'morgachev@gidromet.mchs',
+    # password:             'F,jhlf;82',
+    user_name:            'mwm1955@gmail.com',
+    password:             '',
+    authentication:       'login',
     enable_starttls_auto: true  
   }
   

@@ -23,7 +23,7 @@ class SynopticObservationsController < ApplicationController
   end
 
   def index
-    @synoptic_observations = SynopticObservation.paginate(page: params[:page]).order(:created_at).reverse_order
+    @synoptic_observations = SynopticObservation.paginate(page: params[:page]).order(:date, :term).reverse_order
   end
   
   def synoptic_storm_telegrams

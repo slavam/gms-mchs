@@ -1,7 +1,7 @@
 class StormObservationsController < ApplicationController
   before_filter :find_storm_observation, only: [:show, :edit, :update, :destroy]
   def index
-    @storm_observations = StormObservation.all.order(:created_at).reverse_order
+    @storm_observations = StormObservation.paginate(page: params[:page]).order(:telegram_date, :created_at).reverse_order
   end
   
   def show

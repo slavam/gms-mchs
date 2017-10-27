@@ -9,31 +9,49 @@
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Телеграммы <b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
-                  %li= link_to 'Телеграммы синоптические (старые)',  synoptics_path
-                  %li= link_to 'Телеграммы синоптические',  synoptic_observations_path
+                  /
+                    %li= link_to 'Телеграммы синоптические (старые)',  synoptics_path
+                    %li= link_to 'Ввод телеграмм',  input_telegrams_path
                   %li= link_to 'Телеграммы синоптические (со штормовыми)',  '/synoptic_observations/synoptic_storm_telegrams'
-                  %li= link_to 'Телеграммы агрометеорологические',  agro_observations_path
+                  %li= link_to 'Телеграммы синоптические',  synoptic_observations_path
                   %li= link_to 'Телеграммы штормовые',  storm_observations_path
-                  %li= link_to 'Ввод телеграмм',  input_telegrams_path
-              %li= link_to 'Поиск',  search_synoptic_telegrams_path
-              %li= link_to 'Карты', "http://www.kcgms.ru/unimas/maps/", target: :_blank
-              %li= link_to 'Отбор из ogimet',  make_web_query_path
+                  %li= link_to 'Телеграммы агрометеорологические',  agro_observations_path
+                  %li= link_to 'Телеграммы морские',  sea_observations_path
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты <b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
                   %li= link_to 'ТСХ-1',  synoptics_tcx1_path 
+                  %li= link_to 'Тепло Донбасса',  synoptic_observations_heat_donbass_show_path
                   /
                     %li= link_to 'Бюллетень',  bulletins_path
                   %li= link_to 'Бюллетени ежедневные', "/bulletins/list?bulletin_type=daily"
                   %li= link_to 'Бюллетени морские', "/bulletins/list?bulletin_type=sea"
                   %li= link_to 'Бюллетени выходного дня', "/bulletins/list?bulletin_type=holiday"
                   %li= link_to 'Штормовые предупреждения', "/bulletins/list?bulletin_type=storm"
+                  %li= link_to 'Шторма на море', "/bulletins/list?bulletin_type=sea_storm"
                   %li= link_to 'Радиация', "/bulletins/list?bulletin_type=radiation"
-                  %li= link_to 'Тепло Донбасса',  synoptic_observations_heat_donbass_show_path
+                  %li= link_to 'Телевидение', "/bulletins/list?bulletin_type=tv"
                   /
                     %li= link_to 'Автодор',  synoptics_avtodor_path
+              %li
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Сервис <b class="caret"></b></a>
+                %ul{class: "dropdown-menu"}
+                  %li= link_to 'Поиск',  search_synoptic_telegrams_path
+                  %li= link_to 'Карты', "http://www.kcgms.ru/unimas/maps/", target: :_blank
+                  %li= link_to 'Отбор из ogimet',  make_web_query_path
             - when 'technicist'
               %li= link_to 'Телеграммы',  synoptics_list_path
+              %li
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Телеграммы <b class="caret"></b></a>
+                %ul{class: "dropdown-menu"}
+                  /
+                    %li= link_to 'Телеграммы синоптические (старые)',  synoptics_path
+                  %li= link_to 'Ввод телеграмм',  input_telegrams_path
+                  %li= link_to 'Телеграммы синоптические (со штормовыми)',  '/synoptic_observations/synoptic_storm_telegrams'
+                  %li= link_to 'Телеграммы синоптические',  synoptic_observations_path
+                  %li= link_to 'Телеграммы штормовые',  storm_observations_path
+                  %li= link_to 'Телеграммы агрометеорологические',  agro_observations_path
+                  %li= link_to 'Телеграммы морские',  sea_observations_path
             - when 'observer'
               %li= link_to 'Метеостанции', stations_path
               %li
@@ -65,7 +83,7 @@
               %li= link_to "Audit", audits_path
           %li{ class: "dropdown"}
           %li
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Сеанс <b class="caret"></b></a>
             %ul{class: "dropdown-menu"}
               %li= link_to "Профиль", current_user
               %li{ class: "divider"}

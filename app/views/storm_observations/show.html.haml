@@ -1,11 +1,15 @@
-%div{ class: "col-md-6 col-md-offset-3"}
-%h1 Телеграмма штормовая
 .container
-  %h4= @storm_observation.telegram
+  %h3 Телеграмма штормовая
   %table{class: "table table-bordered"}
     %tr
-      %th Дата загрузки:
+      %th Дата ввода:
       %td= @storm_observation.created_at
+    %tr
+      %th Дата явления:
+      %td= @storm_observation.telegram_date
+    %tr
+      %th Текст:
+      %td= @storm_observation.telegram
     %tr
       %th Тип телеграммы
       %td= @storm_observation.telegram_type == 'ЩЭОЗМ' ? 'Окончание явления (ЩЭОЗМ)' : 'Начало/усиление явления (ЩЭОЯЮ)'
@@ -18,7 +22,7 @@
     %tr
       %th Время
       %td= @storm_observation.event_time
-      
   %br
   = link_to "Список", storm_observations_path  
-  = link_to "Изменить", edit_storm_observation_path(@storm_observation)
+  /
+    = link_to "Изменить", edit_storm_observation_path(@storm_observation)
