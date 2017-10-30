@@ -1,6 +1,10 @@
 class SeaObservationsController < ApplicationController
   before_filter :find_sea_observation, only: [:show] #, :edit, :update, :destroy]
   
+  def index
+    @sea_observations = SeaObservation.paginate(page: params[:page]).order(:date_dev, :created_at).reverse_order
+  end
+
   def show
   end
   

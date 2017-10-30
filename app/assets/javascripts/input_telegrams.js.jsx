@@ -224,12 +224,28 @@ class InputTelegrams extends React.Component{
       telegrams: this.props.telegrams
     };
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleTelegramTypeChanged = this.handleTelegramTypeChanged.bind(this);
   }
 
+  handleTelegramTypeChanged(){
+    var that = this;
+    var desiredLink = '';
+    $.ajax({
+      type: 'GET',
+      dataType: 'json',
+      // data: tlgData, 
+      url: desiredLink
+      }).done(function(data) {
+        that.setState({telegrams: data.telegrams});
+      }.bind(that)).fail(function(res) {
+        that.setState({errors: ["Ошибка записи в базу"]});
+      }.bind(that)); 
+    
+  }
   handleFormSubmit(telegram) {
     var that = this;
     var tlgData = {};
-    var desiredLink = ''; 
+    var desiredLink = '';
     switch(telegram.tlgType) {
       case 'synoptic':
         tlgData = {observation: telegram.observation},
@@ -255,10 +271,9 @@ class InputTelegrams extends React.Component{
       url: desiredLink
       }).done(function(data) {
         that.setState({telegrams: data.telegrams, tlgType: data.tlgType, currDate: data.currDate, errors: data.errors});
-      }.bind(that))
-      .fail(function(res) {
+      }.bind(that)).fail(function(res) {
         that.setState({errors: ["Ошибка записи в базу"]});
-    }.bind(that)); 
+      }.bind(that)); 
   }
 
   render(){

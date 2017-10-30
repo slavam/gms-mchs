@@ -1,0 +1,16 @@
+.container
+  %h3 Телеграммы морские
+  = will_paginate
+  %table{class: "table table-hover"}
+    %thead
+      %tr
+        %th{width: "100px"} Дата
+        %th Гидрометеостанция
+        %th Телеграмма
+    %tbody
+      - @sea_observations.each do |s_o| 
+        %tr
+          %td= s_o.date_dev
+          %td= s_o.station.name
+          %td= link_to s_o.telegram, sea_observation_path(s_o)
+  = will_paginate

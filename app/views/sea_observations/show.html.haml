@@ -1,14 +1,15 @@
-%div{ class: "col-md-6 col-md-offset-3"}
-%h1 Телеграмма морская
 .container
-  %h4= @sea_observation.telegram
+  %h3 Телеграмма морская
   %table{class: "table table-bordered"}
     %tr
-      %th Дата загрузки:
+      %th Дата ввода:
       %td= @sea_observation.created_at
     %tr
       %th Дата наблюдения:
       %td= @sea_observation.date_dev
+    %tr
+      %th Текст:
+      %td= @sea_observation.telegram
     %tr
       %th День месяца
       %td= @sea_observation.day_obs
@@ -18,3 +19,4 @@
     %tr
       %th Гидрометеостанция:
       %td= @sea_observation.station.name
+  = link_to "Список", sea_observations_path  
