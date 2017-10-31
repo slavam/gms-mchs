@@ -19,4 +19,7 @@
     %tr
       %th Гидрометеостанция:
       %td= @sea_observation.station.name
-  = link_to "Список", sea_observations_path  
+  - if current_user.role == 'technicist'
+    = link_to 'Ввод телеграмм', '/sea_observations/input_sea_telegrams'
+  - else
+    = link_to "Список", sea_observations_path  

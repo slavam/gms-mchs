@@ -78,5 +78,7 @@
       %tr
         %th Температура поверхности почвы (градусы Цельсия):
         %td= @synoptic_observation.temperature_soil.to_s
-
-  = link_to "Список", synoptic_observations_path
+  - if current_user.role == 'technicist'
+    = link_to 'Ввод телеграмм', '/synoptic_observations/input_synoptic_telegrams'
+  - else
+    = link_to "Список", synoptic_observations_path

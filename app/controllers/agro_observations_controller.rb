@@ -40,12 +40,21 @@ class AgroObservationsController < ApplicationController
     telegram.month_obs = telegram.telegram[14,2].to_i
     telegram.telegram_num = telegram.telegram[16,1].to_i
     if telegram.save
-      telegrams = AgroObservation.last_50_telegrams
-      last_telegrams = fields_short_list(telegrams)
+      last_telegrams = AgroObservation.short_last_50_telegrams
       render json: {telegrams: last_telegrams, tlgType: 'agro', currDate: telegram.date_dev, errors: ["Телеграмма добавлена в базу"]}
     else
       render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
     end
+  end
+  
+  def input_agro_telegrams
+    @stations = Station.all.order(:name)
+    @telegrams = AgroObservation.short_last_50_telegrams
+  end
+  
+  def get_last_telegrams
+    telegrams = AgroObservation.short_last_50_telegrams
+    render json: {telegrams: telegrams, tlgType: 'agro'}
   end
   
   private

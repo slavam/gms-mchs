@@ -1,5 +1,5 @@
 class StormObservationsController < ApplicationController
-  before_filter :find_storm_observation, only: [:show, :edit, :update, :destroy]
+  before_filter :find_storm_observation, only: [:show, :edit, :update, :destroy, :update_storm_telegram]
   def index
     @storm_observations = StormObservation.paginate(page: params[:page]).order(:telegram_date, :created_at).reverse_order
   end
@@ -9,6 +9,13 @@ class StormObservationsController < ApplicationController
   
   def new
     @storm_observation = StormObservation.new
+  end
+  
+  def input_storm_telegrams
+    @stations = Station.all.order(:name)
+    @telegrams = StormObservation.short_last_50_telegrams
+    # last_telegrams = StormObservation.last_50_telegrams
+    # @telegrams = fields_short_list(last_telegrams)
   end
   
   def create
@@ -45,12 +52,18 @@ class StormObservationsController < ApplicationController
     telegram.telegram_type = telegram.telegram[0, 5]
     # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{telegram.inspect}")
     if telegram.save
-      telegrams = StormObservation.last_50_telegrams
-      last_telegrams = fields_short_list(telegrams)
+      last_telegrams = StormObservation.short_last_50_telegrams
       render json: {telegrams: last_telegrams, tlgType: 'storm', currDate: telegram.telegram_date, errors: ["Телеграмма добавлена в базу"]}
     else
       render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
     end
+  end
+  
+  def get_last_telegrams
+    # last_telegrams = StormObservation.last_50_telegrams
+    # telegrams = fields_short_list(last_telegrams)
+    telegrams = StormObservation.short_last_50_telegrams
+    render json: {telegrams: telegrams, tlgType: 'storm'}
   end
   
   def edit
@@ -60,7 +73,15 @@ class StormObservationsController < ApplicationController
     if not @storm_observation.update_attributes storm_observation_params
       render :action => :edit
     else
-      redirect_to storm_observations_path
+      redirect_to '/storm_observations/input_storm_telegrams'
+    end
+  end
+  
+  def update_storm_telegram
+    if @storm_observation.update_attributes storm_observation_params
+      render json: {errors: []}
+    else
+      render json: {errors: ["Ошибка при сохранении изменений"]}, status: :unprocessable_entity
     end
   end
   
@@ -72,7 +93,8 @@ class StormObservationsController < ApplicationController
   
   private
     def storm_observation_params
-      params.require(:storm_observation).permit(:registred_at, :telegram_type, :station_id, :day_event, :hour_event, :minute_event, :telegram, :telegram_date)
+      params.require(:storm_observation).permit(:telegram_type, :station_id, :day_event, :hour_event, :minute_event, :telegram, :telegram_date)
+      # params.require(:storm_observation).permit(:registred_at, :telegram_type, :station_id, :day_event, :hour_event, :minute_event, :telegram, :telegram_date)
       # :code_warep, :wind_direction, :wind_speed_avg, :wind_speed_max
     end
     
@@ -80,10 +102,9 @@ class StormObservationsController < ApplicationController
       @storm_observation = StormObservation.find(params[:id])
     end
     
-    def fields_short_list(full_list)
-      # stations = Station.all
-      full_list.map do |rec|
-        {id: rec.id, date: rec.telegram_date, station_name: rec.station.name, telegram: rec.telegram}
-      end
-    end
+    # def fields_short_list(full_list)
+    #   full_list.map do |rec|
+    #     {id: rec.id, date: rec.telegram_date, station_name: rec.station.name, telegram: rec.telegram}
+    #   end
+    # end
 end

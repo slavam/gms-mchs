@@ -60,9 +60,10 @@ class NewTelegramForm extends React.Component{
   }
   handleOptionSelected(value, senderName){
     if (senderName == 'selectTypes'){
-      this.setState({tlgType:  value});
+      this.props.onTelegramTypeChange(value);
+      this.setState({tlgType: value});
     }else{
-      this.setState({tlgTerm:  value});
+      this.setState({tlgTerm: value});
     }
   }
   handleTextChange(e) {
@@ -99,7 +100,7 @@ class NewTelegramForm extends React.Component{
           <tbody>
             <tr>        
               <td><input type="date" name="input-date" value={this.state.currDate} onChange={this.dateChange} required="true" autoComplete="on" /></td>
-              <td><OptionSelect options={types} onUserInput={this.handleOptionSelected} name = "selectTypes" defaultValue="synoptic"/></td>
+              <td><OptionSelect options={types} onUserInput={this.handleOptionSelected} name = "selectTypes" defaultValue={this.state.tlgType}/></td>
               {this.state.tlgType == 'synoptic' ? <td><OptionSelect options={terms} onUserInput={this.handleOptionSelected} name = "selectTerms" defaultValue="00"/></td> : <td></td>}
             </tr>
           </tbody>
@@ -111,6 +112,35 @@ class NewTelegramForm extends React.Component{
         <input type="submit" value="Сохранить" />
       </form>
     </div>
+    );
+  }
+}
+
+class TextTelegramEditForm extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      tlgText: this.props.tlgText,
+      // errors: []
+    };
+    this.handleTextChange = this.handleTextChange.bind(this);
+    this.handleEditSubmit = this.handleEditSubmit.bind(this);
+  }
+  handleTextChange(e) {
+    this.setState({tlgText: e.target.value});
+  }
+  handleEditSubmit(e){
+    e.preventDefault();
+    this.props.onTelegramEditSubmit(this.state.tlgText);
+  }
+  
+  render() {
+    return (
+      <form className="telegramEditForm" onSubmit={this.handleEditSubmit}>
+        <input type="text" value={this.state.tlgText} onChange={this.handleTextChange}/>
+        {/* <span style={{color: 'red'}}>{this.state.errors[0]}</span> */}
+        <input type="submit" value="Сохранить" />
+      </form>
     );
   }
 }
@@ -133,20 +163,47 @@ class TelegramRow extends React.Component{
       this.setState({mode:'Изменить'});
   }
   handleEditTelegramSubmit(tlgText){
-    // var errors = [];
+    var errors = [];
+    var tlgData = {};
     var observation = {};
-    // if (!checkTelegram(this.props.telegram.term, tlgText.tlgText, errors, this.props.stations, observation)){
-    //   alert(errors[0]);
-    //   this.setState({errors: errors});
-    //   return;
-    // }
-    observation.telegram = tlgText.tlgText;
-    this.setState({mode: "Изменить", tlgText: tlgText.tlgText});
+    var desiredLink = '';
+    switch(this.props.tlgType) {
+      case 'synoptic':
+        if (!checkTelegram(this.props.telegram.term, tlgText, errors, this.props.stations, observation)){
+          alert(errors[0]);
+          this.setState({errors: errors});
+          return;
+        }
+        desiredLink = "update_synoptic_telegram?id="+this.props.telegram.id+"&telegram="+tlgText;
+        tlgData = {observation: observation};
+        break;
+      case 'agro':
+        telegram.observation.date_dev = telegram.observation.date;
+        tlgData = {agro_observation: telegram.observation};
+        desiredLink = "agro_observations/create_agro_telegram";
+        break;
+      case 'storm':
+        // storm_observation).permit(:telegram_type, :station_id, :day_event, :hour_event, :minute_event, :telegram, :telegram_date
+        if (!checkStormTelegram(tlgText, this.props.stations, errors, observation)){
+          this.setState({errors: errors});
+          return;
+        }
+        // this.observation.telegram_date = date;
+
+        tlgData = {storm_observation: observation};
+        desiredLink = "/storm_observations/update_storm_telegram?id="+this.props.telegram.id+"&telegram="+tlgText;
+        break;
+      case 'sea':
+        tlgData = {sea_observation: telegram.observation};
+        desiredLink = "sea_observations/create_sea_telegram";
+    }
+    observation.telegram = tlgText;
+    this.setState({mode: "Изменить", tlgText: tlgText});
     $.ajax({
       type: 'PUT',
       dataType: 'json',
-      data: {observation: observation},
-      url: "update_synoptic_telegram?id="+this.props.telegram.id+"&telegram="+tlgText.tlgText
+      data: tlgData,
+      url: desiredLink
       }).done(function(data) {
         // alert(data["Дата"])
         // newTelegrams[0]["Дата"] = data["Дата"];
@@ -157,7 +214,7 @@ class TelegramRow extends React.Component{
       });
   }
   render() {
-    var now = Date.now();
+    // var now = Date.now();
     var desiredLink = '';
     switch(this.props.tlgType) {
       case 'synoptic':
@@ -178,8 +235,9 @@ class TelegramRow extends React.Component{
         <td>{this.props.telegram.date}</td>
         { this.props.tlgType == 'synoptic' ? <td>{this.props.telegram.term}</td> : '' }
         <td>{this.props.telegram.station_name}</td>
-        {this.state.mode == 'Изменить' ? <td><a href={desiredLink}>{this.state.tlgText}</a></td> : <td><TelegramEditForm tlgText={this.state.tlgText} onTelegramEditSubmit={this.handleEditTelegramSubmit}/></td>}
-        {(now - Date.parse(this.props.telegram.date)) > 1000 * 60 * 60 * 24 * 7 ? <td></td> : <td><input id={this.props.telegram.date} type="submit" value={this.state.mode} onClick={this.handleEditClick}/></td>}
+        {this.state.mode == 'Изменить' ? <td><a href={desiredLink}>{this.state.tlgText}</a></td> : <td><TextTelegramEditForm tlgText={this.state.tlgText} onTelegramEditSubmit={this.handleEditTelegramSubmit}/></td>}
+        <td><input id={this.props.telegram.date} type="submit" value={this.state.mode} onClick={this.handleEditClick}/></td>
+        {/* (now - Date.parse(this.props.telegram.date)) > 1000 * 60 * 60 * 24 * 7 ? <td></td> : <td><input id={this.props.telegram.date} type="submit" value={this.state.mode} onClick={this.handleEditClick}/></td> */}
       </tr>
     );
   }
@@ -195,13 +253,13 @@ class LastTelegramsTable extends React.Component{
     var rows = [];
     var that = this;
     this.props.telegrams.forEach(function(t) {
-      rows.push(<TelegramRow telegram={t} key={t.id} tlgType={that.props.tlgType}/>);
+      rows.push(<TelegramRow telegram={t} key={t.id} tlgType={that.props.tlgType} stations={that.props.stations}/>);
     });
     return (
       <table className="table table-hover">
         <thead>
           <tr>
-            <th>Дата</th>
+            <th width = "100px">Дата</th>
             { this.props.tlgType == 'synoptic' ? <th>Срок</th> : '' }
             <th>Метеостанция</th>
             <th>Текст</th>
@@ -227,16 +285,29 @@ class InputTelegrams extends React.Component{
     this.handleTelegramTypeChanged = this.handleTelegramTypeChanged.bind(this);
   }
 
-  handleTelegramTypeChanged(){
+  handleTelegramTypeChanged(tlgType){
     var that = this;
     var desiredLink = '';
+    switch(tlgType) {
+      case 'synoptic':
+        desiredLink = "/synoptic_observations/get_last_telegrams";
+        break;
+      case 'agro':
+        desiredLink = "/agro_observations/get_last_telegrams";
+        break;
+      case 'storm':
+        desiredLink = "/storm_observations/get_last_telegrams";
+        break;
+      case 'sea':
+        desiredLink = "/sea_observations/get_last_telegrams";
+    }
     $.ajax({
       type: 'GET',
       dataType: 'json',
       // data: tlgData, 
       url: desiredLink
       }).done(function(data) {
-        that.setState({telegrams: data.telegrams});
+        that.setState({telegrams: data.telegrams, tlgType: data.tlgType});
       }.bind(that)).fail(function(res) {
         that.setState({errors: ["Ошибка записи в базу"]});
       }.bind(that)); 
@@ -280,9 +351,9 @@ class InputTelegrams extends React.Component{
     return(
       <div>
         <h1>Новая телеграмма</h1>
-        <NewTelegramForm currDate={this.state.currDate} tlgType={this.state.tlgType} onFormSubmit={this.handleFormSubmit} stations={this.props.stations} errors={this.state.errors} />
+        <NewTelegramForm currDate={this.state.currDate} tlgType={this.state.tlgType} onTelegramTypeChange={this.handleTelegramTypeChanged} onFormSubmit={this.handleFormSubmit} stations={this.props.stations} errors={this.state.errors} />
         <h3>Телеграммы</h3>
-        <LastTelegramsTable telegrams={this.state.telegrams} tlgType={this.state.tlgType} />
+        <LastTelegramsTable telegrams={this.state.telegrams} tlgType={this.state.tlgType} stations={this.props.stations}/>
       </div>
     );
   }
@@ -345,7 +416,7 @@ function checkStormTelegram(tlg, stations, errors, observation){
     return codeWAREP == s;
   });
   if (isCodeWAREP) {
-    observation.code_warep = value;
+    observation.code_warep = codeWAREP;
   } else {
     errors.push("Ошибочный код WAREP");
     return false;

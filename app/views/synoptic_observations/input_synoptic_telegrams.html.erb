@@ -1,0 +1,5 @@
+<div class ="container">
+  <div>
+    <%= react_component 'InputTelegrams', { telegrams: @telegrams, currDate: Time.now.strftime("%Y-%m-%d"), tlgType: 'synoptic', stations: @stations} %>
+  </div>
+</div>

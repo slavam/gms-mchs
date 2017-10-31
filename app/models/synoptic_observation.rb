@@ -10,6 +10,14 @@ class SynopticObservation < ActiveRecord::Base
     SynopticObservation.all.limit(50).order(:date, :term, :updated_at).reverse_order
   end
   
+  def self.short_last_50_telegrams
+    all_fields = SynopticObservation.all.limit(50).order(:date, :term, :updated_at).reverse_order
+    stations = Station.all.order(:id)
+    all_fields.map do |rec|
+      {id: rec.id, date: rec.date, term: rec.term, station_name: stations[rec.station_id-1].name, telegram: rec.telegram}
+    end
+  end
+  
   def wind_direction_to_s
     case self.wind_direction
       when 0

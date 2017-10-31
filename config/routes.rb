@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
   post 'sea_observations/create_sea_telegram', to: 'sea_observations#create_sea_telegram'
+  get 'sea_observations/get_last_telegrams', to: 'sea_observations#get_last_telegrams'
+  get 'sea_observations/input_sea_telegrams', to: 'sea_observations#input_sea_telegrams'
   resources :sea_observations
   post 'storm_observations/create_storm_telegram', to: 'storm_observations#create_storm_telegram'
+  get 'storm_observations/get_last_telegrams', to: 'storm_observations#get_last_telegrams'
+  get 'storm_observations/input_storm_telegrams', to: 'storm_observations#input_storm_telegrams'
+  put 'storm_observations/update_storm_telegram', to: 'storm_observations#update_storm_telegram'
   resources :storm_observations
   post 'agro_observations/create_agro_telegram', to: 'agro_observations#create_agro_telegram'
+  get 'agro_observations/get_last_telegrams', to: 'agro_observations#get_last_telegrams'
+  get 'agro_observations/input_agro_telegrams', to: 'agro_observations#input_agro_telegrams'
   resources :agro_observations
   post 'synoptic_observations/create_synoptic_telegram', to: 'synoptic_observations#create_synoptic_telegram'
   put 'synoptic_observations/update_synoptic_telegram', to: 'synoptic_observations#update_synoptic_telegram'
@@ -11,7 +18,9 @@ Rails.application.routes.draw do
   get 'synoptic_observations/synoptic_storm_telegrams', to: 'synoptic_observations#synoptic_storm_telegrams'
   get 'synoptic_observations/heat_donbass_show', to: 'synoptic_observations#heat_donbass_show'
   get 'synoptic_observations/get_temps', to: 'synoptic_observations#get_temps'
-  get '/input_telegrams', to: 'synoptic_observations#input_telegrams'
+  get 'synoptic_observations/input_synoptic_telegrams', to: 'synoptic_observations#input_synoptic_telegrams'
+  # get '/input_telegrams', to: 'synoptic_observations#input_telegrams'
+  get 'synoptic_observations/get_last_telegrams', to: 'synoptic_observations#get_last_telegrams'
   resources :synoptic_observations
   delete 'pollution_values/delete_value/:id', to: 'pollution_values#delete_value'
   resources :pollution_values

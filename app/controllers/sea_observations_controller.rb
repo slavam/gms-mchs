@@ -8,6 +8,11 @@ class SeaObservationsController < ApplicationController
   def show
   end
   
+  def input_sea_telegrams
+    @stations = Station.all.order(:name)
+    @telegrams = SeaObservation.short_last_50_telegrams
+  end
+  
   def create_sea_telegram
     telegram = SeaObservation.new(sea_observation_params)
     telegram.station_id = 10 # Только Седово
@@ -15,13 +20,18 @@ class SeaObservationsController < ApplicationController
     telegram.term = telegram.telegram[7,2].to_i
     # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{telegram.inspect}")
     if telegram.save
-      telegrams = SeaObservation.last_50_telegrams
-      last_telegrams = fields_short_list(telegrams)
+      last_telegrams = SeaObservation.short_last_50_telegrams
       render json: {telegrams: last_telegrams, tlgType: 'sea', currDate: telegram.date_dev, errors: ["Телеграмма добавлена в базу"]}
     else
       render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
     end
   end
+  
+  def get_last_telegrams
+    telegrams = SeaObservation.short_last_50_telegrams
+    render json: {telegrams: telegrams, tlgType: 'sea'}
+  end
+  
   private
     def find_sea_observation
       @sea_observation = SeaObservation.find(params[:id])

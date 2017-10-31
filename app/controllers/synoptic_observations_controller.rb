@@ -38,16 +38,15 @@ class SynopticObservationsController < ApplicationController
     # @date = Time.now.to_s(:simple_date_time)
     # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{current_user.inspect}")
     @stations = Station.all.order(:name)
-    last_telegrams = SynopticObservation.last_50_telegrams
-    @last_telegrams = fields_short_list(last_telegrams)
+    @last_telegrams = SynopticObservation.short_last_50_telegrams
+    # @last_telegrams = fields_short_list(last_telegrams)
   end
   
   def create_synoptic_telegram
     telegram = SynopticObservation.new(observation_params)
     telegram.station_id = Station.find_by_code(telegram.telegram[6,5].to_i).id
     if telegram.save
-      telegrams = SynopticObservation.last_50_telegrams
-      last_telegrams = fields_short_list(telegrams)
+      last_telegrams = SynopticObservation.short_last_50_telegrams
       render json: {telegrams: last_telegrams, tlgType: 'synoptic', currDate: telegram.date, errors: ["Телеграмма добавлена в базу"]}
     else
       render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
@@ -76,12 +75,14 @@ class SynopticObservationsController < ApplicationController
     render json: {temperatures: temperatures, calcDate: calc_date}
   end
   
-  def input_telegrams
-    @telegram_type = 'synoptic' # 'agro', 'storm', 'hydro', 'other'
-    @curr_date =  Time.now.strftime("%Y-%m-%d")
+  def input_synoptic_telegrams
     @stations = Station.all.order(:name)
-    last_telegrams = SynopticObservation.last_50_telegrams
-    @telegrams = fields_short_list(last_telegrams)
+    @telegrams = SynopticObservation.short_last_50_telegrams
+  end
+  
+  def get_last_telegrams
+    telegrams = SynopticObservation.short_last_50_telegrams
+    render json: {telegrams: telegrams, tlgType: 'synoptic'}
   end
 
   private
@@ -119,10 +120,10 @@ class SynopticObservationsController < ApplicationController
       end
     end
     
-    def fields_short_list(full_list)
-      # stations = Station.all
-      full_list.map do |rec|
-        {id: rec.id, date: rec.date, term: rec.term, station_name: rec.station.name, telegram: rec.telegram}
-      end
-    end
+    # def fields_short_list(full_list)
+    #   # stations = Station.all
+    #   full_list.map do |rec|
+    #     {id: rec.id, date: rec.date, term: rec.term, station_name: rec.station.name, telegram: rec.telegram}
+    #   end
+    # end
 end
