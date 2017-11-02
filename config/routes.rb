@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   post 'sea_observations/create_sea_telegram', to: 'sea_observations#create_sea_telegram'
   get 'sea_observations/get_last_telegrams', to: 'sea_observations#get_last_telegrams'
   get 'sea_observations/input_sea_telegrams', to: 'sea_observations#input_sea_telegrams'
+  put 'sea_observations/update_sea_telegram', to: 'sea_observations#update_sea_telegram'
   resources :sea_observations
   post 'storm_observations/create_storm_telegram', to: 'storm_observations#create_storm_telegram'
   get 'storm_observations/get_last_telegrams', to: 'storm_observations#get_last_telegrams'
@@ -11,6 +12,7 @@ Rails.application.routes.draw do
   post 'agro_observations/create_agro_telegram', to: 'agro_observations#create_agro_telegram'
   get 'agro_observations/get_last_telegrams', to: 'agro_observations#get_last_telegrams'
   get 'agro_observations/input_agro_telegrams', to: 'agro_observations#input_agro_telegrams'
+  put 'agro_observations/update_agro_telegram', to: 'agro_observations#update_agro_telegram'
   resources :agro_observations
   post 'synoptic_observations/create_synoptic_telegram', to: 'synoptic_observations#create_synoptic_telegram'
   put 'synoptic_observations/update_synoptic_telegram', to: 'synoptic_observations#update_synoptic_telegram'
@@ -99,7 +101,7 @@ Rails.application.routes.draw do
   get '/make_web_query', to: 'synoptics#make_web_query'
   post '/make_web_query', to: 'synoptics#search_in_web'
   resources :synoptics
-  root to: 'registers#index'
+  root 'sessions#new' #'registers#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -80,5 +80,5 @@
         %td= @synoptic_observation.temperature_soil.to_s
   - if current_user.role == 'technicist'
     = link_to 'Ввод телеграмм', '/synoptic_observations/input_synoptic_telegrams'
-  - else
-    = link_to "Список", synoptic_observations_path
+    %br
+  = link_to "Список", synoptic_observations_path

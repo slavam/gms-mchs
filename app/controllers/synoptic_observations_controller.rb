@@ -27,7 +27,7 @@ class SynopticObservationsController < ApplicationController
   end
   
   def synoptic_storm_telegrams
-    sql = "select created_at, term as fterm, station_id, telegram from synoptic_observations union select created_at, 'Ш' as fterm, station_id, telegram from storm_observations order by created_at desc;"
+    sql = "SELECT created_at, date as date_rep, term as fterm, station_id, telegram from synoptic_observations union select created_at, telegram_date as date_rep, 'Ш' as fterm, station_id, telegram from storm_observations order by date_rep desc, created_at desc limit 100;"
     @telegrams = SynopticObservation.find_by_sql(sql)
   end
     

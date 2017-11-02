@@ -24,8 +24,5 @@
       %td= @storm_observation.event_time
   - if current_user.role == 'technicist'
     = link_to 'Ввод телеграмм', '/storm_observations/input_storm_telegrams'
-    /
-      %br
-      = link_to "Изменить", edit_storm_observation_path(@storm_observation)
-  - else
-    = link_to "Список", storm_observations_path  
+    %br
+  = link_to "Список", storm_observations_path  

@@ -1,5 +1,5 @@
 class SeaObservationsController < ApplicationController
-  before_filter :find_sea_observation, only: [:show] #, :edit, :update, :destroy]
+  before_filter :find_sea_observation, only: [:show, :update_sea_telegram] #, :edit, :update, :destroy]
   
   def index
     @sea_observations = SeaObservation.paginate(page: params[:page]).order(:date_dev, :created_at).reverse_order
@@ -24,6 +24,14 @@ class SeaObservationsController < ApplicationController
       render json: {telegrams: last_telegrams, tlgType: 'sea', currDate: telegram.date_dev, errors: ["Телеграмма добавлена в базу"]}
     else
       render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
+    end
+  end
+  
+  def update_sea_telegram
+    if @sea_observation.update_attributes sea_observation_params
+      render json: {errors: []}
+    else
+      render json: {errors: ["Ошибка при сохранении изменений"]}, status: :unprocessable_entity
     end
   end
   

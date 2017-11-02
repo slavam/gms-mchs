@@ -1,5 +1,5 @@
 class AgroObservationsController < ApplicationController
-  before_filter :find_agro_observation, only: [:show]
+  before_filter :find_agro_observation, only: [:show, :update_agro_telegram]
   
   def index
     @agro_observations = AgroObservation.paginate(page: params[:page]).order(:date_dev, :created_at).reverse_order
@@ -55,6 +55,14 @@ class AgroObservationsController < ApplicationController
   def get_last_telegrams
     telegrams = AgroObservation.short_last_50_telegrams
     render json: {telegrams: telegrams, tlgType: 'agro'}
+  end
+  
+  def update_agro_telegram
+    if @agro_observation.update_attributes agro_observation_params
+      render json: {errors: []}
+    else
+      render json: {errors: ["Ошибка при сохранении изменений"]}, status: :unprocessable_entity
+    end
   end
   
   private

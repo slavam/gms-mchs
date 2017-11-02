@@ -26,6 +26,7 @@ class NewTelegramForm extends React.Component{
       this.setState({errors: ["Нет текста телеграммы"]});
       return;
     }
+    this.observation = {};
     this.observation.telegram = text;
     switch (this.state.tlgType) {
       case 'synoptic':
@@ -52,7 +53,7 @@ class NewTelegramForm extends React.Component{
     this.setState({
       // tlgTerm: term,
       tlgText: '',
-      // errors: []
+      errors: []
     });
   }
   dateChange(e){
@@ -61,7 +62,7 @@ class NewTelegramForm extends React.Component{
   handleOptionSelected(value, senderName){
     if (senderName == 'selectTypes'){
       this.props.onTelegramTypeChange(value);
-      this.setState({tlgType: value});
+      this.setState({tlgType: value, errors: []});
     }else{
       this.setState({tlgTerm: value});
     }
@@ -150,7 +151,7 @@ class TelegramRow extends React.Component{
     super(props);
     this.state = {
       tlgText: this.props.telegram.telegram,
-      tlgId: this.props.telegram.id,
+      // tlgId: this.props.telegram.id,
       mode: 'Изменить'
     };
     this.handleEditClick = this.handleEditClick.bind(this);
@@ -178,24 +179,27 @@ class TelegramRow extends React.Component{
         tlgData = {observation: observation};
         break;
       case 'agro':
-        telegram.observation.date_dev = telegram.observation.date;
-        tlgData = {agro_observation: telegram.observation};
-        desiredLink = "agro_observations/create_agro_telegram";
+        observation.telegram_type = tlgText.substr(0,5);
+        observation.day_obs = tlgText.substr(12,2);
+        observation.month_obs = tlgText.substr(14,2);
+        observation.telegram_num = tlgText.substr(16,1);
+        observation.telegram = tlgText;
+        tlgData = {agro_observation: observation};
+        desiredLink = "/agro_observations/update_agro_telegram?id="+this.props.telegram.id+"&telegram="+tlgText;
         break;
       case 'storm':
-        // storm_observation).permit(:telegram_type, :station_id, :day_event, :hour_event, :minute_event, :telegram, :telegram_date
         if (!checkStormTelegram(tlgText, this.props.stations, errors, observation)){
           this.setState({errors: errors});
           return;
         }
-        // this.observation.telegram_date = date;
-
         tlgData = {storm_observation: observation};
         desiredLink = "/storm_observations/update_storm_telegram?id="+this.props.telegram.id+"&telegram="+tlgText;
         break;
       case 'sea':
-        tlgData = {sea_observation: telegram.observation};
-        desiredLink = "sea_observations/create_sea_telegram";
+        observation.day_obs = tlgText.substr(5,2);
+        observation.term = tlgText.substr(7,2);
+        tlgData = {sea_observation: observation};
+        desiredLink = "/sea_observations/update_sea_telegram?id="+this.props.telegram.id+"&telegram="+tlgText;
     }
     observation.telegram = tlgText;
     this.setState({mode: "Изменить", tlgText: tlgText});
@@ -235,8 +239,10 @@ class TelegramRow extends React.Component{
         <td>{this.props.telegram.date}</td>
         { this.props.tlgType == 'synoptic' ? <td>{this.props.telegram.term}</td> : '' }
         <td>{this.props.telegram.station_name}</td>
-        {this.state.mode == 'Изменить' ? <td><a href={desiredLink}>{this.state.tlgText}</a></td> : <td><TextTelegramEditForm tlgText={this.state.tlgText} onTelegramEditSubmit={this.handleEditTelegramSubmit}/></td>}
-        <td><input id={this.props.telegram.date} type="submit" value={this.state.mode} onClick={this.handleEditClick}/></td>
+        <td><a href={desiredLink}>{this.props.telegram.telegram}</a></td>
+        {/*this.state.mode == 'Изменить' ? <td><a href={desiredLink}>{this.state.tlgText}</a></td> : <td><TextTelegramEditForm tlgText={this.props.telegram.telegram} onTelegramEditSubmit={this.handleEditTelegramSubmit}/></td>}
+        {this.state.mode == 'Изменить' ? <td><a href={desiredLink}>{this.props.telegram.telegram}</a></td> : <td><TextTelegramEditForm tlgText={this.props.telegram.telegram} onTelegramEditSubmit={this.handleEditTelegramSubmit}/></td>*/}
+        {/*<td><input id={this.props.telegram.date} type="submit" value={this.state.mode} onClick={this.handleEditClick}/></td>*/}
         {/* (now - Date.parse(this.props.telegram.date)) > 1000 * 60 * 60 * 24 * 7 ? <td></td> : <td><input id={this.props.telegram.date} type="submit" value={this.state.mode} onClick={this.handleEditClick}/></td> */}
       </tr>
     );
@@ -263,7 +269,7 @@ class LastTelegramsTable extends React.Component{
             { this.props.tlgType == 'synoptic' ? <th>Срок</th> : '' }
             <th>Метеостанция</th>
             <th>Текст</th>
-            <th>Действия</th>
+            {/*<th>Действия</th>*/}
           </tr>
         </thead>
         <tbody>{rows}</tbody>
@@ -307,7 +313,7 @@ class InputTelegrams extends React.Component{
       // data: tlgData, 
       url: desiredLink
       }).done(function(data) {
-        that.setState({telegrams: data.telegrams, tlgType: data.tlgType});
+        that.setState({telegrams: data.telegrams, tlgType: data.tlgType, errors: []});
       }.bind(that)).fail(function(res) {
         that.setState({errors: ["Ошибка записи в базу"]});
       }.bind(that)); 
@@ -320,20 +326,20 @@ class InputTelegrams extends React.Component{
     switch(telegram.tlgType) {
       case 'synoptic':
         tlgData = {observation: telegram.observation},
-        desiredLink = "synoptic_observations/create_synoptic_telegram";
+        desiredLink = "/synoptic_observations/create_synoptic_telegram";
         break;
       case 'agro':
-        telegram.observation.date_dev = telegram.observation.date;
+        // telegram.observation.date_dev = telegram.currDate;
         tlgData = {agro_observation: telegram.observation};
-        desiredLink = "agro_observations/create_agro_telegram";
+        desiredLink = "/agro_observations/create_agro_telegram";
         break;
       case 'storm':
         tlgData = {storm_observation: telegram.observation};
-        desiredLink = "storm_observations/create_storm_telegram";
+        desiredLink = "/storm_observations/create_storm_telegram";
         break;
       case 'sea':
         tlgData = {sea_observation: telegram.observation};
-        desiredLink = "sea_observations/create_sea_telegram";
+        desiredLink = "/sea_observations/create_sea_telegram";
     }
     $.ajax({
       type: 'POST',

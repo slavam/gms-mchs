@@ -27,5 +27,5 @@
       %td= @agro_observation.telegram_num
   - if current_user.role == 'technicist'
     = link_to 'Ввод телеграмм', '/agro_observations/input_agro_telegrams'
-  - else
-    = link_to "Список", agro_observations_path
+    %br
+  = link_to "Список", agro_observations_path
