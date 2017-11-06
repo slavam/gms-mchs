@@ -21,8 +21,9 @@ Rails.application.routes.draw do
   get 'synoptic_observations/heat_donbass_show', to: 'synoptic_observations#heat_donbass_show'
   get 'synoptic_observations/get_temps', to: 'synoptic_observations#get_temps'
   get 'synoptic_observations/input_synoptic_telegrams', to: 'synoptic_observations#input_synoptic_telegrams'
-  # get '/input_telegrams', to: 'synoptic_observations#input_telegrams'
   get 'synoptic_observations/get_last_telegrams', to: 'synoptic_observations#get_last_telegrams'
+  get 'synoptic_observations/get_conversion_params', to: 'synoptic_observations#get_conversion_params'
+  post 'synoptic_observations/converter', to: 'synoptic_observations#converter'
   resources :synoptic_observations
   delete 'pollution_values/delete_value/:id', to: 'pollution_values#delete_value'
   resources :pollution_values

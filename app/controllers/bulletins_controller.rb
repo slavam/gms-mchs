@@ -115,16 +115,18 @@ class BulletinsController < ApplicationController
   def pdf_2_png
     pdf = Magick::ImageList.new("app/assets/pdf_folder/#{@bulletin.pdf_filename(current_user.id)}")
     pdf.write("app/assets/pdf_folder/#{@bulletin.png_filename(current_user.id)}")
+    # pdf.write("#{Rails.root}/public/images/#{@bulletin.png_filename(current_user.id)}")  # production only
+    
     return true
   end
   
-  def pdf_2_png_2
-    pdf = MiniMagick::Image.open("app/assets/pdf_folder/#{@bulletin.pdf_filename(current_user.id)}")
-    pdf.resize "200x200"
-    pdf.format "png"
-    pdf.write("app/assets/pdf_folder/#{@bulletin.png_filename(current_user.id)}")
-    return true
-  end
+  # def pdf_2_png_2
+  #   pdf = MiniMagick::Image.open("app/assets/pdf_folder/#{@bulletin.pdf_filename(current_user.id)}")
+  #   pdf.resize "200x200"
+  #   pdf.format "png"
+  #   pdf.write("app/assets/pdf_folder/#{@bulletin.png_filename(current_user.id)}")
+  #   return true
+  # end
   
   def save_as_pdf(pdf)
     # send_data pdf.render, filename: @bulletin.pdf_filename, type: "application/pdf", disposition: "inline", :force_download=>true, :page_size => "A4"

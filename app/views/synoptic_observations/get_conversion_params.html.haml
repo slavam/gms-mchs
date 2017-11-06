@@ -1,0 +1,11 @@
+.container
+  %h3 Задайте диапазон времени для переноса данных из БД 'meteo'
+  = form_for(:interval, url: synoptic_observations_converter_path) do |f| 
+
+    = f.label "Начальная дата"
+    = f.date_field :date_from, class: 'form-control', value: Time.now.strftime("%Y-%m-%d")
+
+    = f.label "Конечная дата"
+    = f.date_field :date_to, class: 'form-control', value: Time.now.strftime("%Y-%m-%d")
+
+    = f.submit "Начать", class: "btn btn-primary"

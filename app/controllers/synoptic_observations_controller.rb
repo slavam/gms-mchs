@@ -1,6 +1,39 @@
 class SynopticObservationsController < ApplicationController
   # before_filter :require_observer_or_technicist
   before_filter :find_synoptic_observation, only: [:show, :update_synoptic_telegram] 
+
+  def get_conversion_params
+  end
+  
+  def converter
+    date_from = params[:interval][:date_from].tr("-", ".")+' 00:00:00'
+    date_to = params[:interval][:date_to].tr("-", ".")+' 23:59:59'
+    old_telegrams = OldSynopticTelegram.where("Дата >= ? and Дата <= ? and Срок in (?)", date_from, date_to, OldSynopticTelegram::TERMS)
+    stations = Station.station_id_by_code
+    # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{stations.inspect}")
+    selected_telegrams = old_telegrams.size
+    wrong_telegrams = 0
+    correct_telegrams = 0
+    File.open("app/assets/pdf_folder/conversion.txt",'w') do |mylog|
+      mylog.puts "Конверсия данных за период с #{date_from} по #{date_to}"
+      old_telegrams.each do |t|
+        errors = []
+        telegram = convert_synoptic_telegram(t, stations, errors)
+        if telegram.present?
+          correct_telegrams += 1
+        else
+          mylog.puts errors[0]+' => '+t["Телеграмма"]
+          wrong_telegrams += 1
+        end
+      end
+      mylog.puts '='*80
+      mylog.puts "Всего поступило телеграмм - #{selected_telegrams}"
+      mylog.puts "Корректных телеграмм - #{correct_telegrams}"
+      mylog.puts "Ошибочных телеграмм - #{wrong_telegrams}"
+    end
+    flash[:success] = "Входных телеграмм - #{selected_telegrams}. Сохранено телеграмм - #{correct_telegrams}. Ошибочных телеграмм - #{wrong_telegrams}."
+    redirect_to synoptic_observations_get_conversion_params_path
+  end
   
   def search_synoptic_telegrams
     @date_from ||= params[:date_from].present? ? params[:date_from] : Time.now.strftime("%Y-%m-%d")
@@ -10,7 +43,6 @@ class SynopticObservationsController < ApplicationController
     station = station_id.present? ? " and station_id = #{station_id}" : ''
     text = params[:text].present? ? " and telegram like '%#{params[:text]}%'" : ''
        
-    # sql = "select * from synoptic_observations where date like '#{@date}' #{term} #{station} #{text};"
     sql = "select * from synoptic_observations where date >= '#{@date_from}' and date <= '#{@date_to} 23:59:59' #{term} #{station} #{text};"
     tlgs = SynopticObservation.find_by_sql(sql)
     @stations = Station.all.order(:name)
@@ -110,6 +142,29 @@ class SynopticObservationsController < ApplicationController
         :temperature_soil_min, :temperature_2cm_min, :precipitation_2, :precipitation_time_range_2)
     end
     
+    def convert_synoptic_telegram(old_telegram, stations, errors)
+      groups = old_telegram["Телеграмма"].split(' ')
+      new_telegram = SynopticObservation.new
+      new_telegram.date = old_telegram["Дата"].tr('.', '-')
+      new_telegram.term = old_telegram["Срок"].to_i
+      new_telegram.telegram = old_telegram["Телеграмма"]
+      if ((groups[0] == "ЩЭСМЮ" ) && (new_telegram.term % 2 == 0)) || ((groups[0] == "ЩЭСИД") && (new_telegram.term % 2 == 1))
+      else 
+        errors.push("Ошибка в различительной группе");
+        return nil;
+      end
+      code_station = groups[1].to_i
+      if stations[code_station].present?
+        new_telegram.station_id = stations[code_station]
+      else
+        errors << "Ошибка в коде станции - <#{code_station}>"
+        return nil
+      end
+      new_telegram.cloud_base_height = groups[2][2].to_i if groups[2][2] != '/'
+      new_telegram.visibility_range = groups[2][3,2].to_i if groups[2][3] != '/'
+      new_telegram
+    end
+    
     def require_observer_or_technicist
       if current_user and ((current_user.role == 'observer') || (current_user.role == 'technicist'))
         return true
@@ -120,10 +175,10 @@ class SynopticObservationsController < ApplicationController
       end
     end
     
-    # def fields_short_list(full_list)
-    #   # stations = Station.all
-    #   full_list.map do |rec|
-    #     {id: rec.id, date: rec.date, term: rec.term, station_name: rec.station.name, telegram: rec.telegram}
-    #   end
-    # end
+    def fields_short_list(full_list)
+      # stations = Station.all
+      full_list.map do |rec|
+        {id: rec.id, date: rec.date, term: rec.term, station_name: rec.station.name, telegram: rec.telegram}
+      end
+    end
 end
