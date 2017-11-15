@@ -5,11 +5,11 @@
       %th Дата ввода:
       %td= @synoptic_observation.created_at.to_s
     %tr
-      %th Дата:
-      %td= @synoptic_observation.date
+      %th Дата наблюдения:
+      %td= @synoptic_observation.observed_at
     %tr
       %th Срок:
-      %td= @synoptic_observation.term
+      %td= @synoptic_observation.term.to_s.rjust(2, '0')
     %tr
       %th Текст:
       %td= @synoptic_observation.telegram

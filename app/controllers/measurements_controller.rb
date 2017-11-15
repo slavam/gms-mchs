@@ -1,7 +1,7 @@
 require 'descriptive_statistics'
 class MeasurementsController < ApplicationController
   before_filter :require_chemist
-  before_filter :init_weather_params, :only => [:new]
+  # before_filter :init_weather_params, :only => [:new]
   before_filter :find_measurement, only: [:destroy]
   HAZARD_CLASS =Array.new
   HAZARD_CLASS[1] = 1.7
@@ -92,7 +92,8 @@ class MeasurementsController < ApplicationController
     @place_id = params[:place_id]
     @scope_name = get_place_name(params[:region_type], params[:place_id])
     if @region_type == 'post'
-      @posts = Post.where("name != 'Резерв'").order(:city_id, :id)
+      @posts = Post.actual.order(:city_id, :id) 
+      # @posts = Post.where("name != 'Резерв'").order(:city_id, :id)
     else
       @cities = City.all.order(:id)
     end
@@ -164,11 +165,15 @@ class MeasurementsController < ApplicationController
   end
   
   def new
-    @date = '2017-01-03'
-    @weather = get_weather(@station, @date, @term)
+    @date = Time.now.strftime("%Y-%m-%d")
+    @post_id = 14 # debug only
+    @term = ((Time.now + 8.hours).hour / 6) * 6
+    # @term ||= '06' # debug only
+    @weather = get_weather_from_synoptic_observatios(@post_id, @date, @term)
+    # @weather = get_weather(@station, @date, @term)
     @materials = Material.actual_materials
     @posts = Post.actual.order(:id)
-    @post_id = 14
+    
     measurement_id = Measurement.get_id_by_date_term_post(@date, 7, @post_id)
     @concentrations = []
     if measurement_id.present?
@@ -240,7 +245,8 @@ class MeasurementsController < ApplicationController
     station = station_by_post(params[:post_id])
     synoptic_term = TERMS[params[:term].to_i]
     date = params[:date]
-    weather = get_weather(station, date, synoptic_term)
+    # weather = get_weather(station, date, synoptic_term)
+    weather = get_weather_from_synoptic_observatios(params[:post_id].to_i, date, synoptic_term.to_i)
     err = weather.nil? ? "В базе не найдена погода для поста: #{params[:post_id]}, дата: #{params[:date]}, срок: #{params[:term]}" : ''
     concentrations = {}
     if weather.present?
@@ -252,7 +258,7 @@ class MeasurementsController < ApplicationController
 # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{concentrations.inspect}")
     render json: {weather: weather, errors: [err], concentrations: concentrations}
   end
-  
+
   private
     def require_chemist
       if current_user and (current_user.role == 'chemist')
@@ -331,11 +337,11 @@ class MeasurementsController < ApplicationController
       # params.permit(:region_type, :post_id, :date, :term, :rhumb, :wind_direction,  :wind_speed, :temperature, :phenomena, :relative_humidity, :partial_pressure, :atmosphere_pressure)
     end
     
-    def init_weather_params
-      @station ||= '34519' # Донецк
-      @date ||= Time.now.to_s(:custom_datetime)
-      @term ||= '06'
-    end
+    # def init_weather_params
+    #   @station ||= '34519' # Донецк
+    #   @date ||= Time.now.to_s(:custom_datetime)
+    #   @term ||= '06'
+    # end
     
     def get_weather(station, date, term)
       # Rails.logger.debug("station: #{station.inspect}; date: #{date.inspect}; term: #{term}")
@@ -349,6 +355,18 @@ class MeasurementsController < ApplicationController
       weather[:temperature] = telegram.get_temperature
       weather[:atmosphere_pressure] = telegram.get_pressure
       return weather
+    end
+
+    def get_weather_from_synoptic_observatios(post_id, date, term)
+      station_id = post_id < 15 ? 1 : 7
+      weather = {}
+      observation = SynopticObservation.find_by(date: date, term: term, station_id: station_id)
+      return nil if observation.nil?
+      weather[:wind_speed] = observation.wind_speed_avg
+      weather[:wind_direction] = observation.wind_direction
+      weather[:temperature] = observation.temperature
+      weather[:atmosphere_pressure] = observation.pressure_at_station_level
+      weather
     end
     
     def wind_direction_to_rhumb(wind_direction)

@@ -121,10 +121,10 @@ class InputForm extends React.Component{
       }).done(function(data) {
         var weather = {};
         if (data.weather == null) {
-          weather.temperature = '';
-          weather.wind_speed = '';
-          weather.wind_direction = '';
-          weather.atmosphere_pressure = '';
+          // weather.temperature = '';
+          // weather.wind_speed = '';
+          // weather.wind_direction = '';
+          // weather.atmosphere_pressure = '';
         } else
           weather = data.weather;
         var vs = {};
@@ -139,19 +139,21 @@ class InputForm extends React.Component{
       }.bind(this))
       .fail(function(res) {
         if(res !== 'undefined')
-          this.setState({errors: res.responseJSON.errors});
+          this.setState({weather: {}, errors: res.responseJSON.errors});
       });
   }
   handleSubmit(e) {
-    var size = Object.keys(this.state.values).length;
+    // var size = Object.keys(this.state.values).length;
     e.preventDefault();
     var that = this;
     var measurement = {};
-    if (!this.state.weather.wind_direction) {
+    // if (!this.state.weather.wind_direction) {
+    // if (this.state.weather == null) {
+    if (Object.keys(this.state.weather).length === 0) {
       alert('Нет данных о погоде!');
       return;
     }
-    if (size == 0) {
+    if (Object.keys(this.state.values).length === 0) {
       alert('Нет данных о концентрациях!');
       return;
     }
@@ -237,7 +239,7 @@ class InputForm extends React.Component{
             <tbody>
               <tr>
                 <td><ChemOptionSelect options={this.props.posts} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" defaultValue={this.props.postId}/></td>
-                <td><ChemOptionSelect options={terms} onUserInput={this.handleOptionSelected} name = "selectTerm" defaultValue="07"/></td>
+                <td><ChemOptionSelect options={terms} onUserInput={this.handleOptionSelected} name="selectTerm" defaultValue={this.props.term}/></td>
                 <td><input type="date" name="measurement-date" value={this.state.date} onChange={this.dateChange} required="true" autoComplete="on"/></td>
               </tr>
             </tbody>
@@ -309,10 +311,10 @@ class InputPollutionsForm extends React.Component{
     super(props);
     var weather = {};
     if (this.props.weather == null) {
-      weather.temperature = '';
-      weather.wind_speed = '';
-      weather.wind_direction = '';
-      weather.atmosphere_pressure = '';
+      // weather.temperature = '';
+      // weather.wind_speed = '';
+      // weather.wind_direction = '';
+      // weather.atmosphere_pressure = '';
     } else
       weather = this.props.weather;
     this.state = {

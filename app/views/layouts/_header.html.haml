@@ -52,6 +52,18 @@
                   %li= link_to 'Телеграммы агрометеорологические',  agro_observations_path
                   %li= link_to 'Телеграммы морские',  sea_observations_path
               %li
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты <b class="caret"></b></a>
+                %ul{class: "dropdown-menu"}
+                  %li= link_to 'ТСХ-1',  synoptics_tcx1_path 
+                  %li= link_to 'Тепло Донбасса',  synoptic_observations_heat_donbass_show_path
+                  %li= link_to 'Бюллетени ежедневные', "/bulletins/list?bulletin_type=daily"
+                  %li= link_to 'Бюллетени морские', "/bulletins/list?bulletin_type=sea"
+                  %li= link_to 'Бюллетени выходного дня', "/bulletins/list?bulletin_type=holiday"
+                  %li= link_to 'Штормовые предупреждения', "/bulletins/list?bulletin_type=storm"
+                  %li= link_to 'Шторма на море', "/bulletins/list?bulletin_type=sea_storm"
+                  %li= link_to 'Радиация', "/bulletins/list?bulletin_type=radiation"
+                  %li= link_to 'Телевидение', "/bulletins/list?bulletin_type=tv"
+              %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Сервис <b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
                   %li= link_to 'Конвертор', synoptic_observations_get_conversion_params_path
@@ -64,24 +76,28 @@
                   %li= link_to 'Синоптические',  new_synoptic_observation_path
             - when 'chemist'
               %li
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Измерения <b class="caret"></b></a>
+                %ul{class: "dropdown-menu"}
+                  %li= link_to 'Создать измерение', new_measurement_path
+                  %li= link_to 'Список', measurements_path 
+              %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Справочники <b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
                   %li= link_to 'Города',  cities_path 
                   %li= link_to 'Посты',  posts_path
                   %li= link_to 'Вещества',  materials_path
                   %li= link_to 'Метеостанции', stations_path
-                  
-              // %li= link_to 'Вещества',  substances_path
-              %li= link_to 'Измерения', measurements_path 
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты <b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
                   %li= link_to 'Форма 1 (ТЗА)',  measurements_chem_forma1_tza_path
-                  %li= link_to 'Форма 1 (АКИАМ)',  pollutions_chem_forma1_path
+                  /
+                    %li= link_to 'Форма 1 (АКИАМ)',  pollutions_chem_forma1_path
                   %li= link_to 'Форма 2 по постам',  "/measurements/chem_forma2?region_type=post&place_id=5"
                   %li= link_to 'Форма 2 по городам',  "/measurements/chem_forma2?region_type=city&place_id=1"
-                  %li= link_to 'Фоновые концентрации', pollutions_background_concentration_path
-                  %li= link_to 'Конверсия из АКИАМ', measurements_get_convert_params_path
+                  /
+                    %li= link_to 'Фоновые концентрации', pollutions_background_concentration_path
+                    %li= link_to 'Конверсия из АКИАМ', measurements_get_convert_params_path
             - when 'admin'
               %li= link_to "Users", users_path
               %li= link_to "Audit", audits_path

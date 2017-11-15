@@ -14,8 +14,8 @@
     %tbody
       - @synoptic_observations.each do |s_o| 
         %tr
-          %td= s_o.date
-          %td= s_o.term
+          %td= s_o.observed_at
+          %td= s_o.term.to_s.rjust(2, '0')
           %td= s_o.station.name
           %td= link_to s_o.telegram, synoptic_observation_path(s_o)
           /
