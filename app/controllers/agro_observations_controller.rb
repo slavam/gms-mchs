@@ -34,7 +34,8 @@ class AgroObservationsController < ApplicationController
   
   def create_agro_telegram
     telegram = AgroObservation.new(agro_observation_params)
-    telegram.station_id = Station.find_by_code(telegram.telegram[6,5].to_i).id
+    telegram.date_dev = Time.now
+    # telegram.station_id = Station.find_by_code(telegram.telegram[6,5].to_i).id
     telegram.telegram_type = telegram.telegram[0,5]
     telegram.day_obs = telegram.telegram[12,2].to_i
     telegram.month_obs = telegram.telegram[14,2].to_i

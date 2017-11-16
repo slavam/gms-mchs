@@ -22,4 +22,5 @@
 
 window.$ = window.jQuery = global.$ = require('jquery');
 var React = window.React = global.React = require('react');
+// var moment = require('moment');
 require( 'fetch' );

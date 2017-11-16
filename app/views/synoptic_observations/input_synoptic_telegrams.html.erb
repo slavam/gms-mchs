@@ -1,5 +1,5 @@
 <div class ="container">
   <div>
-    <%= react_component 'InputTelegrams', { telegrams: @telegrams, currDate: Time.now.strftime("%Y-%m-%d"), tlgType: 'synoptic', stations: @stations} %>
+    <%= react_component 'InputTelegrams', { telegrams: @telegrams, currDate: Time.now.strftime("%Y-%m-%d"), tlgType: 'synoptic', stations: @stations, term: (Time.now.hour/3*3)} %>
   </div>
 </div>

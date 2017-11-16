@@ -15,9 +15,10 @@ class SeaObservationsController < ApplicationController
   
   def create_sea_telegram
     telegram = SeaObservation.new(sea_observation_params)
+    telegram.date_dev = Time.now
     telegram.station_id = 10 # Только Седово
-    telegram.day_obs = telegram.telegram[5,2].to_i
-    telegram.term = telegram.telegram[7,2].to_i
+    # telegram.day_obs = telegram.telegram[5,2].to_i
+    # telegram.term = telegram.telegram[7,2].to_i
     # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{telegram.inspect}")
     if telegram.save
       last_telegrams = SeaObservation.short_last_50_telegrams

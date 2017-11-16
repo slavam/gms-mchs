@@ -8,9 +8,10 @@
         %th Метеостанция
         %th Телеграмма
     %tbody
-      - @telegrams.each do |t| 
+      - @telegrams.each do |t|
+      - term = t.fterm == 'Ш' ? t.fterm : t.fterm.to_s.rjust(2, '0')
         %tr
           %td= t.date_rep
-          %td= t.fterm
+          %td= term
           %td= t.station.name
           %td= t.telegram

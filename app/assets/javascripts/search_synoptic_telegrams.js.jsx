@@ -94,8 +94,8 @@ class FoundTelegram extends React.Component{
     var desiredLink = "/synoptic_observations/"+this.props.telegram.id;
     return (
       <tr>
-        <td>{this.props.telegram.date}</td>
-        <td>{this.props.telegram.term}</td>
+        <td>{this.props.telegram.date.substr(0, 19)+' UTC'}</td>
+        <td>{this.props.telegram.term < 10 ? '0'+this.props.telegram.term : this.props.telegram.term}</td>
         <td>{this.props.telegram.station_name}</td>
         <td><a href={desiredLink}>{this.props.telegram.telegram}</a></td>
       </tr>
@@ -108,13 +108,14 @@ class FoundTelegrams extends React.Component{
     var rows = [];
     // var that = this;
     this.props.telegrams.forEach(function(t) {
+      t.date = t.date.replace(/T/,' ');
       rows.push(<FoundTelegram telegram={t} key={t.id}/>);
     });
     return (
       <table className="table table-hover">
         <thead>
           <tr>
-            <th>Дата</th>
+            <th width = "200px">Дата</th>
             <th>Срок</th>
             <th>Метеостанция</th>
             <th>Текст</th>

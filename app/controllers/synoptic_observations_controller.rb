@@ -63,7 +63,7 @@ class SynopticObservationsController < ApplicationController
     station = station_id.present? ? " and station_id = #{station_id}" : ''
     text = params[:text].present? ? " and telegram like '%#{params[:text]}%'" : ''
        
-    sql = "select * from synoptic_observations where date >= '#{@date_from}' and date <= '#{@date_to} 23:59:59' #{term} #{station} #{text};"
+    sql = "select * from synoptic_observations where observed_at >= '#{@date_from}' and observed_at <= '#{@date_to} 23:59:59' #{term} #{station} #{text} order by observed_at desc;"
     tlgs = SynopticObservation.find_by_sql(sql)
     @stations = Station.all.order(:name)
     @stations << {code: 0, name: 'Любая'}
@@ -75,11 +75,11 @@ class SynopticObservationsController < ApplicationController
   end
 
   def index
-    @synoptic_observations = SynopticObservation.paginate(page: params[:page]).order(:date, :term).reverse_order
+    @synoptic_observations = SynopticObservation.paginate(page: params[:page]).order(:observed_at, :term).reverse_order
   end
   
   def synoptic_storm_telegrams
-    sql = "SELECT created_at, date as date_rep, term as fterm, station_id, telegram from synoptic_observations union select created_at, telegram_date as date_rep, 'Ш' as fterm, station_id, telegram from storm_observations order by date_rep desc, created_at desc limit 100;"
+    sql = "SELECT created_at, observed_at as date_rep, term as fterm, station_id, telegram from synoptic_observations union select created_at, telegram_date as date_rep, 'Ш' as fterm, station_id, telegram from storm_observations order by date_rep desc, created_at desc limit 100;"
     @telegrams = SynopticObservation.find_by_sql(sql)
   end
     
@@ -98,6 +98,7 @@ class SynopticObservationsController < ApplicationController
     telegram = SynopticObservation.new(observation_params)
     telegram.station_id = Station.find_by_code(telegram.telegram[6,5].to_i).id
     telegram.observed_at = Time.now
+    telegram.term = Time.now.hour / 3 * 3
     if telegram.save
       last_telegrams = SynopticObservation.short_last_50_telegrams
       render json: {telegrams: last_telegrams, tlgType: 'synoptic', currDate: telegram.date, errors: ["Телеграмма добавлена в базу"]}
@@ -438,8 +439,9 @@ class SynopticObservationsController < ApplicationController
     end
     
     def fields_short_list(full_list)
+      stations = Station.all.order(:id)
       full_list.map do |rec|
-        {id: rec.id, date: rec.date, term: rec.term, station_name: rec.station.name, telegram: rec.telegram}
+        {id: rec.id, date: rec.observed_at, term: rec.term, station_name: stations[rec.station_id-1].name, telegram: rec.telegram}
       end
     end
 end

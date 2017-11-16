@@ -5,7 +5,7 @@ class NewTelegramForm extends React.Component{
     this.state = {
       currDate:  this.props.currDate,
       tlgType: this.props.tlgType,
-      tlgTerm: 0, //this.props.tlgType == 'synoptic' ? this.props.tlgTerm : null,
+      tlgTerm: this.props.term, // == 'synoptic' ? this.props.tlgTerm : null,
       tlgText: '',
       errors: this.props.errors
     };
@@ -42,12 +42,30 @@ class NewTelegramForm extends React.Component{
           this.setState({errors: errors});
           return;
         }
-        this.observation.telegram_date = date;
+        // this.observation.telegram_date = date;
         break;
       case 'agro':
-        this.observation.date_dev = date;
+        // this.observation.date_dev = date;
+        var idStation = -1;
+        var isStation;
+        var codeStation = text.substr(6,5);
+        isStation = this.props.stations.some(function(s){
+          idStation = s.id;
+          return +codeStation == s.code;
+        });
+        if (isStation) 
+          this.observation.station_id = idStation;
+        else {
+          this.setState({errors: ["Ошибка в коде станции"]});
+          return;
+        }
+        break;
       case 'sea':
-        this.observation.date_dev = date;
+        this.observation.day_obs = text.substr(5,2);
+        this.observation.term = text.substr(7,2);
+        
+        // this.observation.date_dev = date;
+        break;
     }
     this.props.onFormSubmit({observation: this.observation, currDate: date, tlgType: this.state.tlgType, tlgText: this.state.tlgText});
     this.setState({
@@ -71,22 +89,23 @@ class NewTelegramForm extends React.Component{
     this.setState({tlgText: e.target.value});
   }
   render() {
+    // var moment = require('moment');
     const types = [
       { value: 'synoptic', label: 'Синоптические' },
       { value: 'agro', label: 'Агро' },
       { value: 'storm', label: 'Штормовые' },
       { value: 'sea', label: 'Морские' },
     ];
-    const terms = [
-      { value: '00', label: '00' },
-      { value: '03', label: '03' },
-      { value: '06', label: '06' },
-      { value: '09', label: '09' },
-      { value: '12', label: '12' },
-      { value: '15', label: '15' },
-      { value: '18', label: '18' },
-      { value: '21', label: '21' }
-    ];
+    // const terms = [
+    //   { value: '00', label: '00' },
+    //   { value: '03', label: '03' },
+    //   { value: '06', label: '06' },
+    //   { value: '09', label: '09' },
+    //   { value: '12', label: '12' },
+    //   { value: '15', label: '15' },
+    //   { value: '18', label: '18' },
+    //   { value: '21', label: '21' }
+    // ];
     return (
     <div className="col-md-12">
       <form className="telegramForm" onSubmit={this.handleSubmit}>
@@ -100,9 +119,10 @@ class NewTelegramForm extends React.Component{
           </thead>
           <tbody>
             <tr>        
-              <td><input type="date" name="input-date" value={this.state.currDate} onChange={this.dateChange} required="true" autoComplete="on" /></td>
+              <td><input type="date" name="input-date" value={this.state.currDate} onChange={this.dateChange} required="true" autoComplete="on" readOnly="readonly" /></td>
               <td><OptionSelect options={types} onUserInput={this.handleOptionSelected} name = "selectTypes" defaultValue={this.state.tlgType}/></td>
-              {this.state.tlgType == 'synoptic' ? <td><OptionSelect options={terms} onUserInput={this.handleOptionSelected} name = "selectTerms" defaultValue="00"/></td> : <td></td>}
+              {/*{this.state.tlgType == 'synoptic' ? <td><OptionSelect options={terms} onUserInput={this.handleOptionSelected} name = "selectTerms" defaultValue={this.props.term} readOnly="readonly"/></td> : <td></td>}*/}
+              {this.state.tlgType == 'synoptic' ? <td>{this.props.term < 10 ? '0'+this.props.term : this.props.term}</td> : <td></td>}
             </tr>
           </tbody>
         </table>
@@ -236,8 +256,8 @@ class TelegramRow extends React.Component{
     }
     return (
       <tr>
-        <td>{this.props.telegram.date}</td>
-        { this.props.tlgType == 'synoptic' ? <td>{this.props.telegram.term}</td> : '' }
+        <td>{this.props.telegram.date.substr(0, 19)+' UTC' }</td>
+        { this.props.tlgType == 'synoptic' ? <td>{this.props.telegram.term < 10 ? '0'+this.props.telegram.term : this.props.telegram.term}</td> : '' }
         <td>{this.props.telegram.station_name}</td>
         <td><a href={desiredLink}>{this.props.telegram.telegram}</a></td>
         {/*this.state.mode == 'Изменить' ? <td><a href={desiredLink}>{this.state.tlgText}</a></td> : <td><TextTelegramEditForm tlgText={this.props.telegram.telegram} onTelegramEditSubmit={this.handleEditTelegramSubmit}/></td>}
@@ -259,13 +279,23 @@ class LastTelegramsTable extends React.Component{
     var rows = [];
     var that = this;
     this.props.telegrams.forEach(function(t) {
+      
+      // switch (that.props.tlgType) {
+      //   case 'synoptic':
+      //     t.date = '11111'; //t.observed_at;
+      //     break;
+      //   case 'storm':
+      //     t.date = '2222'; // t.telegram_date;
+      //   break;
+      // }
+      t.date = t.date.replace(/T/, " ");
       rows.push(<TelegramRow telegram={t} key={t.id} tlgType={that.props.tlgType} stations={that.props.stations}/>);
     });
     return (
       <table className="table table-hover">
         <thead>
           <tr>
-            <th width = "100px">Дата</th>
+            <th width = "200px">Дата</th>
             { this.props.tlgType == 'synoptic' ? <th>Срок</th> : '' }
             <th>Метеостанция</th>
             <th>Текст</th>
@@ -357,7 +387,7 @@ class InputTelegrams extends React.Component{
     return(
       <div>
         <h1>Новая телеграмма</h1>
-        <NewTelegramForm currDate={this.state.currDate} tlgType={this.state.tlgType} onTelegramTypeChange={this.handleTelegramTypeChanged} onFormSubmit={this.handleFormSubmit} stations={this.props.stations} errors={this.state.errors} />
+        <NewTelegramForm currDate={this.state.currDate} tlgType={this.state.tlgType} onTelegramTypeChange={this.handleTelegramTypeChanged} onFormSubmit={this.handleFormSubmit} stations={this.props.stations} errors={this.state.errors} term={this.props.term}/>
         <h3>Телеграммы</h3>
         <LastTelegramsTable telegrams={this.state.telegrams} tlgType={this.state.tlgType} stations={this.props.stations}/>
       </div>

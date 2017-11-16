@@ -45,8 +45,7 @@ class StormObservationsController < ApplicationController
   
   def create_storm_telegram
     telegram = StormObservation.new(storm_observation_params)
-    # telegram.station_id = Station.find_by_code(telegram.telegram[12,5].to_i).id
-    # telegram.day_event = telegram.telegram[18,2].to_i
+    telegram.telegram_date = Time.now
     telegram.hour_event = telegram.telegram[20,2].to_i
     telegram.minute_event = telegram.telegram[22,2].to_i
     telegram.telegram_type = telegram.telegram[0, 5]
