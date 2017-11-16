@@ -167,7 +167,7 @@ class MeasurementsController < ApplicationController
   def new
     @date = Time.now.strftime("%Y-%m-%d")
     @post_id = 14 # debug only
-    @term = ((Time.now + 8.hours).hour / 6) * 6
+    @term = ((Time.now + 3.hours).hour / 6) * 6
     # @term ||= '06' # debug only
     @weather = get_weather_from_synoptic_observatios(@post_id, @date, @term)
     # @weather = get_weather(@station, @date, @term)

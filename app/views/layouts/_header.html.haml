@@ -35,7 +35,7 @@
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Сервис <b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
-                  %li= link_to 'Поиск',  search_synoptic_telegrams_path
+                  %li= link_to 'Поиск синоптических телеграмм',  search_synoptic_telegrams_path
                   %li= link_to 'Карты', "http://www.kcgms.ru/unimas/maps/", target: :_blank
                   /
                     %li= link_to 'Отбор из ogimet',  make_web_query_path
@@ -66,8 +66,8 @@
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Сервис <b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
-                  %li= link_to 'Конвертор', synoptic_observations_get_conversion_params_path
-                  %li= link_to 'Поиск',  search_synoptic_telegrams_path
+                  %li= link_to 'Конвертор синоптических телеграмм', synoptic_observations_get_conversion_params_path
+                  %li= link_to 'Поиск синоптических телеграмм',  search_synoptic_telegrams_path
             - when 'observer'
               %li= link_to 'Метеостанции', stations_path
               %li
