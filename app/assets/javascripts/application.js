@@ -11,7 +11,6 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
 //= require turbolinks
 //= require bootstrap
 //= require react
@@ -20,7 +19,7 @@
 //= require_tree .
 
 
-window.$ = window.jQuery = global.$ = require('jquery');
+// window.$ = window.jQuery = global.$ = require('jquery');
 var React = window.React = global.React = require('react');
 // var moment = require('moment');
 require( 'fetch' );

@@ -1,6 +1,6 @@
 .container
-  %h3 Задайте диапазон времени для переноса синоптических телеграмм из БД 'meteo'
-  = form_for(:interval, url: synoptic_observations_converter_path) do |f| 
+  %h3 Задайте диапазон времени для переноса штормовых телеграмм из БД 'meteo'
+  = form_for(:interval, url: storm_observations_converter_path) do |f| 
     = f.label "Начальная дата"
     = f.date_field :date_from, value: Time.now.strftime("%Y-%m-%d")
 

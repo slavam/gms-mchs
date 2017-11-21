@@ -1,5 +1,56 @@
 class StormObservationsController < ApplicationController
   before_filter :find_storm_observation, only: [:show, :edit, :update, :destroy, :update_storm_telegram]
+
+  def get_conversion_params
+  end
+
+  def converter
+    date_from = params[:interval][:date_from].tr("-", ".")+' 00:00:00'
+    date_to = params[:interval][:date_to].tr("-", ".")+' 23:59:59'
+    old_telegrams = OldSynopticTelegram.where("Дата >= ? and Дата <= ? and Срок = 'Ш' ", date_from, date_to).order("Дата, Срок")
+    stations = Station.station_id_by_code
+    selected_telegrams = old_telegrams.size
+    wrong_telegrams = 0
+    correct_telegrams = 0
+    created_telegrams = 0
+    updated_telegrams = 0
+    skiped_telegrams = 0
+    File.open("app/assets/pdf_folder/conversion.txt",'w') do |mylog|
+      mylog.puts "Конверсия данных штормовых телеграмм за период с #{date_from} по #{date_to}"
+      old_telegrams.each do |t|
+        errors = []
+        telegram = convert_storm_telegram(t, stations, errors)
+        if telegram.present?
+          observation = StormObservation.find_by(telegram_date: telegram.telegram_date, station_id: telegram.station_id)
+          if observation.present?
+            # Rails.logger.debug("My object>>>>>>>>>>>>>>>updated_telegrams: #{hash_telegram.inspect}") 
+            if observation.telegram_date.nil? or (observation.telegram_date < telegram.telegram_date) 
+              json_telegram = telegram.as_json.except('id', 'created_at', 'updated_at')
+              observation.update_attributes json_telegram 
+              updated_telegrams += 1
+            else
+              skiped_telegrams += 1
+            end
+          else
+            observation = StormObservation.new(telegram.as_json)
+            observation.save
+            created_telegrams += 1
+          end
+          correct_telegrams += 1
+        else
+          mylog.puts errors[0]+' => '+t["Дата"]+'->'+t["Телеграмма"]
+          wrong_telegrams += 1
+        end
+      end
+      mylog.puts '='*80
+      mylog.puts "Всего поступило телеграмм - #{selected_telegrams}"
+      mylog.puts "Корректных телеграмм - #{correct_telegrams}: создано - #{created_telegrams}; обновлено - #{updated_telegrams}; пропущено - #{skiped_telegrams}"
+      mylog.puts "Ошибочных телеграмм - #{wrong_telegrams}"
+    end
+    flash[:success] = "Входных телеграмм - #{selected_telegrams}. Корректных телеграмм - #{correct_telegrams} (создано - #{created_telegrams}; обновлено - #{updated_telegrams}; пропущено - #{skiped_telegrams}). Ошибочных телеграмм - #{wrong_telegrams}."
+    redirect_to storm_observations_get_conversion_params_path
+  end
+
   def index
     @storm_observations = StormObservation.paginate(page: params[:page]).order(:telegram_date, :created_at).reverse_order
   end
@@ -99,6 +150,40 @@ class StormObservationsController < ApplicationController
     
     def find_storm_observation
       @storm_observation = StormObservation.find(params[:id])
+    end
+    
+    def convert_storm_telegram(old_telegram, stations, errors)
+      groups = old_telegram["Телеграмма"].tr('=', '').split(' ')
+      new_telegram = StormObservation.new
+      new_telegram.telegram_date = Time.parse(old_telegram["Дата"])
+      new_telegram.telegram = old_telegram["Телеграмма"]
+      if (groups[0] == 'ЩЭОЯЮ') or (groups[0] == 'ЩЭОЗМ')
+        new_telegram.telegram_type = groups[0]
+      else
+        errors << "Ошибка в различительной группе"
+        return nil
+      end
+      if groups[1] == 'WAREP'
+      else
+        errors << "Ошибка в группе WAREP"
+        return nil
+      end
+      code_station = groups[2].to_i
+      if stations[code_station].present?
+        new_telegram.station_id = stations[code_station]
+      else
+        errors << "Ошибка в коде станции - <#{code_station}>"
+        return nil
+      end
+      if (groups[3].length == 7) and (groups[3][6] == '1')
+        new_telegram.day_event = groups[3][0,2]
+        new_telegram.hour_event = groups[3][2,2]
+        new_telegram.minute_event = groups[3][4,2]
+      else
+        errors << "Ошибка в группе времени явления"
+        return nil
+      end
+      new_telegram
     end
     
     # def fields_short_list(full_list)

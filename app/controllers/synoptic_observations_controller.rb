@@ -10,15 +10,14 @@ class SynopticObservationsController < ApplicationController
     date_to = params[:interval][:date_to].tr("-", ".")+' 23:59:59'
     old_telegrams = OldSynopticTelegram.where("Дата >= ? and Дата <= ? and Срок in (?) ", date_from, date_to, OldSynopticTelegram::TERMS).order("Дата, Срок")
     stations = Station.station_id_by_code
-    # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{stations.inspect}")
     selected_telegrams = old_telegrams.size
     wrong_telegrams = 0
     correct_telegrams = 0
     created_telegrams = 0
     updated_telegrams = 0
-    skined_telegrams = 0
+    skiped_telegrams = 0
     File.open("app/assets/pdf_folder/conversion.txt",'w') do |mylog|
-      mylog.puts "Конверсия данных за период с #{date_from} по #{date_to}"
+      mylog.puts "Конверсия данных синоптических телеграмм за период с #{date_from} по #{date_to}"
       old_telegrams.each do |t|
         errors = []
         telegram = convert_synoptic_telegram(t, stations, errors)
@@ -31,16 +30,14 @@ class SynopticObservationsController < ApplicationController
               observation.update_attributes json_telegram 
               updated_telegrams += 1
             else
-              skined_telegrams += 1
+              skiped_telegrams += 1
             end
           else
-            # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{telegram.inspect}") 
             observation = SynopticObservation.new(telegram.as_json)
             observation.save
             created_telegrams += 1
           end
           correct_telegrams += 1
-          # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{telegram.inspect}") if correct_telegrams == 1
         else
           mylog.puts errors[0]+' => '+t["Дата"]+'->'+t["Срок"]+'->'+t["Телеграмма"]
           wrong_telegrams += 1
@@ -48,10 +45,10 @@ class SynopticObservationsController < ApplicationController
       end
       mylog.puts '='*80
       mylog.puts "Всего поступило телеграмм - #{selected_telegrams}"
-      mylog.puts "Корректных телеграмм - #{correct_telegrams}: создано - #{created_telegrams}; обновлено - #{updated_telegrams}; пропущено - #{skined_telegrams}"
+      mylog.puts "Корректных телеграмм - #{correct_telegrams}: создано - #{created_telegrams}; обновлено - #{updated_telegrams}; пропущено - #{skiped_telegrams}"
       mylog.puts "Ошибочных телеграмм - #{wrong_telegrams}"
     end
-    flash[:success] = "Входных телеграмм - #{selected_telegrams}. Корректных телеграмм - #{correct_telegrams} (создано - #{created_telegrams}; обновлено - #{updated_telegrams}; пропущено - #{skined_telegrams}). Ошибочных телеграмм - #{wrong_telegrams}."
+    flash[:success] = "Входных телеграмм - #{selected_telegrams}. Корректных телеграмм - #{correct_telegrams} (создано - #{created_telegrams}; обновлено - #{updated_telegrams}; пропущено - #{skiped_telegrams}). Ошибочных телеграмм - #{wrong_telegrams}."
     redirect_to synoptic_observations_get_conversion_params_path
   end
   

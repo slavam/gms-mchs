@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get 'storm_observations/get_last_telegrams', to: 'storm_observations#get_last_telegrams'
   get 'storm_observations/input_storm_telegrams', to: 'storm_observations#input_storm_telegrams'
   put 'storm_observations/update_storm_telegram', to: 'storm_observations#update_storm_telegram'
+  get 'storm_observations/get_conversion_params', to: 'storm_observations#get_conversion_params'
+  post 'storm_observations/converter', to: 'storm_observations#converter'
   resources :storm_observations
   post 'agro_observations/create_agro_telegram', to: 'agro_observations#create_agro_telegram'
   get 'agro_observations/get_last_telegrams', to: 'agro_observations#get_last_telegrams'

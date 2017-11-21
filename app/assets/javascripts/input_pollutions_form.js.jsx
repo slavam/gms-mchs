@@ -218,7 +218,7 @@ class InputForm extends React.Component{
     this.props.materials.map(function(m) {
                 ths.push(<th key={m.id}>{m.name}</th>);
                 tds.push(<td key={m.id}>
-                <input type="number" value={self.state.values[m.id] == null ? '' : self.state.values[m.id]} onChange={self.handleValueChange} name={m.id} min="0.0" step="0.001"/>
+                <input type="number" value={self.state.values[m.id] == null ? '' : self.state.values[m.id]} pattern="[0-9]+([,\.][0-9]+)?" onChange={self.handleValueChange} name={m.id} min="0.0" step="0.001"/>
                 {/*    <InputError visible={self.state[td].errorVisible} errorMessage="Ошибка!" /> */}
                 </td>);
               });
