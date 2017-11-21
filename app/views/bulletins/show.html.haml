@@ -126,7 +126,7 @@
     %br
     %span= "С 1945 по #{report_date[0,4]} гг. по данным Гидрометеорологической службы"
   - c_d = []
-  - c_d = @bulletin.climate_data.split(";")
+  - c_d = @bulletin.climate_data.split(";") if @bulletin.climate_data.present?
   .container
     %table{class: "table table-hover"}
       %tbody

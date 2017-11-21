@@ -4,10 +4,10 @@
   %div{ class: "col-md-6 col-md-offset-3"}
     = form_for(:session, url: login_path) do |f| 
 
-      = f.label :login
+      = f.label "Логин"
       = f.text_field :login, class: 'form-control' 
 
-      = f.label :password 
+      = f.label "Пароль"
       = f.password_field :password, class: 'form-control' 
 
       = f.submit "Войти", class: "btn btn-primary" 

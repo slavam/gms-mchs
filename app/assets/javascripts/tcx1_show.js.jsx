@@ -1,6 +1,6 @@
-import React from "react";
-import Datetime from 'react-datetime';
-require('moment/locale/ru');
+// import React from "react";
+// import Datetime from 'react-datetime';
+// require('moment/locale/ru');
 
 class MonthYearForm extends React.Component{
   constructor(props) {
@@ -11,6 +11,7 @@ class MonthYearForm extends React.Component{
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.dateChange = this.dateChange.bind(this);
   }
   handleSubmit(e) {
     e.preventDefault();
@@ -22,19 +23,27 @@ class MonthYearForm extends React.Component{
     this.props.onParamsSubmit({month: month, year: year});
   }
   onChange(event) {
-    this.setState({year: event.format("YYYY"), month: event.format("MM")});
+    // this.setState({year: event.format("YYYY"), month: event.format("MM")});
+  }
+  dateChange(e) {
+    var date = e.target.value;
+    var year = date.substr(0,4);
+    var month = date.substr(5,2);
+    this.setState({year: year, month: month});
   }
   render() {
+    var yearMonth = this.state.year+'-'+this.state.month;
     return (
       <form className="paramsForm" onSubmit={this.handleSubmit}>
-        <Datetime 
+        <input type="month" value={yearMonth} min="2000-01" max="2020-01" onChange={this.dateChange}/>
+        {/*<Datetime 
           locale="ru" 
           timeFormat={false} 
           dateFormat="YYYY-MM" 
           placeholder="Месяц..."
           closeOnSelect={true} 
           onChange={this.onChange}
-        />
+        /> */}
         <input type="submit" value="Пересчитать" />
       </form>
     );
@@ -54,7 +63,7 @@ class Tcx1TempRow extends React.Component{
     for(var i=0;i<nd;i++){
       v.push(<td style={(i % 2 == 0) ? style : {textAlign: "center", width: '70px'}} key={i.toString()}>{this.props.vector[i]}</td>);
       
-    };
+    }
     return (
       <tr>
         <td>{stations[this.props.station]}</td>
@@ -87,7 +96,7 @@ class AvgTempsTable extends React.Component{
     });
     for(var i=1;i<=this.props.numDays;i++){
       th.push(<th key={i.toString()} >{i}</th>);
-    };
+    }
   
     return (
       <table className = "table table-hover">
@@ -174,4 +183,4 @@ class Tcx1Show extends React.Component{
   }
 }
 
-export default Tcx1Show;
+// export default Tcx1Show;
