@@ -167,10 +167,8 @@ class MeasurementsController < ApplicationController
   def new
     @date = Time.now.strftime("%Y-%m-%d")
     @post_id = 14 # debug only
-    @term = ((Time.now + 3.hours).hour / 6) * 6
-    # @term ||= '06' # debug only
-    @weather = get_weather_from_synoptic_observatios(@post_id, @date, @term)
-    # @weather = get_weather(@station, @date, @term)
+    term = 3 # ((Time.now + 3.hours).hour / 6) * 6
+    @weather = get_weather_from_synoptic_observatios(@post_id, @date, term)
     @materials = Material.actual_materials
     @posts = Post.actual.order(:id)
     
@@ -233,7 +231,7 @@ class MeasurementsController < ApplicationController
     redirect_to measurements_path
   end
   
-  def station_by_post(post_id)
+  def station_by_post(post_id) # converter only
     if post_id.to_i < 15
         '34519' # Донецк
       else
@@ -242,15 +240,15 @@ class MeasurementsController < ApplicationController
   end
   
   def weather_update
-    station = station_by_post(params[:post_id])
-    synoptic_term = TERMS[params[:term].to_i]
-    date = params[:date]
-    # weather = get_weather(station, date, synoptic_term)
-    weather = get_weather_from_synoptic_observatios(params[:post_id].to_i, date, synoptic_term.to_i)
+    # synoptic_term = TERMS[params[:term].to_i]
+    # так работают в Горловке
+    synoptic_term = params[:term].to_i == 1 ? 21 : params[:term].to_i-4
+    synoptic_date = params[:term].to_i == 1 ? (params[:date].to_date-1.day).strftime("%Y-%m-%d") : params[:date]
+    weather = get_weather_from_synoptic_observatios(params[:post_id].to_i, synoptic_date, synoptic_term)
     err = weather.nil? ? "В базе не найдена погода для поста: #{params[:post_id]}, дата: #{params[:date]}, срок: #{params[:term]}" : ''
     concentrations = {}
     if weather.present?
-      measurement_id = Measurement.get_id_by_date_term_post(date, params[:term], params[:post_id])
+      measurement_id = Measurement.get_id_by_date_term_post(params[:date], params[:term], params[:post_id])
       if measurement_id.present?
         concentrations = get_concentrations_by_measurement(measurement_id)
       end
