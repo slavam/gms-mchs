@@ -166,16 +166,19 @@ class MeasurementsController < ApplicationController
   
   def new
     @date = Time.now.strftime("%Y-%m-%d")
-    @post_id = 14 # debug only
+    @post_id = 14 # for example
     term = 3 # ((Time.now + 3.hours).hour / 6) * 6
-    @weather = get_weather_from_synoptic_observatios(@post_id, @date, term)
     @materials = Material.actual_materials
     @posts = Post.actual.order(:id)
     
-    measurement_id = Measurement.get_id_by_date_term_post(@date, 7, @post_id)
-    @concentrations = []
-    if measurement_id.present?
-      @concentrations = get_concentrations_by_measurement(measurement_id)
+    measurement = Measurement.find_by(date: @date, term: 7, post_id: 14)
+    
+    if measurement.present?
+      @concentrations = get_concentrations_by_measurement(measurement.id)
+      @weather = weather = measurement.get_weather
+    else
+      @concentrations = []
+      @weather = get_weather_from_synoptic_observatios(@post_id, @date, term)
     end
   end
   
@@ -203,8 +206,10 @@ class MeasurementsController < ApplicationController
     pollutions.each do |k, v|
       PollutionValue.where("measurement_id = ? AND material_id = ?", measurement.id, k).first_or_initialize.tap do |pollution|
         pollution.measurement_id = measurement.id
-        pollution.material_id = k
-        pollution.value = v
+        pollution.material_id = k.to_i
+        pollution.value = v.to_f
+        # Rails.logger.debug("My object>>>>>>>>>>>>: k=#{k}; v=#{v};")
+        pollution.concentration = (v.nil? ? nil : calc_concentration(measurement, k.to_i, v.to_f))
         pollution.save
       end
     end
@@ -253,10 +258,25 @@ class MeasurementsController < ApplicationController
         concentrations = get_concentrations_by_measurement(measurement_id)
       end
     end
-# Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{concentrations.inspect}")
     render json: {weather: weather, errors: [err], concentrations: concentrations}
   end
 
+  def get_weather_and_concentrations
+    measurement = Measurement.find_by(date: params[:date], term: params[:term].to_i, post_id: params[:post_id].to_i)
+    err = ''
+    if measurement.present?
+      concentrations = get_concentrations_by_measurement(measurement.id)
+      weather = measurement.get_weather
+    else
+      concentrations = {}
+      synoptic_term = params[:term].to_i == 1 ? 21 : params[:term].to_i-4
+      synoptic_date = params[:term].to_i == 1 ? (params[:date].to_date-1.day).strftime("%Y-%m-%d") : params[:date]
+      weather = get_weather_from_synoptic_observatios(params[:post_id].to_i, synoptic_date, synoptic_term)
+      err = "В базе не найдена погода для поста: #{params[:post_id]}, дата: #{params[:date]}, срок: #{params[:term]}" if weather.nil?
+    end
+    render json: {weather: weather, errors: [err], concentrations: concentrations}
+  end
+  
   private
     def require_chemist
       if current_user and (current_user.role == 'chemist')
@@ -317,7 +337,10 @@ class MeasurementsController < ApplicationController
       if measurement.save
         if values.present? 
           values.each do |k, v|
-            measurement.pollution_values.build(material_id: k.to_i, value: v.to_f).save
+            material_id = k.to_i
+            optical_density = v.to_f
+            concentration = (optical_density.nil? ? nil : calc_concentration(measurement, material_id, optical_density))
+            measurement.pollution_values.build(material_id: material_id, value: optical_density, concentration: concentration).save
           end
         end
       else
@@ -424,17 +447,18 @@ class MeasurementsController < ApplicationController
           concentrations[p.material_id] = {values: []}
           by_materials[p.material_id] = {max_concentration: {value: 0, post_id: 0, date: nil, term: nil}, size: 0, mean: 0, standard_deviation: 0, variance: 0, pollution_index: 0.0, material_name: p.material.name, hazard_index: p.material.klop.to_i, pdk_avg: p.material.pdksr, pdk_max: p.material.pdkmax, lt_1pdk: 0, lt_5pdk: 0, lt_10pdk: 0, percent1: 0.0, percent5: 0.0, percent10: 0.0, avg_conc: 0.0, max_conc: 0.0}
         end
-        concentrations[p.material_id][:values] << p.value
+        concentrations[p.material_id][:values] << (p.concentration.present? ? p.concentration : p.value)
         by_materials[p.material_id][:lt_1pdk] += 1 if p.value > by_materials[p.material_id][:pdk_max]
         by_materials[p.material_id][:lt_5pdk] += 1 if p.value > by_materials[p.material_id][:pdk_max]*5
         by_materials[p.material_id][:lt_10pdk] += 1 if p.value > by_materials[p.material_id][:pdk_max]*10
-        if by_materials[p.material_id][:max_concentration][:value] < p.value
-          by_materials[p.material_id][:max_concentration][:value] = p.value.round(4) 
+        if by_materials[p.material_id][:max_concentration][:value] < (p.concentration.present? ? p.concentration : p.value)
+          by_materials[p.material_id][:max_concentration][:value] = (p.concentration.present? ? p.concentration.round(4) : p.value.round(4))
           by_materials[p.material_id][:max_concentration][:post_id] = p.post_id
           by_materials[p.material_id][:max_concentration][:date] = p.date
           by_materials[p.material_id][:max_concentration][:term] = p.term
         end
       end
+      # Rails.logger.debug("concentrations =>: #{concentrations.inspect}; ")
       material_ids.each do |m|
         by_materials[m][:size] = concentrations[m][:values].size
         by_materials[m][:mean] = concentrations[m][:values].mean.round(4)
@@ -451,10 +475,10 @@ class MeasurementsController < ApplicationController
     end
     
     def get_concentrations_by_measurement(measurement_id)
-      pollutions = PollutionValue.find_by_sql("SELECT p_v.id id, p_v.material_id material_id, p_v.value value, ma.name name FROM pollution_values p_v INNER JOIN materials ma ON ma.id = p_v.material_id WHERE p_v.measurement_id = #{measurement_id} ORDER BY p_v.material_id")
+      pollutions = PollutionValue.find_by_sql("SELECT p_v.id id, p_v.material_id material_id, p_v.value value, p_v.concentration concentration, ma.name name FROM pollution_values p_v INNER JOIN materials ma ON ma.id = p_v.material_id WHERE p_v.measurement_id = #{measurement_id} ORDER BY p_v.material_id")
       concentrations = {}
       pollutions.each {|p|
-        concentrations[p.material_id] = {id: p.id, material_name: p.name, value: p.value}
+        concentrations[p.material_id] = {id: p.id, material_name: p.name, value: p.value, concentration: (p.concentration.nil? ? nil : p.concentration.round(4)) }
       }
       return concentrations
     end
@@ -466,6 +490,23 @@ class MeasurementsController < ApplicationController
         ret = City.find(place_id).name
       end
       return ret
+    end
+    
+    def calc_concentration(measurement, material_id, optical_density)
+      laboratory_id = Post.find(measurement.post_id).laboratory_id
+      chem_coefficient = ChemCoefficient.find_by(material_id: material_id, laboratory_id: laboratory_id)
+      if chem_coefficient.nil? 
+        return nil
+      end
+      t_kelvin = measurement.temperature + 273.0
+      pressure = measurement.atmosphere_pressure / 1.334 # гигапаскали -> мм. рт. ст
+      v_normal = pressure/t_kelvin*0.359*chem_coefficient.sample_volume
+      if material_id == 1 # пыль
+        return optical_density/v_normal*1000 # м куб -> дм куб
+      end
+      m = optical_density*chem_coefficient.calibration_factor
+      con = (m*chem_coefficient.solution_volume)/(v_normal*chem_coefficient.aliquot_volume)
+      return con
     end
 
 end

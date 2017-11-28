@@ -1,6 +1,3 @@
-// const React = require("react");
-// import Datetime from 'react-datetime';
-// require('moment/locale/ru');
 class InputError extends React.Component{
   constructor(props) {
     super(props);
@@ -43,6 +40,7 @@ class ChemOptionSelect extends React.Component{
     </select>;
   }
 }
+
 class OnePollution extends React.Component {
   constructor(props) {
     super(props);
@@ -53,10 +51,11 @@ class OnePollution extends React.Component {
   }
   render() {
     return (
-      <tr key={this.props.material_id}><td>{this.props.pollution.material_name}</td><td>{this.props.pollution.value}</td><td>{this.props.size > 1 ? <input id={this.props.material_id} type="submit" value="Удалить" onClick={this.handleDeleteClick}/> : ''}</td></tr>
+      <tr key={this.props.material_id}><td>{this.props.pollution.material_name}</td><td>{this.props.pollution.value}</td><td>{this.props.pollution.concentration}</td><td>{this.props.size > 1 ? <input id={this.props.material_id} type="submit" value="Удалить" onClick={this.handleDeleteClick}/> : ''}</td></tr>
     );
   }
 }
+
 class PollutionsTable extends React.Component {
   render() {
     var rows = [];
@@ -67,13 +66,14 @@ class PollutionsTable extends React.Component {
       Object.keys(this.props.concentrations).forEach((k) => rows.push(<OnePollution pollution={this.props.concentrations[k]} material_id={k} key={k} size={size} onClickDeletePollution={this.props.onClickDeletePollution} />));
     return (
       <div>
-        <h4>Концентрации</h4>
-        <table className="table table-hover">
+        <h4>Вещества</h4>
+        <table className="table">
           <thead>
             <tr>
-              <th>Вещество</th>
+              <th>Название</th>
               <th>Значение</th>
-              <th>Действие</th>
+              <th>Концентрация</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -88,7 +88,9 @@ class InputForm extends React.Component{
   constructor(props) {
     super(props);
     var vs = {};
+    var cs = {};
     Object.keys(this.props.concentrations).forEach((k) => vs[k] = this.props.concentrations[k].value);
+    Object.keys(this.props.concentrations).forEach((k) => cs[k] = this.props.concentrations[k].concentration);
     this.state = {
       weather: this.props.weather,
       date: this.props.date,
@@ -96,6 +98,7 @@ class InputForm extends React.Component{
       postId: this.props.postId,
       concentrations: this.props.concentrations,
       values: vs,
+      concs: cs,
       value: '',
       errors: this.props.errors
     };
@@ -117,23 +120,23 @@ class InputForm extends React.Component{
     var date = this.state.date; 
     $.ajax({
       type: 'GET',
-      url: "weather_update?date="+date+"&term="+this.state.term+"&post_id="+this.state.postId
+      url: "get_weather_and_concentrations?date="+date+"&term="+this.state.term+"&post_id="+this.state.postId
       }).done(function(data) {
         var weather = {};
         if (data.weather == null) {
-          // weather.temperature = '';
-          // weather.wind_speed = '';
-          // weather.wind_direction = '';
-          // weather.atmosphere_pressure = '';
         } else
           weather = data.weather;
         var vs = {};
-        if (Object.keys(data.concentrations).length > 0)
+        var cs = {};
+        if (Object.keys(data.concentrations).length > 0) {
           Object.keys(data.concentrations).forEach((k) => vs[k] = data.concentrations[k].value);
+          Object.keys(data.concentrations).forEach((k) => cs[k] = data.concentrations[k].concentration);
+        }
         this.setState({
           weather: weather,
           concentrations: data.concentrations,
           values: vs,
+          concs: cs,
           errors: data.errors
         });
       }.bind(this))
@@ -174,7 +177,11 @@ class InputForm extends React.Component{
       url: "create_or_update",
       data: {measurement: measurement, values: this.state.values}
       }).done(function(data) {
-        that.setState({errors: data.errors, concentrations: data.concentrations});
+        var cs = {};
+        if (Object.keys(data.concentrations).length > 0) {
+          Object.keys(data.concentrations).forEach((k) => cs[k] = data.concentrations[k].concentration);
+        }
+        that.setState({errors: data.errors, concentrations: data.concentrations, concs: cs});
       }.bind(this))
       .fail(function(res) {
         that.setState({values: {}, value: '', errors: ["Ошибка при сохранении данных. Дублирование записи."]});
@@ -200,8 +207,10 @@ class InputForm extends React.Component{
       url: "/pollution_values/delete_value/"+pollutionId //value_delete?=record_id="+pollutionId
     }).done(function(data){
       var vs = {};
+      var cs = {};
       Object.keys(data.concentrations).forEach((k) => vs[k] = data.concentrations[k].value);
-      that.setState({values: vs, concentrations: data.concentrations, errors: data.errors});
+      Object.keys(data.concentrations).forEach((k) => cs[k] = data.concentrations[k].concentration);
+      that.setState({values: vs, concs: cs, concentrations: data.concentrations, errors: data.errors});
     }.bind(this))
     .fail(function(res){});
   }
@@ -213,15 +222,16 @@ class InputForm extends React.Component{
       { id: '19', name: '19' }
     ];
     var self = this;
-    var ths = [];
-    var tds = [];
+    var ths = [<th key='1001'></th>];
+    var tds = [<td key='1002'><b>Значение</b></td>];
+    var tds2 = [<td key='1003'><b>Концентрация</b></td>];
     this.props.materials.map(function(m) {
-                ths.push(<th key={m.id}>{m.name}</th>);
-                tds.push(<td key={m.id}>
-                <input type="number" value={self.state.values[m.id] == null ? '' : self.state.values[m.id]} pattern="[0-9]+([,\.][0-9]+)?" onChange={self.handleValueChange} name={m.id} min="0.0" step="0.001"/>
-                {/*    <InputError visible={self.state[td].errorVisible} errorMessage="Ошибка!" /> */}
-                </td>);
-              });
+      ths.push(<th key={m.id}>{m.name}</th>);
+      tds.push(<td key={m.id}>
+      <input type="number" value={self.state.values[m.id] == null ? '' : self.state.values[m.id]} pattern="[0-9]+([,\.][0-9]+)?" onChange={self.handleValueChange} name={m.id} min="0.0" step="0.001"/>
+      </td>);
+      tds2.push(<td key={m.id}>{self.state.concs[m.id] == null ? '' : self.state.concs[m.id]}</td>);
+    });
     return(
       <div>
         <InputError visible="true" errorMessage={this.state.errors[0]} />
@@ -254,14 +264,11 @@ class InputForm extends React.Component{
               <tr>
                 {tds}
               </tr>
+              <tr>
+                {tds2}
+              </tr>
             </tbody>
           </table>  
-            {/*
-            Пост: <ChemOptionSelect options={this.props.posts} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" defaultValue={this.props.postId}/>
-            Срок: <ChemOptionSelect options={terms} onUserInput={this.handleOptionSelected} name = "selectTerm" defaultValue="07"/>
-            Дата: <input size="10px" type="date" name="measurement-date" value={this.state.date} onChange={this.dateChange} required="true" autoComplete="on"/>
-             Дата: <Datetime timeFormat={false} dateFormat="YYYY.MM.DD" closeOnSelect={true} onChange={this.dateChange} defaultValue={this.props.date} /> 
-          </div>*/}
           <input type="submit" value="Сохранить" />
         </form>
         <h4>Данные о погоде (дата: {this.state.date}; срок: {this.state.term}; пост: {this.state.postId})</h4>
@@ -272,9 +279,6 @@ class InputForm extends React.Component{
               <th>Скорость ветра</th>
               <th>Направление ветра</th>
               <th>Атмосферное давление</th>
-              <th>Относительная влажность</th>
-              <th>Атмосферные явления</th>
-              <th>Парциальное давление</th>
             </tr>
           </thead>
           <tbody>
@@ -291,12 +295,6 @@ class InputForm extends React.Component{
               <td>
                 {this.state.weather.atmosphere_pressure}
               </td>
-              <td>
-              </td>
-              <td>
-              </td>
-              <td>
-              </td>
             </tr>
           </tbody>
         </table>
@@ -310,12 +308,7 @@ class InputPollutionsForm extends React.Component{
   constructor(props) {
     super(props);
     var weather = {};
-    if (this.props.weather == null) {
-      // weather.temperature = '';
-      // weather.wind_speed = '';
-      // weather.wind_direction = '';
-      // weather.atmosphere_pressure = '';
-    } else
+    if (this.props.weather != null) 
       weather = this.props.weather;
     this.state = {
       weather: weather,
@@ -334,4 +327,3 @@ class InputPollutionsForm extends React.Component{
     );
   }
 }
-// export default InputPollutionsForm;

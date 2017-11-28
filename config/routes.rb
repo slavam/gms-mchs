@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :chem_coefficients
+  resources :laboratories
   post 'sea_observations/create_sea_telegram', to: 'sea_observations#create_sea_telegram'
   get 'sea_observations/get_last_telegrams', to: 'sea_observations#get_last_telegrams'
   get 'sea_observations/input_sea_telegrams', to: 'sea_observations#input_sea_telegrams'
@@ -30,6 +32,7 @@ Rails.application.routes.draw do
   delete 'pollution_values/delete_value/:id', to: 'pollution_values#delete_value'
   resources :pollution_values
   get 'measurements/weather_update', to: 'measurements#weather_update'
+  get 'measurements/get_weather_and_concentrations', to: 'measurements#get_weather_and_concentrations'
   post 'measurements/save_pollutions', to: 'measurements#save_pollutions'
   post 'measurements/create_or_update', to: 'measurements#create_or_update'
   get 'measurements/get_convert_params', to: 'measurements#get_convert_params'

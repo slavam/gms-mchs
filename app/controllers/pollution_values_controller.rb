@@ -27,7 +27,7 @@ class PollutionValuesController < ApplicationController
   
   private
     def pollution_value_params
-      params.require(:pollution_value).permit(:value)
+      params.require(:pollution_value).permit(:value, :concentration)
     end
     def find_pollution_value
       @pollution_value = PollutionValue.find(params[:id])

@@ -1,6 +1,7 @@
 %tr
   %td= post.name
   %td= post.city.name
+  %td= post.laboratory_id.present? ? post.laboratory.name : ''
   %td= post.site_type.name
   %td= post.substances_num
   %td= post.coordinates

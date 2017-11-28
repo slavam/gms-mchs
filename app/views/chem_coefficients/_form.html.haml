@@ -1,0 +1,22 @@
+%div{ class: "row"}
+  %div{ class: "col-md-6 col-md-offset-3"}
+    = form_for(@chem_coefficient) do |f| 
+      = f.label "Лаборатория"
+      = collection_select(:chem_coefficient, :laboratory_id, Laboratory.all.order(:id), :id, :name)
+      
+      = f.label "Материал"
+      = collection_select(:chem_coefficient, :material_id, Material.actual_materials.order(:name), :id, :name)
+      
+      = f.label "Градуировочный коэфициент"
+      = f.number_field :calibration_factor, step: 0.001
+      
+      = f.label "Объем аликвоты в кубических сантиметрах"
+      = f.number_field :aliquot_volume, step: 0.01
+      
+      = f.label "Объем раствора в кубических сантиметрах"
+      = f.number_field :solution_volume, step: 0.01
+      
+      = f.label "Объем отобраной пробы в кубических дециметрах"
+      = f.number_field :sample_volume, step: 0.01
+
+      = f.submit "Сохранить", class: "btn btn-primary"

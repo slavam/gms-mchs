@@ -207,3 +207,4 @@ class CreateAgroObservations < ActiveRecord::Migration
     end
   end
 end
+

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171116052717) do
+ActiveRecord::Schema.define(version: 20171124095917) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
@@ -79,6 +79,17 @@ ActiveRecord::Schema.define(version: 20171116052717) do
     t.string   "picture",              limit: 255
   end
 
+  create_table "chem_coefficients", force: :cascade do |t|
+    t.integer  "material_id",        limit: 4,                         null: false
+    t.integer  "laboratory_id",      limit: 4,                         null: false
+    t.decimal  "calibration_factor",           precision: 6, scale: 3
+    t.decimal  "aliquot_volume",               precision: 5, scale: 2
+    t.decimal  "solution_volume",              precision: 5, scale: 2
+    t.decimal  "sample_volume",                precision: 7, scale: 2
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
+  end
+
   create_table "cities", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.integer  "code",       limit: 4
@@ -115,6 +126,12 @@ ActiveRecord::Schema.define(version: 20171116052717) do
     t.string "Наименование", limit: 50
     t.string "Модель",       limit: 155
     t.string "Формуляр",     limit: 15
+  end
+
+  create_table "laboratories", force: :cascade do |t|
+    t.string   "name",       limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "materials", force: :cascade do |t|
@@ -157,6 +174,7 @@ ActiveRecord::Schema.define(version: 20171116052717) do
     t.float    "value",          limit: 24
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.float    "concentration",  limit: 24
   end
 
   create_table "posts", force: :cascade do |t|
@@ -171,6 +189,7 @@ ActiveRecord::Schema.define(version: 20171116052717) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.boolean  "active"
+    t.integer  "laboratory_id",    limit: 4
   end
 
   create_table "reestr", force: :cascade do |t|

@@ -114,8 +114,12 @@ class BulletinsController < ApplicationController
 
   def pdf_2_png
     pdf = Magick::ImageList.new("app/assets/pdf_folder/#{@bulletin.pdf_filename(current_user.id)}")
-    pdf.write("app/assets/pdf_folder/#{@bulletin.png_filename(current_user.id)}")
-    # pdf.write("#{Rails.root}/public/images/#{@bulletin.png_filename(current_user.id)}")  # production only
+    
+    if Rails.env.production?
+      pdf.write("#{Rails.root}/public/images/#{@bulletin.png_filename(current_user.id)}")  # production only
+    else
+      pdf.write("app/assets/pdf_folder/#{@bulletin.png_filename(current_user.id)}")
+    end
     
     return true
   end
