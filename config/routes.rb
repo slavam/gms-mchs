@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :meteo_links
   resources :chem_coefficients
   resources :laboratories
   post 'sea_observations/create_sea_telegram', to: 'sea_observations#create_sea_telegram'

@@ -43,16 +43,16 @@ class MeasurementsController < ApplicationController
     @month = params[:month]
     @post_id = params[:post_id]
     @matrix = get_matrix_data(@year, @month, @post_id)
-    header0 = ["Число", "Срок"]
-    @matrix[:substance_names].each {|h| header0 << h[1]}
+    header0 = ["<b>Дата</b>", "<b>Срок</b>"]
+    @matrix[:substance_names].each {|h| header0 << "<b>#{h[1]}</b> мг/м<sup>3</sup>"}
     @pollutions = []
     @pollutions << header0
     @matrix[:pollutions].each do |k, p|
       @pollutions << make_forma1_row(k, p)
     end
-    @pollutions << ["Число измерений", ""] + @matrix[:measure_num].map{|k,v| v}
-    @pollutions << ["Среднее", ""] + @matrix[:avg_values].map{|k,v| v}
-    @pollutions << ["Максимум", ""] + @matrix[:max_values].map{|k,v| v}
+    @pollutions << ["<b>Число измерений</b>", ""] + @matrix[:measure_num].map{|k,v| v}
+    @pollutions << ["<b>Среднее</b>", ""] + @matrix[:avg_values].map{|k,v| v}
+    @pollutions << ["<b>Максимум</b>", ""] + @matrix[:max_values].map{|k,v| v}
   end
   
   def print_forma2
@@ -93,7 +93,6 @@ class MeasurementsController < ApplicationController
     @scope_name = get_place_name(params[:region_type], params[:place_id])
     if @region_type == 'post'
       @posts = Post.actual.order(:city_id, :id) 
-      # @posts = Post.where("name != 'Резерв'").order(:city_id, :id)
     else
       @cities = City.all.order(:id)
     end
@@ -307,8 +306,9 @@ class MeasurementsController < ApplicationController
         substance_names[k] = s.name
         measure_num[k] = grouped_pollutions[k].size
         grouped_pollutions[k].each {|g_p|
-          max_values[k] = g_p.value if g_p.value > max_values[k]
-          avg_values[k] += g_p.value
+          value = (g_p.concentration.nil? ? g_p.value : g_p.concentration).round(4)
+          max_values[k] = value if value > max_values[k]
+          avg_values[k] += value
         }
         avg_values[k] = (avg_values[k]/measure_num[k]).round(3) if measure_num[k] > 0
       end
@@ -324,7 +324,7 @@ class MeasurementsController < ApplicationController
           a[s.material_id] = ''
         end
         g_p.each do |p| 
-          a[p.material_id] = p.value
+          a[p.material_id] = (p.concentration.nil? ? p.value : p.concentration).round(4)
         end
         pollutions[k] = a.to_a
       end
@@ -448,9 +448,10 @@ class MeasurementsController < ApplicationController
           by_materials[p.material_id] = {max_concentration: {value: 0, post_id: 0, date: nil, term: nil}, size: 0, mean: 0, standard_deviation: 0, variance: 0, pollution_index: 0.0, material_name: p.material.name, hazard_index: p.material.klop.to_i, pdk_avg: p.material.pdksr, pdk_max: p.material.pdkmax, lt_1pdk: 0, lt_5pdk: 0, lt_10pdk: 0, percent1: 0.0, percent5: 0.0, percent10: 0.0, avg_conc: 0.0, max_conc: 0.0}
         end
         concentrations[p.material_id][:values] << (p.concentration.present? ? p.concentration : p.value)
-        by_materials[p.material_id][:lt_1pdk] += 1 if p.value > by_materials[p.material_id][:pdk_max]
-        by_materials[p.material_id][:lt_5pdk] += 1 if p.value > by_materials[p.material_id][:pdk_max]*5
-        by_materials[p.material_id][:lt_10pdk] += 1 if p.value > by_materials[p.material_id][:pdk_max]*10
+        value = (p.concentration.present? ? p.concentration : p.value)
+        by_materials[p.material_id][:lt_1pdk] += 1 if value > by_materials[p.material_id][:pdk_max]
+        by_materials[p.material_id][:lt_5pdk] += 1 if value > by_materials[p.material_id][:pdk_max]*5
+        by_materials[p.material_id][:lt_10pdk] += 1 if value > by_materials[p.material_id][:pdk_max]*10
         if by_materials[p.material_id][:max_concentration][:value] < (p.concentration.present? ? p.concentration : p.value)
           by_materials[p.material_id][:max_concentration][:value] = (p.concentration.present? ? p.concentration.round(4) : p.value.round(4))
           by_materials[p.material_id][:max_concentration][:post_id] = p.post_id

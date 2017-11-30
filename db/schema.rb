@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171124095917) do
+ActiveRecord::Schema.define(version: 20171129061128) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
@@ -167,6 +167,14 @@ ActiveRecord::Schema.define(version: 20171124095917) do
   end
 
   add_index "measurements", ["date", "term", "post_id"], name: "index_measurements_on_date_and_term_and_post_id", unique: true, using: :btree
+
+  create_table "meteo_links", force: :cascade do |t|
+    t.string   "name",       limit: 255,                null: false
+    t.string   "address",    limit: 255,                null: false
+    t.boolean  "is_active",              default: true
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+  end
 
   create_table "pollution_values", force: :cascade do |t|
     t.integer  "measurement_id", limit: 4

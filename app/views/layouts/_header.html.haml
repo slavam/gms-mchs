@@ -36,9 +36,9 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Сервис <b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
                   %li= link_to 'Поиск синоптических телеграмм',  search_synoptic_telegrams_path
-                  %li= link_to 'Карты', "http://www.kcgms.ru/unimas/maps/", target: :_blank
-                  /
-                    %li= link_to 'Отбор из ogimet',  make_web_query_path
+                  %li{ class: "divider"}
+                  - active_meteo_links.each do |l|
+                    %li= link_to l.name,  l.address, target: :_blank
             - when 'technicist'
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Телеграммы <b class="caret"></b></a>
@@ -102,6 +102,7 @@
                     %li= link_to 'Конверсия из АКИАМ', measurements_get_convert_params_path
             - when 'admin'
               %li= link_to "Users", users_path
+              %li= link_to "Synoptic Links", meteo_links_path
               %li= link_to "Audit", audits_path
           %li{ class: "dropdown"}
           %li

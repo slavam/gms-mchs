@@ -1,0 +1,18 @@
+.container
+  %h3 Ссылки на полезные сайты
+  %table{class: "table table-hover"}
+    %thead
+      %tr
+        %th Название
+        %th Адрес
+        %th Активна?
+        %th
+    %tbody
+      - @meteo_links.each do |m_l| 
+        %tr
+          %td= m_l.name
+          %td= m_l.address
+          %td= m_l.is_active
+          %td= link_to "Изменить", edit_meteo_link_path(m_l.id)
+  %br
+  = link_to "Создать", new_meteo_link_path  

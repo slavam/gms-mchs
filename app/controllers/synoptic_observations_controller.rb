@@ -84,18 +84,16 @@ class SynopticObservationsController < ApplicationController
   end
   
   def new
-    # @date = Time.now.to_s(:simple_date_time)
     # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{current_user.inspect}")
     @stations = Station.all.order(:name)
     @last_telegrams = SynopticObservation.short_last_50_telegrams
-    # @last_telegrams = fields_short_list(last_telegrams)
   end
   
   def create_synoptic_telegram
     telegram = SynopticObservation.new(observation_params)
     telegram.station_id = Station.find_by_code(telegram.telegram[6,5].to_i).id
-    telegram.observed_at = Time.now
-    telegram.term = Time.now.hour / 3 * 3
+    telegram.observed_at = Time.now.utc
+    telegram.term = Time.now.utc.hour / 3 * 3
     if telegram.save
       last_telegrams = SynopticObservation.short_last_50_telegrams
       render json: {telegrams: last_telegrams, tlgType: 'synoptic', currDate: telegram.date, errors: ["Телеграмма добавлена в базу"]}

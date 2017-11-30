@@ -1,14 +1,34 @@
-prawn_document(:page_layout => :landscape, :page_size => "A3") do |pdf|
-  # pdf.font "./app/assets/fonts/OpenSans/OpenSans-Light.ttf"
+prawn_document(:page_layout => :landscape, :page_size => "A4") do |pdf|
+  pdf.font_families.update("OpenSans" => {
+      :normal => Rails.root.join("./app/assets/fonts/OpenSans/OpenSans-Regular.ttf"),
+      :italic => Rails.root.join("app/assets/fonts/OpenSans/OpenSans-Italic.ttf"),
+      :bold => Rails.root.join("./app/assets/fonts/OpenSans/OpenSans-Bold.ttf"),
+      :bold_italic => Rails.root.join("app/assets/fonts/OpenSans/OpenSans-BoldItalic.ttf")
+    })
+  report_date = Time.now.strftime("%Y-%m-%d")
   pdf.font "./app/assets/fonts/DejaVu/DejaVuSansCondensed-Bold.ttf"
-  pdf.text "Форма 1"
+#  pdf.font "./app/assets/fonts/OpenSans/OpenSans-Light.ttf"
+  pdf.text "ПРОТОКОЛ № ___", align: :center, size: 14
   pdf.move_down 5
-  pdf.text "Таблица наблюдений за загрязнением атмосферы"
+  pdf.text "измерений содержания загрязняющих веществ в атмосферном воздухе", align: :center
+  pdf.text "от #{report_date[8,2]} #{Bulletin::MONTH_NAME2[report_date[5,2].to_i]} #{report_date[0,4]}г.", align: :center
   pdf.move_down 5
   pdf.text "Год #{@year}. Месяц #{@month}"
-  pdf.move_down 5
   pdf.text @matrix[:site_description]
-  pdf.table @pollutions, width: pdf.bounds.width do |t|
-  
+  pdf.move_down 5
+  pdf.font "OpenSans", style: :normal
+  pdf.table @pollutions, width: pdf.bounds.width, cell_style: { :inline_format => true} do |t|
   end
+  pdf.move_down 10
+  pdf.font "OpenSans", style: :bold
+  if @post_id.to_i > 14 
+    pdf.text "Начальник ЛНЗА г. Горловка: _____________________ / Е.А. Фетисова/"
+    pdf.move_down 5
+    pdf.text "Исполнитель: ___________________________________/ Ю.Ю. Сидоренко/"
+  else
+    pdf.text "Начальник ЛНЗА г. Донецк: _____________________ /               /"
+    pdf.move_down 5
+    pdf.text "Исполнитель: ___________________________________/               /"
+  end
+  
 end
