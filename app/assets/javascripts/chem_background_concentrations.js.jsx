@@ -1,9 +1,4 @@
-// import React from "react";
-const React = require("react");
-// import Datetime from 'react-datetime';
-// //require('react-datetime');
-// require('moment/locale/ru');
-class ChemOptionSelect extends React.Component{
+class ChOptionSelect extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +11,7 @@ class ChemOptionSelect extends React.Component{
   }
   render(){
     var name = this.props.name;
-    return <select name={this.props.name} onChange={this.handleOptionChange} defaultValue = {this.state.defaultValue}>
+    return <select key={this.props.name} name={this.props.name} onChange={this.handleOptionChange} defaultValue = {this.state.defaultValue}>
       {
         this.props.options.map(function(op) {
           return <option key={name == "selectStation"? op.idstation : op.idsubstance} value={name == "selectStation"? op.idstation : op.idsubstance}>{op.description}</option>;
@@ -39,8 +34,6 @@ class BCParams extends React.Component{
     };
     this.handleOptionSelected = this.handleOptionSelected.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.onStartChange = this.onStartChange.bind(this);
-    this.onEndChange = this.onEndChange.bind(this);
     this.startDateChange = this.startDateChange.bind(this);
     this.endDateChange = this.endDateChange.bind(this);
   }
@@ -62,19 +55,6 @@ class BCParams extends React.Component{
       this.state.substanceIndex = value;
     }
   }
-  // onChange(event) {
-  //   var year = event.format("YYYY");
-  //   var month = event.format("MM");
-  //   this.setState({year: year, month: month});
-  // }
-  onStartChange(e) {
-    var startDate = e.format("YYYY-MM-DD");
-    this.setState({startDate: startDate});
-  }
-  onEndChange(e) {
-    var endDate = e.format("YYYY-MM-DD");
-    this.setState({endDate: endDate});
-  }
   startDateChange(e) {
     this.setState({startDate: e.target.value});
   }
@@ -84,45 +64,24 @@ class BCParams extends React.Component{
   render() {
     return (
       <form className="paramsForm" onSubmit={this.handleSubmit}>
-        <p>Пост:<ChemOptionSelect options={this.props.sites} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" defaultValue="3"/>
-        Вещество:<ChemOptionSelect options={this.props.substances} onUserInput={this.handleOptionSelected} name="selectSubstance" key="selectSubstance" />
-        {/*<Datetime 
-          locale="ru" 
-          timeFormat={false} 
-          dateFormat="YYYY-MM" 
-          closeOnSelect={true} 
-          onChange={this.onChange}
-        /> 
-        <Datetime 
-          name="startDate"
-          key="startDate"
-          locale="ru" 
-          dateFormat="YYYY-MM-DD"
-          timeFormat={false} 
-          input={false}
-          onChange={this.onStartChange}
-        />*/}
-        С:
-        <input
-          type="text"
-          value={this.state.startDate}
-          onChange={this.startDateChange}
-        />
-        {/*<Datetime 
-          name="endDate"
-          key="endDate"
-          locale="ru" 
-          timeFormat={false} 
-          input={false}
-          onChange={this.onEndChange}
-        />*/}
-        По:
-        <input
-          type="text"
-          value={this.state.endDate}
-          onChange={this.endDateChange}
-        />
-        </p>
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th>Дата с</th>
+              <th>Дата по</th>
+              <th>Пост</th>
+              <th>Вещество</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="date" name="input-date-from" value={this.state.startDate} onChange={this.startDateChange} required="true" autoComplete="on" /></td>
+              <td><input type="date" name="input-date-to" value={this.state.endDate} onChange={this.endDateChange} required="true" autoComplete="on" /></td>
+              <td><ChOptionSelect options={this.props.sites} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" defaultValue="3"/></td>
+              <td><ChOptionSelect options={this.props.substances} onUserInput={this.handleOptionSelected} name="selectSubstance" key="selectSubstance" /></td>
+            </tr>
+          </tbody>
+        </table>
         <input type="submit" value="Пересчитать" />
       </form>
     );
@@ -264,5 +223,3 @@ class ChemBackgroundConcentrations extends React.Component{
     );
   }
 }
-
-export default ChemBackgroundConcentrations;

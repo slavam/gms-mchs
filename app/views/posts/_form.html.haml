@@ -6,6 +6,9 @@
           %th Название:
           %td= form.text_field :name, size: 100
         %tr
+          %th Короткое название:
+          %td= form.text_field :short_name
+        %tr
           %th Тип:
           %td= collection_select(:post, :site_type_id, SiteType.all, :id, :name, {:prompt => true})
         %tr

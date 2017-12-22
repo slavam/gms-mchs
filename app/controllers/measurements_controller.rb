@@ -434,7 +434,7 @@ class MeasurementsController < ApplicationController
         when 'total'
           pollutions = Pollution.where("date >= ? AND date <= ?", date_from, date_to)
         when 'post'
-          pollutions = PollutionValue.find_by_sql("SELECT * FROM pollution_values p_v INNER JOIN measurements m ON m.id = p_v.measurement_id AND m.date >= '#{date_from}' AND m.date <= '#{date_to}' AND m.post_id = #{place_id} INNER JOIN materials ma ON ma.id = p_v.material_id order by p_v.material_id")
+          pollutions = PollutionValue.find_by_sql("SELECT * FROM pollution_values p_v INNER JOIN measurements m ON m.id = p_v.measurement_id AND m.date >= '#{date_from}' AND m.date <= '#{date_to}' AND m.post_id = #{place_id} INNER JOIN posts p on p.id=m.post_id INNER JOIN materials ma ON ma.id = p_v.material_id order by p_v.material_id")
         else
           pollutions = PollutionValue.find_by_sql("SELECT * FROM pollution_values p_v INNER JOIN measurements m ON m.id = p_v.measurement_id AND m.date >= '#{date_from}' AND m.date <= '#{date_to}' INNER JOIN materials ma ON ma.id = p_v.material_id INNER JOIN posts p on p.id=m.post_id AND p.city_id=#{place_id} order by p_v.material_id")
       end
@@ -454,7 +454,7 @@ class MeasurementsController < ApplicationController
         by_materials[p.material_id][:lt_10pdk] += 1 if value > by_materials[p.material_id][:pdk_max]*10
         if by_materials[p.material_id][:max_concentration][:value] < (p.concentration.present? ? p.concentration : p.value)
           by_materials[p.material_id][:max_concentration][:value] = (p.concentration.present? ? p.concentration.round(4) : p.value.round(4))
-          by_materials[p.material_id][:max_concentration][:post_id] = p.post_id
+          by_materials[p.material_id][:max_concentration][:post_id] = p.short_name #p.post_id
           by_materials[p.material_id][:max_concentration][:date] = p.date
           by_materials[p.material_id][:max_concentration][:term] = p.term
         end

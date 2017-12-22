@@ -28,8 +28,12 @@ class PollutionsController < ApplicationController
     substance_id = params[:substance]
     substance = Substance.find(substance_id).description
     concentrations = get_concentrations(start_date, end_date, site_id, substance_id)
-    site = Site.find(site_id)
-    site_description = site.description+'. Координаты: '+site.coordinate.to_s
+    if site_id.to_i == 0
+      site_description = "г. Донецк (посты 5, 7, 9, 14)"
+    else
+      site = Site.find(site_id)
+      site_description = site.description+'. Координаты: '+site.coordinate.to_s
+    end
     render json: {startDate: start_date, endDate: end_date, site_description: site_description, substance: substance, concentrations: concentrations}
   end
   
@@ -52,6 +56,8 @@ class PollutionsController < ApplicationController
     
     @concentrations = get_concentrations(@start_date, @end_date, site_id, substance_id)
     
+    @sites << {idstation: 0, description: "г. Донецк (5, 7, 9, 14)"}
+    # Rails.logger.debug("My object: #{@sites.inspect}")
   end
   
   private
@@ -77,17 +83,31 @@ class PollutionsController < ApplicationController
     end
     
     def get_concentrations(start_date, end_date, site_id, substance_id)
-      my_query = "SELECT d.value, w_s.value speed, w_d.value direction, d.date from dimension d 
+      if site_id.to_i == 0 # whole Donetsk
+        my_query = "SELECT d.value, w_s.value speed, w_d.value direction, d.date from dimension d 
+                  JOIN dimension w_s on d.date = w_s.date AND w_s.idsubstance = 102 AND w_s.value >= 0 AND w_s.idstation in (5, 7, 9, 14)
+                  JOIN dimension w_d on w_d.date = w_s.date AND w_d.idsubstance = 101 AND w_d.idstation in (5, 7, 9, 14) 
+                  WHERE d.idstation in (5, 7, 9, 14) AND d.idsubstance = #{substance_id} AND d.date >= '#{start_date}' AND d.date <= '#{end_date} 23:59:59';"
+      else
+        my_query = "SELECT d.value, w_s.value speed, w_d.value direction, d.date from dimension d 
                   JOIN dimension w_s on d.date = w_s.date AND w_s.idsubstance = 102 AND w_s.value >= 0 AND w_s.idstation = #{site_id}
                   JOIN dimension w_d on w_d.date = w_s.date AND w_d.idsubstance = 101 AND w_d.idstation = #{site_id} 
                   WHERE d.idstation = #{site_id} AND d.idsubstance = #{substance_id} AND d.date >= '#{start_date}' AND d.date <= '#{end_date} 23:59:59';"
                   # WHERE d.idstation = #{site_id} AND d.idsubstance = #{substance_id} AND d.date BETWEEN '#{start_date}' AND '#{end_date}';"
+      end
       concentrations = Pollution.connection.select_all(my_query)
       if concentrations.count < 1
-        my_query = "SELECT d.value, w_s.value speed, w_d.value direction, d.date from dimension d 
+        if site_id.to_i == 0 # whole Donetsk
+                  my_query = "SELECT d.value, w_s.value speed, w_d.value direction, d.date from dimension d 
                   JOIN dimension w_s on d.date = w_s.date AND w_s.idsubstance = 102 AND w_s.value >= 0 AND w_s.idstation = 1
                   JOIN dimension w_d on w_d.date = w_s.date AND w_d.idsubstance = 101 AND w_d.idstation = 1
-                  WHERE d.idstation = #{site_id} AND d.idsubstance = #{substance_id} AND d.date >= '#{start_date}' AND d.date <= '#{end_date} 23:59:59';"
+                  WHERE d.idstation  in (5, 7, 9, 14) AND d.idsubstance = #{substance_id} AND d.date >= '#{start_date}' AND d.date <= '#{end_date} 23:59:59';"
+        else
+          my_query = "SELECT d.value, w_s.value speed, w_d.value direction, d.date from dimension d 
+                    JOIN dimension w_s on d.date = w_s.date AND w_s.idsubstance = 102 AND w_s.value >= 0 AND w_s.idstation = 1
+                    JOIN dimension w_d on w_d.date = w_s.date AND w_d.idsubstance = 101 AND w_d.idstation = 1
+                    WHERE d.idstation = #{site_id} AND d.idsubstance = #{substance_id} AND d.date >= '#{start_date}' AND d.date <= '#{end_date} 23:59:59';"
+        end
         concentrations = Pollution.connection.select_all(my_query)
       end
       
@@ -157,7 +177,7 @@ class PollutionsController < ApplicationController
             when 180-44..180+45
               conc_by_direction[:south].push c['value'].to_f
             when 270-44..270+45
-              conc_by_direction[:west].push c['value'].to_f
+              conc_by_direction[:west].push c['value'].to_f if c['value'].present?
             else
               conc_by_direction[:north].push c['value'].to_f
           end
@@ -193,11 +213,11 @@ class PollutionsController < ApplicationController
                                    conc_by_direction[:west].size].max()
                        
       # коэффициент вариации                                   
-      conc_by_direction[:variance_calm]  = (conc_by_direction[:standard_deviation_calm] /conc_by_direction[:avg_calm]).round(4) if conc_by_direction[:calm].size > 0
-      conc_by_direction[:variance_north] = (conc_by_direction[:standard_deviation_north]/conc_by_direction[:avg_north]).round(4) if conc_by_direction[:north].size > 0
-      conc_by_direction[:variance_east]  = (conc_by_direction[:standard_deviation_east] /conc_by_direction[:avg_east]).round(4) if conc_by_direction[:east].size > 0
-      conc_by_direction[:variance_south] = (conc_by_direction[:standard_deviation_south]/conc_by_direction[:avg_south]).round(4) if conc_by_direction[:south].size > 0
-      conc_by_direction[:variance_west]  = (conc_by_direction[:standard_deviation_west] /conc_by_direction[:avg_west]).round(4) if conc_by_direction[:west].size > 0
+      conc_by_direction[:variance_calm]  = (conc_by_direction[:standard_deviation_calm] /conc_by_direction[:avg_calm]).round(4) if (conc_by_direction[:calm].size > 0) and (conc_by_direction[:avg_calm] > 0)
+      conc_by_direction[:variance_north] = (conc_by_direction[:standard_deviation_north]/conc_by_direction[:avg_north]).round(4) if (conc_by_direction[:north].size > 0) and (conc_by_direction[:avg_north] > 0)
+      conc_by_direction[:variance_east]  = (conc_by_direction[:standard_deviation_east] /conc_by_direction[:avg_east]).round(4) if (conc_by_direction[:east].size > 0) and (conc_by_direction[:avg_east] > 0)
+      conc_by_direction[:variance_south] = (conc_by_direction[:standard_deviation_south]/conc_by_direction[:avg_south]).round(4) if (conc_by_direction[:south].size > 0) and (conc_by_direction[:avg_south] > 0)
+      conc_by_direction[:variance_west]  = (conc_by_direction[:standard_deviation_west] /conc_by_direction[:avg_west]).round(4) if (conc_by_direction[:west].size > 0) and (conc_by_direction[:avg_west] > 0)
       # функция перехода
       conc_by_direction[:transition_function_calm]  = transition_function(conc_by_direction[:variance_calm])
       conc_by_direction[:transition_function_north] = transition_function(conc_by_direction[:variance_north])
@@ -210,7 +230,7 @@ class PollutionsController < ApplicationController
       conc_by_direction[:concentration_east] = (conc_by_direction[:transition_function_east] * conc_by_direction[:avg_east]).round(4) if conc_by_direction[:east].size > 0
       conc_by_direction[:concentration_south] = (conc_by_direction[:transition_function_south] * conc_by_direction[:avg_south]).round(4) if conc_by_direction[:south].size > 0
       conc_by_direction[:concentration_west] = (conc_by_direction[:transition_function_west] * conc_by_direction[:avg_west]).round(4) if conc_by_direction[:west].size > 0
-      
+
       conc_by_direction[:conc_bcg_avg5] = ((conc_by_direction[:concentration_calm]*conc_by_direction[:calm].size +
                                            conc_by_direction[:concentration_north]*conc_by_direction[:north].size +
                                            conc_by_direction[:concentration_east]*conc_by_direction[:east].size +
@@ -228,7 +248,8 @@ class PollutionsController < ApplicationController
       conc_by_direction[:background_concentration_south] = conc_by_direction[:concentration_south]
       conc_by_direction[:background_concentration_west]  = conc_by_direction[:concentration_west]
       c_b5 = [conc_by_direction[:concentration_calm], conc_by_direction[:concentration_north], conc_by_direction[:concentration_east], conc_by_direction[:concentration_south], conc_by_direction[:concentration_west]]
-      if ((c_b5.max - conc_by_direction[:conc_bcg_avg5]) <= conc_by_direction[:conc_bcg_avg5]*0.25) and ((conc_by_direction[:conc_bcg_avg5] - c_b5.min) <= conc_by_direction[:conc_bcg_avg5]*0.25)
+# Rails.logger.debug("My object 1: #{conc_by_direction.inspect}")       
+      if ((c_b5.max - conc_by_direction[:conc_bcg_avg5]) <= (conc_by_direction[:conc_bcg_avg5]*0.25)) and ((conc_by_direction[:conc_bcg_avg5] - c_b5.min) <= (conc_by_direction[:conc_bcg_avg5]*0.25))
         conc_by_direction[:background_concentration_calm]  = conc_by_direction[:conc_bcg_avg5]
         conc_by_direction[:background_concentration_north] = conc_by_direction[:conc_bcg_avg5]
         conc_by_direction[:background_concentration_east]  = conc_by_direction[:conc_bcg_avg5]

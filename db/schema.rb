@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171129061128) do
+ActiveRecord::Schema.define(version: 20171201062804) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
@@ -198,6 +198,7 @@ ActiveRecord::Schema.define(version: 20171129061128) do
     t.datetime "updated_at",                   null: false
     t.boolean  "active"
     t.integer  "laboratory_id",    limit: 4
+    t.string   "short_name",       limit: 255
   end
 
   create_table "reestr", force: :cascade do |t|
