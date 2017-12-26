@@ -90,15 +90,27 @@ class SynopticObservationsController < ApplicationController
   end
   
   def create_synoptic_telegram
-    telegram = SynopticObservation.new(observation_params)
-    telegram.station_id = Station.find_by_code(telegram.telegram[6,5].to_i).id
-    telegram.observed_at = Time.now.utc
-    telegram.term = Time.now.utc.hour / 3 * 3
-    if telegram.save
-      last_telegrams = SynopticObservation.short_last_50_telegrams
-      render json: {telegrams: last_telegrams, tlgType: 'synoptic', currDate: telegram.date, errors: ["Телеграмма добавлена в базу"]}
+    date = Time.now.utc.strftime("%Y-%m-%d")
+    term = Time.now.utc.hour / 3 * 3
+    telegram = SynopticObservation.find_by(date: date, term: term, station_id: params[:observation][:station_id])
+    if telegram.present?
+      if telegram.update_attributes observation_params
+        last_telegrams = SynopticObservation.short_last_50_telegrams
+        render json: {telegrams: last_telegrams, tlgType: 'synoptic', currDate: date, errors: ["Телеграмма обновлена"]}
+      else
+        render json: {errors: ["Ошибка при сохранении изменений"]}, status: :unprocessable_entity
+      end
     else
-      render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
+      telegram = SynopticObservation.new(observation_params)
+      telegram.observed_at = Time.now.utc
+      telegram.date = date
+      telegram.term = term
+      if telegram.save
+        last_telegrams = SynopticObservation.short_last_50_telegrams
+        render json: {telegrams: last_telegrams, tlgType: 'synoptic', currDate: telegram.date, errors: ["Телеграмма добавлена в базу"]}
+      else
+        render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
+      end
     end
   end
   

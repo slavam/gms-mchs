@@ -65,8 +65,6 @@ class StormObservationsController < ApplicationController
   def input_storm_telegrams
     @stations = Station.all.order(:name)
     @telegrams = StormObservation.short_last_50_telegrams
-    # last_telegrams = StormObservation.last_50_telegrams
-    # @telegrams = fields_short_list(last_telegrams)
   end
   
   def create
@@ -80,12 +78,6 @@ class StormObservationsController < ApplicationController
       flash[:danger] = 'Ошибка в типе телеграммы'
       ret = false
     end
-    # для синоптиков шторм нужно сохранить и в синоптических 2017.09.28 
-    # synoptic_telegram = SynopticObservation.new
-    # synoptic_telegram.date = Time.now
-    # synoptic_telegram.term = 25 # срок для штормов
-    # synoptic_telegram.telegram = @storm_observation.telegram
-    # synoptic_telegram.station_id = @storm_observation.station_id
     if ret and @storm_observation.save # and synoptic_telegram.save
       flash[:success] = "Создана штормовая телеграмма"
       redirect_to storm_observations_path
@@ -93,19 +85,27 @@ class StormObservationsController < ApplicationController
       render 'new'
     end
   end
+    # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{telegram.inspect}")
   
   def create_storm_telegram
-    telegram = StormObservation.new(storm_observation_params)
-    telegram.telegram_date = Time.now
-    telegram.hour_event = telegram.telegram[20,2].to_i
-    telegram.minute_event = telegram.telegram[22,2].to_i
-    telegram.telegram_type = telegram.telegram[0, 5]
-    # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{telegram.inspect}")
-    if telegram.save
-      last_telegrams = StormObservation.short_last_50_telegrams
-      render json: {telegrams: last_telegrams, tlgType: 'storm', currDate: telegram.telegram_date, errors: ["Телеграмма добавлена в базу"]}
+    # date = Time.now.utc.strftime("%Y-%m-%d")
+    telegram = StormObservation.find_by(station_id: params[:storm_observation][:station_id], telegram_type: params[:storm_observation][:telegram_type], day_event: params[:storm_observation][:day_event], hour_event: params[:storm_observation][:hour_event], minute_event: params[:storm_observation][:minute_event])
+    if telegram.present?
+      if telegram.update_attributes storm_observation_params
+        last_telegrams = StormObservation.short_last_50_telegrams
+        render json: {telegrams: last_telegrams, tlgType: 'storm', currDate: telegram.telegram_date, errors: ["Телеграмма изменена"]}
+      else
+        render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
+      end
     else
-      render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
+      telegram = StormObservation.new(storm_observation_params)
+      telegram.telegram_date = Time.now.utc
+      if telegram.save
+        last_telegrams = StormObservation.short_last_50_telegrams
+        render json: {telegrams: last_telegrams, tlgType: 'storm', currDate: telegram.telegram_date, errors: ["Телеграмма добавлена в базу"]}
+      else
+        render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
+      end
     end
   end
   
@@ -143,7 +143,7 @@ class StormObservationsController < ApplicationController
   
   private
     def storm_observation_params
-      params.require(:storm_observation).permit(:telegram_type, :station_id, :day_event, :hour_event, :minute_event, :telegram, :telegram_date)
+      params.require(:storm_observation).permit(:telegram_type, :station_id, :day_event, :hour_event, :minute_event, :telegram, :telegram_date, :code_warep)
       # params.require(:storm_observation).permit(:registred_at, :telegram_type, :station_id, :day_event, :hour_event, :minute_event, :telegram, :telegram_date)
       # :code_warep, :wind_direction, :wind_speed_avg, :wind_speed_max
     end

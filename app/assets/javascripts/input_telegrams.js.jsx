@@ -7,7 +7,7 @@ class NewTelegramForm extends React.Component{
       tlgType: this.props.tlgType,
       tlgTerm: this.props.term, // == 'synoptic' ? this.props.tlgTerm : null,
       tlgText: '',
-      errors: this.props.errors
+      errors: [] //this.props.errors
     };
     this.dateChange = this.dateChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,7 +30,7 @@ class NewTelegramForm extends React.Component{
     this.observation.telegram = text;
     switch (this.state.tlgType) {
       case 'synoptic':
-        if (!checkTelegram(term, text, errors, this.props.stations, this.observation, this.state)){
+        if (!checkSynopticTelegram(term, text, errors, this.props.stations, this.observation, this.state)){
           this.setState({errors: errors});
           return;
         }
@@ -190,7 +190,7 @@ class TelegramRow extends React.Component{
     var desiredLink = '';
     switch(this.props.tlgType) {
       case 'synoptic':
-        if (!checkTelegram(this.props.telegram.term, tlgText, errors, this.props.stations, observation)){
+        if (!checkSynopticTelegram(this.props.telegram.term, tlgText, errors, this.props.stations, observation)){
           alert(errors[0]);
           this.setState({errors: errors});
           return;
@@ -378,6 +378,7 @@ class InputTelegrams extends React.Component{
       url: desiredLink
       }).done(function(data) {
         that.setState({telegrams: data.telegrams, tlgType: data.tlgType, currDate: data.currDate, errors: data.errors});
+        alert(this.state.errors[0]);
       }.bind(that)).fail(function(res) {
         that.setState({errors: ["Ошибка записи в базу"]});
       }.bind(that)); 
@@ -387,7 +388,7 @@ class InputTelegrams extends React.Component{
     return(
       <div>
         <h1>Новая телеграмма</h1>
-        <NewTelegramForm currDate={this.state.currDate} tlgType={this.state.tlgType} onTelegramTypeChange={this.handleTelegramTypeChanged} onFormSubmit={this.handleFormSubmit} stations={this.props.stations} errors={this.state.errors} term={this.props.term}/>
+        <NewTelegramForm currDate={this.state.currDate} tlgType={this.state.tlgType} onTelegramTypeChange={this.handleTelegramTypeChanged} onFormSubmit={this.handleFormSubmit} stations={this.props.stations} term={this.props.term}/>
         <h3>Телеграммы</h3>
         <LastTelegramsTable telegrams={this.state.telegrams} tlgType={this.state.tlgType} stations={this.props.stations}/>
       </div>
@@ -396,6 +397,7 @@ class InputTelegrams extends React.Component{
 }
 
 function checkStormTelegram(tlg, stations, errors, observation){
+  tlg = tlg.replace(/\s+/g, ' ');
   if(~tlg.indexOf("ЩЭОЗМ ") || ~tlg.indexOf("ЩЭОЯЮ ") ){
     observation.telegram_type = tlg.substr(0, 5);
   } else {
@@ -521,7 +523,8 @@ function checkStormTelegram(tlg, stations, errors, observation){
   // return false; // debug only! 
   return true;
 }
-function  checkTelegram(term, tlg, errors, stations, observation){
+function  checkSynopticTelegram(term, tlg, errors, stations, observation){
+  tlg = tlg.replace(/\s+/g, ' ');
   var state = {
       group00: { errorMessage: 'Ошибка в группе00', regex: /^[134/][1-4][0-9/]([0-4][0-9]|50|5[6-9]|[6-9][0-9]|\/\/)$/ },
       group0: { errorMessage: 'Ошибка в группе0', regex: /^[0-9/]([012][0-9]|3[0-6]|99|\/\/)([012][0-9]|30|\/\/)$/ },
@@ -553,10 +556,13 @@ function  checkTelegram(term, tlg, errors, stations, observation){
     }
     var group = tlg.substr(6,5);
     var isStation = false; 
+    var idStation = -1;
     isStation = stations.some(function(s){
+      idStation = s.id;
       return +group == s.code;
     });
     if (isStation && (tlg[11] == ' ' || tlg[11] == '=')) {
+      observation.station_id = idStation;
     } else {
       errors.push("Ошибка в коде метеостанции");
       return false;
@@ -591,11 +597,12 @@ function  checkTelegram(term, tlg, errors, stations, observation){
     var pos555 = -1;
     if(~tlg.indexOf(" 555 ")){
       pos555 = tlg.indexOf(" 555 ");
-      section = tlg.substr(pos555+5, tlg.length-pos555-5-1);
+      section = tlg.substr(pos555+5, tlg.length-pos555-5-1).trim();
       if(section.length<5){
         errors.push("Ошибка в разделе 5");
         return false;
       }
+      // console.log('section5-1:', section);
       while (section.length>=5) {
         if(~['1', '3', '5', '6', '9'].indexOf(section[0])){
           group = section.substr(0,5);
@@ -633,7 +640,10 @@ function  checkTelegram(term, tlg, errors, stations, observation){
             errors.push(state[name].errorMessage);
             return false;
           }
-          section = section.substr(6);
+          section = section.substr(6).trim();
+        } else {
+          errors.push("Ошибка в разделе 5");
+          return false;
         }
       }
     }
@@ -642,11 +652,12 @@ function  checkTelegram(term, tlg, errors, stations, observation){
     var pos333 = -1;
     if(~tlg.indexOf(" 333 ")){
       pos333 = tlg.indexOf(" 333 ");
-      section = tlg.substr(pos333+5, (pos555>0 ? pos555-pos333-5 : tlg.length-pos333-5-1));
+      section = tlg.substr(pos333+5, (pos555>0 ? pos555-pos333-5 : tlg.length-pos333-5-1)).trim();
       if(section.length<5){
         errors.push("Ошибка в разделе 3");
         return false;
       }
+      // console.log('section3-1:', section);
       while (section.length>=5) {
         if(~['1', '2', '4', '5', '8', '9'].indexOf(section[0])){
           group = section.substr(0,5);
@@ -687,13 +698,16 @@ function  checkTelegram(term, tlg, errors, stations, observation){
             errors.push(state[name].errorMessage);
             return false;
           }
-          section = section.substr(6);
+          section = section.substr(6).trim();
+        } else {
+          errors.push("Ошибка в разделе 3");
+          return false;
         }
       }
     }
     
     var lng = pos333>0 ? pos333-24 : (pos555>0 ? pos555-24 : tlg.length-24);
-    section = tlg.substr(24, lng);
+    section = tlg.substr(24, lng).trim();
     if(section.length<5){
       errors.push("Ошибка в разделе 1");
       return false;
@@ -701,6 +715,7 @@ function  checkTelegram(term, tlg, errors, stations, observation){
     var sign = '';
     var val = '';
     var first = '';
+    // console.log('section1-1:', section);
     while (section.length>=5) {
       if(~['1', '2', '3', '4', '5', '6', '7', '8'].indexOf(section[0])){
         group = section.substr(0,5);
@@ -751,7 +766,10 @@ function  checkTelegram(term, tlg, errors, stations, observation){
           errors.push(state[name].errorMessage);
           return false;
         }
-        section = section.substr(6);
+        section = section.substr(6).trim();
+      } else {
+        errors.push("Ошибка в разделе 1");
+        return false;
       }
     }
     return true;

@@ -271,7 +271,8 @@ class MeasurementsController < ApplicationController
       synoptic_term = params[:term].to_i == 1 ? 21 : params[:term].to_i-4
       synoptic_date = params[:term].to_i == 1 ? (params[:date].to_date-1.day).strftime("%Y-%m-%d") : params[:date]
       weather = get_weather_from_synoptic_observatios(params[:post_id].to_i, synoptic_date, synoptic_term)
-      err = "В базе не найдена погода для поста: #{params[:post_id]}, дата: #{params[:date]}, срок: #{params[:term]}" if weather.nil?
+      post = Post.find(params[:post_id])
+      err = "В базе не найдена погода для поста: #{post.name}, дата: #{params[:date]}, срок: #{params[:term]}" if weather.nil?
     end
     render json: {weather: weather, errors: [err], concentrations: concentrations}
   end

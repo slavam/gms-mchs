@@ -28,7 +28,7 @@ class ChemOptionSelect extends React.Component{
     this.handleOptionChange = this.handleOptionChange.bind(this);
   }
   handleOptionChange(event) {
-    this.props.onUserInput(event.target.value, event.target.name);
+    this.props.onUserInput(event.target.value, event.target.name, event.target[event.target.selectedIndex].innerText);
   }
   render(){
     return <select name={this.props.name} onChange={this.handleOptionChange} defaultValue = {this.state.defaultValue}>
@@ -96,6 +96,7 @@ class InputForm extends React.Component{
       date: this.props.date,
       term: this.props.term,
       postId: this.props.postId,
+      postName: '',
       concentrations: this.props.concentrations,
       values: vs,
       concs: cs,
@@ -109,11 +110,13 @@ class InputForm extends React.Component{
     this.get_weather = this.get_weather.bind(this);
     this.deletePollution = this.deletePollution.bind(this);
   }
-  handleOptionSelected(value, senderName){
+  handleOptionSelected(value, senderName, opName){
     if (senderName == 'selectTerm')
       this.state.term = value;
-    else 
+    else { 
       this.state.postId = value;
+      this.state.postName = opName;
+    }
     this.get_weather();
   }
   get_weather(){
@@ -271,7 +274,7 @@ class InputForm extends React.Component{
           </table>  
           <input type="submit" value="Сохранить" />
         </form>
-        <h4>Данные о погоде (дата: {this.state.date}; срок: {this.state.term}; пост: {this.state.postId})</h4>
+        <h4>Данные о погоде (дата: {this.state.date}; срок: {this.state.term}; {this.state.postName})</h4>
         <table className="table table-hover">
           <thead>
             <tr>
