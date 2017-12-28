@@ -89,7 +89,9 @@ class NewTelegramForm extends React.Component{
     this.setState({tlgText: e.target.value});
   }
   render() {
-    // var moment = require('moment');
+    // var now = new Date();
+    // var now_utc = now.getUTCFullYear() + '-' + now.getUTCMonth() + '-' + now.getUTCDate(); //,  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+    this.state.term = Math.floor(new Date().getUTCHours() / 3) * 3;
     const types = [
       { value: 'synoptic', label: 'Синоптические' },
       { value: 'agro', label: 'Агро' },
@@ -118,11 +120,12 @@ class NewTelegramForm extends React.Component{
             </tr>
           </thead>
           <tbody>
-            <tr>        
-              <td><input type="date" name="input-date" value={this.state.currDate} onChange={this.dateChange} required="true" autoComplete="on" readOnly="readonly" /></td>
+            <tr>
+              <td>{this.state.currDate}</td>
+              {/* <td><input type="date" name="input-date" value={this.state.currDate} onChange={this.dateChange} required="true" autoComplete="on" readOnly="readonly" /></td> */}
               <td><OptionSelect options={types} onUserInput={this.handleOptionSelected} name = "selectTypes" defaultValue={this.state.tlgType}/></td>
               {/*{this.state.tlgType == 'synoptic' ? <td><OptionSelect options={terms} onUserInput={this.handleOptionSelected} name = "selectTerms" defaultValue={this.props.term} readOnly="readonly"/></td> : <td></td>}*/}
-              {this.state.tlgType == 'synoptic' ? <td>{this.props.term < 10 ? '0'+this.props.term : this.props.term}</td> : <td></td>}
+              {this.state.tlgType == 'synoptic' ? <td>{this.state.term < 10 ? '0'+this.state.term : this.state.term}</td> : <td></td>}
             </tr>
           </tbody>
         </table>
@@ -142,7 +145,6 @@ class TextTelegramEditForm extends React.Component{
     super(props);
     this.state = {
       tlgText: this.props.tlgText,
-      // errors: []
     };
     this.handleTextChange = this.handleTextChange.bind(this);
     this.handleEditSubmit = this.handleEditSubmit.bind(this);
@@ -159,7 +161,7 @@ class TextTelegramEditForm extends React.Component{
     return (
       <form className="telegramEditForm" onSubmit={this.handleEditSubmit}>
         <input type="text" value={this.state.tlgText} onChange={this.handleTextChange}/>
-        {/* <span style={{color: 'red'}}>{this.state.errors[0]}</span> */}
+        <span style={{color: 'red'}}>{this.props.errors[0]}</span>
         <input type="submit" value="Сохранить" />
       </form>
     );
@@ -171,16 +173,16 @@ class TelegramRow extends React.Component{
     super(props);
     this.state = {
       tlgText: this.props.telegram.telegram,
-      // tlgId: this.props.telegram.id,
+      errors: [],
       mode: 'Изменить'
     };
     this.handleEditClick = this.handleEditClick.bind(this);
     this.handleEditTelegramSubmit = this.handleEditTelegramSubmit.bind(this);
   }
   handleEditClick(e){
-    if (this.state.mode == 'Изменить') {
+    if (this.state.mode == 'Изменить') 
       this.setState({mode:'Отменить'});
-    } else
+    else
       this.setState({mode:'Изменить'});
   }
   handleEditTelegramSubmit(tlgText){
@@ -191,7 +193,6 @@ class TelegramRow extends React.Component{
     switch(this.props.tlgType) {
       case 'synoptic':
         if (!checkSynopticTelegram(this.props.telegram.term, tlgText, errors, this.props.stations, observation)){
-          alert(errors[0]);
           this.setState({errors: errors});
           return;
         }
@@ -229,9 +230,6 @@ class TelegramRow extends React.Component{
       data: tlgData,
       url: desiredLink
       }).done(function(data) {
-        // alert(data["Дата"])
-        // newTelegrams[0]["Дата"] = data["Дата"];
-        // this.setState({telegrams: newTelegrams});
       }.bind(this))
       .fail(function(jqXhr) {
         console.log('failed to register');
@@ -255,19 +253,20 @@ class TelegramRow extends React.Component{
         break;
     }
     return (
-      <tr>
+      <tr key = {this.props.telegram.id}>
         <td>{this.props.telegram.date.substr(0, 19)+' UTC' }</td>
         { this.props.tlgType == 'synoptic' ? <td>{this.props.telegram.term < 10 ? '0'+this.props.telegram.term : this.props.telegram.term}</td> : '' }
         <td>{this.props.telegram.station_name}</td>
-        <td><a href={desiredLink}>{this.props.telegram.telegram}</a></td>
-        {/*this.state.mode == 'Изменить' ? <td><a href={desiredLink}>{this.state.tlgText}</a></td> : <td><TextTelegramEditForm tlgText={this.props.telegram.telegram} onTelegramEditSubmit={this.handleEditTelegramSubmit}/></td>}
-        {this.state.mode == 'Изменить' ? <td><a href={desiredLink}>{this.props.telegram.telegram}</a></td> : <td><TextTelegramEditForm tlgText={this.props.telegram.telegram} onTelegramEditSubmit={this.handleEditTelegramSubmit}/></td>*/}
-        {/*<td><input id={this.props.telegram.date} type="submit" value={this.state.mode} onClick={this.handleEditClick}/></td>*/}
+        {/* <td><a href={desiredLink}>{this.props.telegram.telegram}</a></td> */}
+        {/*this.state.mode == 'Изменить' ? <td><a href={desiredLink}>{this.state.tlgText}</a></td> : <td><TextTelegramEditForm tlgText={this.props.telegram.telegram} onTelegramEditSubmit={this.handleEditTelegramSubmit}/></td>} */}
+        {this.state.mode == 'Изменить' ? <td><a href={desiredLink}>{this.state.tlgText}</a></td> : <td><TextTelegramEditForm tlgText={this.state.tlgText} onTelegramEditSubmit={this.handleEditTelegramSubmit} errors = {this.state.errors}/></td> }
+        <td><input id={this.props.telegram.id} type="submit" value={this.state.mode} onClick={this.handleEditClick}/></td>
         {/* (now - Date.parse(this.props.telegram.date)) > 1000 * 60 * 60 * 24 * 7 ? <td></td> : <td><input id={this.props.telegram.date} type="submit" value={this.state.mode} onClick={this.handleEditClick}/></td> */}
       </tr>
     );
   }
 }
+
 class LastTelegramsTable extends React.Component{
   constructor(props){
     super(props);
@@ -299,7 +298,7 @@ class LastTelegramsTable extends React.Component{
             { this.props.tlgType == 'synoptic' ? <th>Срок</th> : '' }
             <th>Метеостанция</th>
             <th>Текст</th>
-            {/*<th>Действия</th>*/}
+            <th>Действия</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
@@ -387,7 +386,7 @@ class InputTelegrams extends React.Component{
   render(){
     return(
       <div>
-        <h1>Новая телеграмма</h1>
+        <h3>Новая телеграмма</h3>
         <NewTelegramForm currDate={this.state.currDate} tlgType={this.state.tlgType} onTelegramTypeChange={this.handleTelegramTypeChanged} onFormSubmit={this.handleFormSubmit} stations={this.props.stations} term={this.props.term}/>
         <h3>Телеграммы</h3>
         <LastTelegramsTable telegrams={this.state.telegrams} tlgType={this.state.tlgType} stations={this.props.stations}/>

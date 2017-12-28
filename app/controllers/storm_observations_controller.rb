@@ -143,7 +143,7 @@ class StormObservationsController < ApplicationController
   
   private
     def storm_observation_params
-      params.require(:storm_observation).permit(:telegram_type, :station_id, :day_event, :hour_event, :minute_event, :telegram, :telegram_date, :code_warep)
+      params.require(:storm_observation).permit(:telegram_type, :station_id, :day_event, :hour_event, :minute_event, :telegram, :telegram_date) #, :code_warep)
       # params.require(:storm_observation).permit(:registred_at, :telegram_type, :station_id, :day_event, :hour_event, :minute_event, :telegram, :telegram_date)
       # :code_warep, :wind_direction, :wind_speed_avg, :wind_speed_max
     end
