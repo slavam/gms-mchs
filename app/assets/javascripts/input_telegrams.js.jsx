@@ -5,19 +5,17 @@ class NewTelegramForm extends React.Component{
     this.state = {
       currDate:  this.props.currDate,
       tlgType: this.props.tlgType,
-      tlgTerm: this.props.term, // == 'synoptic' ? this.props.tlgTerm : null,
+      tlgTerm: this.props.term, 
       tlgText: '',
-      errors: [] //this.props.errors
+      errors: [] 
     };
-    this.dateChange = this.dateChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleOptionSelected = this.handleOptionSelected.bind(this);
-    this.handleTextChange = this.handleTextChange.bind(this);
   }
+  
   handleSubmit(e) {
     e.preventDefault();
     var term = this.state.tlgTerm;
-    var text = this.state.tlgText; //.trim();
+    var text = this.state.tlgText;
     var date = this.state.currDate;
     var errors = [];
     
@@ -30,7 +28,7 @@ class NewTelegramForm extends React.Component{
     this.observation.telegram = text;
     switch (this.state.tlgType) {
       case 'synoptic':
-        if (!checkSynopticTelegram(term, text, errors, this.props.stations, this.observation, this.state)){
+        if (!checkSynopticTelegram(term, text, errors, this.props.stations, this.observation)){
           this.setState({errors: errors});
           return;
         }
@@ -42,10 +40,8 @@ class NewTelegramForm extends React.Component{
           this.setState({errors: errors});
           return;
         }
-        // this.observation.telegram_date = date;
         break;
       case 'agro':
-        // this.observation.date_dev = date;
         var idStation = -1;
         var isStation;
         var codeStation = text.substr(6,5);
@@ -63,20 +59,15 @@ class NewTelegramForm extends React.Component{
       case 'sea':
         this.observation.day_obs = text.substr(5,2);
         this.observation.term = text.substr(7,2);
-        
-        // this.observation.date_dev = date;
         break;
     }
     this.props.onFormSubmit({observation: this.observation, currDate: date, tlgType: this.state.tlgType, tlgText: this.state.tlgText});
     this.setState({
-      // tlgTerm: term,
       tlgText: '',
       errors: []
     });
   }
-  dateChange(e){
-    this.setState({currDate: e.target.value});
-  }
+
   handleOptionSelected(value, senderName){
     if (senderName == 'selectTypes'){
       this.props.onTelegramTypeChange(value);
@@ -85,32 +76,23 @@ class NewTelegramForm extends React.Component{
       this.setState({tlgTerm: value});
     }
   }
+
   handleTextChange(e) {
     this.setState({tlgText: e.target.value});
   }
+
   render() {
-    // var now = new Date();
-    // var now_utc = now.getUTCFullYear() + '-' + now.getUTCMonth() + '-' + now.getUTCDate(); //,  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
     this.state.term = Math.floor(new Date().getUTCHours() / 3) * 3;
     const types = [
-      { value: 'synoptic', label: 'Синоптические' },
-      { value: 'agro', label: 'Агро' },
-      { value: 'storm', label: 'Штормовые' },
-      { value: 'sea', label: 'Морские' },
+      { value: 'synoptic',  label: 'Синоптические' },
+      { value: 'agro',      label: 'Агро' },
+      { value: 'storm',     label: 'Штормовые' },
+      { value: 'sea',       label: 'Морские' },
     ];
-    // const terms = [
-    //   { value: '00', label: '00' },
-    //   { value: '03', label: '03' },
-    //   { value: '06', label: '06' },
-    //   { value: '09', label: '09' },
-    //   { value: '12', label: '12' },
-    //   { value: '15', label: '15' },
-    //   { value: '18', label: '18' },
-    //   { value: '21', label: '21' }
-    // ];
+    var term = this.state.tlgType == 'synoptic' ? <td>{this.state.term < 10 ? '0'+this.state.term : this.state.term}</td> : <td></td>;
     return (
     <div className="col-md-12">
-      <form className="telegramForm" onSubmit={this.handleSubmit}>
+      <form className="telegramForm" onSubmit={(event) => this.handleSubmit(event)}>
         <table className="table table-hover">
           <thead>
             <tr>
@@ -122,15 +104,13 @@ class NewTelegramForm extends React.Component{
           <tbody>
             <tr>
               <td>{this.state.currDate}</td>
-              {/* <td><input type="date" name="input-date" value={this.state.currDate} onChange={this.dateChange} required="true" autoComplete="on" readOnly="readonly" /></td> */}
               <td><OptionSelect options={types} onUserInput={this.handleOptionSelected} name = "selectTypes" defaultValue={this.state.tlgType}/></td>
-              {/*{this.state.tlgType == 'synoptic' ? <td><OptionSelect options={terms} onUserInput={this.handleOptionSelected} name = "selectTerms" defaultValue={this.props.term} readOnly="readonly"/></td> : <td></td>}*/}
-              {this.state.tlgType == 'synoptic' ? <td>{this.state.term < 10 ? '0'+this.state.term : this.state.term}</td> : <td></td>}
+              {term}
             </tr>
           </tbody>
         </table>
-        <p>Текст: 
-          <input type="text" value={this.state.tlgText} onChange={this.handleTextChange}/>
+        <p>Текст 
+          <input type="text" value={this.state.tlgText} onChange={(event) => this.handleTextChange(event)}/>
           <span style={{color: 'red'}}>{this.state.errors[0]}</span>
         </p>
         <input type="submit" value="Сохранить" />
@@ -146,12 +126,12 @@ class TextTelegramEditForm extends React.Component{
     this.state = {
       tlgText: this.props.tlgText,
     };
-    this.handleTextChange = this.handleTextChange.bind(this);
-    this.handleEditSubmit = this.handleEditSubmit.bind(this);
   }
+  
   handleTextChange(e) {
     this.setState({tlgText: e.target.value});
   }
+  
   handleEditSubmit(e){
     e.preventDefault();
     this.props.onTelegramEditSubmit(this.state.tlgText);
@@ -159,8 +139,8 @@ class TextTelegramEditForm extends React.Component{
   
   render() {
     return (
-      <form className="telegramEditForm" onSubmit={this.handleEditSubmit}>
-        <input type="text" value={this.state.tlgText} onChange={this.handleTextChange}/>
+      <form className="telegramEditForm" onSubmit={(event) => this.handleEditSubmit(event)}>
+        <input type="text" value={this.state.tlgText} onChange={(event) => this.handleTextChange(event)}/>
         <span style={{color: 'red'}}>{this.props.errors[0]}</span>
         <input type="submit" value="Сохранить" />
       </form>
@@ -181,7 +161,7 @@ class TelegramRow extends React.Component{
   }
   handleEditClick(e){
     if (this.state.mode == 'Изменить') 
-      this.setState({mode:'Отменить'});
+      this.setState({mode:'Отменить', errors: []});
     else
       this.setState({mode:'Изменить'});
   }
@@ -229,83 +209,48 @@ class TelegramRow extends React.Component{
       dataType: 'json',
       data: tlgData,
       url: desiredLink
-      }).done(function(data) {
-      }.bind(this))
-      .fail(function(jqXhr) {
+      }).done((data) => {})
+      .fail((jqXhr) => {
         console.log('failed to register');
       });
   }
   render() {
-    // var now = Date.now();
-    var desiredLink = '';
-    switch(this.props.tlgType) {
-      case 'synoptic':
-        desiredLink = "/synoptic_observations/"+this.props.telegram.id;
-        break;
-      case 'storm':
-        desiredLink = "/storm_observations/"+this.props.telegram.id;
-        break;
-      case 'agro':
-        desiredLink = "/agro_observations/"+this.props.telegram.id;
-        break;
-      case 'sea':
-        desiredLink = "/sea_observations/"+this.props.telegram.id;
-        break;
-    }
+    var desiredLink = "/"+this.props.tlgType+"_observations/"+this.props.telegram.id;
+    var term = this.props.tlgType == 'synoptic' ? <td>{this.props.telegram.term < 10 ? '0'+this.props.telegram.term : this.props.telegram.term}</td> : '';
     return (
       <tr key = {this.props.telegram.id}>
         <td>{this.props.telegram.date.substr(0, 19)+' UTC' }</td>
-        { this.props.tlgType == 'synoptic' ? <td>{this.props.telegram.term < 10 ? '0'+this.props.telegram.term : this.props.telegram.term}</td> : '' }
+        {term}
         <td>{this.props.telegram.station_name}</td>
-        {/* <td><a href={desiredLink}>{this.props.telegram.telegram}</a></td> */}
-        {/*this.state.mode == 'Изменить' ? <td><a href={desiredLink}>{this.state.tlgText}</a></td> : <td><TextTelegramEditForm tlgText={this.props.telegram.telegram} onTelegramEditSubmit={this.handleEditTelegramSubmit}/></td>} */}
         {this.state.mode == 'Изменить' ? <td><a href={desiredLink}>{this.state.tlgText}</a></td> : <td><TextTelegramEditForm tlgText={this.state.tlgText} onTelegramEditSubmit={this.handleEditTelegramSubmit} errors = {this.state.errors}/></td> }
-        <td><input id={this.props.telegram.id} type="submit" value={this.state.mode} onClick={this.handleEditClick}/></td>
+        <td><input id={this.props.telegram.id} type="submit" value={this.state.mode} onClick={(event) => this.handleEditClick(event)}/></td> 
         {/* (now - Date.parse(this.props.telegram.date)) > 1000 * 60 * 60 * 24 * 7 ? <td></td> : <td><input id={this.props.telegram.date} type="submit" value={this.state.mode} onClick={this.handleEditClick}/></td> */}
       </tr>
     );
   }
 }
 
-class LastTelegramsTable extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      tlgType: this.props.tlgType,
-    };
-  }
-  render() {
-    var rows = [];
-    var that = this;
-    this.props.telegrams.forEach(function(t) {
-      
-      // switch (that.props.tlgType) {
-      //   case 'synoptic':
-      //     t.date = '11111'; //t.observed_at;
-      //     break;
-      //   case 'storm':
-      //     t.date = '2222'; // t.telegram_date;
-      //   break;
-      // }
-      t.date = t.date.replace(/T/, " ");
-      rows.push(<TelegramRow telegram={t} key={t.id} tlgType={that.props.tlgType} stations={that.props.stations}/>);
-    });
-    return (
-      <table className="table table-hover">
-        <thead>
-          <tr>
-            <th width = "200px">Дата</th>
-            { this.props.tlgType == 'synoptic' ? <th>Срок</th> : '' }
-            <th>Метеостанция</th>
-            <th>Текст</th>
-            <th>Действия</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </table>
-    );
-  }
-}
+const LastTelegramsTable = ({telegrams, tlgType, stations}) => {
+  var rows = [];
+  telegrams.forEach((t) => {
+    t.date = t.date.replace(/T/, " ");
+    rows.push(<TelegramRow telegram={t} key={t.id} tlgType={tlgType} stations={stations}/>);
+  });
+  return (
+    <table className="table table-hover">
+      <thead>
+        <tr>
+          <th width = "200px">Дата</th>
+          { tlgType == 'synoptic' ? <th>Срок</th> : '' }
+          <th>Метеостанция</th>
+          <th>Текст</th>
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody>{rows}</tbody>
+    </table>
+  );
+};
 
 class InputTelegrams extends React.Component{
   constructor(props) {
@@ -322,32 +267,18 @@ class InputTelegrams extends React.Component{
 
   handleTelegramTypeChanged(tlgType){
     var that = this;
-    var desiredLink = '';
-    switch(tlgType) {
-      case 'synoptic':
-        desiredLink = "/synoptic_observations/get_last_telegrams";
-        break;
-      case 'agro':
-        desiredLink = "/agro_observations/get_last_telegrams";
-        break;
-      case 'storm':
-        desiredLink = "/storm_observations/get_last_telegrams";
-        break;
-      case 'sea':
-        desiredLink = "/sea_observations/get_last_telegrams";
-    }
+    var desiredLink = "/"+tlgType+"_observations/get_last_telegrams";
     $.ajax({
       type: 'GET',
       dataType: 'json',
-      // data: tlgData, 
       url: desiredLink
-      }).done(function(data) {
+      }).done((data) => {
         that.setState({telegrams: data.telegrams, tlgType: data.tlgType, errors: []});
-      }.bind(that)).fail(function(res) {
+      }).fail((res) => {
         that.setState({errors: ["Ошибка записи в базу"]});
-      }.bind(that)); 
-    
+      }); 
   }
+  
   handleFormSubmit(telegram) {
     var that = this;
     var tlgData = {};
@@ -358,7 +289,6 @@ class InputTelegrams extends React.Component{
         desiredLink = "/synoptic_observations/create_synoptic_telegram";
         break;
       case 'agro':
-        // telegram.observation.date_dev = telegram.currDate;
         tlgData = {agro_observation: telegram.observation};
         desiredLink = "/agro_observations/create_agro_telegram";
         break;
@@ -375,12 +305,12 @@ class InputTelegrams extends React.Component{
       dataType: 'json',
       data: tlgData, 
       url: desiredLink
-      }).done(function(data) {
+      }).done((data) => {
         that.setState({telegrams: data.telegrams, tlgType: data.tlgType, currDate: data.currDate, errors: data.errors});
         alert(this.state.errors[0]);
-      }.bind(that)).fail(function(res) {
+      }).fail((res) => {
         that.setState({errors: ["Ошибка записи в базу"]});
-      }.bind(that)); 
+      }); 
   }
 
   render(){
@@ -421,22 +351,22 @@ function checkStormTelegram(tlg, stations, errors, observation){
     return false;
   }
   var value;
-  value = tlg.substr(18,2);
-  if ((+value > 0) && (+value < 32)){
+  value = +tlg.substr(18,2);
+  if ((value > 0) && (value < 32)){
     observation.day_event = value;
   } else {
     errors.push("Ошибка в номере дня");
     return false;
   }
-  value = tlg.substr(20,2);
-  if ((+value >= 0) && (+value < 24)){
+  value = +tlg.substr(20,2);
+  if ((value >= 0) && (value < 24)){
     observation.hour_event = value;
   } else {
     errors.push("Ошибка в часе явления");
     return false;
   }
-  value = tlg.substr(22,2);
-  if ((+value >= 0) && (+value < 60)){
+  value = +tlg.substr(22,2);
+  if ((value >= 0) && (value < 60)){
     observation.minute_event = value;
   } else {
     errors.push("Ошибка в минутах явления");
@@ -447,80 +377,197 @@ function checkStormTelegram(tlg, stations, errors, observation){
     return false;
   }
   
-  var codeWAREP = +tlg.substr(26,2);
-  var isCodeWAREP;
-  isCodeWAREP = [11, 12, 17, 18, 19, 30, 36, 40, 41, 50, 51, 52, 53, 54, 55, 56, 57, 61, 62, 64, 65, 66, 68, 71, 75, 78, 90, 91, 92, 95].some(function(s){
-    return codeWAREP == s;
-  });
-  if (isCodeWAREP) {
-    observation.code_warep = codeWAREP;
-  } else {
-    errors.push("Ошибочный код WAREP");
-    return false;
-  }
   var windDirections = Array.from({ length: 37 }, (v, k) => k);
   windDirections.push(99);
-  function isGroup1(code, windDirection) {
-    if ((code == 17) || (code == 18))
-      return (tlg[29] == '1' && windDirections.some(elem => elem == value) && (tlg.substr(32,2) == '//') && (0 < +tlg.substr(34,2) <= 99));
-    else
-      return (tlg[29] == '1' && windDirections.some(elem => elem == value) && (0 < +tlg.substr(32,2) <= 99) && (0 < +tlg.substr(34,2) <= 99));
+  var codeWAREP = +tlg.substr(26,2);
+  var currentPos = 29;
+  
+  while (currentPos <= tlg.length){
+    if (isCodeWAREP()) {
+      if (tlg[currentPos-1] == '=' && observation.telegram_type == 'ЩЭОЗМ') return true;
+    } else {
+      errors.push("Ошибочный код WAREP");
+      return false;
+    }
+    if (checkByCode())
+      if (tlg[currentPos-1] == '=')
+        return true;
+      else {
+        codeWAREP = +tlg.substr(currentPos, 2);
+        currentPos += 3;
+      }
+    else{
+      return false;
+    }
   }
-  function isGroup2(group2){
+  errors.push("Ошибка в окончании телеграммы");
+  return false;
+  
+  function isCodeWAREP(){ 
+    return [11, 12, 17, 18, 19, 30, 36, 40, 41, 50, 51, 52, 53, 54, 55, 56, 57, 61, 62, 64, 65, 66, 68, 71, 75, 78, 90, 91, 92, 95].some(s => {
+      return codeWAREP == s;
+    });
+  }
+  function isGroup1(code, pos) {
+    var value = +tlg.substr(pos+1,2);
+    var avg_wind = ((code == 17) || (code == 18)) ? (tlg.substr(pos+3,2) == '//') : (0 < +tlg.substr(pos+3,2) <= 99);
+    return (/^1[0-39]\d[0-9/]{4}$/.test(tlg.substr(pos, 7)) && windDirections.some(elem => elem == value) && avg_wind && (0 < +tlg.substr(pos+5,2) <= 99));
+  }
+  function isGroup2(pos){
     let correctDirection;
-    let val = group2.substr(1,2);
+    let val = tlg.substr(pos+1,2);
     correctDirection = ((val == '//') || windDirections.some(elem => elem == +val));
-    val = +group2.substr(3,2);
+    val = +tlg.substr(pos+3,2);
     let correctPrecipitation = (val == 17) || (val == 19) || (80 <= val <= 90);
-    return (group2[0] == '2' && correctDirection && correctPrecipitation);
+    return (/^2[0-39/][0-9/][189]\d$/.test(tlg.substr(pos,5)) && correctDirection && correctPrecipitation);
   }
-  switch (codeWAREP) {
-    case 11, 12, 17, 18:
-      value = +tlg.substr(30,2);
-      if (isGroup1(codeWAREP, value)){
-        observation.wind_direction = value;
-        observation.wind_speed_avg = (codeWAREP == 17 || codeWAREP == 18) ? null : tlg.substr(32,2);
-        observation.wind_speed_max = tlg.substr(34,2);
-      } else {
-        errors.push("Ошибка в группе 1");
-        return false;
-      }
-      break;
-    case 19:
-      value = +tlg.substr(30,2);
-      if (isGroup1(codeWAREP, value)){
-        observation.wind_direction = value;
-        observation.wind_speed_avg = tlg.substr(32,2);
-        observation.wind_speed_max = tlg.substr(34,2);
-      } else {
-        errors.push("Ошибка в группе 1");
-        return false;
-      }
-      // add group 2
-      break;
-    case 36, 78:
-      value = +tlg.substr(30,2);
-      if (isGroup1(codeWAREP, value)){
-        observation.wind_direction = value;
-        observation.wind_speed_avg = tlg.substr(32,2);
-        observation.wind_speed_max = tlg.substr(34,2);
-      } else {
-        errors.push("Ошибка в группе 1");
-        return false;
-      }
-      // add group 7
-      break;
-    case 91:
-      if(tlg.substr(0, 5) == 'ЩЭОЗМ' && tlg[28] == '=') {return true}
-      var group = +tlg.substr(29,5);
-      if(isGroup2(group)){
-        observation.event_direction = group.substr(1,2) == '//' ? null : group.substr(1,2);
-      }
-      
-      break;      
+  function isGroup7(pos) {
+    return (/^7\d{4}[0-9/]{2}$/.test(tlg.substr(pos,7)));
+  }
+  function isGroup8(pos){
+    return /^8[0-9/]{4}$/.test(tlg.substr(pos,5));
+  }
+  function isGroup3(pos){
+    return /^3\d{5}$/.test(tlg.substr(pos,6));
+  }
+  function isIce(pos){
+    return /^[0-9/]{2}[01]\d{2}[12]$/.test(tlg.substr(pos,6));
+  }
+  function checkByCode(){
+    var group;
+    switch (codeWAREP) {
+      case 11:
+      case 12:
+      case 17:
+      case 18:
+      case 19:
+      case 36:
+      case 78:
+        if (isGroup1(codeWAREP, currentPos)){
+          currentPos = currentPos+8;
+        } else {
+          errors.push("Ошибка в группе 1");
+          return false;
+        }
+        if(codeWAREP == 19)
+          if (isGroup2(currentPos)){
+            currentPos = currentPos+6;
+            return true;
+          } else {
+            errors.push("Ошибка в группе 2");
+            return false;
+          }
+        else if(codeWAREP == 36 || codeWAREP == 78)
+          if (isGroup7(codeWAREP, currentPos)){
+            currentPos = currentPos+8;
+            return true;
+          } else {
+            errors.push("Ошибка в группе 7");
+            return false;
+          }
+        else 
+          return true;
+        // break;
+      case 30:
+        if (isGroup8(currentPos)){
+          currentPos = currentPos+6;
+          return true;
+        } else {
+          errors.push("Ошибка в группе 8");
+          return false;
+        }
+        // break;
+      case 40:
+      case 41:
+        if (isGroup7(currentPos)){
+          currentPos += 8;
+          if (tlg[currentPos] == '8')
+            if (isGroup8(currentPos)){
+              currentPos += 6;
+              return true;
+            } else {
+              errors.push("Ошибка в группе 8");
+              return false;
+            }
+          else if (tlg[currentPos] == '1')
+            if (isGroup1(codeWAREP, currentPos)){
+              currentPos += 8;
+              return true;
+            } else {
+              errors.push("Ошибка в группе 1");
+              return false;
+            }
+          return true;
+        }else {
+          errors.push("Ошибка в группе 7");
+          return false;
+        }
+      case 50:
+      case 51:
+      case 52:
+      case 53:
+      case 54:
+      case 55:
+      case 56:
+      case 57:
+        if (isIce(currentPos)){
+              currentPos += 7;
+              return true;
+            } else {
+              errors.push("Ошибка в группе 'Гололед'");
+              return false;
+            }
+      case 61:
+      case 62:
+      case 64:
+      case 65:
+      case 66:
+      case 71:
+      case 75:
+        if(isGroup3(currentPos)){
+          currentPos += 7;
+          return true;
+        } else {
+          errors.push("Ошибка в группе 3");
+          return false;
+        }
+      case 68:
+        if (/^[01]\d{2}$/.test(tlg.substr(currentPos,3))){
+          currentPos += 4;
+          return true;
+        } else {
+          errors.push("Ошибка в группе 'Ледяной дождь'");
+          return false;
+        }
+      case 90:
+      case 92:
+        if(/^932\d{2}$/.test(tlg.substr(currentPos,5))){
+          currentPos += 6;
+          return true;
+        } else {
+          errors.push("Ошибка в группе 932");
+          return false;
+        }
+      case 91:
+        if(isGroup2(currentPos)){
+          currentPos += 6;
+          return true;
+        } else {
+          errors.push("Ошибка в группе 2");
+          return false;
+        }
+      case 95:
+        if(/^950\d{2}$/.test(tlg.substr(currentPos,5))){
+          currentPos += 6;
+          return true;
+        } else {
+          errors.push("Ошибка в группе 950");
+          return false;
+        }
+    }
   }
   // return false; // debug only! 
-  return true;
+  // return true;
 }
 function  checkSynopticTelegram(term, tlg, errors, stations, observation){
   tlg = tlg.replace(/\s+/g, ' ');
