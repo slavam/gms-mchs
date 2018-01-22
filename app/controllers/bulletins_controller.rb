@@ -172,6 +172,14 @@ class BulletinsController < ApplicationController
     end
   end
   
+  def help_show
+    pdf = HelpChem.new
+    respond_to do |format|
+      format.pdf do
+        send_data pdf.render, filename: "help_chem.pdf", type: "application/pdf", disposition: "inline", :force_download=>true, :page_size => "A4"
+      end
+    end
+  end
   # def daily_show
   #   respond_to do |format|
   #     pdf = Daily.new(@bulletin)

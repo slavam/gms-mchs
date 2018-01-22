@@ -89,6 +89,7 @@ Rails.application.routes.draw do
   get 'bulletins/new_holiday_bulletin', to: 'bulletins#new_holiday_bulletin'
   get 'bulletins/:id/bulletin_show', to: 'bulletins#bulletin_show'
   get 'bulletins/list', to: 'bulletins#list'
+  get 'bulletins/help_show', to: 'bulletins#help_show'
   resources :bulletins
 
   get 'registers/search', to: 'registers#search'

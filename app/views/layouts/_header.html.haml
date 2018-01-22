@@ -11,11 +11,11 @@
                 %ul{class: "dropdown-menu"}
                   /
                     %li= link_to 'Телеграммы синоптические (старые)',  synoptics_path
-                  %li= link_to 'Телеграммы синоптические (со штормовыми)',  '/synoptic_observations/synoptic_storm_telegrams'
                   %li= link_to 'Телеграммы синоптические',  synoptic_observations_path
                   %li= link_to 'Телеграммы штормовые',  storm_observations_path
                   %li= link_to 'Телеграммы агрометеорологические',  agro_observations_path
                   %li= link_to 'Телеграммы морские',  sea_observations_path
+                  %li= link_to 'Телеграммы синоптические (со штормовыми)',  '/synoptic_observations/synoptic_storm_telegrams'
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты <b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
@@ -46,11 +46,11 @@
                   /
                     %li= link_to 'Телеграммы синоптические (старые)',  synoptics_path
                   %li= link_to 'Ввод телеграмм',  '/synoptic_observations/input_synoptic_telegrams'
-                  %li= link_to 'Телеграммы синоптические (со штормовыми)',  '/synoptic_observations/synoptic_storm_telegrams'
                   %li= link_to 'Телеграммы синоптические',  synoptic_observations_path
                   %li= link_to 'Телеграммы штормовые',  storm_observations_path
                   %li= link_to 'Телеграммы агрометеорологические',  agro_observations_path
                   %li= link_to 'Телеграммы морские',  sea_observations_path
+                  %li= link_to 'Телеграммы синоптические (со штормовыми)',  '/synoptic_observations/synoptic_storm_telegrams'
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты <b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
@@ -70,11 +70,18 @@
                   %li= link_to 'Конвертор штормовых телеграмм', storm_observations_get_conversion_params_path
                   %li= link_to 'Поиск синоптических телеграмм',  search_synoptic_telegrams_path
             - when 'observer'
-              %li= link_to 'Метеостанции', stations_path
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Телеграммы<b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
-                  %li= link_to 'Синоптические',  new_synoptic_observation_path
+                  %li= link_to 'Ввод телеграмм',  '/synoptic_observations/input_synoptic_telegrams'
+                  %li= link_to 'Телеграммы синоптические',  synoptic_observations_path
+                  %li= link_to 'Телеграммы штормовые',  storm_observations_path
+                  %li= link_to 'Телеграммы агрометеорологические',  agro_observations_path
+                  %li= link_to 'Телеграммы морские',  sea_observations_path
+                  %li= link_to 'Телеграммы синоптические (со штормовыми)',  '/synoptic_observations/synoptic_storm_telegrams'
+                  /
+                    %li= link_to 'Синоптические',  new_synoptic_observation_path
+              %li= link_to 'Метеостанции', stations_path
             - when 'chemist'
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Измерения <b class="caret"></b></a>
@@ -100,6 +107,7 @@
                   %li= link_to 'Фоновые концентрации (AKIAM)', pollutions_background_concentration_path
                   /
                     %li= link_to 'Конверсия из АКИАМ', measurements_get_convert_params_path
+                %li= link_to "Помощь", "/bulletins/help_show.pdf"
             - when 'admin'
               %li= link_to "Users", users_path
               %li= link_to "Synoptic Links", meteo_links_path
