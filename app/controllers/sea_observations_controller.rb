@@ -15,14 +15,15 @@ class SeaObservationsController < ApplicationController
   
   def create_sea_telegram
     telegram = SeaObservation.new(sea_observation_params)
-    telegram.date_dev = Time.now
+    telegram.date_dev = params[:input_mode] == 'direct' ? Time.parse(params[:date]+' 00:01:00') : Time.now
     telegram.station_id = 10 # Только Седово
-    # telegram.day_obs = telegram.telegram[5,2].to_i
-    # telegram.term = telegram.telegram[7,2].to_i
-    # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{telegram.inspect}")
     if telegram.save
       last_telegrams = SeaObservation.short_last_50_telegrams
-      render json: {telegrams: last_telegrams, tlgType: 'sea', currDate: telegram.date_dev, errors: ["Телеграмма добавлена в базу"]}
+      render json: {telegrams: last_telegrams, 
+                    tlgType: 'sea', 
+                    inputMode: params[:input_mode],
+                    currDate: telegram.date_dev, 
+                    errors: ["Телеграмма добавлена в базу"]}
     else
       render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
     end

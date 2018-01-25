@@ -90,24 +90,29 @@ class SynopticObservationsController < ApplicationController
   end
   
   def create_synoptic_telegram
-    date = Time.now.utc.strftime("%Y-%m-%d")
-    term = Time.now.utc.hour / 3 * 3
-    telegram = SynopticObservation.find_by(date: date, term: term, station_id: params[:observation][:station_id])
+    date = params[:input_mode] == 'direct' ? params[:date] : Time.now.utc.strftime("%Y-%m-%d")
+    term = params[:input_mode] == 'direct' ? params[:observation][:term] : Time.now.utc.hour / 3 * 3
+    station_id = params[:observation][:station_id]
+    telegram = SynopticObservation.find_by(date: date, term: term, station_id: station_id)
     if telegram.present?
       if telegram.update_attributes observation_params
         last_telegrams = SynopticObservation.short_last_50_telegrams
-        render json: {telegrams: last_telegrams, tlgType: 'synoptic', currDate: date, errors: ["Телеграмма обновлена"]}
+        render json: {telegrams: last_telegrams, 
+                      tlgType: 'synoptic', 
+                      currDate: Time.now.utc.strftime("%Y-%m-%d"), 
+                      inputMode: params[:input_mode], 
+                      errors: ["Телеграмма обновлена"]}
       else
         render json: {errors: ["Ошибка при сохранении изменений"]}, status: :unprocessable_entity
       end
     else
       telegram = SynopticObservation.new(observation_params)
-      telegram.observed_at = Time.now.utc
+      telegram.observed_at = params[:input_mode] == 'direct' ? Time.parse(date+' '+term+':01:00') : Time.now.utc
       telegram.date = date
-      telegram.term = term
+      telegram.term = term.to_i
       if telegram.save
         last_telegrams = SynopticObservation.short_last_50_telegrams
-        render json: {telegrams: last_telegrams, tlgType: 'synoptic', currDate: telegram.date, errors: ["Телеграмма добавлена в базу"]}
+        render json: {telegrams: last_telegrams, tlgType: 'synoptic', currDate: telegram.date, inputMode: params[:input_mode], errors: ["Телеграмма добавлена в базу"]}
       else
         render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
       end
@@ -139,6 +144,9 @@ class SynopticObservationsController < ApplicationController
   def input_synoptic_telegrams
     @stations = Station.all.order(:name)
     @telegrams = SynopticObservation.short_last_50_telegrams
+    @term = (Time.now.utc.hour/3*3).to_s.rjust(2, '0')
+    # @term = term < 10 ? '0'+term.to_s : term.to_s
+    @input_mode = params[:input_mode]
   end
   
   def get_last_telegrams
@@ -295,8 +303,8 @@ class SynopticObservationsController < ApplicationController
           return nil
         end
       end
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      if pos333.present?
+
+      if pos333.present? #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # pos555 = new_telegram.telegram =~ / 555 /
         len = pos555.present? ? pos555 : new_telegram.telegram.size-1
         section = new_telegram.telegram[pos333+4,len-pos333-4]
@@ -372,8 +380,8 @@ class SynopticObservationsController < ApplicationController
           end
         end
       end
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
-      if pos555.present?
+
+      if pos555.present? #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
         len = new_telegram.telegram.size-1
         section = new_telegram.telegram[pos555+4,len-pos555-4]
         g_pos = section =~ / 1..../

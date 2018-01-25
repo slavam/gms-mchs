@@ -5,11 +5,12 @@ class NewTelegramForm extends React.Component{
     this.state = {
       currDate:  this.props.currDate,
       tlgType: this.props.tlgType,
-      tlgTerm: this.props.term, 
+      tlgTerm: this.props.term,  
       tlgText: '',
       errors: [] 
     };
     this.handleOptionSelected = this.handleOptionSelected.bind(this);
+    this.dateChange = this.dateChange.bind(this);
   }
   
   handleSubmit(e) {
@@ -68,12 +69,20 @@ class NewTelegramForm extends React.Component{
     });
   }
 
+  dateChange(e){
+    this.setState({currDate: e.target.value});
+  }
+
   handleOptionSelected(value, senderName){
     if (senderName == 'selectTypes'){
-      this.props.onTelegramTypeChange(value);
+      if (this.props.inputMode == 'normal'){
+        let t = Math.floor(new Date().getUTCHours() / 3) * 3;
+        this.state.tlgTerm = t < 10 ? '0'+t : t;
+      }
+      this.props.onTelegramTypeChange(value, this.state.tlgTerm);
       this.setState({tlgType: value, errors: []});
     }else{
-      this.setState({tlgTerm: value});
+      this.setState({tlgTerm: value, errors: []});
     }
   }
 
@@ -82,14 +91,27 @@ class NewTelegramForm extends React.Component{
   }
 
   render() {
-    this.state.term = Math.floor(new Date().getUTCHours() / 3) * 3;
+    // this.state.term = Math.floor(new Date().getUTCHours() / 3) * 3;
     const types = [
       { value: 'synoptic',  label: 'Синоптические' },
       { value: 'agro',      label: 'Агро' },
       { value: 'storm',     label: 'Штормовые' },
       { value: 'sea',       label: 'Морские' },
     ];
-    var term = this.state.tlgType == 'synoptic' ? <td>{this.state.term < 10 ? '0'+this.state.term : this.state.term}</td> : <td></td>;
+    const terms = [
+      { value: '00', label: '00' },
+      { value: '03', label: '03' },
+      { value: '06', label: '06' },
+      { value: '09', label: '09' },
+      { value: '12', label: '12' },
+      { value: '15', label: '15' },
+      { value: '18', label: '18' },
+      { value: '21', label: '21' }
+    ];
+
+    let tlgDate = this.props.inputMode == 'normal' ? <td>{this.state.currDate}</td> : <td><input type="date" name="input-date" value={this.state.currDate} onChange={this.dateChange} required="true" autoComplete="on" /></td>;
+    let term = this.state.tlgType == 'synoptic' ? <td>{this.state.tlgTerm}</td> : <td></td>;
+    let termSelect = this.state.tlgType == 'synoptic' ? <td><OptionSelect options={terms} onUserInput={this.handleOptionSelected} name = "selectTerms" defaultValue={this.state.tlgTerm} readOnly="readonly"/></td> : <td></td>;
     return (
     <div className="col-md-12">
       <form className="telegramForm" onSubmit={(event) => this.handleSubmit(event)}>
@@ -103,9 +125,9 @@ class NewTelegramForm extends React.Component{
           </thead>
           <tbody>
             <tr>
-              <td>{this.state.currDate}</td>
+              {tlgDate}
               <td><OptionSelect options={types} onUserInput={this.handleOptionSelected} name = "selectTypes" defaultValue={this.state.tlgType}/></td>
-              {term}
+              {this.props.inputMode == 'normal' ? term : termSelect}
             </tr>
           </tbody>
         </table>
@@ -256,8 +278,10 @@ class InputTelegrams extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
+      inputMode: this.props.inputMode,
       currDate: this.props.currDate,
       tlgType: this.props.tlgType,
+      tlgTerm: this.props.term,
       errors: [],
       telegrams: this.props.telegrams
     };
@@ -265,9 +289,10 @@ class InputTelegrams extends React.Component{
     this.handleTelegramTypeChanged = this.handleTelegramTypeChanged.bind(this);
   }
 
-  handleTelegramTypeChanged(tlgType){
+  handleTelegramTypeChanged(tlgType, tlgTerm){
     var that = this;
     var desiredLink = "/"+tlgType+"_observations/get_last_telegrams";
+    this.state.tlgTerm = tlgTerm;
     $.ajax({
       type: 'GET',
       dataType: 'json',
@@ -275,7 +300,7 @@ class InputTelegrams extends React.Component{
       }).done((data) => {
         that.setState({telegrams: data.telegrams, tlgType: data.tlgType, errors: []});
       }).fail((res) => {
-        that.setState({errors: ["Ошибка записи в базу"]});
+        that.setState({errors: ["Проблемы с чтением данных из БД"]});
       }); 
   }
   
@@ -286,19 +311,19 @@ class InputTelegrams extends React.Component{
     switch(telegram.tlgType) {
       case 'synoptic':
         tlgData = {observation: telegram.observation},
-        desiredLink = "/synoptic_observations/create_synoptic_telegram";
+        desiredLink = "/synoptic_observations/create_synoptic_telegram?date="+telegram.currDate+"&input_mode="+this.state.inputMode;
         break;
       case 'agro':
         tlgData = {agro_observation: telegram.observation};
-        desiredLink = "/agro_observations/create_agro_telegram";
+        desiredLink = "/agro_observations/create_agro_telegram?date="+telegram.currDate+"&input_mode="+this.state.inputMode;
         break;
       case 'storm':
         tlgData = {storm_observation: telegram.observation};
-        desiredLink = "/storm_observations/create_storm_telegram";
+        desiredLink = "/storm_observations/create_storm_telegram?date="+telegram.currDate+"&input_mode="+this.state.inputMode;
         break;
       case 'sea':
         tlgData = {sea_observation: telegram.observation};
-        desiredLink = "/sea_observations/create_sea_telegram";
+        desiredLink = "/sea_observations/create_sea_telegram?date="+telegram.currDate+"&input_mode="+this.state.inputMode;
     }
     $.ajax({
       type: 'POST',
@@ -306,7 +331,7 @@ class InputTelegrams extends React.Component{
       data: tlgData, 
       url: desiredLink
       }).done((data) => {
-        that.setState({telegrams: data.telegrams, tlgType: data.tlgType, currDate: data.currDate, errors: data.errors});
+        that.setState({telegrams: data.telegrams, tlgType: data.tlgType, currDate: data.currDate, inputMode: data.inputMode, errors: data.errors});
         alert(this.state.errors[0]);
       }).fail((res) => {
         that.setState({errors: ["Ошибка записи в базу"]});
@@ -317,7 +342,7 @@ class InputTelegrams extends React.Component{
     return(
       <div>
         <h3>Новая телеграмма</h3>
-        <NewTelegramForm currDate={this.state.currDate} tlgType={this.state.tlgType} onTelegramTypeChange={this.handleTelegramTypeChanged} onFormSubmit={this.handleFormSubmit} stations={this.props.stations} term={this.props.term}/>
+        <NewTelegramForm currDate={this.state.currDate} tlgType={this.state.tlgType} onTelegramTypeChange={this.handleTelegramTypeChanged} onFormSubmit={this.handleFormSubmit} stations={this.props.stations} term={this.props.term} inputMode={this.props.inputMode}/>
         <h3>Телеграммы</h3>
         <LastTelegramsTable telegrams={this.state.telegrams} tlgType={this.state.tlgType} stations={this.props.stations}/>
       </div>
@@ -434,7 +459,7 @@ function checkStormTelegram(tlg, stations, errors, observation){
     return /^[0-9/]{2}[01]\d{2}[12]$/.test(tlg.substr(pos,6));
   }
   function checkByCode(){
-    var group;
+    // var group;
     switch (codeWAREP) {
       case 11:
       case 12:

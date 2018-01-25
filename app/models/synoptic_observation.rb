@@ -68,7 +68,7 @@ class SynopticObservation < ActiveRecord::Base
         "Морось с дождем слабая", #58
         "Морось с дождем умеренная или сильная", #59
         "Дождь слабый с перерывами", #60
-        "Дождь слабый с непрерывный", #61
+        "Дождь слабый непрерывный", #61
         "Дождь умеренный с перерывами", #62
         "Дождь умеренный непрерывный", #63
         "Дождь сильный с перерывами", #64
@@ -372,8 +372,10 @@ class SynopticObservation < ActiveRecord::Base
     end
   end
   
-  def precipitation_1_to_s
-    case self.precipitation_1
+  def precipitation_to_s(value)
+    case value
+      when 0
+        "Осадков не было"
       when 1..988
         self.precipitation_1.to_s
       when 989
@@ -381,8 +383,13 @@ class SynopticObservation < ActiveRecord::Base
       when 990
         "следы осадков"
       when 991..999
-        ((self.precipitation_1 - 990)*0.1).to_s
+        ((value - 990)*0.1).round(2).to_s
     end
+  end
+  
+  def precipitation_time_range_to_s(value)
+    time_range = ['', '6', '12', '18', '24', '1', '2', '3', '9', '15']
+    time_range[value]
   end
   
   def snow_cover_height_to_s
@@ -393,6 +400,58 @@ class SynopticObservation < ActiveRecord::Base
         "Снежный покров отсутствует"
       when 999
         "Измерить невозможно"
+    end
+  end
+  
+  def clouds_form_to_s
+    return 'Не определена' if self.cloud_form.nil?
+    case self.cloud_form
+      when 0
+        'Перистые'
+      when 1
+        'Перисто-кучевые'
+      when 2
+        'Перисто-слоистые'
+      when 3
+        "Высококучевые"
+      when 4
+        "Высокослоистые"
+      when 5
+        "Слоисто-дождевые"
+      when 6
+        "Слоисто-кучевые"
+      when 7
+        "Слоистые"
+      when 8
+        "Кучевые"
+      when 9
+        "Кучево-дождевые"
+    end
+  end
+  
+  def soil_surface_condition_2_to_s 
+    return 'Не определено' if self.soil_surface_condition_2.nil?
+    case self.cloud_form
+      when 0
+        'Сухая'
+      when 1
+        'Влажная (без луж)'
+      when 2
+        'Влажная (с лужами)'
+      when 3
+        'Затоплена водой'
+      when 4
+        'Замерзшая'
+      when 5
+        'Покрыта льдом'
+      when 6
+        'Покрыта пылью или сыпучим песком частично'
+      when 7
+        'Покрыта пылью или сыпучим песком полностью - тонкий слой'
+      when 8
+        'Покрыта пылью или сыпучим песком полностью - умеренный или толстый слой'
+      when 9
+        'Сухая чрезвычайно'
     end
   end
 end

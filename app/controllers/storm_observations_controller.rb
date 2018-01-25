@@ -93,16 +93,24 @@ class StormObservationsController < ApplicationController
     if telegram.present?
       if telegram.update_attributes storm_observation_params
         last_telegrams = StormObservation.short_last_50_telegrams
-        render json: {telegrams: last_telegrams, tlgType: 'storm', currDate: telegram.telegram_date, errors: ["Телеграмма изменена"]}
+        render json: {telegrams: last_telegrams, 
+                      tlgType: 'storm', 
+                      inputMode: params[:input_mode],
+                      currDate: telegram.telegram_date, 
+                      errors: ["Телеграмма изменена"]}
       else
         render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
       end
     else
       telegram = StormObservation.new(storm_observation_params)
-      telegram.telegram_date = Time.now.utc
+      telegram.telegram_date = params[:input_mode] == 'direct' ? Time.parse(params[:date]+' 00:01:00') : Time.now.utc
       if telegram.save
         last_telegrams = StormObservation.short_last_50_telegrams
-        render json: {telegrams: last_telegrams, tlgType: 'storm', currDate: telegram.telegram_date, errors: ["Телеграмма добавлена в базу"]}
+        render json: {telegrams: last_telegrams, 
+                      tlgType: 'storm', 
+                      inputMode: params[:input_mode],
+                      currDate: telegram.telegram_date, 
+                      errors: ["Телеграмма добавлена в базу"]}
       else
         render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
       end

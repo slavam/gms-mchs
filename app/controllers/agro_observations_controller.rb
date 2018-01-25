@@ -33,18 +33,48 @@ class AgroObservationsController < ApplicationController
   end
   
   def create_agro_telegram
-    telegram = AgroObservation.new(agro_observation_params)
-    telegram.date_dev = Time.now
-    # telegram.station_id = Station.find_by_code(telegram.telegram[6,5].to_i).id
-    telegram.telegram_type = telegram.telegram[0,5]
-    telegram.day_obs = telegram.telegram[12,2].to_i
-    telegram.month_obs = telegram.telegram[14,2].to_i
-    telegram.telegram_num = telegram.telegram[16,1].to_i
-    if telegram.save
-      last_telegrams = AgroObservation.short_last_50_telegrams
-      render json: {telegrams: last_telegrams, tlgType: 'agro', currDate: telegram.date_dev, errors: ["Телеграмма добавлена в базу"]}
+    telegram_text = params[:agro_observation][:telegram]
+    station_id = params[:agro_observation][:station_id]
+    date_dev = params[:input_mode] == 'direct' ? Time.parse(params[:date]+' 00:01:00') : Time.now
+    telegram_type = telegram_text[0,5]
+    day_obs = telegram_text[12,2].to_i
+    month_obs = telegram_text[14,2].to_i
+    telegram_num = telegram_text[16,1].to_i
+
+    telegram = AgroObservation.find_by( station_id: station_id, 
+                                        telegram_type: telegram_type, 
+                                        day_obs: day_obs, 
+                                        month_obs: month_obs, 
+                                        telegram_num: telegram_num)
+    if telegram.present?
+      if telegram.update_attributes agro_observation_params
+        last_telegrams = AgroObservation.short_last_50_telegrams
+        render json: {telegrams: last_telegrams, 
+                      tlgType: 'agro', 
+                      inputMode: params[:input_mode],
+                      currDate: date_dev, 
+                      errors: ["Телеграмма изменена"]}
+      else
+        render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
+      end
     else
-      render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
+      telegram = AgroObservation.new(agro_observation_params)
+      telegram.date_dev = date_dev
+      telegram.telegram_type = telegram_type
+      telegram.day_obs = day_obs
+      telegram.month_obs = month_obs
+      telegram.telegram_num = telegram_num
+      telegram.telegram = telegram_text
+      if telegram.save
+        last_telegrams = AgroObservation.short_last_50_telegrams
+        render json: {telegrams: last_telegrams, 
+                      tlgType: 'agro', 
+                      inputMode: params[:input_mode],
+                      currDate: date_dev, 
+                      errors: ["Телеграмма добавлена в базу"]}
+      else
+        render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
+      end
     end
   end
   

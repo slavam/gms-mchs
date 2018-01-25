@@ -57,7 +57,11 @@
     - if @synoptic_observation.precipitation_1.present?
       %tr
         %th Количество осадков (мм)
-        %td= @synoptic_observation.precipitation_1_to_s
+        %td= @synoptic_observation.precipitation_to_s(@synoptic_observation.precipitation_1)
+    - if @synoptic_observation.precipitation_time_range_1.present?
+      %tr
+        %th Период времени, за который измерено количество осадков (час.)
+        %td= @synoptic_observation.precipitation_time_range_to_s(@synoptic_observation.precipitation_time_range_1)        
     - if @synoptic_observation.cloud_amount_2.present?
       %tr
         %th Количество облаков CL или CM (баллы)
@@ -107,6 +111,34 @@
       %tr
         %th Высота снежного покрова (см.)
         %td= @synoptic_observation.snow_cover_height_to_s
+    - if @synoptic_observation.cloud_amount_3.present?
+      %tr
+        %th Количество облаков слоя
+        %td= @synoptic_observation.cloud_amount(@synoptic_observation.cloud_amount_3)
+    - if @synoptic_observation.cloud_form.present?
+      %tr
+        %th Форма облаков в слое
+        %td= @synoptic_observation.clouds_form_to_s
+    - if @synoptic_observation.soil_surface_condition_2.present?
+      %tr
+        %th Состояние поверхности почвы при отсутствии снежного покрова
+        %td= @synoptic_observation.soil_surface_condition_2_to_s
+    - if @synoptic_observation.temperature_soil_min.present?
+      %tr
+        %th Минимальная температура поверхности почвы за ночь
+        %td= @synoptic_observation.temperature_soil_min.to_s
+    - if @synoptic_observation.temperature_2cm_min.present?
+      %tr
+        %th Минимальная температура воздуха на высоте 2 см от поверхности почвы
+        %td= @synoptic_observation.temperature_2cm_min.to_s
+    - if @synoptic_observation.precipitation_2.present?
+      %tr
+        %th Количество осадков (мм)
+        %td= @synoptic_observation.precipitation_to_s(@synoptic_observation.precipitation_2)
+    - if @synoptic_observation.precipitation_time_range_2.present?
+      %tr
+        %th Период времени, за который измерено количество осадков (час.)
+        %td= @synoptic_observation.precipitation_time_range_to_s(@synoptic_observation.precipitation_time_range_2)
   - if current_user.role == 'technicist'
     = link_to 'Ввод телеграмм', '/synoptic_observations/input_synoptic_telegrams'
     %br
