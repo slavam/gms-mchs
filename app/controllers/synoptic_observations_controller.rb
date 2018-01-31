@@ -1,6 +1,48 @@
 class SynopticObservationsController < ApplicationController
   # before_filter :require_observer_or_technicist
   before_filter :find_synoptic_observation, only: [:show, :update_synoptic_telegram] 
+  
+  def get_meteoparams
+    @year = params[:year].present? ? params[:year] :  Time.now.year.to_s
+    @month = params[:month].present? ? params[:month] : Time.now.month.to_s.rjust(2, '0')
+    @stations = Station.all.order(:name)
+    @meteoparams = []
+    respond_to do |format|
+      format.html 
+      format.pdf do
+        station_name = Station.find(params[:station_id]).name
+        pdf = Meteoparams.new(fetch_meteoparams(params[:station_id]), @year, @month, station_name)
+        send_data pdf.render, filename: "meteoparams_#{current_user.id}.pdf", type: "application/pdf", disposition: "inline", :force_download=>true, :page_size => "A4"
+      end
+      format.json do 
+        render json: fetch_meteoparams(params[:station_id]) 
+      end
+    end
+  end
+  
+  def fetch_meteoparams(station_id)
+    from_date = Time.parse(@year+'-'+@month+'-01 00:00:00')-3.hours
+    from_date_to_s = from_date.strftime('%Y-%m-%d %H:%M:%S')
+    to_date = Time.parse(@year+'-'+@month+'-01 00:00:00')+1.month-6.hours
+    to_date_to_s = to_date.strftime('%Y-%m-%d %H:%M:%S')
+    sql = "select id, date, term, temperature, wind_direction, wind_speed_avg, weather_in_term, pressure_at_station_level from synoptic_observations where observed_at > '#{from_date_to_s}' and observed_at < '#{to_date_to_s}' and station_id = #{station_id} and term in (3,9,15,21) order by observed_at, term;"
+    row_meteoparams = SynopticObservation.find_by_sql(sql)
+    meteoparams = []
+    chem_term = {21 =>'21/01', 3 =>'03/07', 9 =>'09/13', 15 =>'15/19' }
+    row_meteoparams.each do |mp|
+      new_mp = {}
+      new_mp[:id] = mp.id
+      new_mp[:date] = mp.date
+      new_mp[:term] = chem_term[mp.term]
+      new_mp[:temperature] = mp.temperature
+      new_mp[:wind_direction] = mp.wind_direction*10
+      new_mp[:wind_speed_avg] = mp.wind_speed_avg
+      new_mp[:weather] = SynopticObservation::WEATHER_IN_TERM[mp.weather_in_term] if mp.weather_in_term.present?
+      new_mp[:pressure_at_station_level] = mp.pressure_at_station_level
+      meteoparams << new_mp
+    end
+    meteoparams
+  end
 
   def get_conversion_params
   end
@@ -132,7 +174,6 @@ class SynopticObservationsController < ApplicationController
   def heat_donbass_show
     @calc_date = params[:calc_date].present? ? params[:calc_date] : Time.now.strftime("%Y-%m-%d")
     @temperatures = get_temperatures(@calc_date) # ("2017-10-08") 
-    # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{@temperatures.inspect}")
   end
   
   def get_temps

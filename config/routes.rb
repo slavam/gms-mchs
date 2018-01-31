@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   get 'synoptic_observations/get_last_telegrams', to: 'synoptic_observations#get_last_telegrams'
   get 'synoptic_observations/get_conversion_params', to: 'synoptic_observations#get_conversion_params'
   post 'synoptic_observations/converter', to: 'synoptic_observations#converter'
+  get 'synoptic_observations/get_meteoparams', to: 'synoptic_observations#get_meteoparams'
   resources :synoptic_observations
   delete 'pollution_values/delete_value/:id', to: 'pollution_values#delete_value'
   resources :pollution_values
