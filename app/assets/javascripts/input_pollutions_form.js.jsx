@@ -235,6 +235,7 @@ class InputForm extends React.Component{
       </td>);
       tds2.push(<td key={m.id}>{self.state.concs[m.id] == null ? '' : self.state.concs[m.id]}</td>);
     });
+    let pressure = this.state.weather.atmosphere_pressure == null ? <td></td> : <td>{this.state.weather.atmosphere_pressure} / {(this.state.weather.atmosphere_pressure/1.334).toFixed()}</td>;
     return(
       <div>
         <InputError visible="true" errorMessage={this.state.errors[0]} />
@@ -278,10 +279,10 @@ class InputForm extends React.Component{
         <table className="table table-hover">
           <thead>
             <tr>
-              <th>Температура воздуха</th>
-              <th>Скорость ветра</th>
-              <th>Направление ветра</th>
-              <th>Атмосферное давление</th>
+              <th>Температура воздуха, °С</th>
+              <th>Скорость ветра, м/с</th>
+              <th>Направление ветра, °</th>
+              <th>Атмосферное давление, hPa / мм.рт.ст.</th>
             </tr>
           </thead>
           <tbody>
@@ -293,11 +294,9 @@ class InputForm extends React.Component{
                 {this.state.weather.wind_speed}
               </td>
               <td>
-                {this.state.weather.wind_direction}
+                {this.state.weather.wind_direction == null ? '' : this.state.weather.wind_direction*10}
               </td>
-              <td>
-                {this.state.weather.atmosphere_pressure}
-              </td>
+              {pressure}
             </tr>
           </tbody>
         </table>

@@ -38,7 +38,7 @@ class SynopticObservationsController < ApplicationController
       new_mp[:wind_direction] = mp.wind_direction*10
       new_mp[:wind_speed_avg] = mp.wind_speed_avg
       new_mp[:weather] = SynopticObservation::WEATHER_IN_TERM[mp.weather_in_term] if mp.weather_in_term.present?
-      new_mp[:pressure_at_station_level] = mp.pressure_at_station_level
+      new_mp[:pressure] = mp.pressure_at_station_level.present? ? "#{mp.pressure_at_station_level} / #{(mp.pressure_at_station_level/1.334).round}" : ''
       meteoparams << new_mp
     end
     meteoparams

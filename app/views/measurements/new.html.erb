@@ -3,6 +3,6 @@
 <div class="container">
   <h1>Ввод данных о загрязнении атмосферы</h1>
   <div id="content">
-    <%= react_component 'InputPollutionsForm', { date: @date, term: '07', materials: @materials, posts: @posts, postId: @post_id, weather: @weather, concentrations: @concentrations} %>
+    <%= react_component 'InputPollutionsForm', { date: @date_loc, term: @chem_term.to_s.rjust(2, '0'), materials: @materials, posts: @posts, postId: @post_id, weather: @weather, concentrations: @concentrations} %>
   </div>
 </div>

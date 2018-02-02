@@ -44,17 +44,18 @@ class MeteoParamsForm extends React.Component{
   }  
 }
 const ParamsRow = ({params}) => {
-    return (
-      <tr key = {params.id}>
-        <td width="100px">{params.date}</td>
-        <td>{params.term}</td>
-        <td>{params.temperature}</td>
-        <td>{params.wind_direction}</td>
-        <td>{params.wind_speed_avg}</td>
-        <td>{params.weather}</td>
-        <td>{params.pressure_at_station_level}</td>
-      </tr>
-    );
+  // let pressure = params.pressure_at_station_level == null ? <td></td> : <td>{params.pressure_at_station_level}/{(params.pressure_at_station_level/1.334).toFixed()}</td>;
+  return (
+    <tr key = {params.id}>
+      <td width="100px">{params.date}</td>
+      <td>{params.term}</td>
+      <td>{params.temperature}</td>
+      <td>{params.wind_direction}</td>
+      <td>{params.wind_speed_avg}</td>
+      <td>{params.weather}</td>
+      <td>{params.pressure}</td>
+    </tr>
+  );
 };  
 const MeteoParamsTable = ({meteoParams}) => {
   var rows = [];
@@ -71,7 +72,7 @@ const MeteoParamsTable = ({meteoParams}) => {
           <th>Направление ветра, °</th>
           <th>Скорость ветра, м/с</th>
           <th>Атмосферные явления</th>
-          <th>Атмосферное давление, hPa</th>
+          <th>Атмосферное давление, hPa/мм.рт.ст.</th>
         </tr>
       </thead>
       <tbody>{rows}</tbody>

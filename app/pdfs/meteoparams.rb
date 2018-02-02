@@ -38,11 +38,11 @@ class Meteoparams < Prawn::Document
       row << mp[:wind_direction]
       row << mp[:wind_speed_avg]
       row << mp[:weather]
-      row << mp[:pressure_at_station_level]
+      row << mp[:pressure]
       table << row
     end
     [
-      ['<b>Дата</b>','<b>Срок</b>', '<b>Температура, °С</b>', '<b>Направление ветра, °</b>', '<b>Скорость ветра, м/с</b>', '<b>Атмосферные явления</b>', '<b>Атмосферное давление, hPa</b>']
+      ['<b>Дата</b>','<b>Срок</b>', '<b>Температура, °С</b>', '<b>Направление ветра, °</b>', '<b>Скорость ветра, м/с</b>', '<b>Атмосферные явления</b>', '<b>Атмосферное давление, hPa/мм.рт.ст.</b>']
     ] + table
   end
 end

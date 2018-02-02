@@ -164,20 +164,23 @@ class MeasurementsController < ApplicationController
   end
   
   def new
-    @date = Time.now.strftime("%Y-%m-%d")
+    @date_loc = (Time.now.utc+3.hours).strftime("%Y-%m-%d")
+    @date_utc = Time.now.utc.strftime("%Y-%m-%d")
     @post_id = 14 # for example
-    term = 3 # ((Time.now + 3.hours).hour / 6) * 6
+    @chem_term = ((Time.now.utc + 3.hours).hour / 6) * 6 + 1
+    syn_term = @chem_term == 1 ? 21 : @chem_term-4
+    # term = 3 # ((Time.now + 3.hours).hour / 6) * 6 # (Time.now.utc.hour/3*3).to_s.rjust(2, '0')
     @materials = Material.actual_materials
     @posts = Post.actual.order(:id)
     
-    measurement = Measurement.find_by(date: @date, term: 7, post_id: 14)
+    measurement = Measurement.find_by(date: @date_loc, term: @chem_term, post_id: @post_id)
     
     if measurement.present?
       @concentrations = get_concentrations_by_measurement(measurement.id)
-      @weather = weather = measurement.get_weather
+      @weather = measurement.get_weather
     else
       @concentrations = []
-      @weather = get_weather_from_synoptic_observatios(@post_id, @date, term)
+      @weather = get_weather_from_synoptic_observatios(@post_id, @date_utc, syn_term)
     end
   end
   
