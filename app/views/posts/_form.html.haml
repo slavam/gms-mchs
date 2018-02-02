@@ -1,35 +1,35 @@
-.container
+%div{ class: "row"}
   %div{ class: "col-md-6 col-md-offset-3"}
     = form_for @post do |form|
-      %table.card
-        %tr
-          %th Название:
-          %td= form.text_field :name, size: 100
-        %tr
-          %th Короткое название:
-          %td= form.text_field :short_name
-        %tr
-          %th Тип:
-          %td= collection_select(:post, :site_type_id, SiteType.all, :id, :name, {:prompt => true})
-        %tr
-          %th Город:
-          %td= @post.city.name
-        %tr
-          %th Лаборатория:
-          %td= collection_select(:post, :laboratory_id, Laboratory.all, :id, :name, {:prompt => true})
-        %tr
-          %th Веществ:
-          %td= form.text_field :substances_num
-        %tr
-          %th Координаты: 
-          %td{margin: "10%"}= form.text_field :coordinates
-        %tr
-          %th Высота:
-          %td= form.text_field :height
-        %tr
-          %th Рабочий?:
-          %td= form.check_box :active
+      = form.label "Название"
+      = form.text_field :name, size: 100
+      
+      = form.label "Короткое название"
+      = form.text_field :short_name
+      
+      = form.label "Тип"
+      = collection_select(:post, :site_type_id, SiteType.all, :id, :name, {:prompt => true})
+      
+      = form.label "Город"
+      = @post.city.name
+      
+      = form.label "Лаборатория"
+      = collection_select(:post, :laboratory_id, Laboratory.all, :id, :name, {:prompt => true})
+      
+      = form.label "Веществ"
+      = form.text_field :substances_num
+      
+      = form.label "Координаты"
+      = form.text_field :coordinates
+      
+      = form.label "Высота"
+      = form.text_field :height
+      
+      = form.label "Объем отобраной пробы пыли в кубических дм"
+      = form.number_field :sample_volume_dust, step: 0.01
+      
+      = form.label "Рабочий?"
+      = form.check_box :active
   
-  
-      = submit_tag "Сохранить"
+      = form.submit "Сохранить", class: "btn btn-primary"
 = link_to "Список", posts_path            

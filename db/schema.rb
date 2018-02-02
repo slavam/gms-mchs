@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171201062804) do
+ActiveRecord::Schema.define(version: 20180202071047) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
@@ -186,19 +186,20 @@ ActiveRecord::Schema.define(version: 20171201062804) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.integer  "city_id",          limit: 4
-    t.integer  "site_type_id",     limit: 4
-    t.string   "name",             limit: 255
-    t.integer  "substances_num",   limit: 4
-    t.integer  "coordinates",      limit: 4
-    t.integer  "coordinates_sign", limit: 4
-    t.integer  "vd",               limit: 4
-    t.integer  "height",           limit: 4
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.integer  "city_id",            limit: 4
+    t.integer  "site_type_id",       limit: 4
+    t.string   "name",               limit: 255
+    t.integer  "substances_num",     limit: 4
+    t.integer  "coordinates",        limit: 4
+    t.integer  "coordinates_sign",   limit: 4
+    t.integer  "vd",                 limit: 4
+    t.integer  "height",             limit: 4
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
     t.boolean  "active"
-    t.integer  "laboratory_id",    limit: 4
-    t.string   "short_name",       limit: 255
+    t.integer  "laboratory_id",      limit: 4
+    t.string   "short_name",         limit: 255
+    t.decimal  "sample_volume_dust",             precision: 7, scale: 2
   end
 
   create_table "reestr", force: :cascade do |t|
