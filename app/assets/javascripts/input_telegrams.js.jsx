@@ -16,7 +16,7 @@ class NewTelegramForm extends React.Component{
   handleSubmit(e) {
     e.preventDefault();
     var term = this.state.tlgTerm;
-    var text = this.state.tlgText;
+    var text = this.state.tlgText.replace(/\s+/g, ' '); // one space only
     var date = this.state.currDate;
     var errors = [];
     
@@ -43,20 +43,25 @@ class NewTelegramForm extends React.Component{
         }
         break;
       case 'agro':
-        var idStation = -1;
-        var isStation;
-        var codeStation = text.substr(6,5);
-        isStation = this.props.stations.some(function(s){
-          idStation = s.id;
-          return +codeStation == s.code;
-        });
-        if (isStation) 
-          this.observation.station_id = idStation;
-        else {
-          this.setState({errors: ["Ошибка в коде станции"]});
+        if (!checkAgroTelegram(text, this.props.stations, errors, this.observation)) {
+          this.setState({errors: errors});
           return;
         }
         break;
+        // this.observation.date_dev = date;
+        // var idStation = -1;
+        // var isStation;
+        // var codeStation = text.substr(6,5);
+        // isStation = this.props.stations.some(function(s){
+        //   idStation = s.id;
+        //   return +codeStation == s.code;
+        // });
+        // if (isStation) 
+        //   this.observation.station_id = idStation;
+        // else {
+        //   this.setState({errors: ["Ошибка в коде станции"]});
+        //   return;
+        // }
       case 'sea':
         this.observation.day_obs = text.substr(5,2);
         this.observation.term = text.substr(7,2);
@@ -188,6 +193,7 @@ class TelegramRow extends React.Component{
       this.setState({mode:'Изменить'});
   }
   handleEditTelegramSubmit(tlgText){
+    tlgText = tlgText.replace(/\s+/g, ' ');
     var errors = [];
     var tlgData = {};
     var observation = {};
@@ -350,8 +356,302 @@ class InputTelegrams extends React.Component{
   }
 }
 
+function checkAgroTelegram(tlg, stations, errors, observation){
+  // ЩЭАГЯ - ежедневная, ЩЭАГУ - декадная
+  if(~tlg.indexOf("ЩЭАГЯ ") || ~tlg.indexOf("ЩЭАГУ ") ){
+    observation.telegram_type = tlg.substr(0, 5);
+  } else {
+    errors.push("Ошибка в различительной группе");
+    return false;
+  }
+  var codeStation = tlg.substr(6,5);
+  var isStation = false; 
+  var idStation;
+  isStation = stations.some(function(s){
+    idStation = s.id;
+    return +codeStation == s.code;
+  });
+  if (isStation) {
+    observation.station_id = idStation;
+  } else {
+    errors.push("Ошибка в коде станции");
+    return false;
+  }
+  
+  var value;
+  value = +tlg.substr(12, 2);
+  if (observation.telegram_type == 'ЩЭАГЯ')
+    if (1 <= value && value <= 31)
+      observation.day_obs = value;
+    else {
+      errors.push("Ошибка в дне наблюдения");
+      return false;
+    }
+  else
+    if ([10, 20, 28, 29, 30, 31].some(elem => elem == value))
+      observation.day_obs = value;
+    else {
+      errors.push("Ошибка в дне наблюдения");
+      return false;
+    }
+    
+  value = +tlg.substr(14, 2);
+  if (1 <= value && value <= 12)
+    observation.month_obs = value;
+  else {
+    errors.push("Ошибка в месяце наблюдения");
+    return false;
+  }
+  
+  value = +tlg.substr(16, 1);
+  if (1 <= value && value <= 8)
+    observation.telegram_num = value;
+  else {
+    errors.push("Ошибка в номере телеграммы");
+    return false;
+  }
+  
+  var currentPos;
+  var sign;
+  if (observation.telegram_type == 'ЩЭАГЯ'){ // ежедневные
+    if (tlg.substr(17,5) != ' 333 '){
+      errors.push("Ошибка в признаке раздела 3");
+      return false;
+    }
+    if (/^90[01]\d{2}$/.test(tlg.substr(22,5))){
+      sign = tlg[24] == '0' ? '' : '-';
+      observation.temperature_max_12 = sign+tlg.substr(25,2);
+    } else {
+      errors.push("Ошибка в разделе 3 зона 90");
+      return false;
+    }
+    currentPos = 28;
+    // if ([1, 3, 4, 5, 6, 7, 8].some(elem => elem == +tlg[currentPos])){
+    // }else{
+    //   errors.push("Ошибка в признаке группы зоны 90");
+    //   return false;
+    // }
+    if (tlg[currentPos] == '1') 
+      if (/^1[01]\d{3}$/.test(tlg.substr(currentPos,5))){
+        sign = tlg[currentPos+1] == '0' ? '' : '-';
+        observation.temperature_avg_24 = sign+tlg.substr(currentPos+2,2)+'.'+tlg[currentPos+4];
+        currentPos += 6;
+      }else{
+        errors.push("Ошибка в группе 1 зоны 90 раздела 3");
+        return false;
+      }
+    if (tlg[currentPos] == '3') 
+      if (/^3[01]\d{2}\/$/.test(tlg.substr(currentPos,5))){
+        sign = tlg[currentPos+1] == '0' ? '' : '-';
+        observation.temperature_min_24 = sign+tlg.substr(currentPos+2,2);
+        currentPos += 6;
+      }else{
+        errors.push("Ошибка в группе 3 зоны 90 раздела 3");
+        return false;
+      }
+    if (tlg[currentPos] == '4') 
+      if (/^4[01]\d{2}\/$/.test(tlg.substr(currentPos,5))){
+        sign = tlg[currentPos+1] == '0' ? '' : '-';
+        observation.temperature_min_soil_24 = sign+tlg.substr(currentPos+2,2);
+        currentPos += 6;
+      }else{
+        errors.push("Ошибка в группе 4 зоны 90 раздела 3");
+        return false;
+      }
+    if (tlg[currentPos] == '5') 
+      if (/^5\d{3}[1-5/]$/.test(tlg.substr(currentPos,5))){
+        observation.percipitation_24 = tlg.substr(currentPos+1,3);
+        observation.percipitation_type = tlg[currentPos+4] == '/' ? null : tlg[currentPos+4];
+        currentPos += 6;
+      }else{
+        errors.push("Ошибка в группе 5 зоны 90 раздела 3");
+        return false;
+      }
+    if (tlg[currentPos] == '6') 
+      if (/^6\d{3}\/$/.test(tlg.substr(currentPos,5))){
+        observation.percipitation_12 = tlg.substr(currentPos+1,3);
+        currentPos += 6;
+      }else{
+        errors.push("Ошибка в группе 6 зоны 90 раздела 3");
+        return false;
+      }
+    if (tlg[currentPos] == '7') 
+      if (/^7\d{4}$/.test(tlg.substr(currentPos,5))){
+        observation.wind_speed_max_24 = tlg.substr(currentPos+1,2);
+        observation.saturation_deficit_max_24 = tlg.substr(currentPos+3,2);
+        currentPos += 6;
+      }else{
+        errors.push("Ошибка в группе 7 зоны 90 раздела 3");
+        return false;
+      }
+    if (tlg[currentPos] == '8') 
+      if (/^8\d{2}[012]{2}$/.test(tlg.substr(currentPos,5))){
+        observation.duration_dew_24 = tlg.substr(currentPos+1,2);
+        observation.dew_intensity_max = tlg[currentPos+3];
+        observation.dew_intensity_8 = tlg[currentPos+4];
+        currentPos += 6;
+      }else{
+        errors.push("Ошибка в группе 8 зоны 90 раздела 3");
+        return false;
+      }
+      
+    if (/^91[0-9/]{2}[0-6/]$/.test(tlg.substr(currentPos,5))){
+      observation.sunshine_duration_24 = tlg.substr(currentPos+2,2);
+      observation.state_top_layer_soil = tlg[currentPos+4];
+      currentPos += 6;
+    } else {
+      errors.push("Ошибка в разделе 3 зона 91");
+      return false;
+    }      
+    if (tlg[currentPos] == '1') 
+      if (/^1\d{4}$/.test(tlg.substr(currentPos,5))){
+        observation.temperature_field_5_16 = tlg.substr(currentPos+1,2);
+        observation.temperature_field_10_16 = tlg.substr(currentPos+3,2);
+        currentPos += 6;
+      } else {
+        errors.push("Ошибка в группе 1 зоны 91 раздела 3");
+        return false;
+      }
+    if (tlg[currentPos] == '2') 
+      if (/^2\d{4}$/.test(tlg.substr(currentPos,5))){
+        observation.temperature_avg_soil_5 = tlg.substr(currentPos+1,2);
+        observation.temperature_avg_soil_10 = tlg.substr(currentPos+3,2);
+        currentPos += 6;
+      } else {
+        errors.push("Ошибка в группе 2 зоны 91 раздела 3");
+        return false;
+      }
+    if (tlg[currentPos] == '3') 
+      if (/^3\d{4}$/.test(tlg.substr(currentPos,5))){
+        observation.saturation_deficit_avg_24 = tlg.substr(currentPos+1,2);
+        observation.relative_humidity_min_24 = tlg.substr(currentPos+3,2);
+        currentPos += 6;
+      } else {
+        errors.push("Ошибка в группе 3 зоны 91 раздела 3");
+        return false;
+      }
+
+    let zone92pos = tlg.search(/92... [1678]/);
+    let zone92_95pos = tlg.search(/92... 95/);
+    let wrong333pos = tlg.indexOf('333', currentPos);
+    let end92pos;
+    if (zone92pos > 0){
+      if (zone92_95pos > 0)
+        end92pos = zone92_95pos;
+      else if (wrong333pos > 0)
+        end92pos = wrong333pos;
+      else
+        end92pos = tlg.length;
+      currentPos = end92pos;
+      let zone = tlg.substr(zone92pos,end92pos-zone92pos).split('92');
+      zone.splice(0,1);
+      let state_crops;
+      observation.state_crops = [];
+      zone.forEach((t, i) => {
+        state_crops = {};
+        state_crops.crop_code = t.substr(0, 3);
+        let pos = 4;
+        let j = 1;
+        while (t.indexOf(' 1', pos-1)>0){
+          if((j<6) && (/^1\d{2}[0-5]\/$/.test(t.substr(pos,5)))){
+            state_crops["development_phase_"+j] = t.substr(pos+1,2);
+            state_crops["assessment_condition_"+j] = t[3];
+            j += 1;
+            pos += 6;
+          }else {
+            errors.push("Ошибка в группе 1["+j+"] зоны 92["+(i+1)+"] раздела 3");
+            return false;
+          }
+        }
+        
+        j = 1;
+        while (t.indexOf(' 6', pos-1)>0){
+          if((j<6) && (/^6\d{3}[123]$/.test(t.substr(pos,5)))){
+            state_crops["agricultural_work_"+j] = t.substr(pos+1,3);
+            state_crops["index_weather_"+j] = t[4];
+            j += 1;
+            pos += 6;
+          }else {
+            errors.push("Ошибка в группе 6["+j+"] зоны 92["+(i+1)+"] раздела 3"+t.substr(pos,5));
+            return false;
+          }
+        }
+        
+        j = 1;
+        while (t.indexOf(' 7', pos-1)>0){
+          if((j<6) && (/^7\d{3}[1-5]$/.test(t.substr(pos,5)))){
+            state_crops["agricultural_work_"+j] = t.substr(pos+1,3);
+            state_crops["index_weather_"+j] = t[4];
+            j += 1;
+            pos += 6;
+          }else {
+            errors.push("Ошибка в группе 7["+j+"] зоны 92["+(i+1)+"] раздела 3");
+            return false;
+          }
+        }
+        observation.state_crops.push(state_crops);
+      });
+    }
+    
+    if (zone92_95pos > 0){
+      if (wrong333pos > 0)
+        end92pos = wrong333pos;
+      else
+        end92pos = tlg.length;
+      currentPos = end92pos;
+      let zone = tlg.substr(zone92_95pos,end92pos-zone92_95pos).split('92');
+      zone.splice(0,1);
+      observation.damage_crops = [];
+      let damage_crops;
+      zone.forEach((t, i) => {
+        damage_crops = {};
+        damage_crops.crop_code = t.substr(0, 3);
+        let pos = 4;
+        if( (/^95\d{3}$/.test(t.substr(pos,5)))){
+          damage_crops.height_snow_cover_rail = t.substr(pos+2,3);
+          pos += 6;
+        }else {
+          errors.push("Ошибка в группе 95 зоны 92_95["+(i+1)+"] раздела 3");
+          return false;
+        }
+        
+        if( (/^4\d{3}\/$/.test(t.substr(pos,5)))){
+          damage_crops.depth_soil_freezing = t.substr(pos+1,3);
+          pos += 6;
+        }else {
+          errors.push("Ошибка в группе 4 зоны 92_95["+(i+1)+"] раздела 3");
+          return false;
+        }
+        
+        if( (/^5[1-7][01]\d{2}$/.test(t.substr(pos,5)))){
+          damage_crops.thermometer_index = t[pos+1];
+          sign = t[pos+2] == '0' ? '' : '-';
+          damage_crops.temperature_dec_min_soil3 = sign+t.substr(pos+3,2);
+          pos += 6;
+        }else {
+          errors.push("Ошибка в группе 5 зоны 92_95["+(i+1)+"] раздела 3");
+          return false;
+        }
+        observation.damage_crops.push(damage_crops);
+      });
+    }
+    
+    if ((tlg[currentPos-1] == '=') || (tlg.substr(currentPos, 3) == '333'))
+      return true;
+    else {
+      errors.push("Ошибка в окончании телеграммы =>"+tlg.substr(currentPos));
+      return false;
+    }
+    
+  } else {
+    // ЩЭАГУ - декадная
+  }
+  // function check3section(section3, i){
+  //   return true;
+  // }
+}
 function checkStormTelegram(tlg, stations, errors, observation){
-  tlg = tlg.replace(/\s+/g, ' ');
+  // tlg = tlg.replace(/\s+/g, ' ');
   if(~tlg.indexOf("ЩЭОЗМ ") || ~tlg.indexOf("ЩЭОЯЮ ") ){
     observation.telegram_type = tlg.substr(0, 5);
   } else {
@@ -595,7 +895,7 @@ function checkStormTelegram(tlg, stations, errors, observation){
   // return true;
 }
 function  checkSynopticTelegram(term, tlg, errors, stations, observation){
-  tlg = tlg.replace(/\s+/g, ' ');
+  // tlg = tlg.replace(/\s+/g, ' ');
   var state = {
       group00: { errorMessage: 'Ошибка в группе00', regex: /^[134/][1-4][0-9/]([0-4][0-9]|50|5[6-9]|[6-9][0-9]|\/\/)$/ },
       group0: { errorMessage: 'Ошибка в группе0', regex: /^[0-9/]([012][0-9]|3[0-6]|99|\/\/)([012][0-9]|30|\/\/)$/ },
@@ -699,7 +999,7 @@ function  checkSynopticTelegram(term, tlg, errors, stations, observation){
                 break;
               case '5':
                 sign = section[2] == '0' ? '' : '-';
-                observation.temperature_2cm_min = section.substr(3,2);
+                observation.temperature_2cm_min = sign+section.substr(3,2);
                 break;
               case '6':
                 observation.precipitation_2 = section.substr(1,3);

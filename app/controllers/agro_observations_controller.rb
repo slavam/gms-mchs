@@ -100,6 +100,13 @@ class AgroObservationsController < ApplicationController
 
     def agro_observation_params
       params.require(:agro_observation).permit(:telegram_type, :station_id, :date_dev, :day_obs, :month_obs, :telegram_num, :telegram)
+      # temperature_max_12, temperature_avg_24, temperature_min_24, temperature_min_soil_24, percipitation_24, percipitation_type,
+      # percipitation_12, wind_speed_max_24, saturation_deficit_max_24, duration_dew_24, dew_intensity_max, dew_intensity_8,
+      # sunshine_duration_24, state_top_layer_soil, temperature_field_5_16, temperature_field_10_16, temperature_avg_soil_5,
+      # temperature_avg_soil_10, saturation_deficit_avg_24, relative_humidity_min_24, development_phase_1, development_phase_2,
+      # development_phase_3, development_phase_4, development_phase_5, agricultural_work_1, agricultural_work_2, agricultural_work_3,
+      # agricultural_work_4, agricultural_work_5, index_weather_1, index_weather_2, index_weather_3, index_weather_4, index_weather_5,
+      # height_snow_cover_rail, depth_soil_freezing, thermometer_index, temperature_dec_min_soil3
     end
     
     def find_agro_observation
