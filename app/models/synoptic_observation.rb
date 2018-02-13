@@ -377,11 +377,11 @@ class SynopticObservation < ActiveRecord::Base
       when 0
         "Осадков не было"
       when 1..988
-        self.precipitation_1.to_s
+        value.to_s
       when 989
         "989 и больше"
       when 990
-        "следы осадков"
+        "Следы осадков"
       when 991..999
         ((value - 990)*0.1).round(2).to_s
     end

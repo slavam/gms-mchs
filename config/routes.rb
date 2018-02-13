@@ -51,6 +51,8 @@ Rails.application.routes.draw do
   resources :cities
   resources :stations
   resources :audits
+  resources :crop_conditions
+  resources :crop_damages
   resources :concentrations
   get 'pollutions/index', to: 'pollutions#index'
   get 'pollutions/chem_forma1', to: 'pollutions#chem_forma1'

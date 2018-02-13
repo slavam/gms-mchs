@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180202071047) do
+ActiveRecord::Schema.define(version: 20180212074457) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
@@ -19,15 +19,35 @@ ActiveRecord::Schema.define(version: 20180202071047) do
   end
 
   create_table "agro_observations", force: :cascade do |t|
-    t.string   "telegram_type", limit: 255,   default: "ЩЭАГЯ", null: false
-    t.integer  "station_id",    limit: 4,                       null: false
-    t.datetime "date_dev",                                      null: false
-    t.integer  "day_obs",       limit: 4,                       null: false
-    t.integer  "month_obs",     limit: 4,                       null: false
-    t.integer  "telegram_num",  limit: 4,     default: 1,       null: false
-    t.text     "telegram",      limit: 65535,                   null: false
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
+    t.string   "telegram_type",             limit: 255,                           default: "ЩЭАГЯ", null: false
+    t.integer  "station_id",                limit: 4,                                               null: false
+    t.datetime "date_dev",                                                                          null: false
+    t.integer  "day_obs",                   limit: 4,                                               null: false
+    t.integer  "month_obs",                 limit: 4,                                               null: false
+    t.integer  "telegram_num",              limit: 4,                             default: 1,       null: false
+    t.text     "telegram",                  limit: 65535,                                           null: false
+    t.datetime "created_at",                                                                        null: false
+    t.datetime "updated_at",                                                                        null: false
+    t.integer  "temperature_max_12",        limit: 4
+    t.decimal  "temperature_avg_24",                      precision: 5, scale: 1
+    t.integer  "temperature_min_24",        limit: 4
+    t.integer  "temperature_min_soil_24",   limit: 4
+    t.integer  "percipitation_24",          limit: 4
+    t.integer  "percipitation_type",        limit: 4
+    t.integer  "percipitation_12",          limit: 4
+    t.integer  "wind_speed_max_24",         limit: 4
+    t.integer  "saturation_deficit_max_24", limit: 4
+    t.integer  "duration_dew_24",           limit: 4
+    t.integer  "dew_intensity_max",         limit: 4
+    t.integer  "dew_intensity_8",           limit: 4
+    t.integer  "sunshine_duration_24",      limit: 4
+    t.integer  "state_top_layer_soil",      limit: 4
+    t.integer  "temperature_field_5_16",    limit: 4
+    t.integer  "temperature_field_10_16",   limit: 4
+    t.integer  "temperature_avg_soil_5",    limit: 4
+    t.integer  "temperature_avg_soil_10",   limit: 4
+    t.integer  "saturation_deficit_avg_24", limit: 4
+    t.integer  "relative_humidity_min_24",  limit: 4
   end
 
   create_table "audits", force: :cascade do |t|
@@ -115,6 +135,54 @@ ActiveRecord::Schema.define(version: 20180202071047) do
     t.integer  "number_wW",    limit: 4
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+  end
+
+  create_table "crop_conditions", force: :cascade do |t|
+    t.integer  "agro_observation_id",    limit: 4
+    t.integer  "crop_code",              limit: 4, null: false
+    t.integer  "development_phase_1",    limit: 4
+    t.integer  "development_phase_2",    limit: 4
+    t.integer  "development_phase_3",    limit: 4
+    t.integer  "development_phase_4",    limit: 4
+    t.integer  "development_phase_5",    limit: 4
+    t.integer  "assessment_condition_1", limit: 4
+    t.integer  "assessment_condition_2", limit: 4
+    t.integer  "assessment_condition_3", limit: 4
+    t.integer  "assessment_condition_4", limit: 4
+    t.integer  "assessment_condition_5", limit: 4
+    t.integer  "agricultural_work_1",    limit: 4
+    t.integer  "agricultural_work_2",    limit: 4
+    t.integer  "agricultural_work_3",    limit: 4
+    t.integer  "agricultural_work_4",    limit: 4
+    t.integer  "agricultural_work_5",    limit: 4
+    t.integer  "damage_plants_1",        limit: 4
+    t.integer  "damage_plants_2",        limit: 4
+    t.integer  "damage_plants_3",        limit: 4
+    t.integer  "damage_plants_4",        limit: 4
+    t.integer  "damage_plants_5",        limit: 4
+    t.integer  "damage_volume_1",        limit: 4
+    t.integer  "damage_volume_2",        limit: 4
+    t.integer  "damage_volume_3",        limit: 4
+    t.integer  "damage_volume_4",        limit: 4
+    t.integer  "damage_volume_5",        limit: 4
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.integer  "index_weather_1",        limit: 4
+    t.integer  "index_weather_2",        limit: 4
+    t.integer  "index_weather_3",        limit: 4
+    t.integer  "index_weather_4",        limit: 4
+    t.integer  "index_weather_5",        limit: 4
+  end
+
+  create_table "crop_damages", force: :cascade do |t|
+    t.integer  "agro_observation_id",       limit: 4
+    t.integer  "crop_code",                 limit: 4, null: false
+    t.integer  "height_snow_cover_rail",    limit: 4
+    t.integer  "depth_soil_freezing",       limit: 4
+    t.integer  "thermometer_index",         limit: 4
+    t.integer  "temperature_dec_min_soil3", limit: 4
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   create_table "gidro", id: false, force: :cascade do |t|

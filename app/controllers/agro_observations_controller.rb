@@ -48,6 +48,22 @@ class AgroObservationsController < ApplicationController
                                         telegram_num: telegram_num)
     if telegram.present?
       if telegram.update_attributes agro_observation_params
+        params[:crop_conditions].each do |k, v|
+          c_c = CropCondition.find_by(agro_observation_id: telegram.id, crop_code: v[:crop_code].to_i)
+          if c_c.present?
+            c_c.update_attributes crop_conditions_params(v)
+          else
+            telegram.crop_conditions.build(crop_conditions_params(v)).save
+          end
+        end if params[:crop_conditions].present?
+        params[:crop_damages].each do |k, v|
+          c_d = CropDamage.find_by(agro_observation_id: telegram.id, crop_code: v[:crop_code].to_i)
+          if c_d.present?
+            c_d.update_attributes crop_damages_params(v)
+          else
+            telegram.crop_damages.build(crop_damages_params(v)).save
+          end
+        end if params[:crop_damages].present?
         last_telegrams = AgroObservation.short_last_50_telegrams
         render json: {telegrams: last_telegrams, 
                       tlgType: 'agro', 
@@ -66,6 +82,12 @@ class AgroObservationsController < ApplicationController
       telegram.telegram_num = telegram_num
       telegram.telegram = telegram_text
       if telegram.save
+        params[:crop_conditions].each do |k, v|
+          telegram.crop_conditions.build(crop_conditions_params(v)).save
+        end if params[:crop_conditions].present?
+        params[:crop_damages].each do |k, v|
+          telegram.crop_damages.build(crop_damages_params(v)).save
+        end if params[:crop_damages].present?
         last_telegrams = AgroObservation.short_last_50_telegrams
         render json: {telegrams: last_telegrams, 
                       tlgType: 'agro', 
@@ -89,7 +111,24 @@ class AgroObservationsController < ApplicationController
   end
   
   def update_agro_telegram
+# Rails.logger.debug("My object>>>>>>>>>>>>>>>updated_telegrams: #{params[:agro_observation][:telegram].inspect}") 
     if @agro_observation.update_attributes agro_observation_params
+      params[:crop_conditions].each do |k, v|
+          c_c = CropCondition.find_by(agro_observation_id: @agro_observation.id, crop_code: v[:crop_code].to_i)
+          if c_c.present?
+            c_c.update_attributes crop_conditions_params(v)
+          else
+            @agro_observation.crop_conditions.build(crop_conditions_params(v)).save
+          end
+        end if params[:crop_conditions].present?
+        params[:crop_damages].each do |k, v|
+          c_d = CropDamage.find_by(agro_observation_id: @agro_observation.id, crop_code: v[:crop_code].to_i)
+          if c_d.present?
+            c_d.update_attributes crop_damages_params(v)
+          else
+            @agro_observation.crop_damages.build(crop_damages_params(v)).save
+          end
+        end if params[:crop_damages].present?
       render json: {errors: []}
     else
       render json: {errors: ["Ошибка при сохранении изменений"]}, status: :unprocessable_entity
@@ -98,15 +137,26 @@ class AgroObservationsController < ApplicationController
   
   private
 
+    def crop_conditions_params(crop_condition)
+      crop_condition.permit(:crop_code, :development_phase_1, :development_phase_2, :development_phase_3, 
+        :development_phase_4, :development_phase_5, :assessment_condition_1, :assessment_condition_2, :assessment_condition_3, 
+        :assessment_condition_4, :assessment_condition_5, :agricultural_work_1, :agricultural_work_2, :agricultural_work_3,
+        :agricultural_work_4, :agricultural_work_5, :index_weather_1, :index_weather_2, :index_weather_3, :index_weather_4,
+        :index_weather_5, :damage_plants_1, :damage_plants_2, :damage_plants_3, :damage_plants_4, :damage_plants_5, :damage_volume_1,
+        :damage_volume_2, :damage_volume_3, :damage_volume_4, :damage_volume_5)
+    end
+    
+    def crop_damages_params(crop_damage)
+      crop_damage.permit(:crop_code, :height_snow_cover_rail, :depth_soil_freezing, :thermometer_index, :temperature_dec_min_soil3)
+    end
+    
     def agro_observation_params
-      params.require(:agro_observation).permit(:telegram_type, :station_id, :date_dev, :day_obs, :month_obs, :telegram_num, :telegram)
-      # temperature_max_12, temperature_avg_24, temperature_min_24, temperature_min_soil_24, percipitation_24, percipitation_type,
-      # percipitation_12, wind_speed_max_24, saturation_deficit_max_24, duration_dew_24, dew_intensity_max, dew_intensity_8,
-      # sunshine_duration_24, state_top_layer_soil, temperature_field_5_16, temperature_field_10_16, temperature_avg_soil_5,
-      # temperature_avg_soil_10, saturation_deficit_avg_24, relative_humidity_min_24, development_phase_1, development_phase_2,
-      # development_phase_3, development_phase_4, development_phase_5, agricultural_work_1, agricultural_work_2, agricultural_work_3,
-      # agricultural_work_4, agricultural_work_5, index_weather_1, index_weather_2, index_weather_3, index_weather_4, index_weather_5,
-      # height_snow_cover_rail, depth_soil_freezing, thermometer_index, temperature_dec_min_soil3
+      params.require(:agro_observation).permit(:telegram_type, :station_id, :date_dev, :day_obs, :month_obs, :telegram_num, :telegram,
+       :temperature_max_12, :temperature_avg_24, :temperature_min_24, :temperature_min_soil_24, :percipitation_24, :percipitation_type,
+       :percipitation_12, :wind_speed_max_24, :saturation_deficit_max_24, :duration_dew_24, :dew_intensity_max, :dew_intensity_8,
+       :sunshine_duration_24, :state_top_layer_soil, :temperature_field_5_16, :temperature_field_10_16, :temperature_avg_soil_5,
+       :temperature_avg_soil_10, :saturation_deficit_avg_24, :relative_humidity_min_24)
+      # :crop_conditions, crop_damages
     end
     
     def find_agro_observation

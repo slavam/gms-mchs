@@ -2,29 +2,251 @@
   %h3 Телеграмма агрометеорологическая
   %table{class: "table table-bordered"}
     %tr
-      %th Дата ввода:
+      %th Дата ввода
       %td= @agro_observation.created_at
     %tr
-      %th Дата:
+      %th Дата
       %td= @agro_observation.date_dev
     %tr
-      %th Текст:
+      %th Текст
       %td= @agro_observation.telegram
     %tr
       %th Тип телеграммы
       %td= @agro_observation.telegram_type == 'ЩЭАГЯ'? 'Ежедневная (ЩЭАГЯ)' : 'Декадная (ЩЭАГУ)'
     %tr
-      %th Метеостанция:
+      %th Метеостанция
       %td= @agro_observation.station.name
     %tr
-      %th День месяца:
+      %th День месяца
       %td= @agro_observation.day_obs
     %tr
-      %th Месяц:
+      %th Месяц
       %td= @agro_observation.month_obs
     %tr
-      %th Номер телеграммы:
+      %th Номер телеграммы
       %td= @agro_observation.telegram_num
+    %tr
+      %th Максимальная температура воздуха за 12 дневных часов (°С)
+      %td= @agro_observation.temperature_max_12
+    %tr
+      %th Средняя за сутки температура воздуха (°С)
+      %td= @agro_observation.temperature_avg_24
+    %tr
+      %th Минимальная за сутки температура воздуха (°С)
+      %td= @agro_observation.temperature_min_24
+    %tr
+      %th Минимальная за сутки температура на поверхности почвы (°С)
+      %td= @agro_observation.temperature_min_soil_24
+    %tr
+      %th Количество осадков, выпавших за сутки (мм)
+      %td= @agro_observation.precipitation_to_s( @agro_observation.percipitation_24)
+    - if @agro_observation.percipitation_type.present?
+      %tr
+        %th Вид осадков
+        %td= @agro_observation.percipitation_type_to_s
+    - if @agro_observation.percipitation_12.present?
+      %tr
+        %th Количество осадков за 12 ночных часов (мм)
+        %td= @agro_observation.precipitation_to_s( @agro_observation.percipitation_12)
+    %tr
+      %th Максимальная за сутки скорость ветра (м/с)
+      %td= @agro_observation.wind_speed_max_24.to_s
+    %tr
+      %th Максимальный дефицит насыщения воздуха за сутки (гПа)
+      %td= @agro_observation.saturation_deficit_max_24.to_s
+    - if @agro_observation.duration_dew_24.present?
+      %tr
+        %th Продолжительность росы за сутки (часов) 
+        %td= @agro_observation.duration_dew_24.to_s
+      %tr 
+        %th Максимальная за сутки интенсивность росы
+        %td= @agro_observation.dew_intensity_to_s(@agro_observation.dew_intensity_max)
+      %tr
+        %th Интенсивность росы в срок 8 часов
+        %td= @agro_observation.dew_intensity_to_s(@agro_observation.dew_intensity_8)
+    - if @agro_observation.sunshine_duration_24.present?
+      %tr
+        %th Продолжительность солнечного сияния за предыдущие сутки (часов)
+        %td= @agro_observation.sunshine_duration_24.to_s
+    - if @agro_observation.state_top_layer_soil.present?
+      %tr
+        %th Cостояние верхнего слоя грунта
+        %td= @agro_observation.state_top_layer_soil_to_s
+    - if @agro_observation.temperature_field_5_16.present?
+      %tr
+        %th Температура грунта на глубине 5 см  (°С)
+        %td= @agro_observation.temperature_field_5_16.to_s
+    - if @agro_observation.temperature_field_10_16.present?
+      %tr
+        %th Температура грунта на глубине 10 см  (°С)
+        %td= @agro_observation.temperature_field_10_16.to_s
+    - if @agro_observation.temperature_avg_soil_5.present?
+      %tr
+        %th Cредняя за предыдущие сутки температура грунта на глубине 5 см (°С)
+        %td= @agro_observation.temperature_avg_soil_5.to_s
+    - if @agro_observation.temperature_avg_soil_10.present?
+      %tr
+        %th Cредняя за предыдущие сутки температура грунта на глубине 10 см (°С)
+        %td= @agro_observation.temperature_avg_soil_10.to_s
+    - if @agro_observation.saturation_deficit_avg_24.present?
+      %tr
+        %th Cредний дефицит насыщения воздуха за минувшие сутки (гПа)
+        %td= @agro_observation.saturation_deficit_avg_24.to_s
+    - if @agro_observation.relative_humidity_min_24.present?
+      %tr
+        %th Минимальная относительная влажность воздуха за минувшие сутки (%)
+        %td= @agro_observation.relative_humidity_min_24.to_s
+    - if @agro_observation.crop_conditions.present?
+      %tr
+        %th Кондиции растений, сельхозработы
+        %td
+          %table{class: "table table-bordered"}
+            - @agro_observation.crop_conditions.each do |c_c|
+              %tr
+                %th Культура/Угодья
+                %td= c_c.crop_code.to_s
+              - if c_c.development_phase_1.present?
+                %tr 
+                  %th I фаза развития культуры
+                  %td= c_c.development_phase_1.to_s
+              - if c_c.assessment_condition_1.present?
+                %tr 
+                  %th I общая визуальная оценка состояния посевов
+                  %td= c_c.assessment_condition_to_s(c_c.assessment_condition_1)
+              - if c_c.development_phase_2.present?
+                %tr 
+                  %th II фаза развития культуры
+                  %td= c_c.development_phase_2.to_s
+              - if c_c.assessment_condition_2.present?
+                %tr 
+                  %th II общая визуальная оценка состояния посевов
+                  %td= c_c.assessment_condition_to_s(c_c.assessment_condition_2)
+              - if c_c.development_phase_3.present?
+                %tr 
+                  %th III фаза развития культуры
+                  %td= c_c.development_phase_3.to_s
+              - if c_c.assessment_condition_3.present?
+                %tr 
+                  %th III общая визуальная оценка состояния посевов
+                  %td= c_c.assessment_condition_to_s(c_c.assessment_condition_3)
+              - if c_c.development_phase_4.present?
+                %tr 
+                  %th IV фаза развития культуры
+                  %td= c_c.development_phase_4.to_s
+              - if c_c.assessment_condition_4.present?
+                %tr 
+                  %th IV общая визуальная оценка состояния посевов
+                  %td= c_c.assessment_condition_to_s(c_c.assessment_condition_4)
+              - if c_c.development_phase_5.present?
+                %tr 
+                  %th V фаза развития культуры
+                  %td= c_c.development_phase_5.to_s
+              - if c_c.assessment_condition_5.present?
+                %tr 
+                  %th V общая визуальная оценка состояния посевов
+                  %td= c_c.assessment_condition_to_s(c_c.assessment_condition_5)
+              - if c_c.agricultural_work_1.present?
+                %tr 
+                  %th I сельхозработа
+                  %td= c_c.agricultural_work_1.to_s
+              - if c_c.index_weather_1.present?
+                %tr 
+                  %th I показатель благоприятствования погоды
+                  %td= c_c.index_weather_to_s(c_c.index_weather_1)
+              - if c_c.agricultural_work_2.present?
+                %tr 
+                  %th II сельхозработа
+                  %td= c_c.agricultural_work_2.to_s
+              - if c_c.index_weather_2.present?
+                %tr 
+                  %th II показатель благоприятствования погоды
+                  %td= c_c.index_weather_to_s(c_c.index_weather_2)
+              - if c_c.agricultural_work_3.present?
+                %tr 
+                  %th III сельхозработа
+                  %td= c_c.agricultural_work_3.to_s
+              - if c_c.index_weather_3.present?
+                %tr 
+                  %th III показатель благоприятствования погоды
+                  %td= c_c.index_weather_to_s(c_c.index_weather_3)
+              - if c_c.agricultural_work_4.present?
+                %tr 
+                  %th IV сельхозработа
+                  %td= c_c.agricultural_work_4.to_s
+              - if c_c.index_weather_4.present?
+                %tr 
+                  %th IV показатель благоприятствования погоды
+                  %td= c_c.index_weather_to_s(c_c.index_weather_4)
+              - if c_c.agricultural_work_5.present?
+                %tr 
+                  %th V сельхозработа
+                  %td= c_c.agricultural_work_5.to_s
+              - if c_c.index_weather_5.present?
+                %tr 
+                  %th V показатель благоприятствования погоды
+                  %td= c_c.index_weather_to_s(c_c.index_weather_5)
+              - if c_c.damage_plants_1.present?
+                %tr 
+                  %th Характер I повреждения
+                  %td= c_c.damage_plants_1.to_s
+              - if c_c.damage_volume_1.present?
+                %tr 
+                  %th Степень охвата растений I повреждением
+                  %td= c_c.damage_volume_to_s(c_c.damage_volume_1)
+              - if c_c.damage_plants_2.present?
+                %tr 
+                  %th Характер II повреждения
+                  %td= c_c.damage_plants_2.to_s
+              - if c_c.damage_volume_2.present?
+                %tr 
+                  %th Степень охвата растений II повреждением
+                  %td= c_c.damage_volume_to_s(c_c.damage_volume_2)
+              - if c_c.damage_plants_3.present?
+                %tr 
+                  %th Характер III повреждения
+                  %td= c_c.damage_plants_3.to_s
+              - if c_c.damage_volume_3.present?
+                %tr 
+                  %th Степень охвата растений III повреждением
+                  %td= c_c.damage_volume_to_s(c_c.damage_volume_3)
+              - if c_c.damage_plants_4.present?
+                %tr 
+                  %th Характер IV повреждения
+                  %td= c_c.damage_plants_4.to_s
+              - if c_c.damage_volume_4.present?
+                %tr 
+                  %th Степень охвата растений IV повреждением
+                  %td= c_c.damage_volume_to_s(c_c.damage_volume_4)
+              - if c_c.damage_plants_5.present?
+                %tr 
+                  %th Характер V повреждения
+                  %td= c_c.damage_plants_5.to_s
+              - if c_c.damage_volume_5.present?
+                %tr 
+                  %th Степень охвата растений V повреждением
+                  %td= c_c.damage_volume_to_s(c_c.damage_volume_5)
+    - if @agro_observation.crop_damages.present?
+      %th Повреждения зимующих культур
+      %td
+        %table{class: "table table-bordered"}
+          - @agro_observation.crop_damages.each do |c_d|
+            %tr
+              %th Культура/Угодья
+              %td= c_d.crop_code.to_s
+            %tr
+              %th Высота снежного покрова по рейке (см)
+              %td= c_d.height_snow_cover_rail_to_s(c_d.height_snow_cover_rail)
+            - if c_d.depth_soil_freezing.present?
+              %tr
+                %th Глубина промерзания грунта (см)
+                %td= c_d.depth_soil_freezing.to_s
+            %tr
+              %th Прибор для измерения температуры грунта
+              %td= c_d.thermometer_index_to_s
+            %tr
+              %th Температура грунта на глубине 3 см (°С)
+              %td= c_d.temperature_dec_min_soil3.to_s
+      
   - if current_user.role == 'technicist'
     = link_to 'Ввод телеграмм', '/agro_observations/input_agro_telegrams'
     %br
