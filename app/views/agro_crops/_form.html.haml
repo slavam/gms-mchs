@@ -1,0 +1,13 @@
+%div{ class: "row"}
+  %div{ class: "col-md-6 col-md-offset-3"}
+    = form_for(@agro_crop) do |f| 
+      = f.label "Категория"
+      = collection_select(:agro_crop, :agro_crop_category_id, AgroCropCategory.all.order(:id), :id, :name)
+      
+      = f.label "Код"
+      = f.text_field :code
+      
+      = f.label "Название"
+      = f.text_field :name
+      
+      = f.submit "Сохранить", class: "btn btn-primary"

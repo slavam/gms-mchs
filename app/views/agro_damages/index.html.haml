@@ -1,0 +1,11 @@
+.container
+  %h3 Шифры характера повреждений сельскохозяйственных культур
+  %table{class: "table table-hover"}
+    %thead
+      %tr
+        %th Код
+        %th Название
+    %tbody
+      = render @agro_damages
+  %br
+  = link_to "Создать", new_agro_damage_path

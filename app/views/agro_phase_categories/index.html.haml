@@ -1,0 +1,10 @@
+.container
+  %h3 Группы сельскохозяйственных культур со схожими фазами развития
+  %table{class: "table table-hover"}
+    %thead
+      %tr
+        %th Название
+    %tbody
+      = render @agro_phase_categories
+  %br
+  = link_to "Создать", new_agro_phase_category_path

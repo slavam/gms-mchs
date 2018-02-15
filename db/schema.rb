@@ -11,11 +11,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180212074457) do
+ActiveRecord::Schema.define(version: 20180215095840) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
     t.string "Телеграмма", limit: 650, null: false
+  end
+
+  create_table "agro_crop_categories", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "agro_crops", force: :cascade do |t|
+    t.integer  "agro_crop_category_id", limit: 4,   null: false
+    t.integer  "code",                  limit: 4
+    t.string   "name",                  limit: 255
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
+  add_index "agro_crops", ["code"], name: "index_agro_crops_on_code", unique: true, using: :btree
+
+  create_table "agro_damages", force: :cascade do |t|
+    t.integer  "code",       limit: 4
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "agro_observations", force: :cascade do |t|
@@ -48,6 +71,25 @@ ActiveRecord::Schema.define(version: 20180212074457) do
     t.integer  "temperature_avg_soil_10",   limit: 4
     t.integer  "saturation_deficit_avg_24", limit: 4
     t.integer  "relative_humidity_min_24",  limit: 4
+  end
+
+  create_table "agro_phase_categories", force: :cascade do |t|
+    t.string "name", limit: 255
+  end
+
+  create_table "agro_phases", force: :cascade do |t|
+    t.integer  "agro_phase_category_id", limit: 4,   null: false
+    t.integer  "code",                   limit: 4
+    t.string   "name",                   limit: 255
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
+  create_table "agro_works", force: :cascade do |t|
+    t.integer  "code",       limit: 4
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "audits", force: :cascade do |t|

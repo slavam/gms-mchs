@@ -1,0 +1,12 @@
+.container
+  %h3 Шифры фаз развития сельскохозяйственных культур, трав, пород деревьев
+  %table{class: "table table-hover"}
+    %thead
+      %tr
+        %th Группа
+        %th Код
+        %th Название
+    %tbody
+      = render @agro_phases
+  %br
+  = link_to "Создать", new_agro_phase_path

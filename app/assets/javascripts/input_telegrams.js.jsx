@@ -508,44 +508,45 @@ function checkAgroTelegram(tlg, stations, errors, observation){
         errors.push("Ошибка в группе 8 зоны 90 раздела 3");
         return false;
       }
-      
-    if (/^91[0-9/]{2}[0-6/]$/.test(tlg.substr(currentPos,5))){
-      if (tlg.substr(currentPos+2,2) != '//')
-        observation.sunshine_duration_24 = tlg.substr(currentPos+2,2);
-      if (tlg[currentPos+4] != '/')
-        observation.state_top_layer_soil = tlg[currentPos+4];
-      currentPos += 6;
-    } else {
-      errors.push("Ошибка в разделе 3 зона 91");
-      return false;
-    }      
-    if (tlg[currentPos] == '1') 
-      if (/^1\d{4}$/.test(tlg.substr(currentPos,5))){
-        observation.temperature_field_5_16 = tlg.substr(currentPos+1,2);
-        observation.temperature_field_10_16 = tlg.substr(currentPos+3,2);
+    if (tlg.substr(currentPos, 2) == '91'){
+      if (/^91[0-9/]{2}[0-6/]$/.test(tlg.substr(currentPos,5))){
+        if (tlg.substr(currentPos+2,2) != '//')
+          observation.sunshine_duration_24 = tlg.substr(currentPos+2,2);
+        if (tlg[currentPos+4] != '/')
+          observation.state_top_layer_soil = tlg[currentPos+4];
         currentPos += 6;
       } else {
-        errors.push("Ошибка в группе 1 зоны 91 раздела 3");
+        errors.push("Ошибка в разделе 3 зона 91");
         return false;
-      }
-    if (tlg[currentPos] == '2') 
-      if (/^2\d{4}$/.test(tlg.substr(currentPos,5))){
-        observation.temperature_avg_soil_5 = tlg.substr(currentPos+1,2);
-        observation.temperature_avg_soil_10 = tlg.substr(currentPos+3,2);
-        currentPos += 6;
-      } else {
-        errors.push("Ошибка в группе 2 зоны 91 раздела 3");
-        return false;
-      }
-    if (tlg[currentPos] == '3') 
-      if (/^3\d{4}$/.test(tlg.substr(currentPos,5))){
-        observation.saturation_deficit_avg_24 = tlg.substr(currentPos+1,2);
-        observation.relative_humidity_min_24 = tlg.substr(currentPos+3,2);
-        currentPos += 6;
-      } else {
-        errors.push("Ошибка в группе 3 зоны 91 раздела 3");
-        return false;
-      }
+      }      
+      if (tlg[currentPos] == '1') 
+        if (/^1\d{4}$/.test(tlg.substr(currentPos,5))){
+          observation.temperature_field_5_16 = tlg.substr(currentPos+1,2);
+          observation.temperature_field_10_16 = tlg.substr(currentPos+3,2);
+          currentPos += 6;
+        } else {
+          errors.push("Ошибка в группе 1 зоны 91 раздела 3");
+          return false;
+        }
+      if (tlg[currentPos] == '2') 
+        if (/^2\d{4}$/.test(tlg.substr(currentPos,5))){
+          observation.temperature_avg_soil_5 = tlg.substr(currentPos+1,2);
+          observation.temperature_avg_soil_10 = tlg.substr(currentPos+3,2);
+          currentPos += 6;
+        } else {
+          errors.push("Ошибка в группе 2 зоны 91 раздела 3");
+          return false;
+        }
+      if ((tlg[currentPos] == '3') && (tlg.substr(currentPos,4) != '333 ' ))
+        if (/^3\d{4}$/.test(tlg.substr(currentPos,5))){
+          observation.saturation_deficit_avg_24 = tlg.substr(currentPos+1,2);
+          observation.relative_humidity_min_24 = tlg.substr(currentPos+3,2);
+          currentPos += 6;
+        } else {
+          errors.push("Ошибка в группе 3 зоны 91 раздела 3");
+          return false;
+        }
+    }
 
     let zone92pos = tlg.search(/92... [1678]/);
     let zone92_95pos = tlg.search(/92... 95/);

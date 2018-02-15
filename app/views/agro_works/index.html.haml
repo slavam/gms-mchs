@@ -1,0 +1,11 @@
+.container
+  %h3 Шифры сельскохозяйственных работ и агротехнических мероприятий
+  %table{class: "table table-hover"}
+    %thead
+      %tr
+        %th Код
+        %th Название
+    %tbody
+      = render @agro_works
+  %br
+  = link_to "Создать", new_agro_work_path

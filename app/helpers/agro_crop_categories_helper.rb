@@ -1,0 +1,2 @@
+module AgroCropCategoriesHelper
+end

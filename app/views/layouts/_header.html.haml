@@ -70,6 +70,15 @@
                   %li= link_to 'Конвертор синоптических телеграмм', synoptic_observations_get_conversion_params_path
                   %li= link_to 'Конвертор штормовых телеграмм', storm_observations_get_conversion_params_path
                   %li= link_to 'Поиск синоптических телеграмм',  search_synoptic_telegrams_path
+              %li
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Справочники <b class="caret"></b></a>
+                %ul{class: "dropdown-menu"}
+                  %li= link_to 'Категории культур',  agro_crop_categories_path
+                  %li= link_to 'Сельскохозяйственные культуры и угодья',  agro_crops_path
+                  %li= link_to 'Группы культур со сходными фазами развития',  agro_phase_categories_path
+                  %li= link_to 'Фазы развития сельскохозяйственных культур',  agro_phases_path
+                  %li= link_to 'Повреждения сельскохозяйственных культур',  agro_damages_path
+                  %li= link_to 'Сельскохозяйственные работы',  agro_works_path
             - when 'observer'
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Телеграммы<b class="caret"></b></a>

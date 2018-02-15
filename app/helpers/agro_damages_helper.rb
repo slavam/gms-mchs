@@ -1,0 +1,2 @@
+module AgroDamagesHelper
+end

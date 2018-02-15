@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :agro_works
+  resources :agro_damages
+  resources :agro_phases
+  resources :agro_crops
+  resources :agro_crop_categories
+  resources :agro_phase_categories
   resources :meteo_links
   resources :chem_coefficients
   resources :laboratories
