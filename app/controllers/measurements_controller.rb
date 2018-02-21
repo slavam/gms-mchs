@@ -15,8 +15,8 @@ class MeasurementsController < ApplicationController
   TERMS[19] = '18'
 
   def chem_forma1_tza
-    @year = '2016' #@pollution_date_end.year.to_s #'2005' 
-    @month = '01' #month_mm
+    @year = Time.now.year.to_s
+    @month = Time.now.month.to_s.rjust(2, '0')
     @post_id =  5 # 20 for Gorlovka
     @matrix = get_matrix_data(@year, @month, @post_id)
     @posts = Post.actual.order(:id) 
@@ -291,6 +291,16 @@ class MeasurementsController < ApplicationController
     end
 
     def get_matrix_data(year, month, post_id)
+# 2018-02-20 from Gorlovka
+# 1 Пыль – 0,087 
+# 2 Диоксид серы – 0
+# 4 Углерода оксид 0
+# 5 Диоксид азота – 0,0067
+# 8 Сероводород - 0,0010
+# 10 Фенол – 0,0010
+# 19 Аммиак – 0,0033
+# 22 Формальдегид – 0,0033
+      limits = {1 => 0.087, 2 => 0, 3 => 1, 4 => 0, 5 => 0.0067, 6 => 0, 8 => 0.001, 10 => 0.001, 19 => 0.0033, 22 => 0.0033}
       matrix = {}
       post = Post.find(post_id)
       matrix[:site_description] = post.name+'. Координаты: '+post.coordinates.to_s
@@ -310,7 +320,12 @@ class MeasurementsController < ApplicationController
         substance_names[k] = s.name
         measure_num[k] = grouped_pollutions[k].size
         grouped_pollutions[k].each {|g_p|
-          value = (g_p.concentration.nil? ? g_p.value : g_p.concentration).round(4)
+          value = (g_p.concentration.nil? ? g_p.value : g_p.concentration) #.round(4)
+          if value < limits[k]
+            value = 0
+          else
+            value = k == 1 ? value.round(3) : value.round(4)
+          end
           max_values[k] = value if value > max_values[k]
           avg_values[k] += value
         }

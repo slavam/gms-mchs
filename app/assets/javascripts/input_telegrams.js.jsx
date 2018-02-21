@@ -546,6 +546,9 @@ function checkAgroTelegram(tlg, stations, errors, observation){
           errors.push("Ошибка в группе 3 зоны 91 раздела 3");
           return false;
         }
+    } else {
+      errors.push("Ошибка в зоне 90 раздела 3 =>"+tlg.substr(currentPos));
+      return false;
     }
 
     let zone92pos = tlg.search(/92... [1678]/);
@@ -680,6 +683,37 @@ function checkAgroTelegram(tlg, stations, errors, observation){
     
   } else {
     // ЩЭАГУ - декадная
+    if (tlg.substr(17,5) != ' 111 '){
+      errors.push("Ошибка в признаке раздела 1");
+      return false;
+    }
+    if (/^90[01]\d{2}$/.test(tlg.substr(22,5))){
+      sign = tlg[24] == '0' ? '' : '-';
+      observation.temperature_dec_avg_delta = sign+tlg.substr(25,2);
+    } else {
+      errors.push("Ошибка в разделе 1 зона 90");
+      return false;
+    }
+    currentPos = 28;
+    if (tlg[currentPos] == '1') 
+      if (/^1[01]\d{3}$/.test(tlg.substr(currentPos,5))){
+        sign = tlg[currentPos+1] == '0' ? '' : '-';
+        observation.temperature_dec_avg = sign+tlg.substr(currentPos+2,2)+'.'+tlg[currentPos+4];
+        currentPos += 6;
+      }else{
+        errors.push("Ошибка в группе 1 зоны 90 раздела 1");
+        return false;
+      }
+    if (tlg[currentPos] == '2') 
+      if (/^2[01]\d{3}$/.test(tlg.substr(currentPos,5))){
+        sign = tlg[currentPos+1] == '0' ? '' : '-';
+        observation.temperature_dec_max = sign+tlg.substr(currentPos+2,2);
+        observation.hot_dec_day_num = tlg[currentPos+4];
+        currentPos += 6;
+      }else{
+        errors.push("Ошибка в группе 2 зоны 90 раздела 1");
+        return false;
+      }
   }
   // function check3section(section3, i){
   //   return true;
