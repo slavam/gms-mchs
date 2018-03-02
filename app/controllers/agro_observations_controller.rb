@@ -40,13 +40,15 @@ class AgroObservationsController < ApplicationController
     day_obs = telegram_text[12,2].to_i
     month_obs = telegram_text[14,2].to_i
     telegram_num = telegram_text[16,1].to_i
+    yyyy_mm = date_dev.year.to_s + '-' + date_dev.month.to_s.rjust(2, '0') + '%'
 
-    telegram = AgroObservation.find_by( station_id: station_id, 
-                                        telegram_type: telegram_type, 
-                                        day_obs: day_obs, 
-                                        month_obs: month_obs, 
-                                        telegram_num: telegram_num)
-    if telegram.present?
+    # telegram = AgroObservation.find_by( station_id: station_id, 
+    #                                     telegram_type: telegram_type, 
+    #                                     day_obs: day_obs, 
+    #                                     month_obs: month_obs, 
+    #                                     telegram_num: telegram_num)
+    telegram = AgroObservation.where("telegram_type = ? and station_id = ? and day_obs = ? and month_obs = ? and telegram_num = ? and date_dev like ?", telegram_type, station_id, day_obs, month_obs, telegram_num, yyyy_mm).order(:date_dev).reverse_order.first
+    if telegram.present? # and (telegram.date_dev.year == date_dev.year) and (telegram.date_dev.month == date_dev.month)
       if telegram.update_attributes agro_observation_params
         params[:crop_conditions].each do |k, v|
           c_c = CropCondition.find_by(agro_observation_id: telegram.id, crop_code: v[:crop_code].to_i)

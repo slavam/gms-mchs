@@ -88,7 +88,8 @@ class StormObservationsController < ApplicationController
     # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{telegram.inspect}")
   
   def create_storm_telegram
-    # date = Time.now.utc.strftime("%Y-%m-%d")
+    date_dev = params[:input_mode] == 'direct' ? Time.parse(params[:date]+' 00:01:00') : Time.now.utc
+    # yyyy_mm = date_dev.year.to_s + '-' + date_dev.month.to_s.rjust(2, '0') + '%'
     telegram = StormObservation.find_by(station_id: params[:storm_observation][:station_id], telegram_type: params[:storm_observation][:telegram_type], day_event: params[:storm_observation][:day_event], hour_event: params[:storm_observation][:hour_event], minute_event: params[:storm_observation][:minute_event])
     if telegram.present?
       if telegram.update_attributes storm_observation_params
@@ -103,7 +104,7 @@ class StormObservationsController < ApplicationController
       end
     else
       telegram = StormObservation.new(storm_observation_params)
-      telegram.telegram_date = params[:input_mode] == 'direct' ? Time.parse(params[:date]+' 00:01:00') : Time.now.utc
+      telegram.telegram_date = date_dev # params[:input_mode] == 'direct' ? Time.parse(params[:date]+' 00:01:00') : Time.now.utc
       if telegram.save
         last_telegrams = StormObservation.short_last_50_telegrams
         render json: {telegrams: last_telegrams, 
