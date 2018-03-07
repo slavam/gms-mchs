@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  post 'agro_dec_observations/create_agro_dec_telegram', to: 'agro_dec_observations#create_agro_dec_telegram'
+  get 'agro_dec_observations/get_last_telegrams', to: 'agro_dec_observations#get_last_telegrams'
+  get 'agro_dec_observations/input_agro_dec_telegrams', to: 'agro_dec_observations#input_agro_dec_telegrams'
+  put 'agro_dec_observations/update_agro_dec_telegram', to: 'agro_dec_observations#update_agro_dec_telegram'
+  resources :agro_dec_observations
   resources :agro_works
   resources :agro_damages
   resources :agro_phases
@@ -58,6 +63,7 @@ Rails.application.routes.draw do
   resources :stations
   resources :audits
   resources :crop_conditions
+  resources :crop_dec_conditions
   resources :crop_damages
   resources :concentrations
   get 'pollutions/index', to: 'pollutions#index'

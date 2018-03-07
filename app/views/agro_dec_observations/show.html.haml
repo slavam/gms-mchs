@@ -1,0 +1,54 @@
+.container
+  %h3 Телеграмма агрометеорологическая декадная
+  %table{class: "table table-bordered"}
+    %tr
+      %th Дата ввода
+      %td= @agro_dec_observation.created_at
+    %tr
+      %th Дата
+      %td= @agro_dec_observation.date_dev
+    %tr
+      %th Текст
+      %td= @agro_dec_observation.telegram
+    %tr
+      %th Тип телеграммы
+      %td Декадная (ЩЭАГУ)
+    %tr
+      %th Метеостанция
+      %td= @agro_dec_observation.station.name
+    %tr
+      %th День месяца
+      %td= @agro_dec_observation.day_obs
+    %tr
+      %th Месяц
+      %td= @agro_dec_observation.month_obs
+    %tr
+      %th Номер телеграммы
+      %td= @agro_dec_observation.telegram_num
+    %tr
+      %th Отклонение средней за декаду температуры от среднего многолетнего (°С)
+      %td= @agro_dec_observation.temperature_dec_avg_delta
+    %tr
+      %th Средняя температура воздуха за декаду (°С)
+      %td= @agro_dec_observation.temperature_dec_avg
+    %tr
+      %th Максимум температуры воздуха за декаду (°С)
+      %td= @agro_dec_observation.temperature_dec_max
+    - if @agro_dec_observation.hot_dec_day_num.present?
+      %tr
+        %th Количество дней за декаду с максимальной температурой за сутки 30°С и выше
+        %td= @agro_dec_observation.hot_dec_day_num
+    %tr
+      %th Минимум температуры воздуха за декаду (°С)
+      %td= @agro_dec_observation.temperature_dec_min
+    - if @agro_dec_observation.dry_dec_day_num.present?
+      %tr
+        %th Количество дней за декаду с минимальной за сутки относительной влажностью воздуха 30% и меньше
+        %td= @agro_dec_observation.dry_dec_day_num
+    %tr
+      %th Минимум температуры поверхности грунта за декаду (°С)
+      %td= @agro_dec_observation.temperature_dec_min_soil
+    - if @agro_dec_observation.cold_soil_dec_day_num.present?
+      %tr
+        %th Количество дней за декаду с минимальной температурой за сутки на поверхности почвы -20°С и ниже
+        %td= @agro_dec_observation.cold_soil_dec_day_num

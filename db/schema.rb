@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180215095840) do
+ActiveRecord::Schema.define(version: 20180306063448) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
@@ -39,6 +39,41 @@ ActiveRecord::Schema.define(version: 20180215095840) do
     t.string   "name",       limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+  end
+
+  create_table "agro_dec_observations", force: :cascade do |t|
+    t.date     "date_dev"
+    t.integer  "day_obs",                          limit: 4
+    t.integer  "month_obs",                        limit: 4
+    t.string   "telegram",                         limit: 255
+    t.integer  "station_id",                       limit: 4
+    t.integer  "telegram_num",                     limit: 4
+    t.integer  "temperature_dec_avg_delta",        limit: 4
+    t.decimal  "temperature_dec_avg",                          precision: 5, scale: 1
+    t.integer  "temperature_dec_max",              limit: 4
+    t.integer  "hot_dec_day_num",                  limit: 4
+    t.integer  "temperature_dec_min",              limit: 4
+    t.integer  "dry_dec_day_num",                  limit: 4
+    t.integer  "temperature_dec_min_soil",         limit: 4
+    t.integer  "cold_soil_dec_day_num",            limit: 4
+    t.integer  "precipitation_dec",                limit: 4
+    t.integer  "wet_dec_day_num",                  limit: 4
+    t.integer  "precipitation_dec_percent",        limit: 4
+    t.integer  "wind_speed_dec_max",               limit: 4
+    t.integer  "wind_speed_dec_max_day_num",       limit: 4
+    t.integer  "duster_dec_day_num",               limit: 4
+    t.integer  "temperature_dec_max_soil",         limit: 4
+    t.integer  "sunshine_duration_dec",            limit: 4
+    t.integer  "freezing_dec_day_num",             limit: 4
+    t.integer  "temperature_dec_avg_soil10",       limit: 4
+    t.integer  "temperature25_soil10_dec_day_num", limit: 4
+    t.integer  "dew_dec_day_num",                  limit: 4
+    t.integer  "saturation_deficit_dec_avg",       limit: 4
+    t.integer  "relative_humidity_dec_avg",        limit: 4
+    t.integer  "percipitation_dec_max",            limit: 4
+    t.integer  "percipitation5_dec_day_num",       limit: 4
+    t.datetime "created_at",                                                           null: false
+    t.datetime "updated_at",                                                           null: false
   end
 
   create_table "agro_observations", force: :cascade do |t|
@@ -225,6 +260,112 @@ ActiveRecord::Schema.define(version: 20180215095840) do
     t.integer  "temperature_dec_min_soil3", limit: 4
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+  end
+
+  create_table "crop_dec_conditions", force: :cascade do |t|
+    t.integer  "agro_dec_observation_id",   limit: 4
+    t.integer  "crop_code",                 limit: 4
+    t.integer  "plot_code",                 limit: 4
+    t.integer  "agrotechnology",            limit: 4
+    t.integer  "development_phase_1",       limit: 4
+    t.integer  "development_phase_2",       limit: 4
+    t.integer  "development_phase_3",       limit: 4
+    t.integer  "development_phase_4",       limit: 4
+    t.integer  "development_phase_5",       limit: 4
+    t.integer  "day_phase_1",               limit: 4
+    t.integer  "day_phase_2",               limit: 4
+    t.integer  "day_phase_3",               limit: 4
+    t.integer  "day_phase_4",               limit: 4
+    t.integer  "day_phase_5",               limit: 4
+    t.integer  "assessment_condition_1",    limit: 4
+    t.integer  "assessment_condition_2",    limit: 4
+    t.integer  "assessment_condition_3",    limit: 4
+    t.integer  "assessment_condition_4",    limit: 4
+    t.integer  "assessment_condition_5",    limit: 4
+    t.integer  "clogging_weeds",            limit: 4
+    t.integer  "height_plants",             limit: 4
+    t.integer  "number_plants",             limit: 4
+    t.integer  "average_mass",              limit: 4
+    t.integer  "agricultural_work_1",       limit: 4
+    t.integer  "agricultural_work_2",       limit: 4
+    t.integer  "agricultural_work_3",       limit: 4
+    t.integer  "agricultural_work_4",       limit: 4
+    t.integer  "agricultural_work_5",       limit: 4
+    t.integer  "day_work_1",                limit: 4
+    t.integer  "day_work_2",                limit: 4
+    t.integer  "day_work_3",                limit: 4
+    t.integer  "day_work_4",                limit: 4
+    t.integer  "day_work_5",                limit: 4
+    t.integer  "damage_plants_1",           limit: 4
+    t.integer  "damage_plants_2",           limit: 4
+    t.integer  "damage_plants_3",           limit: 4
+    t.integer  "damage_plants_4",           limit: 4
+    t.integer  "damage_plants_5",           limit: 4
+    t.integer  "day_damage_1",              limit: 4
+    t.integer  "day_damage_2",              limit: 4
+    t.integer  "day_damage_3",              limit: 4
+    t.integer  "day_damage_4",              limit: 4
+    t.integer  "day_damage_5",              limit: 4
+    t.integer  "damage_level_1",            limit: 4
+    t.integer  "damage_level_2",            limit: 4
+    t.integer  "damage_level_3",            limit: 4
+    t.integer  "damage_level_4",            limit: 4
+    t.integer  "damage_level_5",            limit: 4
+    t.integer  "damage_volume_1",           limit: 4
+    t.integer  "damage_volume_2",           limit: 4
+    t.integer  "damage_volume_3",           limit: 4
+    t.integer  "damage_volume_4",           limit: 4
+    t.integer  "damage_volume_5",           limit: 4
+    t.integer  "damage_space_1",            limit: 4
+    t.integer  "damage_space_2",            limit: 4
+    t.integer  "damage_space_3",            limit: 4
+    t.integer  "damage_space_4",            limit: 4
+    t.integer  "damage_space_5",            limit: 4
+    t.integer  "number_spicas",             limit: 4
+    t.integer  "num_bad_spicas",            limit: 4
+    t.integer  "number_stalks",             limit: 4
+    t.integer  "stalk_with_spike_num",      limit: 4
+    t.integer  "normal_size_potato",        limit: 4
+    t.integer  "losses",                    limit: 4
+    t.integer  "grain_num",                 limit: 4
+    t.integer  "bad_grain_percent",         limit: 4
+    t.integer  "bushiness",                 limit: 4
+    t.integer  "shoots_inflorescences",     limit: 4
+    t.decimal  "grain1000_mass",                      precision: 5, scale: 1
+    t.integer  "moisture_reserve_10",       limit: 4
+    t.integer  "moisture_reserve_5",        limit: 4
+    t.integer  "soil_index",                limit: 4
+    t.integer  "moisture_reserve_2",        limit: 4
+    t.integer  "moisture_reserve_1",        limit: 4
+    t.integer  "temperature_water_2",       limit: 4
+    t.integer  "depth_water",               limit: 4
+    t.integer  "depth_groundwater",         limit: 4
+    t.integer  "depth_thawing_soil",        limit: 4
+    t.integer  "depth_soil_wetting",        limit: 4
+    t.integer  "height_snow_cover",         limit: 4
+    t.integer  "snow_retention",            limit: 4
+    t.integer  "snow_cover",                limit: 4
+    t.decimal  "snow_cover_density",                  precision: 5, scale: 2
+    t.integer  "number_measurements_0",     limit: 4
+    t.integer  "number_measurements_3",     limit: 4
+    t.integer  "number_measurements_30",    limit: 4
+    t.integer  "ice_crust",                 limit: 4
+    t.integer  "thickness_ice_cake",        limit: 4
+    t.integer  "depth_thawing_soil_2",      limit: 4
+    t.integer  "depth_soil_freezing",       limit: 4
+    t.integer  "thaw_days",                 limit: 4
+    t.integer  "thermometer_index",         limit: 4
+    t.integer  "temperature_dec_min_soil3", limit: 4
+    t.integer  "height_snow_cover_rail",    limit: 4
+    t.integer  "viable_method",             limit: 4
+    t.integer  "soil_index_2",              limit: 4
+    t.integer  "losses_1",                  limit: 4
+    t.integer  "losses_2",                  limit: 4
+    t.integer  "losses_3",                  limit: 4
+    t.integer  "losses_4",                  limit: 4
+    t.integer  "temperature_dead50",        limit: 4
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
   end
 
   create_table "gidro", id: false, force: :cascade do |t|

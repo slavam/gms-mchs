@@ -43,25 +43,25 @@ class NewTelegramForm extends React.Component{
         }
         break;
       case 'agro':
+        if (text.substr(0,5) != 'ЩЭАГЯ') {
+          this.setState({errors: ["Ошибка в опознавательных буквах"]});
+          return;
+        }
         if (!checkAgroTelegram(text, this.props.stations, errors, this.observation)) {
           this.setState({errors: errors});
           return;
         }
         break;
-        // this.observation.date_dev = date;
-        // var idStation = -1;
-        // var isStation;
-        // var codeStation = text.substr(6,5);
-        // isStation = this.props.stations.some(function(s){
-        //   idStation = s.id;
-        //   return +codeStation == s.code;
-        // });
-        // if (isStation) 
-        //   this.observation.station_id = idStation;
-        // else {
-        //   this.setState({errors: ["Ошибка в коде станции"]});
-        //   return;
-        // }
+      case 'agro_dec':
+        if (text.substr(0,5) != 'ЩЭАГУ') {
+          this.setState({errors: ["Ошибка в опознавательных буквах"]});
+          return;
+        }
+        if (!checkAgroTelegram(text, this.props.stations, errors, this.observation)) {
+          this.setState({errors: errors});
+          return;
+        }
+        break;
       case 'sea':
         this.observation.day_obs = text.substr(5,2);
         this.observation.term = text.substr(7,2);
@@ -100,7 +100,8 @@ class NewTelegramForm extends React.Component{
     // this.state.term = Math.floor(new Date().getUTCHours() / 3) * 3;
     const types = [
       { value: 'synoptic',  label: 'Синоптические' },
-      { value: 'agro',      label: 'Агро' },
+      { value: 'agro',      label: 'Агро ежедневные' },
+      { value: 'agro_dec',  label: 'Агро декадные' },
       { value: 'storm',     label: 'Штормовые' },
       { value: 'sea',       label: 'Морские' },
     ];
@@ -224,6 +225,18 @@ class TelegramRow extends React.Component{
 
         desiredLink = "/agro_observations/update_agro_telegram?id="+this.props.telegram.id; //+"&telegram="+tlgText;
         break;
+      case 'agro_dec':
+        if (!checkAgroTelegram(tlgText, this.props.stations, errors, observation)) {
+          this.setState({errors: errors});
+          return;
+        }
+        c_c = observation.state_crops;
+        tlgData = {agro_dec_observation: observation, crop_conditions: c_c};
+        if (observation.state_crops)
+          delete observation.state_crops;
+
+        desiredLink = "/agro_dec_observations/update_agro_dec_telegram?id="+this.props.telegram.id;
+        break;
       case 'storm':
         if (!checkStormTelegram(tlgText, this.props.stations, errors, observation)){
           this.setState({errors: errors});
@@ -339,6 +352,13 @@ class InputTelegrams extends React.Component{
         if (telegram.observation.damage_crops)
           delete telegram.observation.damage_crops;
         desiredLink = "/agro_observations/create_agro_telegram?date="+telegram.currDate+"&input_mode="+this.state.inputMode;
+        break;
+      case 'agro_dec':
+        c_c = telegram.observation.state_crops;
+        tlgData = {agro_dec_observation: telegram.observation, crop_dec_conditions: c_c};
+        if (telegram.observation.state_crops)
+          delete telegram.observation.state_crops;
+        desiredLink = "/agro_dec_observations/create_agro_dec_telegram?date="+telegram.currDate+"&input_mode="+this.state.inputMode;
         break;
       case 'storm':
         tlgData = {storm_observation: telegram.observation};
@@ -895,7 +915,7 @@ function checkAgroTelegram(tlg, stations, errors, observation){
           }
           j = 1;
           while ((t.indexOf(' 7', pos-1)>0) && (t.indexOf(' 7', pos-1)<zonePos)){
-            if((j<6) && (/^7\d{4}$/.test(t.substr(pos,5)))){
+            if((j<6) && (/^7\d{3}[0-9/]$/.test(t.substr(pos,5)))){  // 20180303 mwm add /
               state_crops["damage_plants_"+j] = t.substr(pos+1,3);
               state_crops["day_damage_"+j] = t[pos+4];
               j += 1;
@@ -1108,7 +1128,7 @@ function checkAgroTelegram(tlg, stations, errors, observation){
             return code = false;
           }
         if (t[pos] == '7')
-          if (/^7[12389]\d{3}$/.test(t.substr(pos,5))){
+          if (/^7[12389][0-9/]\d{2}$/.test(t.substr(pos,5))){ // 20180303 mwm add /
             state_crops.viable_method = t[pos+1];
             state_crops.soil_index_2 = t[pos+2];
             state_crops.losses_1 = t.substr(pos+3,2);
@@ -1118,7 +1138,7 @@ function checkAgroTelegram(tlg, stations, errors, observation){
             return code = false;
           }
         if (t[pos] == '8')
-          if (/^8\d{4}$/.test(t.substr(pos,5))){
+          if (/^8[0-9/]{2}\d{2}$/.test(t.substr(pos,5))){  // 20180303 mwm add //
             state_crops.losses_2 = t.substr(pos+1,2);
             state_crops.losses_3 = t.substr(pos+3,2);
             pos += 6;
