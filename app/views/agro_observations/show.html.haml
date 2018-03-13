@@ -39,7 +39,7 @@
       %td= @agro_observation.temperature_min_soil_24
     %tr
       %th Количество осадков, выпавших за сутки (мм)
-      %td= @agro_observation.precipitation_to_s( @agro_observation.percipitation_24)
+      %td= precipitation_to_s( @agro_observation.percipitation_24)
     - if @agro_observation.percipitation_type.present?
       %tr
         %th Вид осадков
@@ -47,7 +47,7 @@
     - if @agro_observation.percipitation_12.present?
       %tr
         %th Количество осадков за 12 ночных часов (мм)
-        %td= @agro_observation.precipitation_to_s( @agro_observation.percipitation_12)
+        %td= precipitation_to_s( @agro_observation.percipitation_12)
     %tr
       %th Максимальная за сутки скорость ветра (м/с)
       %td= @agro_observation.wind_speed_max_24.to_s
@@ -112,7 +112,7 @@
               - if c_c.assessment_condition_1.present?
                 %tr 
                   %th I общая визуальная оценка состояния посевов
-                  %td= c_c.assessment_condition_to_s(c_c.assessment_condition_1)
+                  %td= assessment_condition_to_s(c_c.assessment_condition_1)
               - if c_c.development_phase_2.present?
                 %tr 
                   %th II фаза развития культуры
@@ -120,7 +120,7 @@
               - if c_c.assessment_condition_2.present?
                 %tr 
                   %th II общая визуальная оценка состояния посевов
-                  %td= c_c.assessment_condition_to_s(c_c.assessment_condition_2)
+                  %td= assessment_condition_to_s(c_c.assessment_condition_2)
               - if c_c.development_phase_3.present?
                 %tr 
                   %th III фаза развития культуры
@@ -128,7 +128,7 @@
               - if c_c.assessment_condition_3.present?
                 %tr 
                   %th III общая визуальная оценка состояния посевов
-                  %td= c_c.assessment_condition_to_s(c_c.assessment_condition_3)
+                  %td= assessment_condition_to_s(c_c.assessment_condition_3)
               - if c_c.development_phase_4.present?
                 %tr 
                   %th IV фаза развития культуры
@@ -136,7 +136,7 @@
               - if c_c.assessment_condition_4.present?
                 %tr 
                   %th IV общая визуальная оценка состояния посевов
-                  %td= c_c.assessment_condition_to_s(c_c.assessment_condition_4)
+                  %td= assessment_condition_to_s(c_c.assessment_condition_4)
               - if c_c.development_phase_5.present?
                 %tr 
                   %th V фаза развития культуры
@@ -144,7 +144,7 @@
               - if c_c.assessment_condition_5.present?
                 %tr 
                   %th V общая визуальная оценка состояния посевов
-                  %td= c_c.assessment_condition_to_s(c_c.assessment_condition_5)
+                  %td= assessment_condition_to_s(c_c.assessment_condition_5)
               - if c_c.agricultural_work_1.present?
                 %tr 
                   %th I сельхозработа
@@ -192,7 +192,7 @@
               - if c_c.damage_volume_1.present?
                 %tr 
                   %th Степень охвата растений I повреждением
-                  %td= c_c.damage_volume_to_s(c_c.damage_volume_1)
+                  %td= damage_volume_to_s(c_c.damage_volume_1)
               - if c_c.damage_plants_2.present?
                 %tr 
                   %th Характер II повреждения
@@ -200,7 +200,7 @@
               - if c_c.damage_volume_2.present?
                 %tr 
                   %th Степень охвата растений II повреждением
-                  %td= c_c.damage_volume_to_s(c_c.damage_volume_2)
+                  %td= damage_volume_to_s(c_c.damage_volume_2)
               - if c_c.damage_plants_3.present?
                 %tr 
                   %th Характер III повреждения
@@ -208,7 +208,7 @@
               - if c_c.damage_volume_3.present?
                 %tr 
                   %th Степень охвата растений III повреждением
-                  %td= c_c.damage_volume_to_s(c_c.damage_volume_3)
+                  %td= damage_volume_to_s(c_c.damage_volume_3)
               - if c_c.damage_plants_4.present?
                 %tr 
                   %th Характер IV повреждения
@@ -216,7 +216,7 @@
               - if c_c.damage_volume_4.present?
                 %tr 
                   %th Степень охвата растений IV повреждением
-                  %td= c_c.damage_volume_to_s(c_c.damage_volume_4)
+                  %td= damage_volume_to_s(c_c.damage_volume_4)
               - if c_c.damage_plants_5.present?
                 %tr 
                   %th Характер V повреждения
@@ -224,7 +224,7 @@
               - if c_c.damage_volume_5.present?
                 %tr 
                   %th Степень охвата растений V повреждением
-                  %td= c_c.damage_volume_to_s(c_c.damage_volume_5)
+                  %td= damage_volume_to_s(c_c.damage_volume_5)
     - if @agro_observation.crop_damages.present?
       %th Повреждения зимующих культур
       %td

@@ -52,3 +52,158 @@
       %tr
         %th Количество дней за декаду с минимальной температурой за сутки на поверхности почвы -20°С и ниже
         %td= @agro_dec_observation.cold_soil_dec_day_num
+    - if @agro_dec_observation.precipitation_dec.present?
+      %tr
+        %th Количество осадков за декаду (мм)
+        %td= precipitation_to_s(@agro_dec_observation.precipitation_dec)
+    - if @agro_dec_observation.wet_dec_day_num.present?
+      %tr
+        %th Количество дней за декаду с количеством осадков за сутки 1 мм и более
+        %td= @agro_dec_observation.wet_dec_day_num
+    - if @agro_dec_observation.precipitation_dec_percent.present?
+      %tr
+        %th Количество осадков за декаду в процентах от среднего многолетнего
+        %td= @agro_dec_observation.precipitation_dec_percent
+    - if @agro_dec_observation.wind_speed_dec_max.present?
+      %tr
+        %th Максимальная скорость ветра за декаду (м/с)
+        %td= @agro_dec_observation.wind_speed_dec_max
+    - if @agro_dec_observation.wind_speed_dec_max_day_num.present?
+      %tr
+        %th Количество дней за декаду с максимальной скоростью ветра за сутки 15 м/с и более
+        %td= @agro_dec_observation.wind_speed_dec_max_day_num
+    - if @agro_dec_observation.duster_dec_day_num.present?
+      %tr
+        %th Количество дней за декаду с пылевыми бурями
+        %td= @agro_dec_observation.duster_dec_day_num
+    - if @agro_dec_observation.temperature_dec_max_soil.present?
+      %tr
+        %th Максимум температуры поверхности грунта за декаду (°С)
+        %td= @agro_dec_observation.temperature_dec_max_soil
+    - if @agro_dec_observation.sunshine_duration_dec.present?
+      %tr
+        %th Продолжительность солнечного сияния за декаду (час.)
+        %td= @agro_dec_observation.sunshine_duration_dec
+    - if @agro_dec_observation.freezing_dec_day_num.present?
+      %tr
+        %th Количество дней за декаду с заморозками
+        %td= @agro_dec_observation.freezing_dec_day_num
+    - if @agro_dec_observation.temperature_dec_avg_soil10.present?
+      %tr
+        %th Средняя за декаду температура почвы на глубине 10 см. (°С)
+        %td= @agro_dec_observation.temperature_dec_avg_soil10
+    - if @agro_dec_observation.temperature25_soil10_dec_day_num.present?
+      %tr
+        %th Количество суток за декаду с температурой почвы на глубине 10 см 25°С и выше
+        %td= @agro_dec_observation.temperature25_soil10_dec_day_num
+    - if @agro_dec_observation.dew_dec_day_num.present?
+      %tr
+        %th Количество суток за декаду с росой
+        %td= @agro_dec_observation.dew_dec_day_num
+    - if @agro_dec_observation.saturation_deficit_dec_avg.present?
+      %tr
+        %th Средний дефицит насыщения за декаду (гПа)
+        %td= @agro_dec_observation.saturation_deficit_dec_avg
+    - if @agro_dec_observation.relative_humidity_dec_avg.present?
+      %tr
+        %th Средняя относительная влажность воздуха за декаду (%)
+        %td= @agro_dec_observation.relative_humidity_dec_avg
+    - if @agro_dec_observation.percipitation_dec_max.present?
+      %tr
+        %th Суточный максимум осадков за декаду (мм)
+        %td= @agro_dec_observation.percipitation_dec_max
+    - if @agro_dec_observation.percipitation5_dec_day_num.present?
+      %tr
+        %th Количество суток за декаду с количеством осадков 5 мм и более
+        %td= @agro_dec_observation.percipitation5_dec_day_num
+    - if @agro_dec_observation.crop_dec_conditions.present?
+      %tr
+        %th Декадная агрометеорологическая информация. Кондиции растений, сельхозработы
+        %td
+          %table{class: "table table-bordered"}
+            - @agro_dec_observation.crop_dec_conditions.each do |c_c|
+              %tr
+                %th Культура/Угодья
+                %td= c_c.crop_code.to_s.rjust(3,'0')
+              %tr
+                %th Участок наблюдения
+                %td= c_c.plot_code.to_s.rjust(3,'0')
+              - if c_c.agrotechnology.present?
+                %tr
+                  %th Показатель наличия агротехнологии
+                  %td= c_c.agrotechnology_to_s
+              - if c_c.development_phase_1.present?
+                - 1.upto(5) do |i|
+                  - if c_c['development_phase_'+i.to_s].present?
+                    %tr
+                      %th Фаза развития растения #{i}
+                      %td= c_c['development_phase_'+i.to_s]
+              - if c_c.day_phase_1.present?
+                - 1.upto(5) do |i|
+                  - if c_c['day_phase_'+i.to_s].present?
+                    %tr
+                      %th День декады, когда наступила фаза #{i}
+                      %td= c_c['day_phase_'+i.to_s]
+              - if c_c.assessment_condition_1.present?
+                - 1.upto(5) do |i|
+                  - if c_c['assessment_condition_'+i.to_s].present?
+                    %tr
+                      %th Оценка состояния посевов, угодий #{i}
+                      %td= assessment_condition_to_s(c_c['assessment_condition_'+i.to_s])
+              - if c_c.clogging_weeds.present?
+                %tr
+                  %th Засорение посевов бурьяном
+                  %td= c_c.clogging_weeds_to_s
+              - if c_c.height_plants.present?
+                %tr
+                  %th Средняя высота рстений (см)
+                  %td= c_c.height_plants
+              - if c_c.number_plants.present?
+                %tr
+                  %th Среднее количество растений на единицу площади
+                  %td= c_c.number_plants
+              - if c_c.average_mass.present?
+                %tr
+                  %th Средняя масса кукурузы или сахарной свеклы в граммах
+                  %td= c_c.average_mass
+              - if c_c.agricultural_work_1.present?
+                - 1.upto(5) do |i|
+                  - if c_c['agricultural_work_'+i.to_s].present?
+                    %tr
+                      %th Сельскохозяйственная работа #{i}
+                      %td= c_c['agricultural_work_'+i.to_s]
+              - if c_c.day_work_1.present?
+                - 1.upto(5) do |i|
+                  - if c_c['day_work_'+i.to_s].present?
+                    %tr
+                      %th День декады, когда началась работа #{i}
+                      %td= c_c['day_work_'+i.to_s]
+              - if c_c.damage_plants_1.present?
+                - 1.upto(5) do |i|
+                  - if c_c['damage_plants_'+i.to_s].present?
+                    %tr
+                      %th Характер повреждения растений #{i}
+                      %td= c_c['damage_plants_'+i.to_s].to_s.rjust(3, '0')
+              - if c_c.day_damage_1.present?
+                - 1.upto(5) do |i|
+                  - if c_c['day_damage_'+i.to_s].present?
+                    %tr
+                      %th День декады, когда отмечено повреждение растений #{i}
+                      %td= c_c['day_damage_'+i.to_s]
+              - if c_c.damage_level_1.present?
+                - 1.upto(5) do |i|
+                  - if c_c['damage_level_'+i.to_s].present?
+                    %tr
+                      %th Степень повреждения растений #{i}
+                      %td= c_c['damage_level_'+i.to_s]
+              - if c_c.damage_volume_1.present?
+                - 1.upto(5) do |i|
+                  - if c_c['damage_volume_'+i.to_s].present?
+                    %tr
+                      %th Степень охвата растений повреждениями #{i}
+                      %td= damage_volume_to_s(c_c['damage_volume_'+i.to_s])
+
+  - if current_user.role == 'technicist'
+    = link_to 'Ввод телеграмм', '/agro_dec_observations/input_agro_dec_telegrams'
+    %br
+  = link_to "Список", agro_dec_observations_path

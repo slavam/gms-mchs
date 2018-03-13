@@ -1,0 +1,16 @@
+.container
+  %h3 Телеграммы агрометеорологические декадные
+  = will_paginate
+  %table{class: "table table-hover"}
+    %thead
+      %tr
+        %th{width: "100px"} Дата
+        %th Метеостанция
+        %th Телеграмма
+    %tbody
+      - @agro_dec_observations.each do |a_o| 
+        %tr
+          %td= a_o.date_dev
+          %td= a_o.station.name
+          %td= link_to a_o.telegram, agro_dec_observation_path(a_o)
+  = will_paginate

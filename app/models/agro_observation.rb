@@ -15,20 +15,20 @@ class AgroObservation < ActiveRecord::Base
       end
   end
   
-  def precipitation_to_s(value)
-    case value
-      when 0
-        "Осадков не было"
-      when 1..988
-        value.to_s
-      when 989
-        "989 и больше"
-      when 990
-        "Следы осадков"
-      when 991..999
-        ((value - 990)*0.1).round(2).to_s
-    end
-  end
+  # def precipitation_to_s(value)
+  #   case value
+  #     when 0
+  #       "Осадков не было"
+  #     when 1..988
+  #       value.to_s
+  #     when 989
+  #       "989 и больше"
+  #     when 990
+  #       "Следы осадков"
+  #     when 991..999
+  #       ((value - 990)*0.1).round(2).to_s
+  #   end
+  # end
   
   def percipitation_type_to_s
     case self.percipitation_type

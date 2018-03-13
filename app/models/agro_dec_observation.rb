@@ -13,4 +13,9 @@ class AgroDecObservation < ActiveRecord::Base
       {id: rec.id, date: rec.date_dev, station_name: stations[rec.station_id-1].name, telegram: rec.telegram}
     end
   end
+  
+  # def assessment_condition_to_s(value)
+  #   assessments = ["Полная гибель", "Очень плохое", "Плохое", "Удовлетворительное", "Хорошее", "Отличное"]
+  #   assessments[value]
+  # end
 end
