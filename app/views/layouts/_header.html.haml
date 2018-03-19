@@ -84,15 +84,18 @@
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Телеграммы<b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
-                  %li= link_to 'Ввод телеграмм',  '/synoptic_observations/input_synoptic_telegrams'
-                  %li= link_to 'Телеграммы синоптические',  synoptic_observations_path
-                  %li= link_to 'Телеграммы штормовые',  storm_observations_path
-                  %li= link_to 'Телеграммы агрометеорологические',  agro_observations_path
-                  %li= link_to 'Телеграммы морские',  sea_observations_path
-                  %li= link_to 'Телеграммы синоптические (со штормовыми)',  '/synoptic_observations/synoptic_storm_telegrams'
-                  /
-                    %li= link_to 'Синоптические',  new_synoptic_observation_path
-              %li= link_to 'Метеостанции', stations_path
+                  %li= link_to 'Ввод телеграмм', '/synoptic_observations/input_synoptic_telegrams?input_mode=normal'
+                  %li= link_to 'Ввод телеграмм с любой датой', '/synoptic_observations/input_synoptic_telegrams?input_mode=direct'
+                  %li= link_to 'Телеграммы синоптические', synoptic_observations_path
+                  %li= link_to 'Телеграммы штормовые', storm_observations_path
+                  %li= link_to 'Ежедневные агрометеорологические телеграммы', agro_observations_path
+                  %li= link_to 'Декадные агрометеорологические телеграммы', agro_dec_observations_path
+                  %li= link_to 'Телеграммы морские', sea_observations_path
+              %li
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Сервис <b class="caret"></b></a>
+                %ul{class: "dropdown-menu"}
+                  %li= link_to 'Поиск синоптических телеграмм',  search_synoptic_telegrams_path
+                  %li= link_to 'Метеостанции', stations_path
             - when 'chemist'
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Измерения <b class="caret"></b></a>
@@ -117,6 +120,7 @@
                   %li= link_to 'Форма 2 по городам',  "/measurements/chem_forma2?region_type=city&place_id=1"
                   %li= link_to 'Фоновые концентрации (AKIAM)', pollutions_background_concentration_path
                   %li= link_to 'Метеопараметры', synoptic_observations_get_meteoparams_path
+                  %li= link_to 'Отчет о количестве наблюдений',  measurements_observations_quantity_path
                   /
                     %li= link_to 'Конверсия из АКИАМ', measurements_get_convert_params_path
                 %li= link_to "Помощь", "/bulletins/help_show.pdf"

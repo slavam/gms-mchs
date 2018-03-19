@@ -240,9 +240,10 @@
               %tr
                 %th Глубина промерзания грунта (см)
                 %td= c_d.depth_soil_freezing.to_s
-            %tr
-              %th Прибор для измерения температуры грунта
-              %td= c_d.thermometer_index_to_s
+            - if c_d.thermometer_index.present?
+              %tr
+                %th Прибор для измерения температуры грунта
+                %td= c_d.thermometer_index_to_s
             %tr
               %th Температура грунта на глубине 3 см (°С)
               %td= c_d.temperature_dec_min_soil3.to_s

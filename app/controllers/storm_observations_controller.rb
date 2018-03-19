@@ -90,7 +90,12 @@ class StormObservationsController < ApplicationController
   def create_storm_telegram
     date_dev = params[:input_mode] == 'direct' ? Time.parse(params[:date]+' 00:01:00') : Time.now.utc
     # yyyy_mm = date_dev.year.to_s + '-' + date_dev.month.to_s.rjust(2, '0') + '%'
-    telegram = StormObservation.find_by(station_id: params[:storm_observation][:station_id], telegram_type: params[:storm_observation][:telegram_type], day_event: params[:storm_observation][:day_event], hour_event: params[:storm_observation][:hour_event], minute_event: params[:storm_observation][:minute_event])
+    # с Н.В. 2018.03.13 согласован интервал в 20 минут
+    left_time = date_dev-20.minutes
+    sql = "select * from storm_observations where station_id = #{params[:storm_observation][:station_id]} and telegram_type = '#{params[:storm_observation][:telegram_type]}' and day_event = #{params[:storm_observation][:day_event]} and hour_event = #{params[:storm_observation][:hour_event]} and minute_event = #{params[:storm_observation][:minute_event]} and telegram_date > '#{left_time}' order by telegram_date desc"
+    telegram = StormObservation.find_by_sql(sql).first
+    # telegram = StormObservation.find_by(station_id: params[:storm_observation][:station_id], telegram_type: params[:storm_observation][:telegram_type], day_event: params[:storm_observation][:day_event], hour_event: params[:storm_observation][:hour_event], minute_event: params[:storm_observation][:minute_event])
+    # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{telegram.inspect}")
     if telegram.present?
       if telegram.update_attributes storm_observation_params
         last_telegrams = StormObservation.short_last_50_telegrams

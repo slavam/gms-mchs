@@ -1,0 +1,8 @@
+<!--%= current_user.inspect %-->
+<!--%= @quantity.inspect %-->
+<div class="container">
+  <br>
+  <div id="content">
+    <%= react_component 'ObservationsQuantity', { dateFrom: @date_from[0,10], dateTo: @date_to[0,10], cityId: @city_id, cities: @cities, materials: @materials, posts: @posts, observations: @quantity, total: @total} %>
+  </div>
+</div>

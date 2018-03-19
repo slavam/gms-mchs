@@ -21,6 +21,37 @@ class MeasurementsController < ApplicationController
     @matrix = get_matrix_data(@year, @month, @post_id)
     @posts = Post.actual.order(:id) 
   end
+  
+  def observations_quantity
+    @date_from = params[:date_from].present? ? params[:date_from]+' 00:00:00' : Time.now.beginning_of_month.strftime("%Y-%m-%d %H:%M:%S")
+    @date_to = params[:date_to].present? ? params[:date_to]+' 23:59:59' : Time.now.end_of_month.strftime("%Y-%m-%d %H:%M:%S")
+    @city_id = params[:city_id].present? ? params[:city_id] : 1
+    @cities = City.all.order(:id)
+    @materials = Material.actual_materials
+    @posts = Post.actual.order(:id)
+    
+    sql = "select distinct(material_id) id,  post_id, count(*) term from pollution_values p_v join measurements m on p_v.measurement_id=m.id join posts p on p.id = m.post_id and p.city_id = #{@city_id} and date > '#{@date_from}' and date < '#{@date_to}' group by material_id, m.post_id;"
+    # sql ="select distinct(material_id),  post_id, count(*) num from pollution_values p_v join measurements m on p_v.measurement_id=m.id and date > '#{date_from}' and date < '#{date_to}' group by material_id, post_id;"
+    observations = Measurement.find_by_sql(sql)
+    @quantity = Hash.new(0)
+    @total = 0
+    observations.each do |o| 
+      @quantity[[o.id, o.post_id]] = o.term
+      @total += o.term
+    end
+    respond_to do |format|
+      format.html
+      format.pdf do
+        city = City.find(@city_id)
+        city_name = city.name+' ('+city.code.to_s+')'
+        pdf = ChemObservationsQuantity.new(@quantity, @date_from[0,10], @date_to[0,10], @total, city_name, @city_id, @materials, @posts)
+        send_data pdf.render, filename: "chem_observations_quantity_#{current_user.id}.pdf", type: "application/pdf", disposition: "inline", :force_download=>true, :page_size => "A4", :page_layout => "landscape"
+      end
+      format.json do 
+        render json: {observations: @quantity, total: @total}
+      end
+    end
+  end
 
   def get_chem_forma1_tza_data
     month = params[:month]
