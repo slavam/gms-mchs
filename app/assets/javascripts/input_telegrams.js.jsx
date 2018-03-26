@@ -660,7 +660,8 @@ function checkAgroTelegram(tlg, stations, errors, observation){
         damage_crops.crop_code = t.substr(0, 3);
         let pos = 4;
         if( (/^95[0-9/]{3}$/.test(t.substr(pos,5)))){ // добавил /// по согласованию с В.И. 2018.02.28 (см. стр. 35)
-          damage_crops.height_snow_cover_rail = t.substr(pos+2,3);
+          if (t[pos+2] != '/')
+            damage_crops.height_snow_cover_rail = t.substr(pos+2,3);
           pos += 6;
         }else {
           errors.push("Ошибка в группе 95 зоны 92_95["+(i+1)+"] раздела 3");
@@ -1428,7 +1429,7 @@ function checkStormTelegram(tlg, stations, errors, observation){
   // return false; // debug only! 
   // return true;
 }
-function  checkSynopticTelegram(term, tlg, errors, stations, observation){
+function checkSynopticTelegram(term, tlg, errors, stations, observation){
   // tlg = tlg.replace(/\s+/g, ' ');
   var state = {
       group00: { errorMessage: 'Ошибка в группе00', regex: /^[134/][1-4][0-9/]([0-4][0-9]|50|5[6-9]|[6-9][0-9]|\/\/)$/ },
@@ -1537,6 +1538,16 @@ function  checkSynopticTelegram(term, tlg, errors, stations, observation){
                 break;
               case '6':
                 observation.precipitation_2 = section.substr(1,3);
+                if ((term == 0) || (term == 12)){
+                  if (section[4] != '1'){
+                    errors.push("Для срока "+term+" в разделе 5 группа 6 должно быть tR=1");
+                    return false;
+                  }
+                  if (tlg[12] != '/'){
+                    errors.push("Для срока "+term+" в разделе 1 группа 00 должно быть iR='/'");
+                    return false;
+                  }
+                }
                 observation.precipitation_time_range_2 = section[4];
                 break;
               // case '9':
@@ -1651,6 +1662,16 @@ function  checkSynopticTelegram(term, tlg, errors, stations, observation){
               observation.pressure_tendency = section.substr(2,2)+'.'+section[4];
               break;
             case '6':
+              if ((term == 6) || (term == 18)){
+                if (section[4] != '2'){
+                  errors.push("Для срока "+term+" в группе 6 раздела 1 должно быть tR=2");
+                  return false;
+                }
+                if (tlg[12] != '1'){
+                  errors.push("Для срока "+term+" в разделе 1 группа 00 должно быть iR=1");
+                  return false;
+                }
+              }
               observation.precipitation_1 = section.substr(1,3);
               observation.precipitation_time_range_1 = section[4];
               break;

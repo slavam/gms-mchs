@@ -21,6 +21,75 @@ class MeasurementsController < ApplicationController
     @matrix = get_matrix_data(@year, @month, @post_id)
     @posts = Post.actual.order(:id) 
   end
+
+  def wind_rose
+    @year = params[:year].present? ? params[:year] : Time.now.year.to_s
+    @city_id = params[:city_id].present? ? params[:city_id].to_i : 1
+    @cities = City.all.order(:id)
+    @city_name = City.find(@city_id).name
+    sql ="select date, wind_speed, wind_direction from measurements m join posts p on p.id = m.post_id and p.city_id = #{@city_id} where date like '#{@year}%' order by date;"
+    observations = Measurement.find_by_sql(sql)
+    wind_by_month = Hash.new(0)
+    total = 0
+    only_wind_total = 0
+    total_01 = 0
+    total_07 = 0
+    wind_01 = 0
+    wind_07 = 0
+    observations.each do |o| 
+      month = o.date.month
+      total += 1
+      total_01 += 1 if month == 1
+      total_07 += 1 if month == 7
+      if (o.wind_direction == 0) and (o.wind_speed == 0)
+        wind_by_month[[month, 8]] += 1 # calm
+        wind_by_month[[0, 8]] += 1
+      else 
+        only_wind_total += 1
+        wind_01 += 1 if month == 1
+        wind_07 += 1 if month == 7
+        case o.wind_direction
+          when 4..7 
+            wind_by_month[[month, 1]] += 1
+            wind_by_month[[0, 1]] += 1
+          when 8..12 
+            wind_by_month[[month, 2]] += 1
+            wind_by_month[[0, 2]] += 1
+          when 13..16
+            wind_by_month[[month, 3]] += 1
+            wind_by_month[[0, 3]] += 1
+          when 17..21 
+            wind_by_month[[month, 4]] += 1
+            wind_by_month[[0, 4]] += 1
+          when 22..25 
+            wind_by_month[[month, 5]] += 1
+            wind_by_month[[0, 5]] += 1
+          when 26..30 
+            wind_by_month[[month, 6]] += 1
+            wind_by_month[[0, 6]] += 1
+          when 31..34 
+            wind_by_month[[month, 7]] += 1
+            wind_by_month[[0, 7]] += 1
+          else
+            wind_by_month[[month, 0]] += 1
+            wind_by_month[[0, 0]] += 1
+        end
+      end
+    end
+    # Rails.logger.debug("My object>>>>>>>>>>>>>>>роза_ветров: #{wind_by_month.inspect} , total-> #{total}, wind_total=>#{only_wind_total} ") 
+    @matrix = Hash.new(0)
+    (0..8).each do |d|
+      @matrix[[0,d]] = wind_by_month[[0,d]]*100.0/(d == 8 ? only_wind_total : total)
+      @matrix[[1,d]] = wind_by_month[[1,d]]*100.0/(d == 8 ? wind_01 : total_01)
+      @matrix[[7,d]] = wind_by_month[[7,d]]*100.0/(d == 8 ? wind_07 : total_07)
+    end
+    respond_to do |format|
+      format.html
+      format.json do 
+        render json: {matrix: @matrix, cityName: @city_name, year: @year}
+      end
+    end
+  end
   
   def observations_quantity
     @date_from = params[:date_from].present? ? params[:date_from]+' 00:00:00' : Time.now.beginning_of_month.strftime("%Y-%m-%d %H:%M:%S")

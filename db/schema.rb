@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180306063448) do
+ActiveRecord::Schema.define(version: 20180321072326) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
@@ -45,11 +45,11 @@ ActiveRecord::Schema.define(version: 20180306063448) do
     t.date     "date_dev"
     t.integer  "day_obs",                          limit: 4
     t.integer  "month_obs",                        limit: 4
-    t.string   "telegram",                         limit: 255
+    t.text     "telegram",                         limit: 65535
     t.integer  "station_id",                       limit: 4
     t.integer  "telegram_num",                     limit: 4
     t.integer  "temperature_dec_avg_delta",        limit: 4
-    t.decimal  "temperature_dec_avg",                          precision: 5, scale: 1
+    t.decimal  "temperature_dec_avg",                            precision: 5, scale: 1
     t.integer  "temperature_dec_max",              limit: 4
     t.integer  "hot_dec_day_num",                  limit: 4
     t.integer  "temperature_dec_min",              limit: 4
@@ -72,8 +72,8 @@ ActiveRecord::Schema.define(version: 20180306063448) do
     t.integer  "relative_humidity_dec_avg",        limit: 4
     t.integer  "percipitation_dec_max",            limit: 4
     t.integer  "percipitation5_dec_day_num",       limit: 4
-    t.datetime "created_at",                                                           null: false
-    t.datetime "updated_at",                                                           null: false
+    t.datetime "created_at",                                                             null: false
+    t.datetime "updated_at",                                                             null: false
   end
 
   create_table "agro_observations", force: :cascade do |t|

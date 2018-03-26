@@ -57,6 +57,7 @@ Rails.application.routes.draw do
   get 'measurements/print_forma2', to: 'measurements#print_forma2'
   post 'measurements/convert_akiam', to: 'measurements#convert_akiam'
   get 'measurements/observations_quantity', to: 'measurements#observations_quantity'
+  get 'measurements/wind_rose', to: 'measurements#wind_rose'
   resources :measurements
   resources :materials
   resources :posts
