@@ -2,12 +2,9 @@ require 'prawn'
 class WindRose < Prawn::Document
 # class WindRose
   # include Prawn::View
-  def initialize(matrix, city_name, year, user_id) #, chart_image)
+  def initialize(matrix, city_name, year, user_id)
 		super(top_margin: 40)		
 		@matrix = matrix
-		# @year = year
-		# @month = month
-		# @station_name = station_name
     font_families.update("OpenSans" => {
       :normal => Rails.root.join("./app/assets/fonts/OpenSans/OpenSans-Regular.ttf"),
       :italic => Rails.root.join("app/assets/fonts/OpenSans/OpenSans-Italic.ttf"),

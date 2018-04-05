@@ -597,7 +597,7 @@ function checkAgroTelegram(tlg, stations, errors, observation){
         let pos = 4;
         let j = 1;
         while (t.indexOf(' 1', pos-1)>0){
-          if((j<6) && (/^1\d{2}[0-5]\/$/.test(t.substr(pos,5)))){
+          if((j<6) && (/^1\d{2}[0-5/]\/$/.test(t.substr(pos,5)))){ // 20180405 В.И. на позиции 4 допустима /
             state_crops["development_phase_"+j] = t.substr(pos+1,2);
             state_crops["assessment_condition_"+j] = t[pos+3];
             j += 1;
@@ -1432,7 +1432,7 @@ function checkStormTelegram(tlg, stations, errors, observation){
 function checkSynopticTelegram(term, tlg, errors, stations, observation){
   // tlg = tlg.replace(/\s+/g, ' ');
   var state = {
-      group00: { errorMessage: 'Ошибка в группе00', regex: /^[134/][1-4][0-9/]([0-4][0-9]|50|5[6-9]|[6-9][0-9]|\/\/)$/ },
+      group00: { errorMessage: 'Ошибка в группе00', regex: /^[134/][12][0-9/]([0-4][0-9]|50|5[6-9]|[6-9][0-9]|\/\/)$/ },  // наблюдатели, Л.А. 20180405 iX = 1 or 2
       group0: { errorMessage: 'Ошибка в группе0', regex: /^[0-9/]([012][0-9]|3[0-6]|99|\/\/)([012][0-9]|30|\/\/)$/ },
       group1: { errorMessage: 'Ошибка в группе 1 раздела 1', regex: /^1[01][0-5][0-9][0-9]$/ },
       group2: { errorMessage: 'Ошибка в группе 2 раздела 1', regex: /^2[01][0-5][0-9][0-9]$/ },
@@ -1478,6 +1478,11 @@ function checkSynopticTelegram(term, tlg, errors, stations, observation){
     var regex = '';
     regex = state.group00.regex;
     if (regex.test(group) && ((tlg[17] == ' ') || (tlg[17] == '='))) {
+      if((term==3) || (term==9) || (term==15) || (term==21))  // наблюдатели Донецк 20180405
+        if (+tlg[12]!=4){
+          errors.push("Для срока "+term+" в группа 00 должно быть iR=4");
+          return false;
+        }
       if(tlg[14] != '/')
         observation.cloud_base_height = tlg[14];
       if(tlg[15] != '/')
@@ -1490,6 +1495,18 @@ function checkSynopticTelegram(term, tlg, errors, stations, observation){
     group = tlg.substr(18,5);
     regex = state.group0.regex;
     if (regex.test(group) && ((tlg[23] == ' ') || (tlg[23] == '='))) {
+      if ((+tlg[18]>=0) && (+tlg[18]<9))                                    // 20180405 по данным от Л.А.
+        if ((+tlg.substr(15,2)>93) && (+tlg.substr(15,2)<98)){ 
+        }else{
+          errors.push("Дальность видимости не соответствует количеству облаков");
+          return false;
+        }
+      if ((tlg[18]=='/') || (+tlg[18]==9))                                    // 20180405 по данным от Л.А.
+        if ((+tlg.substr(15,2)>89) && (+tlg.substr(15,2)<94)){ 
+        }else{
+          errors.push("Дальность видимости не соответствует количеству облаков");
+          return false;
+        }
       if (tlg[18] != '/') {
         observation.cloud_amount_1 = tlg[18];
         observation.wind_direction = tlg.substr(19,2);
@@ -1676,6 +1693,10 @@ function checkSynopticTelegram(term, tlg, errors, stations, observation){
               observation.precipitation_time_range_1 = section[4];
               break;
             case '7':
+              if (tlg[13] != '1'){ // 20180405 согласовано с наблюдателями и Л.А.
+                errors.push("При наличии группы 7 раздела 1 долно быть iX=1");
+                return false;
+              }
               observation.weather_in_term = section.substr(1,2);
               observation.weather_past_1 = section[3];
               observation.weather_past_2 = section[4];

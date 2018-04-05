@@ -103,14 +103,7 @@ class MeasurementsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-    # Rails.logger.debug("My object>>>>>>>>>>>>>>>роза_ветров: #{@matrix.inspect}")    
-        # chart1 = params[:chart_image].split(',')
-        # image = Base64.decode64(chart1[1])
-        # File.open("#{Rails.root}/test.png", 'wb') do|f|
-        #   f.write(image)
-        # end
-        # sleep 1
-        pdf = WindRose.new(@matrix, @city_name, @year, current_user.id) #, params[:chart_image])
+        pdf = WindRose.new(@matrix, @city_name, @year, current_user.id)
         send_data pdf.render, filename: "wind_rose_#{current_user.id}.pdf", type: "application/pdf", disposition: "inline", :force_download=>true, :page_size => "A4"
       end
       format.json do 
@@ -120,38 +113,21 @@ class MeasurementsController < ApplicationController
   end
   
   def print_wind_rose
-    # respond_to do |format|
-      # format.json do
-        chart = params[:canvas_image].split(',')
-        image = Base64.decode64(chart[1])
-        if Rails.env.production?
-          filename = "#{Rails.root}/public/images/wind_rose_#{current_user.id}.png"  # production only
-        else
-          filename = "app/assets/pdf_folder/wind_rose_#{current_user.id}.png"
-        end
-        begin
-          File.open(filename, 'wb') do |f|
-            f.write(image)
-          end
-        rescue Errno::ENOENT => e
-          render json: {error: "Caught the exception: #{e}"}
-        end
-        render json: {saved_at: Time.now.to_s}
-        # return
-        # @city_name = params[:city_name]
-        # @year = params[:year]
-        # @matrix = [] # params[:matrix]
-    # respond_to do |format|
-    #   format.html
-    #   format.pdf do
-    #     pdf = WindRose.new(@matrix, "kjhk", '1111', current_user.id) #, params[:canvas_image])
-        # pdf = WindRose.new(@matrix, @city_name, @year, current_user.id) #, params[:canvas_image])
-        # pdf_filename = File.join(Rails.root, "app/assets/pdf_folder", "wind_rose_#{current_user.id}.pdf")
-        # pdf.render_file pdf_filename
-        # send_file pdf_filename, filename: "wind_rose_#{current_user.id}.pdf", type: "application/pdf", disposition: 'inline', x_sendfile: true
-        # send_data pdf.render, filename: "wind_rose_#{current_user.id}.pdf", type: "application/pdf", disposition: "inline", :force_download=>true, :page_size => "A4"
-      # end
-    # end
+    chart = params[:canvas_image].split(',')
+    image = Base64.decode64(chart[1])
+    if Rails.env.production?
+      filename = "#{Rails.root}/public/images/wind_rose_#{current_user.id}.png"  # production only
+    else
+      filename = "app/assets/pdf_folder/wind_rose_#{current_user.id}.png"
+    end
+    begin
+      File.open(filename, 'wb') do |f|
+        f.write(image)
+      end
+    rescue Errno::ENOENT => e
+      render json: {error: "Caught the exception: #{e}"}
+    end
+    render json: {saved_at: Time.now.to_s}
   end
   
   def observations_quantity
