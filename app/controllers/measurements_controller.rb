@@ -29,7 +29,7 @@ class MeasurementsController < ApplicationController
     @city_name = City.find(@city_id).name
     sql ="select date, wind_speed, wind_direction from measurements m join posts p on p.id = m.post_id and p.city_id = #{@city_id} where date like '#{@year}%' order by date;"
     observations = Measurement.find_by_sql(sql)
-    wind_by_month = Hash.new(0)
+    wind_by_month = Hash.new 0
     total = 0
     only_wind_total = 0
     total_01 = 0
@@ -78,17 +78,80 @@ class MeasurementsController < ApplicationController
     end
     # Rails.logger.debug("My object>>>>>>>>>>>>>>>роза_ветров: #{wind_by_month.inspect} , total-> #{total}, wind_total=>#{only_wind_total} ") 
     @matrix = Hash.new(0)
+    @max_value = 0
     (0..8).each do |d|
-      @matrix[[0,d]] = wind_by_month[[0,d]]*100.0/(d == 8 ? only_wind_total : total)
-      @matrix[[1,d]] = wind_by_month[[1,d]]*100.0/(d == 8 ? wind_01 : total_01)
-      @matrix[[7,d]] = wind_by_month[[7,d]]*100.0/(d == 8 ? wind_07 : total_07)
+      if wind_by_month.key?([0,d])
+        @matrix[[0,d]] = wind_by_month[[0,d]]*100.0/(d == 8 ? only_wind_total : total)  
+      else
+        @matrix[[0,d]] = 0
+      end
+      @max_value = @matrix[[0,d]] if @matrix[[0,d]] > @max_value
+      if wind_by_month.key?([1,d])
+        @matrix[[1,d]] = wind_by_month[[1,d]]*100.0/(d == 8 ? wind_01 : total_01) 
+      else
+        @matrix[[1,d]] = 0
+      end
+      @max_value = @matrix[[1,d]] if @matrix[[1,d]] > @max_value
+      if wind_by_month.key?([7,d])
+        @matrix[[7,d]] = wind_by_month[[7,d]]*100.0/(d == 8 ? wind_07 : total_07) 
+      else
+        @matrix[[7,d]] = 0
+      end
+      @max_value = @matrix[[7,d]] if @matrix[[7,d]] > @max_value
     end
+    
     respond_to do |format|
       format.html
+      format.pdf do
+    # Rails.logger.debug("My object>>>>>>>>>>>>>>>роза_ветров: #{@matrix.inspect}")    
+        # chart1 = params[:chart_image].split(',')
+        # image = Base64.decode64(chart1[1])
+        # File.open("#{Rails.root}/test.png", 'wb') do|f|
+        #   f.write(image)
+        # end
+        # sleep 1
+        pdf = WindRose.new(@matrix, @city_name, @year, current_user.id) #, params[:chart_image])
+        send_data pdf.render, filename: "wind_rose_#{current_user.id}.pdf", type: "application/pdf", disposition: "inline", :force_download=>true, :page_size => "A4"
+      end
       format.json do 
-        render json: {matrix: @matrix, cityName: @city_name, year: @year}
+        render json: {matrix: @matrix, cityName: @city_name, year: @year, maxValue: @max_value}
       end
     end
+  end
+  
+  def print_wind_rose
+    # respond_to do |format|
+      # format.json do
+        chart = params[:canvas_image].split(',')
+        image = Base64.decode64(chart[1])
+        if Rails.env.production?
+          filename = "#{Rails.root}/public/images/wind_rose_#{current_user.id}.png"  # production only
+        else
+          filename = "app/assets/pdf_folder/wind_rose_#{current_user.id}.png"
+        end
+        begin
+          File.open(filename, 'wb') do |f|
+            f.write(image)
+          end
+        rescue Errno::ENOENT => e
+          render json: {error: "Caught the exception: #{e}"}
+        end
+        render json: {saved_at: Time.now.to_s}
+        # return
+        # @city_name = params[:city_name]
+        # @year = params[:year]
+        # @matrix = [] # params[:matrix]
+    # respond_to do |format|
+    #   format.html
+    #   format.pdf do
+    #     pdf = WindRose.new(@matrix, "kjhk", '1111', current_user.id) #, params[:canvas_image])
+        # pdf = WindRose.new(@matrix, @city_name, @year, current_user.id) #, params[:canvas_image])
+        # pdf_filename = File.join(Rails.root, "app/assets/pdf_folder", "wind_rose_#{current_user.id}.pdf")
+        # pdf.render_file pdf_filename
+        # send_file pdf_filename, filename: "wind_rose_#{current_user.id}.pdf", type: "application/pdf", disposition: 'inline', x_sendfile: true
+        # send_data pdf.render, filename: "wind_rose_#{current_user.id}.pdf", type: "application/pdf", disposition: "inline", :force_download=>true, :page_size => "A4"
+      # end
+    # end
   end
   
   def observations_quantity

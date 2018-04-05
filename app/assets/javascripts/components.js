@@ -1,7 +1,7 @@
 require( 'babel-polyfill' ); 
-// require('react-datetime');
+// require('react-chartjs');
 
-
+global.WindRose = require( 'wind_rose' ).default;
 // global.TemperaturesShow = require( 'temperatures_show' ).default;
 // global.Tcx1Show = require( 'tcx1_show' ).default;
 // global.ChemForma1 = require( 'chem_forma1' ).default;
