@@ -152,6 +152,8 @@ class SynopticObservationsController < ApplicationController
       telegram.observed_at = params[:input_mode] == 'direct' ? Time.parse(date+' '+term+':01:00') : Time.now.utc
       telegram.date = date
       telegram.term = term.to_i
+      # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{telegram.inspect}")
+      # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{params.inspect}")
       if telegram.save
         last_telegrams = SynopticObservation.short_last_50_telegrams
         render json: {telegrams: last_telegrams, tlgType: 'synoptic', currDate: telegram.date, inputMode: params[:input_mode], errors: ["Телеграмма добавлена в базу"]}

@@ -1496,7 +1496,7 @@ function checkSynopticTelegram(term, tlg, errors, stations, observation){
     regex = state.group0.regex;
     if (regex.test(group) && ((tlg[23] == ' ') || (tlg[23] == '='))) {
       if ((+tlg[18]>=0) && (+tlg[18]<9))                                    // 20180405 по данным от Л.А.
-        if ((+tlg.substr(15,2)>93) && (+tlg.substr(15,2)<98)){ 
+        if ((+tlg.substr(15,2)>93) && (+tlg.substr(15,2)<99)){ 
         }else{
           errors.push("Дальность видимости не соответствует количеству облаков");
           return false;
