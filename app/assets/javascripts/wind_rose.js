@@ -1,4 +1,5 @@
-import {Radar} from 'react-chartjs-2';
+// import {Radar} from 'react-chartjs-2';
+const Radar = require('react-chartjs-2').Radar;
 
 const WindRoseTable = ({matrix}) => {
   let mns = ["Год","Январь",'','','','','', "Июль"];

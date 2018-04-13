@@ -149,7 +149,7 @@ class SynopticObservationsController < ApplicationController
       end
     else
       telegram = SynopticObservation.new(observation_params)
-      telegram.observed_at = params[:input_mode] == 'direct' ? Time.parse(date+' '+term+':01:00') : Time.now.utc
+      telegram.observed_at = params[:input_mode] == 'direct' ? Time.parse(date+' '+term+':01:00 UTC') : Time.now.utc # 20180413 added UTC
       telegram.date = date
       telegram.term = term.to_i
       # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{telegram.inspect}")

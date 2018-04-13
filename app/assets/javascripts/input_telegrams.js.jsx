@@ -552,9 +552,11 @@ function checkAgroTelegram(tlg, stations, errors, observation){
           return false;
         }
       if (tlg[currentPos] == '2') 
-        if (/^2\d{4}$/.test(tlg.substr(currentPos,5))){
-          observation.temperature_avg_soil_5 = tlg.substr(currentPos+1,2);
-          observation.temperature_avg_soil_10 = tlg.substr(currentPos+3,2);
+        if (/^2[0-9/]{4}$/.test(tlg.substr(currentPos,5))){ //20180412 возможны //// В.И.
+          if (tlg[currentPos+1] != '/')  
+            observation.temperature_avg_soil_5 = tlg.substr(currentPos+1,2);
+          if (tlg[currentPos+3] != '/')
+            observation.temperature_avg_soil_10 = tlg.substr(currentPos+3,2);
           currentPos += 6;
         } else {
           errors.push("Ошибка в группе 2 зоны 91 раздела 3");
@@ -796,8 +798,9 @@ function checkAgroTelegram(tlg, stations, errors, observation){
       return false;
     }
     if (tlg[currentPos] == '1')
-      if (/^1\d{3}[0-9/]$/.test(tlg.substr(currentPos,5))){
-        observation.sunshine_duration_dec = tlg.substr(currentPos+1,3);
+      if (/^1[0-9/]{4}$/.test(tlg.substr(currentPos,5))){ // 20180411 время солнечного сияния м.б. /// А.И.
+        if (tlg[currentPos+1] != '/')
+          observation.sunshine_duration_dec = tlg.substr(currentPos+1,3);
         if (tlg[currentPos+4] != '/')
           observation.freezing_dec_day_num = tlg[currentPos+4];
         currentPos += 6;

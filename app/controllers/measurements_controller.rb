@@ -113,6 +113,7 @@ class MeasurementsController < ApplicationController
   end
   
   def print_wind_rose
+    # Rails.logger.debug("My object>>>>>>>>>>>>>>>роза_ветров: #{params.inspect}")
     chart = params[:canvas_image].split(',')
     image = Base64.decode64(chart[1])
     if Rails.env.production?
@@ -121,12 +122,24 @@ class MeasurementsController < ApplicationController
       filename = "app/assets/pdf_folder/wind_rose_#{current_user.id}.png"
     end
     begin
-      File.open(filename, 'wb') do |f|
-        f.write(image)
-      end
-    rescue Errno::ENOENT => e
+      file = File.open(filename, 'wb')
+      file.write(image) 
+    rescue IOError => e
+      Rails.logger.debug("My object>>>>>>>>>>>>>>>роза_ветров: #{e.inspect}")
       render json: {error: "Caught the exception: #{e}"}
+    ensure
+      file.close unless file.nil?
     end
+    # begin
+    #   # file = File.new(filename, 'wb')
+    #   File.open(filename, 'wb') do |f|
+    #     f.write(image)
+    #   end
+    #   # file.close
+    # rescue Errno::ENOENT => e
+    #   Rails.logger.debug("My object>>>>>>>>>>>>>>>роза_ветров: #{e.inspect}")
+    #   render json: {error: "Caught the exception: #{e}"}
+    # end
     render json: {saved_at: Time.now.to_s}
   end
   

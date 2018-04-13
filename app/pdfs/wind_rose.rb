@@ -22,7 +22,13 @@ class WindRose < Prawn::Document
       # t.cells.border_width = 0
     end
     move_down 20
-    image "./app/assets/pdf_folder/wind_rose_#{user_id}.png", at: [-120, cursor], :scale => 0.7
+    if Rails.env.production?
+      image_name = "#{Rails.root}/public/images/wind_rose_#{user_id}.png"
+    else
+      image_name = "app/assets/pdf_folder/wind_rose_#{user_id}.png"
+    end
+    # image "./app/assets/pdf_folder/wind_rose_#{user_id}.png", at: [-120, cursor], :scale => 0.7
+    image image_name, at: [-120, cursor], :scale => 0.7
   end
   def winddata
     table = []
