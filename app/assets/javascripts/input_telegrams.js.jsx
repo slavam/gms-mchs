@@ -865,14 +865,17 @@ function checkAgroTelegram(tlg, stations, errors, observation){
             return code = false;
           }
         let zonePos = t.search(/ 9/);
+        zonePos = zonePos > 0 ? zonePos : t.length;
         if(pos < zonePos){ // zone92
           // let zone92 = t.substr(pos, zonePos-pos);
           let j = 1;
           while ((0<t.indexOf(' 2', pos-1)) &&(t.indexOf(' 2', pos-1)<zonePos)){
             if((j<6) && (/^2\d{2}[0-9/][0-5/]$/.test(t.substr(pos,5)))){ // 2018.03.01 mwm assessment_condition => /
               state_crops["development_phase_"+j] = t.substr(pos+1,2);
-              state_crops["day_phase_"+j] = t[pos+3];
-              state_crops["assessment_condition_"+j] = t[pos+4];
+              if(t[pos+3] != '/')
+                state_crops["day_phase_"+j] = t[pos+3];
+              if(t[pos+4] != '/')
+                state_crops["assessment_condition_"+j] = t[pos+4];
               j += 1;
               pos += 6;
             }else {
@@ -1162,7 +1165,7 @@ function checkAgroTelegram(tlg, stations, errors, observation){
           }
         }
         if (pos < t.length){
-          errors.push("Ошибка в зоне 92["+(i+1)+"] раздела 2 pos=>"+pos+"; length=>"+t.length+"t=>"+t);
+          errors.push("Ошибка в зоне 92["+(i+1)+"] раздела 2 pos=>"+pos+"; length=>"+t.length+" t=>"+t);
           code = false;
         } else{
           observation.state_crops.push(state_crops);
