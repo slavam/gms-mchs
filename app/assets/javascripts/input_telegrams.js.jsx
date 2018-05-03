@@ -16,7 +16,7 @@ class NewTelegramForm extends React.Component{
   handleSubmit(e) {
     e.preventDefault();
     var term = this.state.tlgTerm;
-    var text = this.state.tlgText.replace(/\s+/g, ' '); // one space only
+    var text = this.state.tlgText.replace(/\s+/g, ' ').trim(); // one space only
     var date = this.state.currDate;
     var errors = [];
     
@@ -794,7 +794,7 @@ function checkAgroTelegram(tlg, stations, errors, observation){
       observation.temperature_dec_max_soil = sign[tlg[currentPos+2]]+tlg.substr(currentPos+3,2);
       currentPos += 6;
     } else {
-      errors.push("Ошибка в разделе 1 зона 91");
+      errors.push("Ошибка в разделе 1 зона 91 g=>"+tlg.substr(currentPos,5));
       return false;
     }
     if (tlg[currentPos] == '1')
@@ -865,7 +865,7 @@ function checkAgroTelegram(tlg, stations, errors, observation){
             return code = false;
           }
         let zonePos = t.search(/ 9/);
-        zonePos = zonePos > 0 ? zonePos : t.length;
+        zonePos = zonePos > 0 ? zonePos : t.length-1;
         if(pos < zonePos){ // zone92
           // let zone92 = t.substr(pos, zonePos-pos);
           let j = 1;
@@ -884,9 +884,11 @@ function checkAgroTelegram(tlg, stations, errors, observation){
             }
           }
           if (t[pos] == '3')
-            if (/^3[0-4]\d{3}$/.test(t.substr(pos,5))){
-              state_crops.clogging_weeds = t[pos+1];
-              state_crops.height_plants = t.substr(pos+2,3);
+            if (/^3[0-4/][0-9/]{3}$/.test(t.substr(pos,5))){ // 20180503 mwm add ////
+              if (t[pos+1] != '/')
+                state_crops.clogging_weeds = t[pos+1];
+              if (t[pos+2] != '/')
+                state_crops.height_plants = t.substr(pos+2,3);
               pos += 6;
             }else{
               errors.push("Ошибка в группе 3 зоны 92["+(i+1)+"] раздела 2");
