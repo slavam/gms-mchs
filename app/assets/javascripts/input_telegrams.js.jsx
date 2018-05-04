@@ -16,7 +16,8 @@ class NewTelegramForm extends React.Component{
   handleSubmit(e) {
     e.preventDefault();
     var term = this.state.tlgTerm;
-    var text = this.state.tlgText.replace(/\s+/g, ' ').trim(); // one space only
+    var text = this.state.tlgText.replace(/\s+/g, ' '); // one space only
+    text = text.trim();
     var date = this.state.currDate;
     var errors = [];
     
@@ -590,7 +591,7 @@ function checkAgroTelegram(tlg, stations, errors, observation){
       currentPos = end92pos;
       let zone = tlg.substr(zone92pos,end92pos-zone92pos).split('92');
       zone.splice(0,1);
-      let state_crops;
+      var state_crops;
       observation.state_crops = [];
       let code = true;
       zone.forEach((t, i) => {
@@ -846,9 +847,9 @@ function checkAgroTelegram(tlg, stations, errors, observation){
       currentPos += 4;
       
     if (/^92\d{3}$/.test(tlg.substr(currentPos,5))){
-      let zone = tlg.substr(currentPos).split('92');
+      let zone = tlg.substr(currentPos-1).split(' 92');
       zone.splice(0,1);
-      let state_crops;
+      // let state_crops;
       observation.state_crops = [];
       let code = true;
       zone.forEach((t, i) => {
@@ -918,7 +919,7 @@ function checkAgroTelegram(tlg, stations, errors, observation){
               j += 1;
               pos += 6;
             }else {
-              errors.push("Ошибка в группе 6["+j+"] зоны 92["+(i+1)+"] раздела 2");
+              errors.push("Ошибка в группе 6["+j+"] зоны 92["+(i+1)+"] раздела 2 g=>"+t.substr(pos,5)+" t=>"+t+" pos=>"+pos);
               return code = false;
             }
           }
@@ -991,9 +992,11 @@ function checkAgroTelegram(tlg, stations, errors, observation){
               return code = false;
             }
           if (t[pos] == '5')
-            if (/^5\d{4}$/.test(t.substr(pos,5))){
-              state_crops.bushiness = t.substr(pos+1,2);
-              state_crops.shoots_inflorescences = t.substr(pos+3,2);
+            if (/^5[0-9/]{4}$/.test(t.substr(pos,5))){ // 20180504 mwm add ////
+              if(t[pos+1] != '/')
+                state_crops.bushiness = t.substr(pos+1,2);
+              if(t[pos+3] != '/')
+                state_crops.shoots_inflorescences = t.substr(pos+3,2);
               pos += 6;
             }else {
               errors.push("Ошибка в группе 5 зоны 92["+(i+1)+"]-93 раздела 2");
@@ -1170,8 +1173,8 @@ function checkAgroTelegram(tlg, stations, errors, observation){
           errors.push("Ошибка в зоне 92["+(i+1)+"] раздела 2 pos=>"+pos+"; length=>"+t.length+" t=>"+t);
           code = false;
         } else{
+          currentPos += t.length+(i<zone.length-1 ? 3:2);
           observation.state_crops.push(state_crops);
-          currentPos += t.length+2;
         }
       });
       if (!code)
