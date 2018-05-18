@@ -59,15 +59,28 @@ class Forma2Params extends React.Component{
     var defaultId = this.props.regionType == 'post' ? 5 : 1;
     return (
       <form className="paramsForm" onSubmit={this.handleSubmit}>
-        <ChemOptionSelect options={this.props.posts} onUserInput={this.handleOptionSelected} name="selectPost" key="selectPost" defaultValue = {defaultId}/>
-        <input type="date" 
-          name="dateFrom"
-          value={this.state.dateFrom}
-          onChange={this.dateFromChange} />
-        <input type="date" 
-          name="dateTo"
-          value={this.state.dateTo}
-          onChange={this.dateToChange} />
+        <table className= "table table-hover">
+          <thead>
+            <tr>
+              <th>Место</th>
+              <th>Начальная дата</th>
+              <th>Конечная дата</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <ChemOptionSelect options={this.props.posts} onUserInput={this.handleOptionSelected} name="selectPost" key="selectPost" defaultValue = {defaultId}/>
+              </td>
+              <td>
+                <input type="date" name="dateFrom" value={this.state.dateFrom} onChange={this.dateFromChange} />
+              </td>
+              <td>
+                <input type="date" name="dateTo" value={this.state.dateTo} onChange={this.dateToChange} />
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <input type="submit" value="Пересчитать" />
       </form>
     );
@@ -163,11 +176,8 @@ class ChemForma2 extends React.Component{
   render(){
     return(
       <div>
-        Период с {this.state.dateFrom} по {this.state.dateTo}
-        <br/>
-        Тип региона {this.state.regionType}
-        <br/>
-        {this.state.scopeName}
+        <h4>Период с {this.state.dateFrom} по {this.state.dateTo} {this.state.scopeName}</h4>
+        <h3>Задайте параметры расчета</h3>
         <Forma2Params onParamsSubmit={this.handleParamsSubmit} dateFrom={this.state.dateFrom} dateTo={this.state.dateTo} posts={this.props.posts} regionType={this.props.regionType} placeId={this.props.placeId}/>
         <Forma2Table pollutions={this.state.pollutions} />
         <br />

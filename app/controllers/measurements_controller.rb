@@ -22,6 +22,94 @@ class MeasurementsController < ApplicationController
     @posts = Post.actual.order(:id) 
   end
 
+  # def wind_rose_2
+  #   @year = params[:year].present? ? params[:year] : Time.now.year.to_s
+  #   @city_id = params[:city_id].present? ? params[:city_id].to_i : 1
+  #   @cities = City.all.order(:id)
+  #   @city_name = City.find(@city_id).name
+  #   sql ="select date, wind_speed, wind_direction from measurements m join posts p on p.id = m.post_id and p.city_id = #{@city_id} where date like '#{@year}%' order by date;"
+  #   observations = Measurement.find_by_sql(sql)
+  #   total = observations.size
+  #   total_wind = 0
+  #   total_1 = 0
+  #   total_7 = 0
+  #   total_wind_1 = 0
+  #   total_wind_7 = 0
+  #   direct_by_month = Hash.new 0
+  #   observations.each do |o| 
+  #     month = o.date.month
+  #     if (o.wind_direction == 0) and (o.wind_speed == 0) # calm
+  #       direct_by_month[[0,8]] += 1 # calm by year
+  #       if [1,7].include? month #calm by month
+  #         direct_by_month[[month,8]] += 1 
+  #         if month == 1
+  #           total_1 += 1
+  #         else
+  #           total_7 += 1
+  #         end
+  #       end
+  #     else
+  #       total_wind += 1 # case with wind
+  #       if [1,7].include? month # wind by month
+  #         direction = get_wind_direction(o.wind_direction)
+  #         direct_by_month[[month, direction]] += 1
+  #         direct_by_month[[0, direction]] += 1
+  #         if month == 1
+  #           total_1 += 1
+  #           total_wind_1 += 1
+  #         else
+  #           total_7 += 1
+  #           total_wind_7 += 1
+  #         end
+  #       end
+  #     end
+  #   end
+  #   @matrix = Hash.new(0)
+  #   @max_value = 0
+  #   (0..8).each do |d|
+  #     if direct_by_month.key?([0,d])
+  #       @matrix[[0,d]] = direct_by_month[[0,d]]*100.0/(d == 8 ? total : total_wind)  
+  #     else
+  #       @matrix[[0,d]] = 0
+  #     end
+  #     @max_value = @matrix[[0,d]] if @matrix[[0,d]] > @max_value
+  #     if wind_by_month.key?([1,d])
+  #       @matrix[[1,d]] = wind_by_month[[1,d]]*100.0/(d == 8 ? wind_01 : total_01) 
+  #     else
+  #       @matrix[[1,d]] = 0
+  #     end
+  #     @max_value = @matrix[[1,d]] if @matrix[[1,d]] > @max_value
+  #     if wind_by_month.key?([7,d])
+  #       @matrix[[7,d]] = wind_by_month[[7,d]]*100.0/(d == 8 ? wind_07 : total_07) 
+  #     else
+  #       @matrix[[7,d]] = 0
+  #     end
+  #     @max_value = @matrix[[7,d]] if @matrix[[7,d]] > @max_value
+  #   end
+
+  # end
+  
+  def get_wind_direction(direction)
+    case direction
+      when 4..7 # NE
+        return 1
+      when 8..12 # E
+        return 2
+      when 13..16 # SE
+        return 3
+      when 17..21 # S
+        return 4
+      when 22..25 # SW
+        return 5
+      when 26..30 # W
+        return 6
+      when 31..34 # NW
+        return 7
+      else # N
+        return 0
+    end
+  end
+  
   def wind_rose
     @year = params[:year].present? ? params[:year] : Time.now.year.to_s
     @city_id = params[:city_id].present? ? params[:city_id].to_i : 1
@@ -30,7 +118,7 @@ class MeasurementsController < ApplicationController
     sql ="select date, wind_speed, wind_direction from measurements m join posts p on p.id = m.post_id and p.city_id = #{@city_id} where date like '#{@year}%' order by date;"
     observations = Measurement.find_by_sql(sql)
     wind_by_month = Hash.new 0
-    total = 0
+    total = observations.size
     only_wind_total = 0
     total_01 = 0
     total_07 = 0
@@ -38,7 +126,7 @@ class MeasurementsController < ApplicationController
     wind_07 = 0
     observations.each do |o| 
       month = o.date.month
-      total += 1
+      # total += 1
       total_01 += 1 if month == 1
       total_07 += 1 if month == 7
       if (o.wind_direction == 0) and (o.wind_speed == 0)
@@ -49,28 +137,28 @@ class MeasurementsController < ApplicationController
         wind_01 += 1 if month == 1
         wind_07 += 1 if month == 7
         case o.wind_direction
-          when 4..7 
+          when 4..7 # NE
             wind_by_month[[month, 1]] += 1
             wind_by_month[[0, 1]] += 1
-          when 8..12 
+          when 8..12 # E
             wind_by_month[[month, 2]] += 1
             wind_by_month[[0, 2]] += 1
-          when 13..16
+          when 13..16 # SE
             wind_by_month[[month, 3]] += 1
             wind_by_month[[0, 3]] += 1
-          when 17..21 
+          when 17..21 # S
             wind_by_month[[month, 4]] += 1
             wind_by_month[[0, 4]] += 1
-          when 22..25 
+          when 22..25 # SW
             wind_by_month[[month, 5]] += 1
             wind_by_month[[0, 5]] += 1
-          when 26..30 
+          when 26..30 # W
             wind_by_month[[month, 6]] += 1
             wind_by_month[[0, 6]] += 1
-          when 31..34 
+          when 31..34 # NW
             wind_by_month[[month, 7]] += 1
             wind_by_month[[0, 7]] += 1
-          else
+          else # N
             wind_by_month[[month, 0]] += 1
             wind_by_month[[0, 0]] += 1
         end
@@ -78,27 +166,30 @@ class MeasurementsController < ApplicationController
     end
     # Rails.logger.debug("My object>>>>>>>>>>>>>>>роза_ветров: #{wind_by_month.inspect} , total-> #{total}, wind_total=>#{only_wind_total} ") 
     @matrix = Hash.new(0)
-    @max_value = 0
+    # @max_year = 0
+    # @max_jan = 0
+    @max_jul = 0
     (0..8).each do |d|
       if wind_by_month.key?([0,d])
-        @matrix[[0,d]] = wind_by_month[[0,d]]*100.0/(d == 8 ? only_wind_total : total)  
+        @matrix[[0,d]] = wind_by_month[[0,d]]*100.0/(d == 8 ? total : only_wind_total)  
       else
         @matrix[[0,d]] = 0
       end
-      @max_value = @matrix[[0,d]] if @matrix[[0,d]] > @max_value
+      # @max_year = @matrix[[0,d]] if @matrix[[0,d]] > @max_year
       if wind_by_month.key?([1,d])
-        @matrix[[1,d]] = wind_by_month[[1,d]]*100.0/(d == 8 ? wind_01 : total_01) 
+        @matrix[[1,d]] = wind_by_month[[1,d]]*100.0/(d == 8 ? total_01 : wind_01) 
       else
         @matrix[[1,d]] = 0
       end
-      @max_value = @matrix[[1,d]] if @matrix[[1,d]] > @max_value
+      # @max_jan = @matrix[[1,d]] if @matrix[[1,d]] > @max_jan
       if wind_by_month.key?([7,d])
-        @matrix[[7,d]] = wind_by_month[[7,d]]*100.0/(d == 8 ? wind_07 : total_07) 
+        @matrix[[7,d]] = wind_by_month[[7,d]]*100.0/(d == 8 ? total_07 : wind_07) 
       else
         @matrix[[7,d]] = 0
       end
-      @max_value = @matrix[[7,d]] if @matrix[[7,d]] > @max_value
+      @max_jul = @matrix[[7,d]] if @matrix[[7,d]] > @max_jul
     end
+    # @duble = wind_by_month
     
     respond_to do |format|
       format.html
@@ -238,8 +329,8 @@ class MeasurementsController < ApplicationController
   end
   
   def chem_forma2
-    @date_from = '2016-02-01' # Time.now.strftime("%Y-%m-01")
-    @date_to = '2016-02-29' # Time.now.strftime("%Y-%m-%d")
+    @date_from = Time.now.strftime("%Y-%m-01") # '2016-02-01' # 
+    @date_to = Time.now.strftime("%Y-%m-%d")
     @region_type = params[:region_type] #'post' # total, city
     @place_id = params[:place_id]
     @scope_name = get_place_name(params[:region_type], params[:place_id])
@@ -371,7 +462,6 @@ class MeasurementsController < ApplicationController
   
   def create_or_update
     measurement = Measurement.where("date = ? AND term = ? AND post_id = ?", params[:measurement][:date], params[:measurement][:term].to_i, params[:measurement][:post_id].to_i).first
-# Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{measurement.inspect}")
     if measurement.nil?
       measurement = Measurement.new(measurement_params)
       measurement.rhumb = wind_direction_to_rhumb(measurement.wind_direction)
@@ -443,15 +533,15 @@ class MeasurementsController < ApplicationController
     end
 
     def get_matrix_data(year, month, post_id)
-# 2018-02-20 from Gorlovka
-# 1 Пыль – 0,087 
-# 2 Диоксид серы – 0
-# 4 Углерода оксид 0
-# 5 Диоксид азота – 0,0067
-# 8 Сероводород - 0,0010
-# 10 Фенол – 0,0010
-# 19 Аммиак – 0,0033
-# 22 Формальдегид – 0,0033
+      # 2018-02-20 from Gorlovka
+      # 1 Пыль – 0,087 
+      # 2 Диоксид серы – 0
+      # 4 Углерода оксид 0
+      # 5 Диоксид азота – 0,0067
+      # 8 Сероводород - 0,0010
+      # 10 Фенол – 0,0010
+      # 19 Аммиак – 0,0033
+      # 22 Формальдегид – 0,0033
       limits = {1 => 0.087, 2 => 0, 3 => 1, 4 => 0, 5 => 0.0067, 6 => 0, 8 => 0.001, 10 => 0.001, 19 => 0.0033, 22 => 0.0033}
       matrix = {}
       post = Post.find(post_id)
@@ -674,7 +764,6 @@ class MeasurementsController < ApplicationController
       t_kelvin = measurement.temperature + 273.0
       pressure = measurement.atmosphere_pressure / 1.334 # гигапаскали -> мм. рт. ст
       if material_id == 1 # пыль
-        # return optical_density/v_normal*1000 # м куб -> дм куб
         v_normal = pressure/t_kelvin*0.359*post.sample_volume_dust
         return optical_density/v_normal*1000 # м куб -> дм куб
       end

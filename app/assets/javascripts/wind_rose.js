@@ -74,7 +74,7 @@ class WindRose extends React.Component{
       year: this.props.year,
       cityName: this.props.cityName,
       cityId: this.props.cityId,
-      maxValue: this.props.maxValue
+      maxJul: this.props.maxJul
     };
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     // this.printHandle = this.printHandle.bind(this);
@@ -93,8 +93,21 @@ class WindRose extends React.Component{
       }); 
   }
   printHandle(e){
-    let canvas = document.querySelector('canvas');
-	  let canvasImg = canvas.toDataURL("image/png");
+    let canvases = document.querySelectorAll('canvas');
+    let bigCanvas = document.createElement('canvas');
+    bigCanvas.id = "CursorLayer";
+    bigCanvas.width = canvases[0].width*3;
+    bigCanvas.height = canvases[0].height;
+    bigCanvas.style.zIndex = 8;
+    let body = document.getElementsByTagName("body")[0];
+    body.appendChild(bigCanvas);
+    let destCtx = bigCanvas.getContext('2d');
+    let i = 0;
+    [].forEach.call(canvases, (canvas) => {
+      destCtx.drawImage(canvas, canvas.width*i, 0);
+      i += 1;
+    });
+	  let canvasImg = bigCanvas.toDataURL("image/png");
 	  $.ajax({
       type: 'POST',
       dataType: 'json',
@@ -126,7 +139,7 @@ class WindRose extends React.Component{
       index = '[7, '+i+']';
       july_data.push(Math.round(this.state.matrix[index]));
     }
-    const data = {
+    const dataYear = {
       labels: ['С', 'СВ', 'В', 'ЮВ', 'Ю', 'ЮЗ', 'З', 'СЗ'],
       datasets: [
         {
@@ -138,7 +151,12 @@ class WindRose extends React.Component{
           pointHoverBackgroundColor: '#fff',
           pointHoverBorderColor: 'rgba(179,181,198,1)',
           data: year_data
-        },
+        }
+      ]
+    };
+    const dataJan = {
+      labels: ['С', 'СВ', 'В', 'ЮВ', 'Ю', 'ЮЗ', 'З', 'СЗ'],
+      datasets: [
         {
           label: 'Январь',
           backgroundColor: 'rgba(55,99,232,0.2)',
@@ -149,6 +167,11 @@ class WindRose extends React.Component{
           pointHoverBorderColor: 'rgba(255,99,132,1)',
           data: january_data 
         },
+      ]
+    };
+    const dataJul = {
+      labels: ['С', 'СВ', 'В', 'ЮВ', 'Ю', 'ЮЗ', 'З', 'СЗ'],
+      datasets: [
         {
           label: 'Июль',
           backgroundColor: 'rgba(255,199,32,0.2)',
@@ -162,7 +185,35 @@ class WindRose extends React.Component{
       ]
     };
     let desiredLink = "/measurements/wind_rose.pdf?year="+this.state.year+"&city_id="+this.state.cityId; 
-    let radar = this.state.maxValue > 0 ? <div><Radar data={data} width={500}/><br/><button type="button" id="download-pdf" onClick={(event) => this.printHandle(event)}>Сохранить график</button><br/><a href={desiredLink}>Печать. Сначала сохраните график, пожалуйста</a></div> : '';
+    let options = {maintainAspectRatio: false, 
+              scale: {
+                  ticks : {
+                    suggestedMin: 0,
+                    // suggestedMax: 100
+                  }
+              }};
+    let radar = 
+    <div>
+      <table className="table table-hover">
+        <thead>
+          <tr>
+            <th width="33%"></th>
+            <th width="33%"></th>
+            <th width="33%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><Radar data={dataYear} height={280} options={options}/></td>
+            <td><Radar data={dataJan} height={280} options={options}/></td> 
+            <td>{this.state.maxJul > 0 ? <Radar data={dataJul} height={280} options={options}/> : ''}</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <button type="button" id="download-pdf" onClick={(event) => this.printHandle(event)}>Сохранить график</button><br/>
+      <a href={desiredLink}>Печать. Сначала сохраните график, пожалуйста</a>
+    </div>;
     return(
       <div>
         <h1>Повторяемость штилей и направлений ветра по городу {this.state.cityName} по данным наблюдений репрезентативной метеорологической станции за {this.state.year} год</h1>

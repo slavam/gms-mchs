@@ -64,16 +64,24 @@ class Forma1Params extends React.Component{
     var yearMonth = this.state.year+'-'+this.state.month;
     return (
       <form className="paramsForm" onSubmit={this.handleSubmit}>
-        <ChemOptionSelect options={this.props.posts} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" defaultValue = {this.state.siteIndex}/>
-        <input type="month" value={yearMonth} min="2000-01" max="2020-01" onChange={this.dateChange}/>
-        {/*<Datetime 
-          locale="ru" 
-          timeFormat={false} 
-          dateFormat="YYYY-MM" 
-          closeOnSelect={true} 
-          onChange={this.onChange}
-        />
-*/}
+        <table className= "table table-hover">
+          <thead>
+            <tr>
+              <th>Пост</th>
+              <th>Период</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <ChemOptionSelect options={this.props.posts} onUserInput={this.handleOptionSelected} name="selectStation" key="selectStation" defaultValue = {this.state.siteIndex}/>
+              </td>
+              <td>
+                <input type="month" value={yearMonth} min="2000-01" max="2020-01" onChange={this.dateChange}/>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <input type="submit" value="Пересчитать" />
       </form>
     );
@@ -202,11 +210,8 @@ class ChemForma1Tza extends React.Component{
   render(){
     return(
       <div>
-        Год {this.state.year} Месяц {this.state.month}
-        <br/>
-        {this.state.site_description}
-        <br/>
-        Количество примесей {this.state.substance_num}
+        <h4>Год {this.state.year} Месяц {this.state.month} Количество примесей {this.state.substance_num} {this.state.site_description} </h4>
+        <h3>Задайте параметры расчета</h3>
         <Forma1Params posts={this.props.posts} onParamsSubmit={this.handleParamsSubmit} year={this.state.year} month={this.state.month} postId={this.props.postId}/>
         <Forma1Table pollutions={this.state.pollutions} titles={this.state.titles} measure_num={this.state.measure_num} max_values={this.state.max_values} avg_values={this.state.avg_values}/>
         <br />

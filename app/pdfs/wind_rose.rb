@@ -28,7 +28,7 @@ class WindRose < Prawn::Document
       image_name = "app/assets/pdf_folder/wind_rose_#{user_id}.png"
     end
     # image "./app/assets/pdf_folder/wind_rose_#{user_id}.png", at: [-120, cursor], :scale => 0.7
-    image image_name, at: [-120, cursor], :scale => 0.7
+    image image_name, at: [0, cursor], :scale => 0.5
   end
   def winddata
     table = []

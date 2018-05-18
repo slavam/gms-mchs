@@ -457,7 +457,6 @@ function checkAgroTelegram(tlg, stations, errors, observation){
       return false;
     }
     if (/^90[01]\d{2}$/.test(tlg.substr(22,5))){
-      // sign = tlg[24] == '0' ? '' : '-';
       observation.temperature_max_12 = sign[tlg[24]]+tlg.substr(25,2);
     } else {
       errors.push("Ошибка в разделе 3 зона 90");
@@ -471,7 +470,6 @@ function checkAgroTelegram(tlg, stations, errors, observation){
     // }
     if (tlg[currentPos] == '1') 
       if (/^1[01]\d{3}$/.test(tlg.substr(currentPos,5))){
-        // sign = tlg[currentPos+1] == '0' ? '' : '-';
         observation.temperature_avg_24 = sign[tlg[currentPos+1]]+tlg.substr(currentPos+2,2)+'.'+tlg[currentPos+4];
         currentPos += 6;
       }else{
@@ -480,7 +478,6 @@ function checkAgroTelegram(tlg, stations, errors, observation){
       }
     if (tlg[currentPos] == '3') 
       if (/^3[01]\d{2}\/$/.test(tlg.substr(currentPos,5))){
-        // sign = tlg[currentPos+1] == '0' ? '' : '-';
         observation.temperature_min_24 = sign[tlg[currentPos+1]]+tlg.substr(currentPos+2,2);
         currentPos += 6;
       }else{
@@ -489,7 +486,6 @@ function checkAgroTelegram(tlg, stations, errors, observation){
       }
     if (tlg[currentPos] == '4') 
       if (/^4[01]\d{2}\/$/.test(tlg.substr(currentPos,5))){
-        // sign = tlg[currentPos+1] == '0' ? '' : '-';
         observation.temperature_min_soil_24 = sign[tlg[currentPos+1]]+tlg.substr(currentPos+2,2);
         currentPos += 6;
       }else{
@@ -683,7 +679,6 @@ function checkAgroTelegram(tlg, stations, errors, observation){
         if (t[pos] == '5')
           if( (/^5[1-7][01]\d{2}$/.test(t.substr(pos,5)))){
             damage_crops.thermometer_index = t[pos+1];
-            // sign = t[pos+2] == '0' ? '' : '-';
             damage_crops.temperature_dec_min_soil3 = sign[t[pos+2]]+t.substr(pos+3,2);
             pos += 6;
           }else {
@@ -715,7 +710,6 @@ function checkAgroTelegram(tlg, stations, errors, observation){
       return false;
     }
     if (/^90[01]\d{2}$/.test(tlg.substr(22,5))){
-      // sign = tlg[24] == '0' ? '' : '-';
       observation.temperature_dec_avg_delta = sign[tlg[24]]+tlg.substr(25,2);
     } else {
       errors.push("Ошибка в разделе 1 зона 90");
@@ -724,7 +718,6 @@ function checkAgroTelegram(tlg, stations, errors, observation){
     currentPos = 28;
     if (tlg[currentPos] == '1') 
       if (/^1[01]\d{3}$/.test(tlg.substr(currentPos,5))){
-        // sign = tlg[currentPos+1] == '0' ? '' : '-';
         observation.temperature_dec_avg = sign[tlg[currentPos+1]]+tlg.substr(currentPos+2,2)+'.'+tlg[currentPos+4];
         currentPos += 6;
       }else{
@@ -1553,16 +1546,16 @@ function checkSynopticTelegram(term, tlg, errors, stations, observation){
                     observation.soil_surface_condition_2 = section[1];
                 }
                 if (section[2] != '/') {
-                  sign = section[2] == '0' ? '' : '-';
+                  // sign = section[2] == '0' ? '' : '-';
                   if (section[0] == '1') 
-                    observation.temperature_soil = sign+section.substr(3,2);
+                    observation.temperature_soil = sign[section[2]]+section.substr(3,2);
                   else 
-                    observation.temperature_soil_min = sign+section[3]+'.'+section[4];
+                    observation.temperature_soil_min = sign[section[2]]+section[3]+'.'+section[4];
                 }
                 break;
               case '5':
-                sign = section[2] == '0' ? '' : '-';
-                observation.temperature_2cm_min = sign+section.substr(3,2);
+                // sign = section[2] == '0' ? '' : '-';
+                observation.temperature_2cm_min = sign[section[2]]+section.substr(3,2);
                 break;
               case '6':
                 observation.precipitation_2 = section.substr(1,3);
@@ -1611,8 +1604,8 @@ function checkSynopticTelegram(term, tlg, errors, stations, observation){
             switch(section[0]) {
               case '1':
               case '2':
-                sign = section[1] == '0' ? '' : '-';
-                val = sign+section.substr(2,2)+'.'+section[4];
+                // sign = section[1] == '0' ? '' : '-';
+                val = sign[section[1]]+section.substr(2,2)+'.'+section[4];
                 if (section[0] == '1')
                   observation.temperature_dey_max = val;
                 else
@@ -1726,7 +1719,7 @@ function checkSynopticTelegram(term, tlg, errors, stations, observation){
         }
         section = section.substr(6).trim();
       } else {
-        errors.push("Ошибка в разделе 1");
+        errors.push("Ошибка в разделе 1 => "+section);
         return false;
       }
     }

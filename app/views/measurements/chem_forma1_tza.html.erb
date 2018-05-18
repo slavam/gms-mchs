@@ -3,7 +3,6 @@
 <div class="container">
   <h3>Форма 1</h3>
   <h1>Таблица наблюдений за загрязнением атмосферы</h1>
-  <br>
   <div id="content">
     <%= react_component 'ChemForma1Tza', { year: @year, month: @month, posts: @posts, substance_num: @matrix[:substance_num], site_description: @matrix[:site_description], pollutions: @matrix[:pollutions], titles: @matrix[:substance_names], measure_num: @matrix[:measure_num], max_values: @matrix[:max_values], avg_values: @matrix[:avg_values], postId: @post_id} %>
   </div>
