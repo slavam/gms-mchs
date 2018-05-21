@@ -689,8 +689,22 @@ class MeasurementsController < ApplicationController
       row[18] = v[:max_conc]
       return row
     end
+    
+    def get_digits(n)
+      ndigits = []
+      ndigits[1] = 2
+      ndigits[2] = 3
+      ndigits[4] = 0
+      ndigits[5] = 2
+      ndigits[6] = 2
+      ndigits[10] = 3
+      ndigits[19] = 2
+      ndigits[22] = 3
+      return ndigits[n] || 2
+    end
 
     def get_data_forma2(date_from, date_to, region_type, place_id) # post_id, city_id)
+      
       case region_type
         when 'total'
           pollutions = Pollution.where("date >= ? AND date <= ?", date_from, date_to)
@@ -708,13 +722,13 @@ class MeasurementsController < ApplicationController
           concentrations[p.material_id] = {values: []}
           by_materials[p.material_id] = {max_concentration: {value: 0, post_id: 0, date: nil, term: nil}, size: 0, mean: 0, standard_deviation: 0, variance: 0, pollution_index: 0.0, material_name: p.material.name, hazard_index: p.material.klop.to_i, pdk_avg: p.material.pdksr, pdk_max: p.material.pdkmax, lt_1pdk: 0, lt_5pdk: 0, lt_10pdk: 0, percent1: 0.0, percent5: 0.0, percent10: 0.0, avg_conc: 0.0, max_conc: 0.0}
         end
-        concentrations[p.material_id][:values] << (p.concentration.present? ? p.concentration : p.value)
-        value = (p.concentration.present? ? p.concentration : p.value)
+        concentrations[p.material_id][:values] << (p.concentration.present? ? p.concentration : p.value).round(get_digits(p.material_id))
+        value = (p.concentration.present? ? p.concentration : p.value).round(get_digits(p.material_id))
         by_materials[p.material_id][:lt_1pdk] += 1 if value > by_materials[p.material_id][:pdk_max]
         by_materials[p.material_id][:lt_5pdk] += 1 if value > by_materials[p.material_id][:pdk_max]*5
         by_materials[p.material_id][:lt_10pdk] += 1 if value > by_materials[p.material_id][:pdk_max]*10
-        if by_materials[p.material_id][:max_concentration][:value] < (p.concentration.present? ? p.concentration : p.value)
-          by_materials[p.material_id][:max_concentration][:value] = (p.concentration.present? ? p.concentration.round(4) : p.value.round(4))
+        if by_materials[p.material_id][:max_concentration][:value] < (p.concentration.present? ? p.concentration : p.value).round(get_digits(p.material_id))
+          by_materials[p.material_id][:max_concentration][:value] = (p.concentration.present? ? p.concentration : p.value).round(get_digits(p.material_id))
           by_materials[p.material_id][:max_concentration][:post_id] = p.short_name #p.post_id
           by_materials[p.material_id][:max_concentration][:date] = p.date
           by_materials[p.material_id][:max_concentration][:term] = p.term
@@ -723,7 +737,7 @@ class MeasurementsController < ApplicationController
       # Rails.logger.debug("concentrations =>: #{concentrations.inspect}; ")
       material_ids.each do |m|
         by_materials[m][:size] = concentrations[m][:values].size
-        by_materials[m][:mean] = concentrations[m][:values].mean.round(4)
+        by_materials[m][:mean] = concentrations[m][:values].mean.round(get_digits(m))
         by_materials[m][:standard_deviation] = concentrations[m][:values].standard_deviation.round(4)
         by_materials[m][:variance] = (by_materials[m][:standard_deviation]/by_materials[m][:mean]).round(4) if by_materials[m][:mean] > 0
         by_materials[m][:percent1] = (by_materials[m][:lt_1pdk]/by_materials[m][:size].to_f*100.0).round(2)

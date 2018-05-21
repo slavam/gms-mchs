@@ -833,11 +833,14 @@ function checkAgroTelegram(tlg, stations, errors, observation){
         errors.push("Ошибка в группе 4 зоны 91 раздела 1");
         return false;
       }
-    if (tlg.substr(currentPos-1,5) != ' 222 '){
-      errors.push("Ошибка в признаке раздела 2");
-      return false;
-    } else
-      currentPos += 4;
+    if ((tlg[currentPos-1] == '='))
+      return true;
+    else 
+      if (tlg.substr(currentPos-1,5) != ' 222 '){
+        errors.push("Ошибка в признаке раздела 2");
+        return false;
+      } else
+        currentPos += 4;
       
     if (/^92\d{3}$/.test(tlg.substr(currentPos,5))){
       let zone = tlg.substr(currentPos-1).split(' 92');
