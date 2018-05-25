@@ -924,22 +924,25 @@ function checkAgroTelegram(tlg, stations, errors, observation){
             if((j<6) && (/^7\d{3}[0-9/]$/.test(t.substr(pos,5)))){  // 20180303 mwm add /
               state_crops["damage_plants_"+j] = t.substr(pos+1,3);
               state_crops["day_damage_"+j] = t[pos+4];
-              j += 1;
               pos += 6;
             }else {
               errors.push("Ошибка в группе 7["+j+"] зоны 92["+(i+1)+"] раздела 2");
               return code = false;
             }
             if (t[pos] == '0')
-              if(/^0\d{4}$/.test(t.substr(pos,5))){
-                state_crops["damage_level_"+j] = t[pos+1];
-                state_crops["damage_volume_"+j] = t[pos+2];
-                state_crops["damage_space_"+j] = t.substr(pos+3,2);
+              if(/^0[0-9/]{4}$/.test(t.substr(pos,5))){ // mwm 20180521
+                if (t[pos+1] != '/')
+                  state_crops["damage_level_"+j] = t[pos+1];
+                if (t[pos+2] != '/')
+                  state_crops["damage_volume_"+j] = t[pos+2];
+                if (t[pos+3] != '/')
+                  state_crops["damage_space_"+j] = t.substr(pos+3,2);
                 pos += 6;
               }else {
                 errors.push("Ошибка в группе 0["+j+"] зоны 92["+(i+1)+"] раздела 2");
                 return code = false;
               }
+            j += 1;
           }
         }
         if (/ 93/.test(t.substr(pos-1,3))){ // zone 93

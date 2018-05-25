@@ -95,11 +95,21 @@ class OneMeasurement extends React.Component{
     };
   }
   render() {
+    let nDigits = [];
+    nDigits[1] = 2;
+    nDigits[2] = 3;
+    nDigits[4] = 0;
+    nDigits[5] = 2;
+    nDigits[6] = 2;
+    nDigits[10] = 3;
+    nDigits[19] = 2;
+    nDigits[22] = 3;
     var row = [];
     var td1 =  this.props.date.substr(8,2);
     var td2 = this.props.date.substr(11,2);
     this.props.pollution.forEach(function(p) {
-      row.push(<td>{p[1]}</td>);
+      // row.push(<td>{p[1]}</td>);
+      row.push(<td>{p[1] > '' ? Number(p[1]).toFixed(nDigits[p[0]] !== 'undefined'? nDigits[p[0]] : 2) : p[1]}</td>);
     });
     // Object.keys(this.props.pollution).forEach((k) => row.push(<td>{this.props.pollution[k]}</td>));
     return (

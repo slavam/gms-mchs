@@ -562,16 +562,16 @@ class MeasurementsController < ApplicationController
         substance_names[k] = s.name
         measure_num[k] = grouped_pollutions[k].size
         grouped_pollutions[k].each {|g_p|
-          value = (g_p.concentration.nil? ? g_p.value : g_p.concentration) #.round(4)
+          value = (g_p.concentration.nil? ? g_p.value : g_p.concentration)
           if value < limits[k]
             value = 0
-          else
-            value = k == 1 ? value.round(3) : value.round(4)
+          # else
+            # value = k == 1 ? value.round(3) : value.round(4)
           end
-          max_values[k] = value if value > max_values[k]
+          max_values[k] = value.round(get_digits(k)) if value > max_values[k]
           avg_values[k] += value
         }
-        avg_values[k] = (avg_values[k]/measure_num[k]).round(3) if measure_num[k] > 0
+        avg_values[k] = (avg_values[k]/measure_num[k]).round(get_digits(k)) if measure_num[k] > 0
       end
       matrix[:substance_names] = substance_names
       matrix[:measure_num] = measure_num
@@ -585,7 +585,7 @@ class MeasurementsController < ApplicationController
           a[s.material_id] = ''
         end
         g_p.each do |p| 
-          a[p.material_id] = (p.concentration.nil? ? p.value : p.concentration).round(4)
+          a[p.material_id] = (p.concentration.nil? ? p.value : p.concentration).round(get_digits(p.material_id))
         end
         pollutions[k] = a.to_a
       end
@@ -744,8 +744,8 @@ class MeasurementsController < ApplicationController
         by_materials[m][:percent5] = (by_materials[m][:lt_5pdk]/by_materials[m][:size].to_f*100.0).round(2)
         by_materials[m][:percent10] = (by_materials[m][:lt_10pdk]/by_materials[m][:size].to_f*100.0).round(2)
         by_materials[m][:pollution_index] = ((by_materials[m][:mean]/by_materials[m][:pdk_avg])**HAZARD_CLASS[by_materials[m][:hazard_index]]).round(4)
-        by_materials[m][:avg_conc] = (by_materials[m][:mean]/by_materials[m][:pdk_avg]).round(4)
-        by_materials[m][:max_conc] = (by_materials[m][:max_concentration][:value]/by_materials[m][:pdk_max]).round(4)
+        by_materials[m][:avg_conc] = (by_materials[m][:mean]/by_materials[m][:pdk_avg]).round(3)
+        by_materials[m][:max_conc] = (by_materials[m][:max_concentration][:value]/by_materials[m][:pdk_max]).round(3)
       end
       return by_materials
     end
@@ -768,23 +768,25 @@ class MeasurementsController < ApplicationController
       return ret
     end
     
-    def calc_concentration(measurement, material_id, optical_density)
-      post = Post.find(measurement.post_id)
-      laboratory_id = post.laboratory_id
-      chem_coefficient = ChemCoefficient.find_by(material_id: material_id, laboratory_id: laboratory_id)
-      if chem_coefficient.nil? 
-        return optical_density # nil
-      end
-      t_kelvin = measurement.temperature + 273.0
-      pressure = measurement.atmosphere_pressure / 1.334 # гигапаскали -> мм. рт. ст
-      if material_id == 1 # пыль
-        v_normal = pressure/t_kelvin*0.359*post.sample_volume_dust
-        return optical_density/v_normal*1000 # м куб -> дм куб
-      end
-      v_normal = pressure/t_kelvin*0.359*chem_coefficient.sample_volume
-      m = optical_density*chem_coefficient.calibration_factor
-      con = (m*chem_coefficient.solution_volume)/(v_normal*chem_coefficient.aliquot_volume)
-      return con
-    end
+    # def calc_concentration(measurement, material_id, optical_density)
+    #   post = Post.find(measurement.post_id)
+    #   laboratory_id = post.laboratory_id
+    #   chem_coefficient = ChemCoefficient.find_by(material_id: material_id, laboratory_id: laboratory_id)
+    #   if chem_coefficient.nil? 
+    #     return optical_density # nil
+    #   end
+    #   t_kelvin = measurement.temperature + 273.0
+    #   pressure = measurement.atmosphere_pressure / 1.334 # гигапаскали -> мм. рт. ст
+    #   if material_id == 1 # пыль
+    #     v_normal = pressure/t_kelvin*0.359*post.sample_volume_dust
+    #     return optical_density/v_normal*1000 # м куб -> дм куб
+    #   end
+    #   v_normal = pressure/t_kelvin*0.359*chem_coefficient.sample_volume
+    #   m = optical_density*chem_coefficient.calibration_factor
+    #   con = (m*chem_coefficient.solution_volume)/(v_normal*chem_coefficient.aliquot_volume)
+    #   return con
+    # end
+    
+   
 
 end
