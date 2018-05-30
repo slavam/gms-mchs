@@ -17,7 +17,7 @@ prawn_document(:page_size => "A4") do |pdf|
   pdf.text @matrix[:site_description]
   pdf.move_down 5
   pdf.font "OpenSans", style: :normal, size: 8
-  pdf.table @pollutions, width: pdf.bounds.width, cell_style: { :inline_format => true}, :column_widths => [70, 30, 40, 70, 60, 70, 50, 50] do |t|
+  pdf.table @pollutions, cell_style: { :inline_format => true}, :column_widths => {0 =>70, 1 => 30, 2 => 40} do |t|
   end
   pdf.move_down 10
   pdf.font "OpenSans", style: :bold

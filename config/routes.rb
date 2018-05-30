@@ -60,6 +60,7 @@ Rails.application.routes.draw do
   get 'measurements/wind_rose', to: 'measurements#wind_rose'
   post 'measurements/print_wind_rose', to: 'measurements#print_wind_rose'
   get 'measurements/print_wind_rose', to: 'measurements#print_wind_rose'
+  get 'measurements/calc_normal_volume', to: 'measurements#calc_normal_volume'
   resources :measurements
   resources :materials
   resources :posts

@@ -1,0 +1,7 @@
+<!--%= @post.inspect %-->
+<div class="container">
+  <h1>Расчет объема отобранной пробы при нормальных условиях</h1>
+  <div id="content">
+    <%= react_component 'VolumeNormal', { dateFrom: @date_from, dateTo: @date_to, post: @post, posts: @posts, volumeTotal: @volume_total.round(4), volumeSampleDust: @volume_sample_dust, numberMeasurements: @number_measurements} %>
+  </div>
+</div>

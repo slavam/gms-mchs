@@ -13,6 +13,30 @@ class MeasurementsController < ApplicationController
   TERMS[7] = '06'
   TERMS[13] = '12'
   TERMS[19] = '18'
+  
+  def calc_normal_volume
+    @posts = Post.actual
+    @date_from = params[:date_from] || Time.now.strftime("%Y-%m-01")  
+    @date_to = params[:date_to] || Time.now.strftime("%Y-%m-%d")
+    post_id = params[:post_id] || 5
+    @post = Post.find(post_id)
+    @volume_sample_dust = @post.sample_volume_dust # Объем отобраной пробы пыли в дм3
+    material_id = params[:material_id] || 1
+    sql = "select me.* from measurements me JOIN pollution_values p_v ON p_v.measurement_id=me.id and p_v.material_id = #{material_id} where term in (7, 19) and post_id = #{post_id} and date >= '#{@date_from}' AND date <= '#{@date_to}';"
+    measurements = Measurement.find_by_sql(sql)
+    @volume_total = 0
+    @number_measurements = measurements.size
+    measurements.each do |m|
+      @volume_total += m.atmosphere_pressure/1.334/(m.temperature + 273.0)*0.359*@post.sample_volume_dust
+    end
+    respond_to do |format|
+      format.html
+      
+      format.json do 
+        render json: {dateFrom: @date_from, dateTo: @date_to, volumeTotal: @volume_total.round(4), volumeSampleDust: @volume_sample_dust, post: @post, numberMeasurements: @number_measurements}
+      end
+    end
+  end
 
   def chem_forma1_tza
     @year = Time.now.year.to_s
@@ -20,6 +44,7 @@ class MeasurementsController < ApplicationController
     @post_id =  5 # 20 for Gorlovka
     @matrix = get_matrix_data(@year, @month, @post_id)
     @posts = Post.actual.order(:id) 
+    
   end
 
   # def wind_rose_2
@@ -700,7 +725,7 @@ class MeasurementsController < ApplicationController
       ndigits[10] = 3
       ndigits[19] = 2
       ndigits[22] = 3
-      return ndigits[n] || 2
+      return ndigits[n] || 4
     end
 
     def get_data_forma2(date_from, date_to, region_type, place_id) # post_id, city_id)

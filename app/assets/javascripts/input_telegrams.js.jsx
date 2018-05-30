@@ -519,10 +519,12 @@ function checkAgroTelegram(tlg, stations, errors, observation){
         return false;
       }
     if (tlg[currentPos] == '8') 
-      if (/^8\d{2}[012]{2}$/.test(tlg.substr(currentPos,5))){
+      if (/^8\d{2}[012/]{2}$/.test(tlg.substr(currentPos,5))){ // 20180530 added '/' согласовал с Б.Л.Н.
         observation.duration_dew_24 = tlg.substr(currentPos+1,2);
-        observation.dew_intensity_max = tlg[currentPos+3];
-        observation.dew_intensity_8 = tlg[currentPos+4];
+        if (tlg[currentPos+3] != '/')
+          observation.dew_intensity_max = tlg[currentPos+3];
+        if (tlg[currentPos+4] != '/')
+          observation.dew_intensity_8 = tlg[currentPos+4];
         currentPos += 6;
       }else{
         errors.push("Ошибка в группе 8 зоны 90 раздела 3");
@@ -1441,6 +1443,7 @@ function checkStormTelegram(tlg, stations, errors, observation){
 }
 function checkSynopticTelegram(term, tlg, errors, stations, observation){
   // tlg = tlg.replace(/\s+/g, ' ');
+  var sign = {'0': '', '1': '-'};
   var state = {
       group00: { errorMessage: 'Ошибка в группе00', regex: /^[134/][12][0-9/]([0-4][0-9]|50|5[6-9]|[6-9][0-9]|\/\/)$/ },  // наблюдатели, Л.А. 20180405 iX = 1 or 2
       group0: { errorMessage: 'Ошибка в группе0', regex: /^[0-9/]([012][0-9]|3[0-6]|99|\/\/)([012][0-9]|30|\/\/)$/ },
@@ -1655,7 +1658,7 @@ function checkSynopticTelegram(term, tlg, errors, stations, observation){
       errors.push("Ошибка в разделе 1");
       return false;
     }
-    var sign = '';
+    // var sign = '';
     var val = '';
     var first = '';
     // console.log('section1-1:', section);
@@ -1668,8 +1671,8 @@ function checkSynopticTelegram(term, tlg, errors, stations, observation){
           switch(section[0]) {
             case '1':
             case '2':
-              sign = section[1] == '0' ? '' : '-';
-              val = sign+section.substr(2,2)+'.'+section[4];
+              // sign = section[1] == '0' ? '' : '-';
+              val = sign[section[1]]+section.substr(2,2)+'.'+section[4];
               if (section[0] == '1')
                 observation.temperature = val;
               else

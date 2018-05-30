@@ -49,7 +49,8 @@ gem 'jbuilder', '~> 2.0'
 # gem 'chartjs-ror'
 
 gem 'prawn-rails'
-gem 'prawn-table', :git => 'https://github.com/straydogstudio/prawn-table.git', ref: '759a27b6'
+gem 'prawn-table', '~> 0.2.2'
+# gem 'prawn-table', :git => 'https://github.com/straydogstudio/prawn-table.git', ref: '759a27b6'
 
 # gem 'bcrypt', '~> 3.1.7'
 
