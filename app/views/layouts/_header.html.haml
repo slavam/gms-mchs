@@ -14,8 +14,11 @@
                   %li= link_to 'Телеграммы синоптические',  synoptic_observations_path
                   %li= link_to 'Телеграммы штормовые',  storm_observations_path
                   %li= link_to 'Телеграммы агрометеорологические',  agro_observations_path
+                  %li= link_to 'Телеграммы агрометеорологические декадные',  agro_dec_observations_path
                   %li= link_to 'Телеграммы морские',  sea_observations_path
                   %li= link_to 'Телеграммы синоптические (со штормовыми)',  '/synoptic_observations/synoptic_storm_telegrams'
+                  %li{ class: "divider"}
+                  %li= link_to 'Поиск синоптических телеграмм',  search_synoptic_telegrams_path
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты <b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
@@ -33,10 +36,8 @@
                   /
                     %li= link_to 'Автодор',  synoptics_avtodor_path
               %li
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Сервис <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Карты, сайты <b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
-                  %li= link_to 'Поиск синоптических телеграмм',  search_synoptic_telegrams_path
-                  %li{ class: "divider"}
                   - active_meteo_links.each do |l|
                     %li= link_to l.name,  l.address, target: :_blank
             - when 'technicist'
@@ -47,12 +48,15 @@
                     %li= link_to 'Телеграммы синоптические (старые)',  synoptics_path
                   %li= link_to 'Ввод телеграмм', '/synoptic_observations/input_synoptic_telegrams?input_mode=normal'
                   %li= link_to 'Ввод телеграмм с любой датой', '/synoptic_observations/input_synoptic_telegrams?input_mode=direct'
-                  %li= link_to 'Телеграммы синоптические', synoptic_observations_path
-                  %li= link_to 'Телеграммы штормовые', storm_observations_path
-                  %li= link_to 'Ежедневные агрометеорологические телеграммы', agro_observations_path
-                  %li= link_to 'Декадные агрометеорологические телеграммы', agro_dec_observations_path
-                  %li= link_to 'Телеграммы морские', sea_observations_path
-                  %li= link_to 'Телеграммы синоптические (со штормовыми)', '/synoptic_observations/synoptic_storm_telegrams'
+                  %li= link_to 'Поиск синоптических телеграмм',  search_synoptic_telegrams_path
+                  %li= link_to 'Буфер', applicants_path
+                  /
+                    %li= link_to 'Телеграммы синоптические', synoptic_observations_path
+                    %li= link_to 'Телеграммы штормовые', storm_observations_path
+                    %li= link_to 'Ежедневные агрометеорологические телеграммы', agro_observations_path
+                    %li= link_to 'Декадные агрометеорологические телеграммы', agro_dec_observations_path
+                    %li= link_to 'Телеграммы морские', sea_observations_path
+                    %li= link_to 'Телеграммы синоптические (со штормовыми)', '/synoptic_observations/synoptic_storm_telegrams'
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты <b class="caret"></b></a>
                 %ul{class: "dropdown-menu"}
@@ -65,21 +69,17 @@
                   %li= link_to 'Шторма на море', "/bulletins/list?bulletin_type=sea_storm"
                   %li= link_to 'Радиация', "/bulletins/list?bulletin_type=radiation"
                   %li= link_to 'Телевидение', "/bulletins/list?bulletin_type=tv"
-              %li
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Сервис <b class="caret"></b></a>
-                %ul{class: "dropdown-menu"}
-                  %li= link_to 'Конвертор синоптических телеграмм', synoptic_observations_get_conversion_params_path
-                  %li= link_to 'Конвертор штормовых телеграмм', storm_observations_get_conversion_params_path
-                  %li= link_to 'Поиск синоптических телеграмм',  search_synoptic_telegrams_path
-              %li
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Справочники <b class="caret"></b></a>
-                %ul{class: "dropdown-menu"}
-                  %li= link_to 'Категории культур',  agro_crop_categories_path
-                  %li= link_to 'Сельскохозяйственные культуры и угодья',  agro_crops_path
-                  %li= link_to 'Группы культур со сходными фазами развития',  agro_phase_categories_path
-                  %li= link_to 'Фазы развития сельскохозяйственных культур',  agro_phases_path
-                  %li= link_to 'Повреждения сельскохозяйственных культур',  agro_damages_path
-                  %li= link_to 'Сельскохозяйственные работы',  agro_works_path
+              %li= link_to 'Карты',  "http://suleiman.rshu.ru/gifmaps/", target: :_blank
+              /
+                %li
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Справочники <b class="caret"></b></a>
+                  %ul{class: "dropdown-menu"}
+                    %li= link_to 'Категории культур',  agro_crop_categories_path
+                    %li= link_to 'Сельскохозяйственные культуры и угодья',  agro_crops_path
+                    %li= link_to 'Группы культур со сходными фазами развития',  agro_phase_categories_path
+                    %li= link_to 'Фазы развития сельскохозяйственных культур',  agro_phases_path
+                    %li= link_to 'Повреждения сельскохозяйственных культур',  agro_damages_path
+                    %li= link_to 'Сельскохозяйственные работы',  agro_works_path
             - when 'observer'
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Телеграммы<b class="caret"></b></a>
@@ -130,6 +130,12 @@
               %li= link_to "Users", users_path
               %li= link_to "Synoptic Links", meteo_links_path
               %li= link_to "Audit", audits_path
+              %li
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Сервис <b class="caret"></b></a>
+                %ul{class: "dropdown-menu"}
+                  %li= link_to 'Конвертор синоптических телеграмм', synoptic_observations_get_conversion_params_path
+                  %li= link_to 'Конвертор штормовых телеграмм', storm_observations_get_conversion_params_path
+                  %li= link_to 'Поиск синоптических телеграмм',  search_synoptic_telegrams_path
           %li{ class: "dropdown"}
           %li
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Сеанс <b class="caret"></b></a>

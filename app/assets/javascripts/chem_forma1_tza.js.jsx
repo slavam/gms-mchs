@@ -101,6 +101,7 @@ class OneMeasurement extends React.Component{
     nDigits[4] = 0;
     nDigits[5] = 2;
     nDigits[6] = 2;
+    nDigits[8] = 4;
     nDigits[10] = 3;
     nDigits[19] = 2;
     nDigits[22] = 3;
@@ -109,13 +110,13 @@ class OneMeasurement extends React.Component{
     var td2 = this.props.date.substr(11,2);
     this.props.pollution.forEach(function(p) {
       // row.push(<td>{p[1]}</td>);
-      row.push(<td>{p[1] > '' ? Number(p[1]).toFixed(nDigits[p[0]] !== 'undefined'? nDigits[p[0]] : 2) : p[1]}</td>);
+      row.push(<td key={p[0]}>{p[1] > '' ? Number(p[1]).toFixed(nDigits[p[0]] !== 'undefined'? nDigits[p[0]] : 2) : p[1]}</td>);
     });
     // Object.keys(this.props.pollution).forEach((k) => row.push(<td>{this.props.pollution[k]}</td>));
     return (
       <tr>
-        <td>{td1}</td>
-        <td>{td2}</td>
+        <td key={998}>{td1}</td>
+        <td key={999}>{td2}</td>
         {row}
       </tr>
     );
@@ -135,12 +136,12 @@ class Forma1Table extends React.Component {
     // this.props.pollutions.forEach(function(p) {
     //   rows.push(<OneMeasurement pollution={p} key={p.id} />);
     // });
-    Object.keys(this.props.pollutions).forEach((p) => rows.push(<OneMeasurement pollution={this.props.pollutions[p]} date={p} />));
-    Object.keys(this.props.titles).forEach((k) => {ths.push(<th>{this.props.titles[k]}</th>);
+    Object.keys(this.props.pollutions).forEach((p) => rows.push(<OneMeasurement key={p} pollution={this.props.pollutions[p]} date={p} />));
+    Object.keys(this.props.titles).forEach((k) => {ths.push(<th key={k}>{this.props.titles[k]}</th>);
       if(k < 100){
-        measure.push(<td>{this.props.measure_num[k]}</td>);
-        max_values.push(<td>{this.props.max_values[k]}</td>);
-        avg_values.push(<td>{this.props.avg_values[k]}</td>);
+        measure.push(<td key={k}>{this.props.measure_num[k]}</td>);
+        max_values.push(<td key={k}>{this.props.max_values[k]}</td>);
+        avg_values.push(<td key={k}>{this.props.avg_values[k]}</td>);
       }
     });
     return (
