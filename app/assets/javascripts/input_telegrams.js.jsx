@@ -11,6 +11,7 @@ class NewTelegramForm extends React.Component{
     };
     this.handleOptionSelected = this.handleOptionSelected.bind(this);
     this.dateChange = this.dateChange.bind(this);
+    this.inBufferClick = this.inBufferClick.bind(this);
   }
   
   handleSubmit(e) {
@@ -96,9 +97,12 @@ class NewTelegramForm extends React.Component{
   handleTextChange(e) {
     this.setState({tlgText: e.target.value});
   }
+  
+  inBufferClick(e){
+    this.setState({tlgText: '', errors: []});
+  }
 
   render() {
-    // this.state.term = Math.floor(new Date().getUTCHours() / 3) * 3;
     const types = [
       { value: 'synoptic',  label: 'Синоптические' },
       { value: 'agro',      label: 'Агро ежедневные' },
@@ -120,6 +124,7 @@ class NewTelegramForm extends React.Component{
     let tlgDate = this.props.inputMode == 'normal' ? <td>{this.state.currDate}</td> : <td><input type="date" name="input-date" value={this.state.currDate} onChange={this.dateChange} required="true" autoComplete="on" /></td>;
     let term = this.state.tlgType == 'synoptic' ? <td>{this.state.tlgTerm}</td> : <td></td>;
     let termSelect = this.state.tlgType == 'synoptic' ? <td><OptionSelect options={terms} onUserInput={this.handleOptionSelected} name = "selectTerms" defaultValue={this.state.tlgTerm} readOnly="readonly"/></td> : <td></td>;
+    let inBuffer = this.state.errors[0] > '' && this.state.tlgText > '' ? <button type="button" id="in-buffer" onClick={(event) => this.inBufferClick(event)}>В буфер</button> : '';
     return (
     <div className="col-md-12">
       <form className="telegramForm" onSubmit={(event) => this.handleSubmit(event)}>
@@ -142,6 +147,7 @@ class NewTelegramForm extends React.Component{
         <p>Текст 
           <input type="text" value={this.state.tlgText} onChange={(event) => this.handleTextChange(event)}/>
           <span style={{color: 'red'}}>{this.state.errors[0]}</span>
+          {inBuffer}
         </p>
         <input type="submit" value="Сохранить" />
       </form>
@@ -381,12 +387,26 @@ class InputTelegrams extends React.Component{
         that.setState({errors: ["Ошибка записи в базу"]});
       }); 
   }
+  
+  handleInBuffer(forBuffer){
+    $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      data: forBuffer, 
+      url: "/applicants/create"
+      }).done((data) => {
+        that.setState({telegrams: data.telegrams, tlgType: data.tlgType, currDate: data.currDate, inputMode: data.inputMode, errors: data.errors});
+        alert(this.state.errors[0]);
+      }).fail((res) => {
+        that.setState({errors: ["Ошибка записи в буфер"]});
+      }); 
+  }
 
   render(){
     return(
       <div>
         <h3>Новая телеграмма</h3>
-        <NewTelegramForm currDate={this.state.currDate} tlgType={this.state.tlgType} onTelegramTypeChange={this.handleTelegramTypeChanged} onFormSubmit={this.handleFormSubmit} stations={this.props.stations} term={this.props.term} inputMode={this.props.inputMode}/>
+        <NewTelegramForm currDate={this.state.currDate} tlgType={this.state.tlgType} onTelegramTypeChange={this.handleTelegramTypeChanged} onFormSubmit={this.handleFormSubmit} stations={this.props.stations} term={this.props.term} inputMode={this.props.inputMode} onInBuffer={this.handleInBuffer}/>
         <h3>Телеграммы {this.state.tlgType}</h3>
         <LastTelegramsTable telegrams={this.state.telegrams} tlgType={this.state.tlgType} stations={this.props.stations}/>
       </div>

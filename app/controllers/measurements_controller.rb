@@ -584,20 +584,20 @@ class MeasurementsController < ApplicationController
       avg_values = Hash.new(0)
       substance_codes.each do |s|
         k = s.material_id
+        max_values[k] = 0.0
         substance_names[k] = s.name
         measure_num[k] = grouped_pollutions[k].size
         grouped_pollutions[k].each {|g_p|
           value = (g_p.concentration.nil? ? g_p.value : g_p.concentration)
           if value < limits[k]
             value = 0
-          # else
-            # value = k == 1 ? value.round(3) : value.round(4)
           end
           max_values[k] = value.round(get_digits(k)) if value > max_values[k]
           avg_values[k] += value
         }
         avg_values[k] = (avg_values[k]/measure_num[k]).round(get_digits(k)) if measure_num[k] > 0
       end
+      # Rails.logger.debug("My object: #{max_values.inspect}")
       matrix[:substance_names] = substance_names
       matrix[:measure_num] = measure_num
       matrix[:max_values] = max_values
@@ -615,6 +615,8 @@ class MeasurementsController < ApplicationController
         pollutions[k] = a.to_a
       end
       matrix[:pollutions] = pollutions
+      
+      
       return matrix
     end
 

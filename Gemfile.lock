@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/straydogstudio/prawn-table.git
+  revision: 759a27b6fef2e682c035fc83f2182e53c3270279
+  ref: 759a27b6
+  specs:
+    prawn-table (0.2.1)
+
 GEM
   remote: http://rubygems.org/
   remote: https://rails-assets.org/
@@ -279,8 +286,6 @@ GEM
       prawn
       prawn-table
       rails (>= 3.1.0)
-    prawn-table (0.2.2)
-      prawn (>= 1.3.0, < 3.0.0)
     puma (3.8.2)
     rack (1.6.4)
     rack-test (0.6.3)
@@ -393,7 +398,7 @@ DEPENDENCIES
   mini_magick (= 4.7.0)
   mysql2 (~> 0.3.11)
   prawn-rails
-  prawn-table (~> 0.2.2)
+  prawn-table!
   puma
   rails (= 4.2.5)
   rails-assets-moment!
