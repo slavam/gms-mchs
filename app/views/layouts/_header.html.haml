@@ -1,6 +1,10 @@
+- if current_user.present?
+  - provide(:logo, current_user.role == 'specialist' ? 'Контроль телеграмм' : "Гидрометцентр МЧС ДНР")
+- else
+  - provide(:logo, "")
 %header{ :class=>"navbar navbar-fixed-top navbar-inverse"}
   %div{ :class=>"container"}
-    = link_to "Гидрометцентр МЧС ДНР", "#", id: "logo"
+    = link_to yield(:logo), "#", id: "logo"
     %nav
       %ul{ :class=>"nav navbar-nav navbar-right"}
         - if logged_in?
@@ -96,6 +100,8 @@
                 %ul{class: "dropdown-menu"}
                   %li= link_to 'Поиск синоптических телеграмм',  search_synoptic_telegrams_path
                   %li= link_to 'Метеостанции', stations_path
+            - when 'specialist'
+              %li= link_to 'Ввод телеграмм', '/synoptic_observations/input_synoptic_telegrams?input_mode=normal'
             - when 'chemist'
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Измерения <b class="caret"></b></a>

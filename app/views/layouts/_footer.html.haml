@@ -1,6 +1,7 @@
 %footer{class:"footer"}>
   %small
-    <a href="http://dnmchs.ru/">МЧС ДНР</a>
+    - if current_user.present? and current_user.role != 'specialist'
+      <a href="http://dnmchs.ru/">МЧС ДНР</a> 
   %nav
     %ul
       %a{ href: "http://news.railstutorial.org/"}News

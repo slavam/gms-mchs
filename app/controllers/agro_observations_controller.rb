@@ -35,7 +35,7 @@ class AgroObservationsController < ApplicationController
   def create_agro_telegram
     telegram_text = params[:agro_observation][:telegram]
     station_id = params[:agro_observation][:station_id]
-    date_dev = params[:input_mode] == 'direct' ? Time.parse(params[:date]+' 00:01:00') : Time.now
+    date_dev = params[:input_mode] == 'direct' ? Time.parse(params[:date]+' 00:01:00 UTC') : Time.now
     telegram_type = telegram_text[0,5]
     day_obs = telegram_text[12,2].to_i
     month_obs = telegram_text[14,2].to_i
@@ -95,7 +95,7 @@ class AgroObservationsController < ApplicationController
                       tlgType: 'agro', 
                       inputMode: params[:input_mode],
                       currDate: date_dev, 
-                      errors: ["Телеграмма добавлена в базу"]}
+                      errors: ["Телеграмма корректна"]}
       else
         render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
       end

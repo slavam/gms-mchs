@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  post 'applicants/to_buffer', to: 'applicants#to_buffer'
   resources :applicants
   post 'agro_dec_observations/create_agro_dec_telegram', to: 'agro_dec_observations#create_agro_dec_telegram'
   get 'agro_dec_observations/get_last_telegrams', to: 'agro_dec_observations#get_last_telegrams'

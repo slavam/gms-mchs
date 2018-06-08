@@ -95,10 +95,11 @@ class NewTelegramForm extends React.Component{
   }
 
   handleTextChange(e) {
-    this.setState({tlgText: e.target.value});
+    this.setState({tlgText: e.target.value, errors: []});
   }
   
   inBufferClick(e){
+    this.props.onInBuffer({tlgText: this.state.tlgText, message: this.state.errors[0], tlgType: this.state.tlgType});
     this.setState({tlgText: '', errors: []});
   }
 
@@ -108,7 +109,7 @@ class NewTelegramForm extends React.Component{
       { value: 'agro',      label: 'Агро ежедневные' },
       { value: 'agro_dec',  label: 'Агро декадные' },
       { value: 'storm',     label: 'Штормовые' },
-      { value: 'sea',       label: 'Морские' },
+      // { value: 'sea',       label: 'Морские' },
     ];
     const terms = [
       { value: '00', label: '00' },
@@ -124,7 +125,7 @@ class NewTelegramForm extends React.Component{
     let tlgDate = this.props.inputMode == 'normal' ? <td>{this.state.currDate}</td> : <td><input type="date" name="input-date" value={this.state.currDate} onChange={this.dateChange} required="true" autoComplete="on" /></td>;
     let term = this.state.tlgType == 'synoptic' ? <td>{this.state.tlgTerm}</td> : <td></td>;
     let termSelect = this.state.tlgType == 'synoptic' ? <td><OptionSelect options={terms} onUserInput={this.handleOptionSelected} name = "selectTerms" defaultValue={this.state.tlgTerm} readOnly="readonly"/></td> : <td></td>;
-    let inBuffer = this.state.errors[0] > '' && this.state.tlgText > '' ? <button type="button" id="in-buffer" onClick={(event) => this.inBufferClick(event)}>В буфер</button> : '';
+    let inBuffer = this.state.errors[0] > '' && this.state.tlgText > '' ? <button style={{float: "right"}} type="button" id="in-buffer" onClick={(event) => this.inBufferClick(event)}>В буфер</button> : '';
     return (
     <div className="col-md-12">
       <form className="telegramForm" onSubmit={(event) => this.handleSubmit(event)}>
@@ -389,26 +390,30 @@ class InputTelegrams extends React.Component{
   }
   
   handleInBuffer(forBuffer){
+    var that = this;
     $.ajax({
       type: 'POST',
       dataType: 'json',
       data: forBuffer, 
-      url: "/applicants/create"
+      url: "/applicants/to_buffer"
       }).done((data) => {
-        that.setState({telegrams: data.telegrams, tlgType: data.tlgType, currDate: data.currDate, inputMode: data.inputMode, errors: data.errors});
-        alert(this.state.errors[0]);
+        alert("Данные занесены в буфер");
+        that.setState({telegrams: data.telegrams, tlgType: data.tlgType, currDate: data.currDate, inputMode: "normal", errors: []});
       }).fail((res) => {
         that.setState({errors: ["Ошибка записи в буфер"]});
       }); 
   }
 
   render(){
+    let telegramTable = this.props.telegrams.length > 0 ? <div>
+      <h3>Телеграммы {this.state.tlgType}</h3> 
+      <LastTelegramsTable telegrams={this.state.telegrams} tlgType={this.state.tlgType} stations={this.props.stations}/>
+      </div> : '';
     return(
       <div>
         <h3>Новая телеграмма</h3>
         <NewTelegramForm currDate={this.state.currDate} tlgType={this.state.tlgType} onTelegramTypeChange={this.handleTelegramTypeChanged} onFormSubmit={this.handleFormSubmit} stations={this.props.stations} term={this.props.term} inputMode={this.props.inputMode} onInBuffer={this.handleInBuffer}/>
-        <h3>Телеграммы {this.state.tlgType}</h3>
-        <LastTelegramsTable telegrams={this.state.telegrams} tlgType={this.state.tlgType} stations={this.props.stations}/>
+        {telegramTable}
       </div>
     );
   }

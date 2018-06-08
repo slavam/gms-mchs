@@ -19,6 +19,19 @@ class ApplicantsController < ApplicationController
     end
   end
   
+  def to_buffer
+    applicant = Applicant.new
+    applicant.telegram = params[:tlgText]
+    applicant.message = params[:message]
+    applicant.telegram_type = params[:tlgType]
+    if applicant.save
+      last_telegrams = SynopticObservation.short_last_50_telegrams
+      render json: {telegrams: last_telegrams, tlgType: params[:tlgType], currDate: Time.now.utc.strftime("%Y-%m-%d")}
+    else
+      render json: {errors: applicant.errors.messages}, status: :unprocessable_entity
+    end
+  end
+  
   def edit
   end
 
@@ -38,7 +51,7 @@ class ApplicantsController < ApplicationController
   
   private
     def applicant_params
-      params.require(:applicant).permit(:telegram)  
+      params.require(:applicant).permit(:telegram, :telegram_type, :message)  
     end
     
     def find_applicant

@@ -88,7 +88,7 @@ class StormObservationsController < ApplicationController
     # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{telegram.inspect}")
   
   def create_storm_telegram
-    date_dev = params[:input_mode] == 'direct' ? Time.parse(params[:date]+' 00:01:00') : Time.now.utc
+    date_dev = params[:input_mode] == 'direct' ? Time.parse(params[:date]+' 00:01:00 UTC') : Time.now.utc
     # yyyy_mm = date_dev.year.to_s + '-' + date_dev.month.to_s.rjust(2, '0') + '%'
     # с Н.В. 2018.03.13 согласован интервал в 20 минут
     left_time = date_dev-20.minutes
@@ -116,7 +116,7 @@ class StormObservationsController < ApplicationController
                       tlgType: 'storm', 
                       inputMode: params[:input_mode],
                       currDate: telegram.telegram_date, 
-                      errors: ["Телеграмма добавлена в базу"]}
+                      errors: ["Телеграмма корректна"]}
       else
         render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
       end

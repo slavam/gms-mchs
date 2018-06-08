@@ -156,7 +156,7 @@ class SynopticObservationsController < ApplicationController
       # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{params.inspect}")
       if telegram.save
         last_telegrams = SynopticObservation.short_last_50_telegrams
-        render json: {telegrams: last_telegrams, tlgType: 'synoptic', currDate: telegram.date, inputMode: params[:input_mode], errors: ["Телеграмма добавлена в базу"]}
+        render json: {telegrams: last_telegrams, tlgType: 'synoptic', currDate: telegram.date, inputMode: params[:input_mode], errors: ["Телеграмма корректна"]}
       else
         render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
       end
