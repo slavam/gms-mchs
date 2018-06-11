@@ -25,7 +25,16 @@ class ApplicantsController < ApplicationController
     applicant.message = params[:message]
     applicant.telegram_type = params[:tlgType]
     if applicant.save
-      last_telegrams = SynopticObservation.short_last_50_telegrams
+      case params[:tlgType]
+        when 'synoptic'
+          last_telegrams = SynopticObservation.short_last_50_telegrams
+        when 'agro'
+          last_telegrams = AgroObservation.short_last_50_telegrams
+        when 'agro_dec'
+          last_telegrams = AgroDecObservation.short_last_50_telegrams
+        when 'storm'
+          last_telegrams = StormObservation.short_last_50_telegrams
+      end
       render json: {telegrams: last_telegrams, tlgType: params[:tlgType], currDate: Time.now.utc.strftime("%Y-%m-%d")}
     else
       render json: {errors: applicant.errors.messages}, status: :unprocessable_entity
