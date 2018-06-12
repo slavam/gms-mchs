@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180608072723) do
+ActiveRecord::Schema.define(version: 20180612061105) do
 
   create_table "agro", id: false, force: :cascade do |t|
     t.string "Дата",       limit: 60,  null: false
@@ -582,8 +582,11 @@ ActiveRecord::Schema.define(version: 20180608072723) do
     t.datetime "updated_at",                  null: false
     t.string   "remember_digest", limit: 255
     t.string   "role",            limit: 255
+    t.integer  "station_id",      limit: 4
   end
 
   add_index "users", ["login"], name: "index_users_on_login", unique: true, using: :btree
+  add_index "users", ["station_id"], name: "index_users_on_station_id", using: :btree
 
+  add_foreign_key "users", "stations"
 end

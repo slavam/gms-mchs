@@ -1,0 +1,26 @@
+%div{ class: "row"}
+  %div{ class: "col-md-6 col-md-offset-3"}
+    = form_for(@user) do |f| 
+      = render 'shared/error_messages'
+      = f.label :login, "Логин"
+      = f.text_field :login, class: 'form-control'
+
+      = f.label :last_name, "Фамилия"
+      = f.text_field :last_name, class: 'form-control'
+
+      = f.label :first_name, "Имя"
+      = f.text_field :first_name, class: 'form-control'
+
+      = f.label :middle_name, "Отчество"
+      = f.text_field :middle_name, class: 'form-control'
+
+      = f.label :position, "Должность"
+      = f.text_field :position, class: 'form-control'
+      
+      = f.label :role, "Роль"
+      = select("user", "role", User::ROLES, {:include_blank => false})
+  
+      = f.label "Метеостанция"
+      = collection_select(:user, :station_id, Station.all.order(:name), :id, :name, :include_blank => true)
+      
+      = f.submit "Сохранить", class: "btn btn-primary"
