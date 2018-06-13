@@ -1,6 +1,6 @@
 <div class ="container">
   <div>
-    <% @telegrams = [] if current_user.role == 'specialist'%>
+    <!--% @telegrams = [] if current_user.role == 'specialist'%-->
     <%= react_component 'InputTelegrams', { telegrams: @telegrams, currDate: Time.now.utc.strftime("%Y-%m-%d"), tlgType: 'synoptic', stations: @stations, term: @term, inputMode: @input_mode} %>
   </div>
 </div>

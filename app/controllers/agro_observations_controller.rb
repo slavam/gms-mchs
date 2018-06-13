@@ -66,7 +66,7 @@ class AgroObservationsController < ApplicationController
             telegram.crop_damages.build(crop_damages_params(v)).save
           end
         end if params[:crop_damages].present?
-        last_telegrams = AgroObservation.short_last_50_telegrams
+        last_telegrams = AgroObservation.short_last_50_telegrams(current_user)
         render json: {telegrams: last_telegrams, 
                       tlgType: 'agro', 
                       inputMode: params[:input_mode],
@@ -90,7 +90,7 @@ class AgroObservationsController < ApplicationController
         params[:crop_damages].each do |k, v|
           telegram.crop_damages.build(crop_damages_params(v)).save
         end if params[:crop_damages].present?
-        last_telegrams = AgroObservation.short_last_50_telegrams
+        last_telegrams = AgroObservation.short_last_50_telegrams(current_user)
         render json: {telegrams: last_telegrams, 
                       tlgType: 'agro', 
                       inputMode: params[:input_mode],
@@ -104,11 +104,11 @@ class AgroObservationsController < ApplicationController
   
   def input_agro_telegrams
     @stations = Station.all.order(:name)
-    @telegrams = AgroObservation.short_last_50_telegrams
+    @telegrams = AgroObservation.short_last_50_telegrams(current_user)
   end
   
   def get_last_telegrams
-    telegrams = AgroObservation.short_last_50_telegrams
+    telegrams = AgroObservation.short_last_50_telegrams(current_user)
     render json: {telegrams: telegrams, tlgType: 'agro'}
   end
   

@@ -40,11 +40,11 @@
         %td= @synoptic_observation.temperature_dew_point
     - if @synoptic_observation.pressure_at_station_level.present?
       %tr
-        %th Давление воздуха на уровне станции (гектопаскали)
+        %th Давление воздуха на уровне станции (hPa)
         %td= @synoptic_observation.pressure_at_station_level
     - if @synoptic_observation.pressure_at_sea_level.present?
       %tr
-        %th Давление воздуха, приведенное к уровню моря (гектопаскали)
+        %th Давление воздуха, приведенное к уровню моря (hPa)
         %td= @synoptic_observation.pressure_at_sea_level
     - if @synoptic_observation.pressure_tendency_characteristic.present?
       %tr
@@ -52,7 +52,7 @@
         %td= @synoptic_observation.pressure_tendency_characteristic_to_s
     - if @synoptic_observation.pressure_tendency.present?
       %tr
-        %th Значение барической тенденции (гектопаскали)
+        %th Значение барической тенденции (hPa)
         %td= @synoptic_observation.pressure_tendency.to_s
     - if @synoptic_observation.precipitation_1.present?
       %tr
@@ -142,4 +142,8 @@
   - if current_user.role == 'technicist'
     = link_to 'Ввод телеграмм', '/synoptic_observations/input_synoptic_telegrams?input_mode=normal'
     %br
-  = link_to "Список", synoptic_observations_path
+    = link_to "Список", synoptic_observations_path
+  - elsif current_user.role == 'specialist'
+    = link_to 'Возврат', '/synoptic_observations/input_synoptic_telegrams?input_mode=normal'
+  - else
+    = link_to "Список", synoptic_observations_path

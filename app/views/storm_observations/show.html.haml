@@ -23,6 +23,10 @@
       %th Время
       %td= @storm_observation.event_time
   - if current_user.role == 'technicist'
-    = link_to 'Ввод телеграмм', '/storm_observations/input_storm_telegrams'
+    = link_to 'Ввод телеграмм', '/storm_observations/input_storm_telegrams?input_mode=normal'
     %br
-  = link_to "Список", storm_observations_path  
+    = link_to "Список", storm_observations_path  
+  - elsif current_user.role == 'specialist'
+    = link_to 'Возврат', '/storm_observations/input_storm_telegrams?input_mode=normal'
+  - else
+    = link_to "Список", storm_observations_path  

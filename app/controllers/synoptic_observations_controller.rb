@@ -128,7 +128,7 @@ class SynopticObservationsController < ApplicationController
   def new
     # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{current_user.inspect}")
     @stations = Station.all.order(:name)
-    @last_telegrams = SynopticObservation.short_last_50_telegrams
+    @last_telegrams = SynopticObservation.short_last_50_telegrams(current_user)
   end
   
   def create_synoptic_telegram
@@ -138,7 +138,7 @@ class SynopticObservationsController < ApplicationController
     telegram = SynopticObservation.find_by(date: date, term: term, station_id: station_id)
     if telegram.present?
       if telegram.update_attributes observation_params
-        last_telegrams = SynopticObservation.short_last_50_telegrams
+        last_telegrams = SynopticObservation.short_last_50_telegrams(current_user)
         render json: {telegrams: last_telegrams, 
                       tlgType: 'synoptic', 
                       currDate: Time.now.utc.strftime("%Y-%m-%d"), 
@@ -153,9 +153,8 @@ class SynopticObservationsController < ApplicationController
       telegram.date = date
       telegram.term = term.to_i
       # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{telegram.inspect}")
-      # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{params.inspect}")
       if telegram.save
-        last_telegrams = SynopticObservation.short_last_50_telegrams
+        last_telegrams = SynopticObservation.short_last_50_telegrams(current_user)
         render json: {telegrams: last_telegrams, tlgType: 'synoptic', currDate: telegram.date, inputMode: params[:input_mode], errors: ["Телеграмма корректна"]}
       else
         render json: {errors: telegram.errors.messages}, status: :unprocessable_entity
@@ -186,14 +185,14 @@ class SynopticObservationsController < ApplicationController
   
   def input_synoptic_telegrams
     @stations = Station.all.order(:name)
-    @telegrams = SynopticObservation.short_last_50_telegrams
+    @telegrams = SynopticObservation.short_last_50_telegrams(current_user)
     @term = (Time.now.utc.hour/3*3).to_s.rjust(2, '0')
     # @term = term < 10 ? '0'+term.to_s : term.to_s
     @input_mode = params[:input_mode]
   end
   
   def get_last_telegrams
-    telegrams = SynopticObservation.short_last_50_telegrams
+    telegrams = SynopticObservation.short_last_50_telegrams(current_user)
     render json: {telegrams: telegrams, tlgType: 'synoptic'}
   end
 

@@ -29,7 +29,7 @@ class AgroDecObservationsController < ApplicationController
             telegram.crop_dec_conditions.build(crop_dec_conditions_params(v)).save
           end
         end if params[:crop_dec_conditions].present?
-        last_telegrams = AgroDecObservation.short_last_50_telegrams
+        last_telegrams = AgroDecObservation.short_last_50_telegrams(current_user)
         render json: {telegrams: last_telegrams, 
                       tlgType: 'agro_dec', 
                       inputMode: params[:input_mode],
@@ -49,7 +49,7 @@ class AgroDecObservationsController < ApplicationController
         params[:crop_dec_conditions].each do |k, v|
           telegram.crop_dec_conditions.build(crop_dec_conditions_params(v)).save
         end if params[:crop_dec_conditions].present?
-        last_telegrams = AgroDecObservation.short_last_50_telegrams
+        last_telegrams = AgroDecObservation.short_last_50_telegrams(current_user)
         render json: {telegrams: last_telegrams, 
                       tlgType: 'agro_dec', 
                       inputMode: params[:input_mode],
@@ -63,11 +63,11 @@ class AgroDecObservationsController < ApplicationController
   
   def input_agro_dec_telegrams
     @stations = Station.all.order(:name)
-    @telegrams = AgroDecObservation.short_last_50_telegrams
+    @telegrams = AgroDecObservation.short_last_50_telegrams(current_user)
   end
   
   def get_last_telegrams
-    telegrams = AgroDecObservation.short_last_50_telegrams
+    telegrams = AgroDecObservation.short_last_50_telegrams(current_user)
     render json: {telegrams: telegrams, tlgType: 'agro_dec'}
   end
   

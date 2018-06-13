@@ -64,7 +64,7 @@ class StormObservationsController < ApplicationController
   
   def input_storm_telegrams
     @stations = Station.all.order(:name)
-    @telegrams = StormObservation.short_last_50_telegrams
+    @telegrams = StormObservation.short_last_50_telegrams(current_user)
   end
   
   def create
@@ -98,7 +98,7 @@ class StormObservationsController < ApplicationController
     # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{telegram.inspect}")
     if telegram.present?
       if telegram.update_attributes storm_observation_params
-        last_telegrams = StormObservation.short_last_50_telegrams
+        last_telegrams = StormObservation.short_last_50_telegrams(current_user)
         render json: {telegrams: last_telegrams, 
                       tlgType: 'storm', 
                       inputMode: params[:input_mode],
@@ -111,7 +111,7 @@ class StormObservationsController < ApplicationController
       telegram = StormObservation.new(storm_observation_params)
       telegram.telegram_date = date_dev # params[:input_mode] == 'direct' ? Time.parse(params[:date]+' 00:01:00') : Time.now.utc
       if telegram.save
-        last_telegrams = StormObservation.short_last_50_telegrams
+        last_telegrams = StormObservation.short_last_50_telegrams(current_user)
         render json: {telegrams: last_telegrams, 
                       tlgType: 'storm', 
                       inputMode: params[:input_mode],
@@ -126,7 +126,7 @@ class StormObservationsController < ApplicationController
   def get_last_telegrams
     # last_telegrams = StormObservation.last_50_telegrams
     # telegrams = fields_short_list(last_telegrams)
-    telegrams = StormObservation.short_last_50_telegrams
+    telegrams = StormObservation.short_last_50_telegrams(current_user)
     render json: {telegrams: telegrams, tlgType: 'storm'}
   end
   

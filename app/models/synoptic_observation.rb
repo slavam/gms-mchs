@@ -132,12 +132,17 @@ class SynopticObservation < ActiveRecord::Base
       "Сухой рассыпчатый снег 10 баллов; неравномерный слой" , #8
       "Снег с сильными заметами и заносами"  #9
       ]
+  
   def self.last_50_telegrams
     SynopticObservation.all.limit(50).order(:date, :term, :updated_at).reverse_order
   end
   
-  def self.short_last_50_telegrams
-    all_fields = SynopticObservation.all.limit(50).order(:date, :term, :updated_at).reverse_order
+  def self.short_last_50_telegrams(user)
+    if user.role == 'specialist'
+      all_fields = SynopticObservation.where("station_id = ? and observed_at > ?", user.station_id, Time.now.utc-45.days).order(:date, :term, :updated_at).reverse_order
+    else
+      all_fields = SynopticObservation.all.limit(50).order(:date, :term, :updated_at).reverse_order
+    end
     stations = Station.all.order(:id)
     all_fields.map do |rec|
       {id: rec.id, date: rec.observed_at, term: rec.term, station_name: stations[rec.station_id-1].name, telegram: rec.telegram}

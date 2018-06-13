@@ -204,6 +204,10 @@
                       %td= damage_volume_to_s(c_c['damage_volume_'+i.to_s])
 
   - if current_user.role == 'technicist'
-    = link_to 'Ввод телеграмм', '/agro_dec_observations/input_agro_dec_telegrams'
+    = link_to 'Ввод телеграмм', '/agro_dec_observations/input_agro_dec_telegrams?input_mode=normal'
     %br
-  = link_to "Список", agro_dec_observations_path
+    = link_to "Список", agro_dec_observations_path
+  - elsif current_user.role == 'specialist'
+    = link_to 'Возврат', '/agro_dec_observations/input_agro_dec_telegrams?input_mode=normal'
+  - else
+    = link_to "Список", agro_dec_observations_path
