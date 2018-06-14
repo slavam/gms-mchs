@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get 'sea_observations/input_sea_telegrams', to: 'sea_observations#input_sea_telegrams'
   put 'sea_observations/update_sea_telegram', to: 'sea_observations#update_sea_telegram'
   resources :sea_observations
+  get 'storm_observations/search_storm_telegrams', to: 'storm_observations#search_storm_telegrams'
   post 'storm_observations/create_storm_telegram', to: 'storm_observations#create_storm_telegram'
   get 'storm_observations/get_last_telegrams', to: 'storm_observations#get_last_telegrams'
   get 'storm_observations/input_storm_telegrams', to: 'storm_observations#input_storm_telegrams'

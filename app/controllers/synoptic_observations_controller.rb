@@ -225,7 +225,7 @@ class SynopticObservationsController < ApplicationController
       groups = old_telegram["Телеграмма"].tr('=', '').split(' ')
       new_telegram = SynopticObservation.new
       new_telegram.date = old_telegram["Дата"].tr('.', '-')
-      new_telegram.observed_at = Time.parse(old_telegram["Дата"])
+      new_telegram.observed_at = Time.parse(old_telegram["Дата"]+' UTC')
       new_telegram.term = old_telegram["Срок"].to_i
       new_telegram.telegram = old_telegram["Телеграмма"]
       if ((groups[0] == "ЩЭСМЮ" ) && (new_telegram.term % 2 == 0)) || ((groups[0] == "ЩЭСИД") && (new_telegram.term % 2 == 1))

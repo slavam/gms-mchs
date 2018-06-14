@@ -50,6 +50,32 @@ class StormObservationsController < ApplicationController
     flash[:success] = "Входных телеграмм - #{selected_telegrams}. Корректных телеграмм - #{correct_telegrams} (создано - #{created_telegrams}; обновлено - #{updated_telegrams}; пропущено - #{skiped_telegrams}). Ошибочных телеграмм - #{wrong_telegrams}."
     redirect_to storm_observations_get_conversion_params_path
   end
+  
+  def search_storm_telegrams
+    @date_from ||= params[:date_from].present? ? params[:date_from] : Time.now.strftime("%Y-%m-%d")
+    @date_to ||= params[:date_to].present? ? params[:date_to] : Time.now.strftime("%Y-%m-%d")
+    station_id = params[:station_code].present? ? Station.find_by_code(params[:station_code]).id : nil
+    station = station_id.present? ? " and station_id = #{station_id}" : ''
+    text = params[:text].present? ? " and telegram like '%#{params[:text]}%'" : ''
+    type = params[:type].present? ? " and telegram_type = '#{params[:type]}'" : ''
+       
+    sql = "select * from storm_observations where telegram_date >= '#{@date_from}' and telegram_date <= '#{@date_to} 23:59:59' #{station} #{type} #{text} order by telegram_date desc;"
+    tlgs = StormObservation.find_by_sql(sql)
+    @stations = Station.all.order(:name)
+    @stations << {code: 0, name: 'Любая'}
+    @telegrams = storm_fields_short_list(tlgs)
+    respond_to do |format|
+      format.html 
+      format.json { render json: {telegrams: @telegrams} }
+    end
+  end
+  
+  def storm_fields_short_list(full_list)
+    stations = Station.all.order(:id)
+    full_list.map do |rec|
+      {id: rec.id, date: rec.telegram_date, station_name: stations[rec.station_id-1].name, telegram: rec.telegram}
+    end
+  end
 
   def index
     @storm_observations = StormObservation.paginate(page: params[:page]).order(:telegram_date, :created_at).reverse_order
@@ -109,7 +135,7 @@ class StormObservationsController < ApplicationController
       end
     else
       telegram = StormObservation.new(storm_observation_params)
-      telegram.telegram_date = date_dev # params[:input_mode] == 'direct' ? Time.parse(params[:date]+' 00:01:00') : Time.now.utc
+      telegram.telegram_date = date_dev 
       if telegram.save
         last_telegrams = StormObservation.short_last_50_telegrams(current_user)
         render json: {telegrams: last_telegrams, 
@@ -169,7 +195,7 @@ class StormObservationsController < ApplicationController
     def convert_storm_telegram(old_telegram, stations, errors)
       groups = old_telegram["Телеграмма"].tr('=', '').split(' ')
       new_telegram = StormObservation.new
-      new_telegram.telegram_date = Time.parse(old_telegram["Дата"])
+      new_telegram.telegram_date = Time.parse(old_telegram["Дата"]+' UTC')
       new_telegram.telegram = old_telegram["Телеграмма"]
       if (groups[0] == 'ЩЭОЯЮ') or (groups[0] == 'ЩЭОЗМ')
         new_telegram.telegram_type = groups[0]
