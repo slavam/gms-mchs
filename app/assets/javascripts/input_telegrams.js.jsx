@@ -595,9 +595,9 @@ function checkAgroTelegram(tlg, stations, errors, observation){
           errors.push("Ошибка в группе 3 зоны 91 раздела 3");
           return false;
         }
-    } else {
-      errors.push("Ошибка в зоне 90 раздела 3 =>"+tlg.substr(currentPos));
-      return false;
+    // } else { // mwm 20180615
+    //   errors.push("Ошибка в зоне 90 раздела 3 =>"+tlg.substr(currentPos));
+    //   return false;
     }
 
     let zone92pos = tlg.search(/92... [1678]/);
@@ -661,7 +661,7 @@ function checkAgroTelegram(tlg, stations, errors, observation){
         }
         
         if (pos < t.length){
-          errors.push("Ошибка в зоне 92["+(i+1)+"] раздела 3");
+          errors.push("Ошибка в зоне 92["+(i+1)+"] раздела 3 =>"+t.substr(pos));
           code = false;
         } else
           observation.state_crops.push(state_crops);
@@ -714,7 +714,7 @@ function checkAgroTelegram(tlg, stations, errors, observation){
           }
           
         if (pos < t.length){
-          errors.push("Ошибка в зоне 92_95["+(i+1)+"] раздела 3");
+          errors.push("Ошибка в зоне 92_95["+(i+1)+"] раздела 3 =>"+t.substr(pos));
           code = false;
         } else
           observation.damage_crops.push(damage_crops);
@@ -1196,7 +1196,7 @@ function checkAgroTelegram(tlg, stations, errors, observation){
           }
         }
         if (pos < t.length){
-          errors.push("Ошибка в зоне 92["+(i+1)+"] раздела 2 pos=>"+pos+"; length=>"+t.length+" t=>"+t);
+          errors.push("Ошибка в зоне 92["+(i+1)+"] раздела 2 pos=>"+pos+"; length=>"+t.length+" t=>"+t.substr(pos));
           code = false;
         } else{
           currentPos += t.length+(i<zone.length-1 ? 3:2);
@@ -1534,7 +1534,7 @@ function checkSynopticTelegram(term, tlg, errors, stations, observation){
     regex = state.group0.regex;
     if (regex.test(group) && ((tlg[23] == ' ') || (tlg[23] == '='))) {
       if ((+tlg[18]>=0) && (+tlg[18]<9))                                    // 20180405 по данным от Л.А.
-        if ((+tlg.substr(15,2)>93) && (+tlg.substr(15,2)<99)){ 
+        if ((+tlg.substr(15,2)>93) && (+tlg.substr(15,2)<=99)){             // 20180615 по данным от Л.А. 99 - теперь правильное значение
         }else{
           errors.push("Дальность видимости не соответствует количеству облаков");
           return false;

@@ -8,6 +8,31 @@ class AgroObservationsController < ApplicationController
   def show
   end
   
+  def search_agro_telegrams
+    @date_from ||= params[:date_from].present? ? params[:date_from] : Time.now.strftime("%Y-%m-%d")
+    @date_to ||= params[:date_to].present? ? params[:date_to] : Time.now.strftime("%Y-%m-%d")
+    station_id = params[:station_code].present? ? Station.find_by_code(params[:station_code]).id : nil
+    station = station_id.present? ? " and station_id = #{station_id}" : ''
+    text = params[:text].present? ? " and telegram like '%#{params[:text]}%'" : ''
+       
+    sql = "select * from agro_observations where date_dev >= '#{@date_from}' and date_dev <= '#{@date_to} 23:59:59' #{station} #{text} order by date_dev desc;"
+    tlgs = AgroObservation.find_by_sql(sql)
+    @stations = Station.all.order(:name)
+    @stations << {code: 0, name: 'Любая'}
+    @telegrams = agro_fields_short_list(tlgs)
+    respond_to do |format|
+      format.html 
+      format.json { render json: {telegrams: @telegrams} }
+    end
+  end
+  
+  def agro_fields_short_list(full_list)
+    stations = Station.all.order(:id)
+    full_list.map do |rec|
+      {id: rec.id, date: rec.date_dev, station_name: stations[rec.station_id-1].name, telegram: rec.telegram}
+    end
+  end
+  
   def new
     @agro_observation = AgroObservation.new
     @agro_observation.date_dev = Time.now

@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   get 'storm_observations/get_conversion_params', to: 'storm_observations#get_conversion_params'
   post 'storm_observations/converter', to: 'storm_observations#converter'
   resources :storm_observations
+  get 'agro_observations/search_agro_telegrams', to: 'agro_observations#search_agro_telegrams'
   post 'agro_observations/create_agro_telegram', to: 'agro_observations#create_agro_telegram'
   get 'agro_observations/get_last_telegrams', to: 'agro_observations#get_last_telegrams'
   get 'agro_observations/input_agro_telegrams', to: 'agro_observations#input_agro_telegrams'
