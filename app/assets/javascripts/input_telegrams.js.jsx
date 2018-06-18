@@ -595,9 +595,9 @@ function checkAgroTelegram(tlg, stations, errors, observation){
           errors.push("Ошибка в группе 3 зоны 91 раздела 3");
           return false;
         }
-      if ((tlg.substr(currentPos,2) == '92') || (tlg.substr(currentPos,3) == '333')){ // mwm 20180618
+      if ((tlg.substr(currentPos,2) == '92') || (tlg.substr(currentPos,4) == '333 ') || (tlg[currentPos-1] == '=')){ // mwm 20180618
       } else { 
-        errors.push("Ошибка в зоне 90 раздела 3 =>"+tlg.substr(currentPos));
+        errors.push("Ошибка в зоне 91 раздела 3 =>"+tlg.substr(currentPos));
         return false;
       }
     }
