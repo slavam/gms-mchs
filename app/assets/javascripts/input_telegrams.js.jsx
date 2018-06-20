@@ -16,6 +16,10 @@ class NewTelegramForm extends React.Component{
   
   handleSubmit(e) {
     e.preventDefault();
+    if ((this.state.tlgType == 'synoptic') && (this.props.inputMode == 'normal')){  // mwm 20180619
+      let t = Math.floor(new Date().getUTCHours() / 3) * 3;
+      this.state.tlgTerm = t < 10 ? '0'+t : t;
+    }
     var term = this.state.tlgTerm;
     var text = this.state.tlgText.replace(/\s+/g, ' '); // one space only
     text = text.trim();
@@ -734,134 +738,138 @@ function checkAgroTelegram(tlg, stations, errors, observation){
     
   } else {
     // ЩЭАГУ - декадная
-    if (tlg.substr(17,5) != ' 111 '){
-      errors.push("Ошибка в признаке раздела 1");
-      return false;
-    }
-    if (/^90[01]\d{2}$/.test(tlg.substr(22,5))){
-      observation.temperature_dec_avg_delta = sign[tlg[24]]+tlg.substr(25,2);
-    } else {
-      errors.push("Ошибка в разделе 1 зона 90");
-      return false;
-    }
-    currentPos = 28;
-    if (tlg[currentPos] == '1') 
-      if (/^1[01]\d{3}$/.test(tlg.substr(currentPos,5))){
-        observation.temperature_dec_avg = sign[tlg[currentPos+1]]+tlg.substr(currentPos+2,2)+'.'+tlg[currentPos+4];
-        currentPos += 6;
-      }else{
-        errors.push("Ошибка в группе 1 зоны 90 раздела 1");
+    currentPos = 18;
+    if (tlg.substr(17,5) == ' 111 '){
+      // if (tlg.substr(17,5) != ' 111 '){
+      //   errors.push("Ошибка в признаке раздела 1");
+      //   return false;
+      // }
+      if (/^90[01]\d{2}$/.test(tlg.substr(22,5))){
+        observation.temperature_dec_avg_delta = sign[tlg[24]]+tlg.substr(25,2);
+      } else {
+        errors.push("Ошибка в разделе 1 зона 90");
         return false;
       }
-    if (tlg[currentPos] == '2') 
-      if (/^2[01]\d{2}[0-9/]$/.test(tlg.substr(currentPos,5))){
-        observation.temperature_dec_max = sign[tlg[currentPos+1]]+tlg.substr(currentPos+2,2);
-        if (tlg[currentPos != '/'])
-          observation.hot_dec_day_num = tlg[currentPos+4];
+      currentPos = 28;
+      if (tlg[currentPos] == '1') 
+        if (/^1[01]\d{3}$/.test(tlg.substr(currentPos,5))){
+          observation.temperature_dec_avg = sign[tlg[currentPos+1]]+tlg.substr(currentPos+2,2)+'.'+tlg[currentPos+4];
+          currentPos += 6;
+        }else{
+          errors.push("Ошибка в группе 1 зоны 90 раздела 1");
+          return false;
+        }
+      if (tlg[currentPos] == '2') 
+        if (/^2[01]\d{2}[0-9/]$/.test(tlg.substr(currentPos,5))){
+          observation.temperature_dec_max = sign[tlg[currentPos+1]]+tlg.substr(currentPos+2,2);
+          if (tlg[currentPos != '/'])
+            observation.hot_dec_day_num = tlg[currentPos+4];
+          currentPos += 6;
+        }else{
+          errors.push("Ошибка в группе 2 зоны 90 раздела 1");
+          return false;
+        }
+      if (tlg[currentPos] == '3') 
+        if (/^3[01]\d{2}[0-9/]$/.test(tlg.substr(currentPos,5))){
+          observation.temperature_dec_min = sign[tlg[currentPos+1]]+tlg.substr(currentPos+2,2);
+          if (tlg[currentPos+4] != '/')
+            observation.dry_dec_day_num = tlg[currentPos+4];
+          currentPos += 6;
+        }else{
+          errors.push("Ошибка в группе 3 зоны 90 раздела 1");
+          return false;
+        }
+      if (tlg[currentPos] == '4')
+        if (/^4[01]\d{2}[0-9/]$/.test(tlg.substr(currentPos,5))){
+          observation.temperature_dec_min_soil = sign[tlg[currentPos+1]]+tlg.substr(currentPos+2,2);
+          if (tlg[currentPos+4] != '/')
+            observation.cold_soil_dec_day_num = tlg[currentPos+4];
+          currentPos += 6;
+        }else{
+          errors.push("Ошибка в группе 4 зоны 90 раздела 1");
+          return false;
+        }
+      if (tlg[currentPos] == '5')
+        if (/^5\d{3}[0-9/]$/.test(tlg.substr(currentPos,5))){
+          observation.precipitation_dec = tlg.substr(currentPos+1,3);
+          if (tlg[currentPos+4] != '/')
+            observation.wet_dec_day_num = tlg[currentPos+4];
+          currentPos += 6;
+        }else{
+          errors.push("Ошибка в группе 5 зоны 90 раздела 1");
+          return false;
+        }
+      if (tlg[currentPos] == '6')
+        if (/^6\d{4}$/.test(tlg.substr(currentPos,5))){
+          observation.precipitation_dec_percent = tlg.substr(currentPos+1,4);
+          currentPos += 6;
+        }else{
+          errors.push("Ошибка в группе 6 зоны 90 раздела 1");
+          return false;
+        }
+      if (tlg[currentPos] == '7')
+        if (/^7\d{2}[0-9/]{2}$/.test(tlg.substr(currentPos,5))){
+          observation.wind_speed_dec_max = tlg.substr(currentPos+1,2);
+          if (tlg[currentPos+3] != '/')
+            observation.wind_speed_dec_max_day_num = tlg[currentPos+3];
+          if (tlg[currentPos+4] != '/')
+            observation.duster_dec_day_num = tlg[currentPos+4];
+          currentPos += 6;
+        }else{
+          errors.push("Ошибка в группе 7 зоны 90 раздела 1");
+          return false;
+        }
+      if (/^91[01]\d{2}$/.test(tlg.substr(currentPos,5))){
+        observation.temperature_dec_max_soil = sign[tlg[currentPos+2]]+tlg.substr(currentPos+3,2);
         currentPos += 6;
-      }else{
-        errors.push("Ошибка в группе 2 зоны 90 раздела 1");
+      } else {
+        errors.push("Ошибка в разделе 1 зона 91 g=>"+tlg.substr(currentPos,5));
         return false;
       }
-    if (tlg[currentPos] == '3') 
-      if (/^3[01]\d{2}[0-9/]$/.test(tlg.substr(currentPos,5))){
-        observation.temperature_dec_min = sign[tlg[currentPos+1]]+tlg.substr(currentPos+2,2);
-        if (tlg[currentPos+4] != '/')
-          observation.dry_dec_day_num = tlg[currentPos+4];
-        currentPos += 6;
-      }else{
-        errors.push("Ошибка в группе 3 зоны 90 раздела 1");
-        return false;
-      }
-    if (tlg[currentPos] == '4')
-      if (/^4[01]\d{2}[0-9/]$/.test(tlg.substr(currentPos,5))){
-        observation.temperature_dec_min_soil = sign[tlg[currentPos+1]]+tlg.substr(currentPos+2,2);
-        if (tlg[currentPos+4] != '/')
-          observation.cold_soil_dec_day_num = tlg[currentPos+4];
-        currentPos += 6;
-      }else{
-        errors.push("Ошибка в группе 4 зоны 90 раздела 1");
-        return false;
-      }
-    if (tlg[currentPos] == '5')
-      if (/^5\d{3}[0-9/]$/.test(tlg.substr(currentPos,5))){
-        observation.precipitation_dec = tlg.substr(currentPos+1,3);
-        if (tlg[currentPos+4] != '/')
-          observation.wet_dec_day_num = tlg[currentPos+4];
-        currentPos += 6;
-      }else{
-        errors.push("Ошибка в группе 5 зоны 90 раздела 1");
-        return false;
-      }
-    if (tlg[currentPos] == '6')
-      if (/^6\d{4}$/.test(tlg.substr(currentPos,5))){
-        observation.precipitation_dec_percent = tlg.substr(currentPos+1,4);
-        currentPos += 6;
-      }else{
-        errors.push("Ошибка в группе 6 зоны 90 раздела 1");
-        return false;
-      }
-    if (tlg[currentPos] == '7')
-      if (/^7\d{2}[0-9/]{2}$/.test(tlg.substr(currentPos,5))){
-        observation.wind_speed_dec_max = tlg.substr(currentPos+1,2);
-        if (tlg[currentPos+3] != '/')
-          observation.wind_speed_dec_max_day_num = tlg[currentPos+3];
-        if (tlg[currentPos+4] != '/')
-          observation.duster_dec_day_num = tlg[currentPos+4];
-        currentPos += 6;
-      }else{
-        errors.push("Ошибка в группе 7 зоны 90 раздела 1");
-        return false;
-      }
-    if (/^91[01]\d{2}$/.test(tlg.substr(currentPos,5))){
-      observation.temperature_dec_max_soil = sign[tlg[currentPos+2]]+tlg.substr(currentPos+3,2);
-      currentPos += 6;
-    } else {
-      errors.push("Ошибка в разделе 1 зона 91 g=>"+tlg.substr(currentPos,5));
-      return false;
-    }
-    if (tlg[currentPos] == '1')
-      if (/^1[0-9/]{4}$/.test(tlg.substr(currentPos,5))){ // 20180411 время солнечного сияния м.б. /// А.И.
-        if (tlg[currentPos+1] != '/')
-          observation.sunshine_duration_dec = tlg.substr(currentPos+1,3);
-        if (tlg[currentPos+4] != '/')
-          observation.freezing_dec_day_num = tlg[currentPos+4];
-        currentPos += 6;
-      }else{
-        errors.push("Ошибка в группе 1 зоны 91 раздела 1");
-        return false;
-      }
-    if (tlg[currentPos] == '2')
-      if (/^2\d{2}[0-9/]{2}$/.test(tlg.substr(currentPos,5))){
-        observation.temperature_dec_avg_soil10 = tlg.substr(currentPos+1,2);
-        if (tlg[currentPos+3] != '/')
-          observation.temperature25_soil10_dec_day_num = tlg[currentPos+3];
-        if (tlg[currentPos+4] != '/')
-          observation.dew_dec_day_num = tlg[currentPos+4];
-        currentPos += 6;
-      }else{
-        errors.push("Ошибка в группе 2 зоны 91 раздела 1");
-        return false;
-      }
-    if (tlg[currentPos] == '3')
-      if (/^3\d{4}$/.test(tlg.substr(currentPos,5))){
-        observation.saturation_deficit_dec_avg = tlg.substr(currentPos+1,2);
-        observation.relative_humidity_dec_avg = tlg.substr(currentPos+3,2);
-        currentPos += 6;
-      }else{
-        errors.push("Ошибка в группе 3 зоны 91 раздела 1");
-        return false;
-      }
-    if (tlg[currentPos] == '4')
-      if (/^4\d{3}[0-9/]$/.test(tlg.substr(currentPos,5))){
-        observation.percipitation_dec_max = tlg.substr(currentPos+1,3);
-        if (tlg[currentPos+4] != '/')
-          observation.percipitation5_dec_day_num = tlg[currentPos+4];
-        currentPos += 6;
-      }else{
-        errors.push("Ошибка в группе 4 зоны 91 раздела 1");
-        return false;
-      }
+      if (tlg[currentPos] == '1')
+        if (/^1[0-9/]{4}$/.test(tlg.substr(currentPos,5))){ // 20180411 время солнечного сияния м.б. /// А.И.
+          if (tlg[currentPos+1] != '/')
+            observation.sunshine_duration_dec = tlg.substr(currentPos+1,3);
+          if (tlg[currentPos+4] != '/')
+            observation.freezing_dec_day_num = tlg[currentPos+4];
+          currentPos += 6;
+        }else{
+          errors.push("Ошибка в группе 1 зоны 91 раздела 1");
+          return false;
+        }
+      if (tlg[currentPos] == '2')
+        if (/^2\d{2}[0-9/]{2}$/.test(tlg.substr(currentPos,5))){
+          observation.temperature_dec_avg_soil10 = tlg.substr(currentPos+1,2);
+          if (tlg[currentPos+3] != '/')
+            observation.temperature25_soil10_dec_day_num = tlg[currentPos+3];
+          if (tlg[currentPos+4] != '/')
+            observation.dew_dec_day_num = tlg[currentPos+4];
+          currentPos += 6;
+        }else{
+          errors.push("Ошибка в группе 2 зоны 91 раздела 1");
+          return false;
+        }
+      if (tlg[currentPos] == '3')
+        if (/^3\d{4}$/.test(tlg.substr(currentPos,5))){
+          observation.saturation_deficit_dec_avg = tlg.substr(currentPos+1,2);
+          observation.relative_humidity_dec_avg = tlg.substr(currentPos+3,2);
+          currentPos += 6;
+        }else{
+          errors.push("Ошибка в группе 3 зоны 91 раздела 1");
+          return false;
+        }
+      if (tlg[currentPos] == '4')
+        if (/^4\d{3}[0-9/]$/.test(tlg.substr(currentPos,5))){
+          observation.percipitation_dec_max = tlg.substr(currentPos+1,3);
+          if (tlg[currentPos+4] != '/')
+            observation.percipitation5_dec_day_num = tlg[currentPos+4];
+          currentPos += 6;
+        }else{
+          errors.push("Ошибка в группе 4 зоны 91 раздела 1");
+          return false;
+        }
+    } // контроль раздела 1 закончен
+    
     if ((tlg[currentPos-1] == '='))
       return true;
     else 

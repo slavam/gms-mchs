@@ -1,0 +1,7 @@
+<!--%= Audit.new.tap { |a| a.user = controller.current_user }.inspect %-->
+<div class="container">
+  <h1>Поиск декадных агрометеорологических телеграмм</h1>
+  <div id="content">
+    <%= react_component 'SearchAgroDecTelegrams', { telegrams: @telegrams, stations: @stations, dateFrom: @date_from, dateTo: @date_to} %>
+  </div>
+</div>
