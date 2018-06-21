@@ -27,13 +27,13 @@ class ApplicantsController < ApplicationController
     if applicant.save
       case params[:tlgType]
         when 'synoptic'
-          last_telegrams = SynopticObservation.short_last_50_telegrams
+          last_telegrams = SynopticObservation.short_last_50_telegrams(current_user)
         when 'agro'
-          last_telegrams = AgroObservation.short_last_50_telegrams
+          last_telegrams = AgroObservation.short_last_50_telegrams(current_user)
         when 'agro_dec'
-          last_telegrams = AgroDecObservation.short_last_50_telegrams
+          last_telegrams = AgroDecObservation.short_last_50_telegrams(current_user)
         when 'storm'
-          last_telegrams = StormObservation.short_last_50_telegrams
+          last_telegrams = StormObservation.short_last_50_telegrams(current_user)
       end
       render json: {telegrams: last_telegrams, tlgType: params[:tlgType], currDate: Time.now.utc.strftime("%Y-%m-%d")}
     else

@@ -1513,7 +1513,7 @@ function checkSynopticTelegram(term, tlg, errors, stations, observation){
   };
   // alert("checkTelegram")
     if((~tlg.indexOf("ЩЭСМЮ ") && (term % 2 == 0)) || (~tlg.indexOf("ЩЭСИД ") && (term % 2 == 1))){} else {
-      errors.push("Ошибка в различительной группе");
+      errors.push("Ошибка в различительной группе =>"+tlg.substr(0, 6)+"; term="+term+';');
       return false;
     }
     var group = tlg.substr(6,5);
