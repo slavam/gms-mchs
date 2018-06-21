@@ -101,7 +101,7 @@ class OneMeasurement extends React.Component{
     nDigits[4] = 0;
     nDigits[5] = 2;
     nDigits[6] = 2;
-    nDigits[8] = 4;
+    nDigits[8] = 3;
     nDigits[10] = 3;
     nDigits[19] = 2;
     nDigits[22] = 3;
@@ -191,11 +191,13 @@ class ChemForma1Tza extends React.Component{
       // sites: this.props.sites
     };
     this.desiredLink = "/measurements/print_forma1_tza.pdf?year="+this.props.year+"&month="+this.props.month+"&post_id="+this.props.postId;
+    this.desiredLink2 = "/measurements/chem_forma1_as_protocol.pdf?year="+this.props.year+"&month="+this.props.month+"&post_id="+this.props.postId;
     this.handleParamsSubmit = this.handleParamsSubmit.bind(this);
   }
   
   handleParamsSubmit(params) {
     this.desiredLink = "/measurements/print_forma1_tza.pdf?year="+params.year+"&month="+params.month+"&post_id="+params.site;
+    this.desiredLink2 = "/measurements/chem_forma1_as_protocol.pdf?year="+params.year+"&month="+params.month+"&post_id="+params.site;
     $.ajax({
       type: 'GET',
       url: "get_chem_forma1_tza_data?month="+params.month+"&year="+params.year+"&post_id="+params.site
@@ -226,7 +228,9 @@ class ChemForma1Tza extends React.Component{
         <Forma1Params posts={this.props.posts} onParamsSubmit={this.handleParamsSubmit} year={this.state.year} month={this.state.month} postId={this.props.postId}/>
         <Forma1Table pollutions={this.state.pollutions} titles={this.state.titles} measure_num={this.state.measure_num} max_values={this.state.max_values} avg_values={this.state.avg_values}/>
         <br />
-        <a href={this.desiredLink}>Распечатать</a>
+        <a href={this.desiredLink}>Распечатать Форму 1 ТЗА</a>
+        <br />
+        <a href={this.desiredLink2}>Распечатать Протокол измерений</a>
       </div>
     );
   }

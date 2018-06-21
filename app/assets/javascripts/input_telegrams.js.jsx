@@ -16,9 +16,13 @@ class NewTelegramForm extends React.Component{
   
   handleSubmit(e) {
     e.preventDefault();
-    if ((this.state.tlgType == 'synoptic') && (this.props.inputMode == 'normal')){  // mwm 20180619
-      let t = Math.floor(new Date().getUTCHours() / 3) * 3;
-      this.state.tlgTerm = t < 10 ? '0'+t : t;
+    if(this.props.inputMode == 'normal'){
+      let d = new Date();
+      this.state.currDate = d.getUTCFullYear()+'-'+('0'+(d.getUTCMonth()+1)).slice(-2)+'-'+('0'+d.getUTCDate()).slice(-2);
+      if (this.state.tlgType == 'synoptic'){  // mwm 20180619
+        let t = Math.floor(d.getUTCHours() / 3) * 3;
+        this.state.tlgTerm = t < 10 ? '0'+t : t;
+      }
     }
     var term = this.state.tlgTerm;
     var text = this.state.tlgText.replace(/\s+/g, ' '); // one space only

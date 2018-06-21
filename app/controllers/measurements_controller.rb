@@ -42,9 +42,22 @@ class MeasurementsController < ApplicationController
     @year = Time.now.year.to_s
     @month = Time.now.month.to_s.rjust(2, '0')
     @post_id =  5 # 20 for Gorlovka
-    @matrix = get_matrix_data(@year, @month, @post_id)
+    @matrix = get_matrix_forma1(@year, @month, @post_id)
     @posts = Post.actual.order(:id) 
     
+  end
+  
+  def chem_forma1_as_protocol
+    respond_to do |format|
+      format.pdf do
+        year = params[:year]
+        month = params[:month]
+        post_id = params[:post_id]
+        matrix = get_matrix_forma1(year, month, post_id)
+        pdf = ChemForma1AsProtocol.new(year, month)
+        send_data pdf.render, filename: "chem_forma1_as_protocol_#{current_user.id}.pdf", type: "application/pdf", disposition: "inline", :force_download=>true, :page_size => "A4"
+      end
+    end
   end
 
   # def wind_rose_2
@@ -294,7 +307,7 @@ class MeasurementsController < ApplicationController
     month = params[:month]
     year = params[:year]
     post_id = params[:post_id]
-    matrix = get_matrix_data(year, month, post_id)
+    matrix = get_matrix_forma1(year, month, post_id)
     render json: {year: year, month: month, matrix: matrix, postId: post_id}
   end
 
@@ -310,7 +323,7 @@ class MeasurementsController < ApplicationController
     @year = params[:year]
     @month = params[:month]
     @post_id = params[:post_id]
-    @matrix = get_matrix_data(@year, @month, @post_id)
+    @matrix = get_matrix_forma1(@year, @month, @post_id)
     header0 = ["<b>Дата</b>", "<b>Срок</b>"]
     @matrix[:substance_names].each {|h| header0 << "<b>#{h[1]}</b> мг/м<sup>3</sup>"}
     @pollutions = []
@@ -557,7 +570,7 @@ class MeasurementsController < ApplicationController
       end
     end
 
-    def get_matrix_data(year, month, post_id)
+    def get_matrix_forma1(year, month, post_id)
       # 2018-02-20 from Gorlovka
       # 1 Пыль – 0,087 
       # 2 Диоксид серы – 0
@@ -724,6 +737,7 @@ class MeasurementsController < ApplicationController
       ndigits[4] = 0
       ndigits[5] = 2
       ndigits[6] = 2
+      ndigits[8] = 3
       ndigits[10] = 3
       ndigits[19] = 2
       ndigits[22] = 3

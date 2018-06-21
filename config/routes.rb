@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   resources :synoptic_observations
   delete 'pollution_values/delete_value/:id', to: 'pollution_values#delete_value'
   resources :pollution_values
+  get 'measurements/chem_forma1_as_protocol', to: 'measurements#chem_forma1_as_protocol'
   get 'measurements/weather_update', to: 'measurements#weather_update'
   get 'measurements/get_weather_and_concentrations', to: 'measurements#get_weather_and_concentrations'
   post 'measurements/save_pollutions', to: 'measurements#save_pollutions'
