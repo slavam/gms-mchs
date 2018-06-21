@@ -1014,18 +1014,22 @@ function checkAgroTelegram(tlg, stations, errors, observation){
               return code = false;
             }
           if (t[pos] == '3')
-            if (/^3\d{4}$/.test(t.substr(pos,5))){
-              state_crops.normal_size_potato = t.substr(pos+1,2);
-              state_crops.losses = t.substr(pos+3,2);
+            if (/^3[0-9/]{4}$/.test(t.substr(pos,5))){ // 20180621 mwm add /
+              if(t[pos+1] != '/')
+                state_crops.normal_size_potato = t.substr(pos+1,2);
+              if(t[pos+3] != '/')
+                state_crops.losses = t.substr(pos+3,2);
               pos += 6;
             }else {
               errors.push("Ошибка в группе 3 зоны 92["+(i+1)+"]-93 раздела 2");
               return code = false;
             }
           if (t[pos] == '4')
-            if (/^4\d{4}$/.test(t.substr(pos,5))){
-              state_crops.grain_num = t.substr(pos+1,3);
-              state_crops.bad_grain_percent = t[pos+4];
+            if (/^4[0-9/]{4}$/.test(t.substr(pos,5))){  // 20180621 mwm add /
+              if(t[pos+1] != '/')
+                state_crops.grain_num = t.substr(pos+1,3);
+              if(t[pos+4] != '/')
+                state_crops.bad_grain_percent = t[pos+4];
               pos += 6;
             }else {
               errors.push("Ошибка в группе 4 зоны 92["+(i+1)+"]-93 раздела 2");

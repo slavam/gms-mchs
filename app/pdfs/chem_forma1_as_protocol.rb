@@ -1,9 +1,10 @@
 require 'prawn'
 class ChemForma1AsProtocol < Prawn::Document
-  def initialize(year, month)
+  def initialize(year, month, post_id)
 		super(top_margin: 40)		
 		@year = year
 		@month = month
+		
 		report_date = Time.now.strftime("%Y-%m-%d")
 		font_families.update("OpenSans" => {
       :normal => Rails.root.join("./app/assets/fonts/OpenSans/OpenSans-Regular.ttf"),
@@ -21,5 +22,16 @@ class ChemForma1AsProtocol < Prawn::Document
       text "от #{report_date[8,2]} #{Bulletin::MONTH_NAME2[report_date[5,2].to_i]} #{report_date[0,4]}г.", align: :center
     end
     move_down 10
+    move_down 10
+    font "OpenSans", style: :bold
+    if post_id.to_i > 14 
+      text "Начальник ЛНЗА г. Горловка: _____________________ / Е.А. Фетисова/"
+      move_down 5
+      text "Исполнитель: ___________________________________/ Ю.Ю. Сидоренко/"
+    else
+      text "Начальник ЛНЗА г. Донецк: _____________________ /               /"
+      move_down 5
+      text "Исполнитель: ___________________________________/               /"
+    end
   end
 end

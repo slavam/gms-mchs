@@ -54,7 +54,7 @@ class MeasurementsController < ApplicationController
         month = params[:month]
         post_id = params[:post_id]
         matrix = get_matrix_forma1(year, month, post_id)
-        pdf = ChemForma1AsProtocol.new(year, month)
+        pdf = ChemForma1AsProtocol.new(year, month, post_id)
         send_data pdf.render, filename: "chem_forma1_as_protocol_#{current_user.id}.pdf", type: "application/pdf", disposition: "inline", :force_download=>true, :page_size => "A4"
       end
     end
