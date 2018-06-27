@@ -8,10 +8,9 @@ prawn_document(:page_size => "A4") do |pdf|
   report_date = Time.now.strftime("%Y-%m-%d")
   pdf.font "./app/assets/fonts/DejaVu/DejaVuSansCondensed-Bold.ttf"
 #  pdf.font "./app/assets/fonts/OpenSans/OpenSans-Light.ttf"
-  pdf.text "ПРОТОКОЛ № ___", align: :center, size: 12
+  pdf.text "Форма 1", size: 14
   pdf.move_down 5
-  pdf.text "измерений содержания загрязняющих веществ в атмосферном воздухе", align: :center
-  pdf.text "от #{report_date[8,2]} #{Bulletin::MONTH_NAME2[report_date[5,2].to_i]} #{report_date[0,4]}г.", align: :center
+  pdf.text "Таблица наблюдений за загрязнением атмосферы", align: :center
   pdf.move_down 5
   pdf.text "Год #{@year}. Месяц #{@month}"
   pdf.text @matrix[:site_description]

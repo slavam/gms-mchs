@@ -44,7 +44,6 @@ class MeasurementsController < ApplicationController
     @post_id =  5 # 20 for Gorlovka
     @matrix = get_matrix_forma1(@year, @month, @post_id)
     @posts = Post.actual.order(:id) 
-    
   end
   
   def chem_forma1_as_protocol
@@ -54,7 +53,18 @@ class MeasurementsController < ApplicationController
         month = params[:month]
         post_id = params[:post_id]
         matrix = get_matrix_forma1(year, month, post_id)
-        pdf = ChemForma1AsProtocol.new(year, month, post_id)
+        header0 = ["<b>Дата</b>", "<b>Срок</b>"]
+        matrix[:substance_names].each {|h| header0 << "<b>#{h[1]}</b> мг/м<sup>3</sup>"}
+        pollutions = []
+        pollutions << header0
+        matrix[:pollutions].each do |k, p|
+          pollutions << make_forma1_row(k, p, 'protocol')
+        end
+        pollutions << ["<b>Число измерений</b>", ""] + matrix[:measure_num].map{|k,v| v}
+        pollutions << ["<b>Среднее</b>", ""] + matrix[:avg_values].map{|k,v| v.round(5)}
+        pollutions << ["<b>Максимум</b>", ""] + matrix[:max_values].map{|k,v| v.round(5)}
+        Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{matrix[:pollutions].inspect}")
+        pdf = ChemForma1AsProtocol.new(year, month, post_id, pollutions, matrix[:site_description])
         send_data pdf.render, filename: "chem_forma1_as_protocol_#{current_user.id}.pdf", type: "application/pdf", disposition: "inline", :force_download=>true, :page_size => "A4"
       end
     end
@@ -311,11 +321,28 @@ class MeasurementsController < ApplicationController
     render json: {year: year, month: month, matrix: matrix, postId: post_id}
   end
 
-  def make_forma1_row(k, ps)
+  def make_forma1_row(k, ps, mode)
+    ndigits_protocol = []
+    ndigits_protocol[1] = 3  # Пыль – 0,00Х
+    ndigits_protocol[2] = 4  # Диоксид серы – 0,000Х
+    ndigits_protocol[4] = 1  # Оксид углерода – 0,Х
+    ndigits_protocol[5] = 4  # Диоксид азота – 0,000Х
+    ndigits_protocol[6] = 4  # Оксид азота – 0,000Х
+    ndigits_protocol[8] = 5  # Сероводород - 0,0000Х
+    ndigits_protocol[10] = 5  # Фенол – 0,0000Х
+    ndigits_protocol[19] = 4  # Аммиак – 0,000Х
+    ndigits_protocol[22] = 4  # Формальдегид – 0,000Х
+
     row = []
     row[0] = k[0,10]
     row[1] = k[11,2]
-    ps.each {|v| row << v[1]}
+    ps.each do|v| 
+      if v[1].kind_of? String
+        row << ''
+      else
+        row << v[1].to_f.round(mode.present? ? (ndigits_protocol[v[0]].present? ? ndigits_protocol[v[0]] : 5) : get_digits(v[0].to_i))
+      end
+    end
     return row
   end
   
@@ -329,7 +356,7 @@ class MeasurementsController < ApplicationController
     @pollutions = []
     @pollutions << header0
     @matrix[:pollutions].each do |k, p|
-      @pollutions << make_forma1_row(k, p)
+      @pollutions << make_forma1_row(k, p, nil)
     end
     @pollutions << ["<b>Число измерений</b>", ""] + @matrix[:measure_num].map{|k,v| v}
     @pollutions << ["<b>Среднее</b>", ""] + @matrix[:avg_values].map{|k,v| v}
@@ -605,10 +632,10 @@ class MeasurementsController < ApplicationController
           if value < limits[k]
             value = 0
           end
-          max_values[k] = value.round(get_digits(k)) if value > max_values[k]
+          max_values[k] = value.round(5) if value > max_values[k]
           avg_values[k] += value
         }
-        avg_values[k] = (avg_values[k]/measure_num[k]).round(get_digits(k)) if measure_num[k] > 0
+        avg_values[k] = (avg_values[k]/measure_num[k]).round(5) if measure_num[k] > 0
       end
       # Rails.logger.debug("My object: #{max_values.inspect}")
       matrix[:substance_names] = substance_names
@@ -623,7 +650,7 @@ class MeasurementsController < ApplicationController
           a[s.material_id] = ''
         end
         g_p.each do |p| 
-          a[p.material_id] = (p.concentration.nil? ? p.value : p.concentration).round(get_digits(p.material_id))
+          a[p.material_id] = (p.concentration.nil? ? p.value : p.concentration) #.round(get_digits(p.material_id))
         end
         pollutions[k] = a.to_a
       end

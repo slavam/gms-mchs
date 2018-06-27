@@ -332,6 +332,7 @@ class InputTelegrams extends React.Component{
     };
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleTelegramTypeChanged = this.handleTelegramTypeChanged.bind(this);
+    this.handleInBuffer = this.handleInBuffer.bind(this);
   }
 
   handleTelegramTypeChanged(tlgType, tlgTerm){
@@ -405,8 +406,8 @@ class InputTelegrams extends React.Component{
       data: forBuffer, 
       url: "/applicants/to_buffer"
       }).done((data) => {
-        alert("Данные занесены в буфер");
         that.setState({telegrams: data.telegrams, tlgType: data.tlgType, currDate: data.currDate, inputMode: "normal", errors: []});
+        alert("Данные занесены в буфер");
       }).fail((res) => {
         that.setState({errors: ["Ошибка записи в буфер"]});
       }); 

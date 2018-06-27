@@ -1,6 +1,6 @@
 require 'prawn'
 class ChemForma1AsProtocol < Prawn::Document
-  def initialize(year, month, post_id)
+  def initialize(year, month, post_id, pollutions, site_description)
 		super(top_margin: 40)		
 		@year = year
 		@month = month
@@ -21,7 +21,14 @@ class ChemForma1AsProtocol < Prawn::Document
       text "измерений содержания загрязняющих веществ в атмосферном воздухе", align: :center
       text "от #{report_date[8,2]} #{Bulletin::MONTH_NAME2[report_date[5,2].to_i]} #{report_date[0,4]}г.", align: :center
     end
+    move_down 5
+    text "Год #{@year}. Месяц #{@month}"
+    text site_description
     move_down 10
+    font "OpenSans", style: :normal
+    table pollutions, cell_style: { border_width: 0.3, :overflow => :shrink_to_fit, :font => 'OpenSans', :inline_format => true, size: 9 }, :column_widths => {0 =>65, 1 => 35, 2 => 45} do |t|
+      # t.cells.border_width = 0
+    end
     move_down 10
     font "OpenSans", style: :bold
     if post_id.to_i > 14 

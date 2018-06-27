@@ -44,6 +44,28 @@
                 %ul{class: "dropdown-menu"}
                   - active_meteo_links.each do |l|
                     %li= link_to l.name,  l.address, target: :_blank
+            - when 'agro'
+              %li
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Телеграммы <b class="caret"></b></a>
+                %ul{class: "dropdown-menu"}
+                  %li= link_to 'Ввод телеграмм', '/synoptic_observations/input_synoptic_telegrams?input_mode=normal'
+                  %li= link_to 'Ввод телеграмм с любой датой', '/synoptic_observations/input_synoptic_telegrams?input_mode=direct'
+                  %li= link_to 'Буфер', applicants_path
+              %li
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Сервис <b class="caret"></b></a>
+                %ul{class: "dropdown-menu"}
+                  %li= link_to 'Телеграммы синоптические',  synoptic_observations_path
+                  %li= link_to 'Телеграммы штормовые',  storm_observations_path
+                  %li= link_to 'Телеграммы агрометеорологические',  agro_observations_path
+                  %li= link_to 'Телеграммы агрометеорологические декадные',  agro_dec_observations_path
+                  /
+                    %li= link_to 'Телеграммы морские',  sea_observations_path
+                    %li= link_to 'Телеграммы синоптические (со штормовыми)',  '/synoptic_observations/synoptic_storm_telegrams'
+                  %li{ class: "divider"}
+                  %li= link_to 'Поиск синоптических телеграмм',  search_synoptic_telegrams_path
+                  %li= link_to 'Поиск штормовых телеграмм',  '/storm_observations/search_storm_telegrams'
+                  %li= link_to 'Поиск агро телеграмм',  '/agro_observations/search_agro_telegrams'
+                  %li= link_to 'Поиск декадных агро телеграмм',  '/agro_dec_observations/search_agro_dec_telegrams'
             - when 'technicist'
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Телеграммы <b class="caret"></b></a>

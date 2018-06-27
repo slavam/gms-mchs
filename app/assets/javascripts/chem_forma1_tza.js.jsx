@@ -129,13 +129,6 @@ class Forma1Table extends React.Component {
     var measure = [];
     var max_values = [];
     var avg_values = [];
-    // for (var key in array) {
-    //   let value = array[key];
-    //   console.log(value);
-    // }
-    // this.props.pollutions.forEach(function(p) {
-    //   rows.push(<OneMeasurement pollution={p} key={p.id} />);
-    // });
     Object.keys(this.props.pollutions).forEach((p) => rows.push(<OneMeasurement key={p} pollution={this.props.pollutions[p]} date={p} />));
     Object.keys(this.props.titles).forEach((k) => {ths.push(<th key={k}>{this.props.titles[k]}</th>);
       if(k < 100){
@@ -145,7 +138,7 @@ class Forma1Table extends React.Component {
       }
     });
     return (
-      <table className="table table-hover">
+      <table className="table table-hover" width="100%">
         <thead>
           <tr>
             <th>Число</th>
