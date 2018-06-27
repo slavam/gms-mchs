@@ -63,7 +63,7 @@ class MeasurementsController < ApplicationController
         pollutions << ["<b>Число измерений</b>", ""] + matrix[:measure_num].map{|k,v| v}
         pollutions << ["<b>Среднее</b>", ""] + matrix[:avg_values].map{|k,v| v.round(5)}
         pollutions << ["<b>Максимум</b>", ""] + matrix[:max_values].map{|k,v| v.round(5)}
-        Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{matrix[:pollutions].inspect}")
+        # Rails.logger.debug("My object>>>>>>>>>>>>>>>: #{matrix[:pollutions].inspect}")
         pdf = ChemForma1AsProtocol.new(year, month, post_id, pollutions, matrix[:site_description])
         send_data pdf.render, filename: "chem_forma1_as_protocol_#{current_user.id}.pdf", type: "application/pdf", disposition: "inline", :force_download=>true, :page_size => "A4"
       end
