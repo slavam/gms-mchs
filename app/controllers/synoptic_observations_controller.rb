@@ -123,6 +123,11 @@ class SynopticObservationsController < ApplicationController
   end
     
   def show
+    # audit_sql = "select login, action, version, a.created_at from audits a join users u on a.user_id = u.id where auditable_id=#{@synoptic_observation.id} and auditable_type='SynopticObservation';"
+    # audit_sql = "select user_id, action, version, created_at from audits where auditable_id=#{@synoptic_observation.id} and auditable_type='SynopticObservation'order by version;"
+    # @actions = Audit.find_by_sql(audit_sql)
+    # @actions = Audit.find_by(user_id: @synoptic_observation.id, auditable_type: 'SynopticObservation')
+    @actions = Audit.where("auditable_id = ? and auditable_type = 'SynopticObservation'", @synoptic_observation.id)
   end
   
   def new
@@ -133,7 +138,8 @@ class SynopticObservationsController < ApplicationController
   
   def create_synoptic_telegram
     date = params[:input_mode] == 'direct' ? params[:date] : Time.now.utc.strftime("%Y-%m-%d")
-    term = params[:input_mode] == 'direct' ? params[:observation][:term] : Time.now.utc.hour / 3 * 3
+    # term = params[:input_mode] == 'direct' ? params[:observation][:term] : Time.now.utc.hour / 3 * 3
+    term = params[:observation][:term] # mwm 20180704 из-за отставания времени на сервере
     station_id = params[:observation][:station_id]
     telegram = SynopticObservation.find_by(date: date, term: term, station_id: station_id)
     if telegram.present?

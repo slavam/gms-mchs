@@ -139,6 +139,21 @@
       %tr
         %th Период времени, за который измерено количество осадков (час.)
         %td= @synoptic_observation.precipitation_time_range_to_s(@synoptic_observation.precipitation_time_range_2)
+  %h3 История операций
+  %table{class: "table table-bordered"}
+    %thead
+      %tr
+        %th Версия
+        %th ID пользователя
+        %th Операция
+        %th Дата
+    %tbody
+    - @actions.each do |a|
+      %tr
+        %td= a.version
+        %td= a.user.login
+        %td= a.action
+        %td= a.created_at
   - if current_user.role == 'technicist'
     = link_to 'Ввод телеграмм', '/synoptic_observations/input_synoptic_telegrams?input_mode=normal'
     %br
