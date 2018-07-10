@@ -126,7 +126,11 @@
                   %li= link_to 'Поиск синоптических телеграмм',  search_synoptic_telegrams_path
                   %li= link_to 'Метеостанции', stations_path
             - when 'specialist'
-              %li= link_to 'Ввод телеграмм', '/synoptic_observations/input_synoptic_telegrams?input_mode=normal'
+              %li
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Телеграммы <b class="caret"></b></a>
+                %ul{class: "dropdown-menu"}
+                  %li= link_to 'Ввод телеграмм', '/synoptic_observations/input_synoptic_telegrams?input_mode=normal'
+                  %li= link_to 'Ввод телеграмм с любой датой', '/synoptic_observations/input_synoptic_telegrams?input_mode=direct'
             - when 'chemist'
               %li
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Измерения <b class="caret"></b></a>

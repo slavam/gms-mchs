@@ -623,7 +623,7 @@ function checkAgroTelegram(tlg, stations, errors, observation){
       else
         end92pos = tlg.length;
       currentPos = end92pos;
-      let zone = tlg.substr(zone92pos,end92pos-zone92pos).split('92');
+      let zone = tlg.substr(zone92pos-1,end92pos-zone92pos).split(' 92'); //20180710 mwm
       zone.splice(0,1);
       var state_crops;
       observation.state_crops = [];
@@ -653,7 +653,7 @@ function checkAgroTelegram(tlg, stations, errors, observation){
             j += 1;
             pos += 6;
           }else {
-            errors.push("Ошибка в группе 6["+j+"] зоны 92["+(i+1)+"] раздела 3"+t.substr(pos,5));
+            errors.push("Ошибка в группе 6["+j+"] зоны 92["+(i+1)+"] раздела 3 =>"+t.substr(pos,5));
             return code = false;
           }
         }
@@ -687,7 +687,7 @@ function checkAgroTelegram(tlg, stations, errors, observation){
       else
         end92pos = tlg.length;
       currentPos = end92pos;
-      let zone = tlg.substr(zone92_95pos,end92pos-zone92_95pos).split('92');
+      let zone = tlg.substr(zone92_95pos-1,end92pos-zone92_95pos).split(' 92'); // 20180710 mwm
       zone.splice(0,1);
       observation.damage_crops = [];
       let damage_crops;
@@ -1504,7 +1504,7 @@ function checkSynopticTelegram(term, tlg, errors, stations, observation){
       group34: { errorMessage: 'Ошибка в группе 4 раздела 3', regex: /^4[0-9/][0-9]{3}$/ },
       group35: { errorMessage: 'Ошибка в группе 5 раздела 3', regex: /^55[0-9]{3}$/ },
       group38: { errorMessage: 'Ошибка в группе 8 раздела 3', regex: /^8[0-9/]{2}([0-4][0-9]|50|5[6-9]|[6-9][0-9])$/ },
-      group39: { errorMessage: 'Ошибка в группе 9 раздела 3', regex: /^9[0-9]{4}$/ },
+      group39: { errorMessage: 'О��ибка в группе 9 раздела 3', regex: /^9[0-9]{4}$/ },
       group51: { errorMessage: 'Ошибка в группе 1 раздела 5', regex: /^1[0-9/][01][0-9]{2}$/ },
       group53: { errorMessage: 'Ошибка в группе 3 раздела 5', regex: /^3[0-9/][01][0-9]{2}$/ },
       group55: { errorMessage: 'Ошибка в группе 5 раздела 5', regex: /^52[01][0-9]{2}$/ },
