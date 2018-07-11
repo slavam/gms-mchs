@@ -843,8 +843,9 @@ function checkAgroTelegram(tlg, stations, errors, observation){
           return false;
         }
       if (tlg[currentPos] == '2')
-        if (/^2\d{2}[0-9/]{2}$/.test(tlg.substr(currentPos,5))){
-          observation.temperature_dec_avg_soil10 = tlg.substr(currentPos+1,2);
+        if (/^2[0-9/]{4}$/.test(tlg.substr(currentPos,5))){
+          if (tlg[currentPos+1] != '/')
+            observation.temperature_dec_avg_soil10 = tlg.substr(currentPos+1,2);
           if (tlg[currentPos+3] != '/')
             observation.temperature25_soil10_dec_day_num = tlg[currentPos+3];
           if (tlg[currentPos+4] != '/')
