@@ -1,0 +1,17 @@
+.container
+  %table{class: "table table-hover"}
+    %thead
+      %tr
+        %th Дата
+        %th Срок
+        %th 
+        -# %th 
+        -# %th
+    %tbody
+      - @list.each do |file| 
+        %tr
+          %td= file[:date]
+          %td= file[:term]
+          %td= link_to "Загрузить", synoptic_observations_download_arm_sin_file_path(file), 'data-turbolinks' => "false"
+          -# %td= link_to 'Удалить', file, method: :delete, data: { confirm: 'Вы уверены?' }
+  = link_to 'Отобрать телеграммы', synoptic_observations_telegrams_4_download_path

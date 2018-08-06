@@ -1,0 +1,10 @@
+.container
+  %h3 Задайте параметры выгрузки данных для ARM_SIN
+  = form_for(:download, url: synoptic_observations_arm_sin_data_fetch_path) do |f| 
+    = f.label "Дата"
+    = f.date_field :date, value: @date
+
+    = f.label "Срок"
+    = select(:download, :term, [["00", "00"], ["03", "03"], ["06", "06"], ["09", "09"], ["12", "12"], ["15", "15"], ["18", "18"], ["21", "21"]], {:include_blank => false})
+
+    = f.submit "Начать", class: "btn btn-primary"

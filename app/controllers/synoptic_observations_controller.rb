@@ -1,7 +1,80 @@
+require 'net/http'
 class SynopticObservationsController < ApplicationController
   # before_filter :require_observer_or_technicist
   before_filter :find_synoptic_observation, only: [:show, :update_synoptic_telegram] 
   
+  def download_arm_sin_file
+    date = params[:date] 
+    term = params[:term]
+    year = date[0, 4]
+    month = date[5,2]
+    day = date[8,2]
+    send_file("#{Rails.root}/tmp/#{year}_#{month}/#{day}_#{month}/AAXX.#{term}")
+    # redirect_to synoptic_observations_telegrams_4_download_path
+  end
+  
+  def arm_sin_files_list
+    date =  params[:download][:date] 
+    term = params[:download][:term]
+    @list = [{date: date, term: term}]
+  end
+  
+  def telegrams_4_download
+    @date = (Time.now-3.hours).utc.strftime("%Y-%m-%d") # предыдущий срок
+    # term = (Time.now-3.hours).utc.hour / 3 * 3
+    # @term = term.to_s.rjust(2, '0')
+    # Rails.logger.debug("My object>>>>>>>>>>>>>>>updated_telegrams: #{Time.now.to_s}") 
+  end
+  
+  def arm_sin_data_fetch
+    # 08001 34824 41595 80902 10068 20061 30128 40134 58003 71022 885// 55555 11005=  for arm_sin
+    # ЩЭСМЮ 34712 32997 22503 10245 20175 39941 40020 53... from hmc
+    # 33088,2018,08,02,00,00,AAXX 02001 33088 32997 10000 10188 20182 30034 40217 58001 81070 555 1/018= from ogimet
+    date =  params[:download][:date] 
+    term = params[:download][:term]
+    year = date[0, 4]
+    month = date[5,2]
+    day = date[8,2]
+    our_synoptic_observations = SynopticObservation.where("date = ? and term = ?", date, term.to_i)
+    telegrams = []
+    our_synoptic_observations.each do |o|
+      telegrams << make_row_4_download(day, term, o.telegram)
+    end
+    our_telegrams_num = telegrams.size
+
+    # csv_data = Net::HTTP.get(URI.parse('http://www.ogimet.com/cgi-bin/getsynop?begin=201704300300&end=201704300300&state=Ukr'))
+    url = "http://www.ogimet.com/cgi-bin/getsynop?begin="+year+month+day+term+'00&end='+year+month+day+term+'00&state=Ukr'
+    csv_data = Net::HTTP.get(URI.parse(url))
+    web_rows = csv_data.split("\n")
+    rows = []
+    web_rows.each do |t|
+      if t =~ /AAXX/
+        rows << t[28..-1].gsub(/ 333 /, " 33333 ").gsub(/ 555 /, " 55555 ")
+      end
+    end
+    web_telegrams_num = rows.size
+    rows = rows + telegrams
+    directory_name = "tmp/#{year}_#{month}"
+    Dir.mkdir(directory_name) unless File.exists?(directory_name)
+    directory_name = "tmp/#{year}_#{month}/#{day}_#{month}"
+    Dir.mkdir(directory_name) unless File.exists?(directory_name)
+    total = 0
+    File.open("tmp/#{year}_#{month}/#{day}_#{month}/AAXX.#{term}",'w+') do |f|
+      rows.each do |t|
+        f.puts t
+        total += 1
+      end
+    end
+    flash[:success] = "Дата: #{date}; срок: #{term}; телеграмм из БД ГМЦ: #{our_telegrams_num}; телеграмм из БД ogimet: #{web_telegrams_num}; записано телеграмм: #{total}"
+    redirect_to synoptic_observations_arm_sin_files_list_path(request.parameters)
+    
+    # render json: {total: total, ourTelegramsNum: our_telegrams_num, webTelegramsNum: our_telegrams_num}
+  end
+  
+  def make_row_4_download(day, term, telegram)
+    day+term+'1 '+telegram[6..-1].gsub(/ 333 /, " 33333 ").gsub(/ 555 /, " 55555 ")
+  end
+
   def get_meteoparams
     @year = params[:year].present? ? params[:year] :  Time.now.year.to_s
     @month = params[:month].present? ? params[:month] : Time.now.month.to_s.rjust(2, '0')

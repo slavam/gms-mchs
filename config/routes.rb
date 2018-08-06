@@ -35,6 +35,10 @@ Rails.application.routes.draw do
   get 'agro_observations/input_agro_telegrams', to: 'agro_observations#input_agro_telegrams'
   put 'agro_observations/update_agro_telegram', to: 'agro_observations#update_agro_telegram'
   resources :agro_observations
+  get 'synoptic_observations/download_arm_sin_file', to: 'synoptic_observations#download_arm_sin_file'
+  get 'synoptic_observations/arm_sin_files_list', to: 'synoptic_observations#arm_sin_files_list'
+  post 'synoptic_observations/arm_sin_data_fetch', to: 'synoptic_observations#arm_sin_data_fetch'
+  get 'synoptic_observations/telegrams_4_download', to: 'synoptic_observations#telegrams_4_download'
   post 'synoptic_observations/create_synoptic_telegram', to: 'synoptic_observations#create_synoptic_telegram'
   put 'synoptic_observations/update_synoptic_telegram', to: 'synoptic_observations#update_synoptic_telegram'
   get '/search_synoptic_telegrams', to: 'synoptic_observations#search_synoptic_telegrams'

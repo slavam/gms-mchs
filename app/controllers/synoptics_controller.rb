@@ -3,7 +3,8 @@ class SynopticsController < ApplicationController
   before_filter :calc_date, :only => [:heat_show]
   Time::DATE_FORMATS[:custom_date_time] = "%Y.%m.%d %H:%M:%S"
   Time::DATE_FORMATS[:simple_date_time] = "%Y%m%d"
-  
+
+    
   def make_web_query
   end
   
