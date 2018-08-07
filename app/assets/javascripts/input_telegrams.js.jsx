@@ -333,6 +333,20 @@ class InputTelegrams extends React.Component{
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleTelegramTypeChanged = this.handleTelegramTypeChanged.bind(this);
     this.handleInBuffer = this.handleInBuffer.bind(this);
+    this.tick = this.tick.bind(this);
+  }
+  tick(){
+      // This function is called every sec.
+    
+    if (this.state.inputMode == 'normal' && this.state.tlgType == 'synoptic'){
+      let d = new Date();
+      let t = Math.floor(d.getUTCHours() / 3) * 3;
+
+      if (t != (+this.state.tlgTerm)){
+        // console.log('t=>'+t+'; this.state.tlgTerm=>'+(+this.state.tlgTerm));
+        this.setState({ tlgTerm: ('0'+t).slice(-2), currDate: d.getUTCFullYear()+'-'+('0'+(d.getUTCMonth()+1)).slice(-2)+'-'+('0'+d.getUTCDate()).slice(-2)});
+      }
+    }
   }
 
   handleTelegramTypeChanged(tlgType, tlgTerm){
@@ -414,6 +428,7 @@ class InputTelegrams extends React.Component{
   }
 
   render(){
+    this.timer = setInterval(this.tick, 1000);
     let telegramTable = this.props.telegrams.length > 0 ? <div>
       <h3>Телеграммы {this.state.tlgType}</h3> 
       <LastTelegramsTable telegrams={this.state.telegrams} tlgType={this.state.tlgType} stations={this.props.stations}/>
@@ -421,7 +436,7 @@ class InputTelegrams extends React.Component{
     return(
       <div>
         <h3>Новая телеграмма</h3>
-        <NewTelegramForm currDate={this.state.currDate} tlgType={this.state.tlgType} onTelegramTypeChange={this.handleTelegramTypeChanged} onFormSubmit={this.handleFormSubmit} stations={this.props.stations} term={this.props.term} inputMode={this.props.inputMode} onInBuffer={this.handleInBuffer}/>
+        <NewTelegramForm currDate={this.state.currDate} tlgType={this.state.tlgType} onTelegramTypeChange={this.handleTelegramTypeChanged} onFormSubmit={this.handleFormSubmit} stations={this.props.stations} term={this.state.tlgTerm} inputMode={this.props.inputMode} onInBuffer={this.handleInBuffer}/>
         {telegramTable}
       </div>
     );
@@ -1504,7 +1519,7 @@ function checkSynopticTelegram(term, tlg, errors, stations, observation){
       group32: { errorMessage: 'Ошибка в группе 2 раздела 3', regex: /^2[01][0-9]{3}$/ },
       group34: { errorMessage: 'Ошибка в группе 4 раздела 3', regex: /^4[0-9/][0-9]{3}$/ },
       group35: { errorMessage: 'Ошибка в группе 5 раздела 3', regex: /^55[0-9]{3}$/ },
-      group38: { errorMessage: 'Ошибка в группе 8 раздела 3', regex: /^8[0-9/]{2}([0-4][0-9]|50|5[6-9]|[6-9][0-9])$/ },
+      group38: { errorMessage: 'Ошибка в группе 8 разде��а 3', regex: /^8[0-9/]{2}([0-4][0-9]|50|5[6-9]|[6-9][0-9])$/ },
       group39: { errorMessage: 'О��ибка в группе 9 раздела 3', regex: /^9[0-9]{4}$/ },
       group51: { errorMessage: 'Ошибка в группе 1 раздела 5', regex: /^1[0-9/][01][0-9]{2}$/ },
       group53: { errorMessage: 'Ошибка в группе 3 раздела 5', regex: /^3[0-9/][01][0-9]{2}$/ },
